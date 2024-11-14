@@ -1,0 +1,17 @@
+{
+  "frontendFolder": "/Users/jonaswerner/Desktop/ldm/./src/main/frontend",
+  "themeFolder": "themes",
+  "themeResourceFolder": "/Users/jonaswerner/Desktop/ldm/./src/main/frontend/generated/jar-resources",
+  "staticOutput": "/Users/jonaswerner/Desktop/ldm/target/classes/META-INF/VAADIN/webapp/VAADIN/static",
+  "generatedFolder": "generated",
+  "statsOutput": "/Users/jonaswerner/Desktop/ldm/target/classes/META-INF/VAADIN/config",
+  "frontendBundleOutput": "/Users/jonaswerner/Desktop/ldm/target/classes/META-INF/VAADIN/webapp",
+  "devBundleOutput": "/Users/jonaswerner/Desktop/ldm/target/dev-bundle/webapp",
+  "devBundleStatsOutput": "/Users/jonaswerner/Desktop/ldm/target/dev-bundle/config",
+  "jarResourcesFolder": "/Users/jonaswerner/Desktop/ldm/./src/main/frontend/generated/jar-resources",
+  "themeName": "ldm",
+  "clientServiceWorkerSource": "/Users/jonaswerner/Desktop/ldm/target/sw.ts",
+  "pwaEnabled": false,
+  "offlineEnabled": false,
+  "offlinePath": "'offline.html'"
+}
