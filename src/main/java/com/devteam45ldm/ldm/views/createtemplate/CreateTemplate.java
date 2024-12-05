@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @PageTitle("Create Template")
-@Route("my-view")
+@Route("create-template")
 @Menu(order = 2, icon = "line-awesome/svg/pencil-ruler-solid.svg")
 public class CreateTemplate extends Composite<VerticalLayout> {
 
