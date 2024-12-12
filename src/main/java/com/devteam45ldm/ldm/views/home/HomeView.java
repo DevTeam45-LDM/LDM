@@ -9,7 +9,7 @@ import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@PageTitle("Home")
+@PageTitle("Startseite diesmal getestet")
 @Route("")
 @Menu(order = 0, icon = "line-awesome/svg/globe-solid.svg")
 public class HomeView extends HorizontalLayout {
@@ -18,10 +18,10 @@ public class HomeView extends HorizontalLayout {
     private Button sayHello;
 
     public HomeView() {
-        name = new TextField("Your name");
-        sayHello = new Button("Say hello");
+        name = new TextField("Sag mir, wie Du heißt, und ich sag Dir, wie Du heißt");
+        sayHello = new Button("Say GutenTag");
         sayHello.addClickListener(e -> {
-            Notification.show("Hello " + name.getValue());
+            Notification.show("GutenTag " + name.getValue());
         });
         sayHello.addClickShortcut(Key.ENTER);
 
