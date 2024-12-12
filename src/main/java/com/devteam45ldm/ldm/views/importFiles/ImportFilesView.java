@@ -11,7 +11,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import java.util.ArrayList;
 import java.util.List;
 
-@PageTitle("importFiles")
+@PageTitle("Import Files")
 @Route("importFiles")
 @Menu(order = 2, icon = "line-awesome/svg/filter-solid.svg")
 public class ImportFilesView extends Composite<VerticalLayout> {
