@@ -1,16 +1,35 @@
 services:
   core:
     build: .
-    image: ldm:latest
+    image: "ldm:latest"
     ports:
       - "8080:8080"
+    restart: always
   mongo:
     image: "mongo:latest"
+    restart: always
+    volumes:
+      - "mongo-data:/data/db"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "admin"
+      MONGO_INITDB_ROOT_PASSWORD: "admin"
   vault:
     image: "hashicorp/vault:latest"
+    restart: always
+    volumes:
+      - "vault-data:/vault/file"
+      - "vault-log:/vault/logs"
   keycloak:
     image: "keycloak/keycloak:latest"
+    restart: always
+    volumes:
+      - "keycloak-data:/opt/keycloak/data/"
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: "admin"
       KC_BOOTSTRAP_ADMIN_PASSWORD: "admin"
     command: ["start-dev"]
+volumes:
+  mongo-data:
+  vault-data:
+  vault-log:
+  keycloak-data:
