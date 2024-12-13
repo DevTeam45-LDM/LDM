@@ -15,7 +15,7 @@ services:
         restart: true
   mongo:
     build:
-      context: docker
+      context: docker/files
       dockerfile: Dockerfile_mongo
     image: "mongo:ldm-image"
     restart: always
@@ -37,7 +37,7 @@ services:
         restart: true
   vault:
     build:
-      context: docker
+      context: docker/files
       dockerfile: Dockerfile_vault
     image: "vault:ldm-image"
     restart: always
@@ -62,7 +62,7 @@ services:
         restart: true
   keycloak:
     build:
-      context: docker
+      context: docker/files
       dockerfile: Dockerfile_keycloak
     image: "keycloak:ldm-image"
     restart: always
