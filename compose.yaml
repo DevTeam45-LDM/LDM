@@ -5,6 +5,12 @@ services:
     ports:
       - "8080:8080"
     restart: always
+    volumes:
+      - "./config/core/:/config/"
+    #depends_on:
+    #  mongo:
+    #    condition: service_healthy
+    #    restart: true
   mongo:
     image: "mongo:latest"
     restart: always
@@ -13,21 +19,47 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: "admin"
       MONGO_INITDB_ROOT_PASSWORD: "admin"
+    #healthcheck:
+    #  test: [ "CMD", "mongo", "--eval", "db.runCommand({ ping: 1 })" ]
+    #  interval: 10s
+    #  timeout: 5s
+    #  retries: 5
+    #depends_on:
+    #  vault:
+    #    condition: service_healthy
+    #    restart: true
   vault:
     image: "hashicorp/vault:latest"
     restart: always
     volumes:
       - "vault-data:/vault/file"
       - "vault-log:/vault/logs"
+      - "./config/vault/:/vault/config.d"
+    #healthcheck:
+    #  test: [ "CMD", "vault", "status" ]
+    #  interval: 10s
+    #  timeout: 5s
+    #  retries: 5
+    #depends_on:
+    #  keycloak:
+    #    condition: service_healthy
+    #    restart: true
   keycloak:
-    image: "keycloak/keycloak:latest"
+    build: ./Dockerfile_keycloak
+    image: "keycloak:ldm-image"
     restart: always
     volumes:
       - "keycloak-data:/opt/keycloak/data/"
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: "admin"
       KC_BOOTSTRAP_ADMIN_PASSWORD: "admin"
+      KC_HEALTH_ENABLED: true
     command: ["start-dev"]
+    #healthcheck:
+    #  test: [ 'CMD', '[ -f /tmp/HealthCheck.java ] || echo "public class HealthCheck { public static void main(String[] args) throws java.lang.Throwable { System.exit(java.net.HttpURLConnection.HTTP_OK == ((java.net.HttpURLConnection)new java.net.URL(args[0]).openConnection()).getResponseCode() ? 0 : 1); } }" > /tmp/HealthCheck.java && java /tmp/HealthCheck.java http://localhost:8080/health/live' ]
+    #  interval: 5s
+    #  timeout: 5s
+    #  retries: 30
 volumes:
   mongo-data:
   vault-data:
