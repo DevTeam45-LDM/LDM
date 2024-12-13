@@ -7,45 +7,59 @@ services:
     restart: always
     volumes:
       - "./config/core/:/config/"
-    #depends_on:
-    #  mongo:
-    #    condition: service_healthy
-    #    restart: true
+    depends_on:
+      mongo:
+        condition: service_healthy
+        restart: true
   mongo:
-    image: "mongo:latest"
+    build:
+      context: ./dockerfiles
+      dockerfile: Dockerfile_mongo
+    image: "mongo:ldm-image"
     restart: always
     volumes:
       - "mongo-data:/data/db"
     environment:
       MONGO_INITDB_ROOT_USERNAME: "admin"
       MONGO_INITDB_ROOT_PASSWORD: "admin"
-    #healthcheck:
-    #  test: [ "CMD", "mongo", "--eval", "db.runCommand({ ping: 1 })" ]
-    #  interval: 10s
-    #  timeout: 5s
-    #  retries: 5
-    #depends_on:
-    #  vault:
-    #    condition: service_healthy
-    #    restart: true
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      keycloak:
+        condition: service_healthy
+        restart: true
   vault:
-    image: "hashicorp/vault:latest"
+    build:
+      context: ./dockerfiles
+      dockerfile: Dockerfile_vault
+    image: "vault:ldm-image"
     restart: always
     volumes:
       - "vault-data:/vault/file"
       - "vault-log:/vault/logs"
       - "./config/vault/:/vault/config.d"
-    #healthcheck:
-    #  test: [ "CMD", "vault", "status" ]
-    #  interval: 10s
-    #  timeout: 5s
-    #  retries: 5
-    #depends_on:
-    #  keycloak:
-    #    condition: service_healthy
-    #    restart: true
+    cap_add:
+      - IPC_LOCK  # Lock memory to prevent sensitive data from swapping to disk
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: myroot  # Root token for dev mode
+      VAULT_ADDR: http://vault:8200  # Set the Vault address
+    command: server -dev
+    healthcheck:
+      test: [ "CMD", "vault", "status" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      keycloak:
+        condition: service_healthy
+        restart: true
   keycloak:
-    build: ./Dockerfile_keycloak
+    build:
+      context: ./dockerfiles
+      dockerfile: Dockerfile_keycloak
     image: "keycloak:ldm-image"
     restart: always
     volumes:
@@ -53,13 +67,12 @@ services:
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: "admin"
       KC_BOOTSTRAP_ADMIN_PASSWORD: "admin"
-      KC_HEALTH_ENABLED: true
     command: ["start-dev"]
-    #healthcheck:
-    #  test: [ 'CMD', '[ -f /tmp/HealthCheck.java ] || echo "public class HealthCheck { public static void main(String[] args) throws java.lang.Throwable { System.exit(java.net.HttpURLConnection.HTTP_OK == ((java.net.HttpURLConnection)new java.net.URL(args[0]).openConnection()).getResponseCode() ? 0 : 1); } }" > /tmp/HealthCheck.java && java /tmp/HealthCheck.java http://localhost:8080/health/live' ]
-    #  interval: 5s
-    #  timeout: 5s
-    #  retries: 30
+    healthcheck:
+      test: [ 'CMD-SHELL', '[ -f /tmp/HealthCheck.java ] || echo "public class HealthCheck { public static void main(String[] args) throws java.lang.Throwable { System.exit(java.net.HttpURLConnection.HTTP_OK == ((java.net.HttpURLConnection)new java.net.URL(args[0]).openConnection()).getResponseCode() ? 0 : 1); } }" > /tmp/HealthCheck.java && java /tmp/HealthCheck.java http://localhost:9000/health/live' ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 volumes:
   mongo-data:
   vault-data:
