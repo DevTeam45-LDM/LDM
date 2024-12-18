@@ -10,6 +10,8 @@ services:
     restart: always
     volumes:
       - "./config/core/:/config/"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "ldm"
     depends_on:
       mongo:
         condition: service_healthy
