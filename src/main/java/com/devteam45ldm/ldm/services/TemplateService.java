@@ -11,6 +11,8 @@ import org.bson.types.ObjectId;
 import com.devteam45ldm.ldm.data.TemplateData;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TemplateService {
     private final MongoClient mongoClient;
@@ -45,6 +47,15 @@ public class TemplateService {
                         .append("possibleUserGroups", template.getPossibleUserGroups()));
 
         templateCollection.insertOne(doc);
+    }
+
+    // Get all templates
+    public List<TemplateData> getAllTemplates() {
+        List<TemplateData> templates = new ArrayList<>();
+        templateCollection.find().forEach(doc -> {
+            templates.add(convertDocumentToTemplate(doc));
+        });
+        return templates;
     }
 
     // Update existing template
