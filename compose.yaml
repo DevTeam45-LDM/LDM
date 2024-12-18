@@ -1,31 +1,32 @@
 services:
   core:
-    build: .
+    build:
+      context: .
+      secrets:
+        - "MONGO_INITDB_ROOT_PASSWORD"
     image: "ldm:latest"
     ports:
       - "8080:8080"
     restart: always
     volumes:
       - "./config/core/:/config/"
-    secrets:
-      - mongo-root-password
     depends_on:
       mongo:
         condition: service_healthy
         restart: true
   mongo:
     build:
-      context: docker/files
+      context: docker
       dockerfile: Dockerfile_mongo
+      secrets:
+        - "MONGO_INITDB_ROOT_PASSWORD"
     image: "mongo:ldm-image"
     restart: always
     volumes:
       - "mongo-data:/data/db"
     environment:
       MONGO_INITDB_ROOT_USERNAME: "ldm"
-      MONGO_INITDB_ROOT_PASSWORD: /run/secrets/mongo-root-password
-    secrets:
-      - mongo-root-password
+      MONGO_INITDB_ROOT_PASSWORD: /run/secrets/MONGO_INITDB_ROOT_PASSWORD
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
       interval: 10s
@@ -37,7 +38,7 @@ services:
         restart: true
   vault:
     build:
-      context: docker/files
+      context: docker
       dockerfile: Dockerfile_vault
     image: "vault:ldm-image"
     restart: always
@@ -62,7 +63,7 @@ services:
         restart: true
   keycloak:
     build:
-      context: docker/files
+      context: docker
       dockerfile: Dockerfile_keycloak
     image: "keycloak:ldm-image"
     restart: always
@@ -85,5 +86,5 @@ volumes:
   keycloak-data:
 
 secrets:
-    mongo-root-password:
-        file: docker/secrets/mongo-root-password.txt
+  MONGO_INITDB_ROOT_PASSWORD:
+    environment: "MONGO_INITDB_ROOT_PASSWORD"
