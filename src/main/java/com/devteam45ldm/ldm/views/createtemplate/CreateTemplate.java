@@ -47,7 +47,7 @@ public class CreateTemplate extends Composite<VerticalLayout> {
         Button createButton = new Button();
 
         // Configure layouts
-        configureLayouts(layoutRow, layoutRow2);
+        configureLayouts(topLayout, selectLayout);
 
         // Configure select
         select.setLabel("Select Your Template");
@@ -74,7 +74,7 @@ public class CreateTemplate extends Composite<VerticalLayout> {
 
     private void configureTemplateGrid() {
         templateGrid.addColumn(TemplateData::getCustomId).setHeader("ID").setSortable(true);
-        templateGrid.addColumn(TemplateData::getCategoryType).setHeader("Type").setSortable(true);
+        templateGrid.addColumn(TemplateData::getCategory).setHeader("Category").setSortable(true);
         templateGrid.addColumn(TemplateData::getStatus).setHeader("Status").setSortable(true);
         templateGrid.addColumn(TemplateData::getCreatedAt).setHeader("Created").setSortable(true);
         templateGrid.addColumn(TemplateData::getLastModified).setHeader("Modified").setSortable(true);
@@ -145,21 +145,119 @@ public class CreateTemplate extends Composite<VerticalLayout> {
         statusField.setItems("Not set", "Active", "completed");
 
         visibilityField = new ComboBox<>("Visibility");
-        visibilityField.setItems();
+        visibilityField.setItems(
+                "Everyone including anonymous users",
+                "Everyone with an account",
+                "Only members of the team",
+                "Only owner and admins",
+                "Only owner"
+        );
 
         TextField templateName = new TextField("Template Name");
         TextField templateDescription = new TextField("Description");
 
         Button saveButton = new Button("Save", e -> {
-                // Add save logic here
+                saveTemplate();
                 dialog.close();
         });
         Button cancelButton = new Button("Cancel", e -> dialog.close());
 
         HorizontalLayout buttonLayout = new HorizontalLayout(saveButton, cancelButton);
-        dialogLayout.add(templateName, templateDescription, buttonLayout);
+        buttonLayout.setJustifyContentMode(JustifyContentMode.END);
+        buttonLayout.setWidthFull();
+
+        dialogLayout.add(
+                templateName,
+                templateDescription,
+                categoryType,
+                customIdField,
+                statusField,
+                visibilityField,
+                buttonLayout
+        );
 
         dialog.add(dialogLayout);
         dialog.open();
+    }
+
+    private void saveTemplate() {
+        if (validateForm()) {
+            TemplateData template = new TemplateData(
+                    null,
+                    customIdField.getValue(),
+                    categoryType.getValue(),
+                    statusField.getValue(),
+                    null, // createdAt will be set by service
+                    null, // lastModified will be set by service
+                    new ArrayList<>(), // tags
+                    visibilityField.getValue(),
+                    new ArrayList<>() // userGroups
+            );
+
+            templateService.createTemplate(template);
+            Notification.show("Template saved successfully!");
+            loadTemplateData();
+        }
+    }
+
+    private boolean validateForm() {
+        if (categoryType.isEmpty()) {
+            Notification.show("Please select a category type");
+            return false;
+        }
+        if (customIdField.isEmpty()) {
+            Notification.show("Please enter a template ID");
+            return false;
+        }
+        return true;
+    }
+
+    private void editTemplate(TemplateData template) {
+        Dialog dialog = new Dialog();
+        dialog.setHeaderTitle("Edit Template");
+
+        VerticalLayout dialogLayout = new VerticalLayout();
+
+        ComboBox<String> categoryType = new ComboBox<>("Category");
+        categoryType.setItems(template.getPossibleCategroies());
+        categoryType.setValue(template.getCategory());
+
+        TextField customIdField = new TextField("Template ID");
+        customIdField.setValue(template.getCustomId());
+
+        ComboBox<String> statusField = new ComboBox<>("Status");
+        statusField.setItems("Not set", "Active", "Completed");
+        statusField.setValue(template.getStatus());
+
+        Button saveButton = new Button("Save", e -> {
+            // Update template logic
+            templateService.updateTemplate(template.getId(),
+                    new TemplateData(
+                            template.getId(),
+                            customIdField.getValue(),
+                            categoryType.getValue(),
+                            statusField.getValue(),
+                            template.getCreatedAt(),
+                            null, // lastModified will be updated by service
+                            template.getTags(),
+                            template.getBaseAccess(),
+                            template.getUserGroups()
+                    )
+            );
+            dialog.close();
+            loadTemplateData();
+        });
+
+        Button cancelButton = new Button("Cancel", e -> dialog.close());
+
+        HorizontalLayout buttonLayout = new HorizontalLayout(saveButton, cancelButton);
+        dialogLayout.add(categoryType, customIdField, statusField, buttonLayout);
+
+        dialog.add(dialogLayout);
+        dialog.open();
+    }
+
+    private void loadTemplateData() {
+        templateGrid.setItems(templateService.getAllTemplates());
     }
 }
