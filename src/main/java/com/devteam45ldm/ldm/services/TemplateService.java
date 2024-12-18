@@ -68,14 +68,21 @@ public class TemplateService {
     }
 
     private TemplateData convertDocumentToTemplate(Document doc) {
+        Document category = doc.get("category", Document.class);
         Document metadata = doc.get("metadata", Document.class);
+        Document tags = doc.get("tags", Document.class);
+        Document permission = doc.get("permission", Document.class);
 
         return new TemplateData(
                 doc.getObjectId("_id").toString(),
                 doc.getString("customId"),
                 doc.getString("status"),
+                category.getString("type"),
                 metadata.getString("createdAt"),
-                metadata.getString("lastModified")
+                metadata.getString("lastModified"),
+                tags.getList("suggested", String.class),
+                permission.getString("baseAccess"),
+                permission.getList("userGroups", String.class)
         );
     }
 
