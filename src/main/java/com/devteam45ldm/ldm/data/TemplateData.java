@@ -18,19 +18,19 @@ public class TemplateData {
     private final List<String> userGroups;
     private final List<String> possibleUserGroups;
 
-    public TemplateData(String id, String customId, String status, String createdAt, String lastModified) {
+    public TemplateData(String id, String customId, String status, String category, String createdAt, String lastModified, List<String> tags, String baseAccess, List<String> userGroups) {
         this.id = id;
         this.customId = customId;
-        this.category = "Project";
-        this.possibleCategories = getDefaultPossibleCategories();
         this.status = status;
+        this.category = category;
+        this.possibleCategories = getDefaultPossibleCategories();
         this.createdAt = createdAt;
         this.lastModified = lastModified;
-        this.tags = new ArrayList<>();
+        this.tags = tags;
         this.suggestedTags = getDefaultSuggestedTags();
-        this.baseAccess = "Only members of the team";
+        this.baseAccess = baseAccess;
         this.availableAccess = getDefaultAvailableAccess();
-        this.userGroups = new ArrayList<>();
+        this.userGroups = userGroups;
         this.possibleUserGroups = getDefaultPossibleUserGroups();
     }
 
@@ -164,14 +164,40 @@ public class TemplateData {
 
     private List<String> getDefaultPossibleUserGroups() {
         return List.of(
-                "Not set",
-                "TRR270 Cluster Meetings",
-                "Sub-Project",
-                "Publication",
-                "Equipment",
-                "Technique",
-                "Material",
-                "Sample"
+                "CRC/TRR 270 - A01",
+                "CRC/TRR 270 - A01/A08 HPT of Ni-Mn-Heusler alloys",
+                "CRC/TRR 270 - A02",
+                "CRC/TRR 270 - A03",
+                "CRC/TRR 270 - A03/B05",
+                "Administration and Support - A04",
+                "CRC/TRR 270 - A04",
+                "CRC/TRR 270 - A06",
+                "CRC/TRR 270 - A07/A08",
+                "CRC/TRR 270 - A07/A09",
+                "CRC/TRR 270 - A08",
+                "CRC/TRR 270 - A10",
+                "CRC/TRR 270 - A10/A11",
+                "CRC/TRR 270 - A11",
+                "CRC/TRR 270 - A12-try",
+                "CRC/TRR 270 - B01",
+                "CRC/TRR 270 - B01/B10",
+                "CRC/TRR 270 - B03",
+                "CRC/TRR 270 - B04",
+                "CRC/TRR 270 - B05",
+                "CRC/TRR 270 - B05/B06",
+                "CRC/TRR 270 - B07",
+                "CRC/TRR 270 - B08",
+                "CRC/TRR 270 - B09",
+                "CRC/TRR 270 - B10",
+                "CRC/TRR 270 - B11",
+                "CRC/TRR 270 - C02",
+                "CRC/TRR 270 - C05",
+                "CRC/TRR 270 - MGK",
+                "Administration and Support - PIs",
+                "Administration and Support - Researchers",
+                "Administration and Support - Students",
+                "CRC/TRR 270 - Z-INF",
+                "CRC/TRR 270 - Z02"
         );
     }
 
