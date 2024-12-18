@@ -20,8 +20,6 @@ services:
     build:
       context: docker
       dockerfile: Dockerfile_mongo
-      secrets:
-        - "MONGO_INITDB_ROOT_PASSWORD"
     image: "mongo:ldm-image"
     restart: always
     volumes:
@@ -29,6 +27,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: "ldm"
       MONGO_INITDB_ROOT_PASSWORD: /run/secrets/MONGO_INITDB_ROOT_PASSWORD
+    secrets:
+      - MONGO_INITDB_ROOT_PASSWORD
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
       interval: 10s
@@ -89,4 +89,4 @@ volumes:
 
 secrets:
   MONGO_INITDB_ROOT_PASSWORD:
-    environment: "MONGO_INITDB_ROOT_PASSWORD"
+    file: ./docker/secrets/mongo_root_password.txt
