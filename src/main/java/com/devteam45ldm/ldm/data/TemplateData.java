@@ -8,6 +8,8 @@ public class TemplateData {
     private final String id;
     private final String customId;
     private final String status;
+    private final String category;
+    private final List<String> possibleCategories;
     private final Date createdAt;
     private final Date lastModified;
     private final List<String> tags;
@@ -15,48 +17,38 @@ public class TemplateData {
     private final String baseAccess;
     private final List<String> availableAccess;
     private final List<String> userGroups;
-    private final List<String> possibleTypes;
+    private final List<String> possibleUserGroups;
 
-    private final Category category;
+    public TemplateData(String id, String customId, String status, Date createdAt, Date lastModified) {
+        this.id = id;
+        this.customId = customId;
+        this.category = "Project";
+        this.possibleCategories = getDefaultPossibleCategories();
+        this.status = status;
+        this.createdAt = createdAt;
+        this.lastModified = lastModified;
+        this.tags = new ArrayList<>();
+        this.suggestedTags = getDefaultSuggestedTags();
+        this.baseAccess = "Only members of the team";
+        this.availableAccess = getDefaultAvailableAccess();
+        this.userGroups = new ArrayList<>();
+        this.possibleUserGroups = getDefaultPossibleUserGroups();
+    }
 
-    public static class Category {
-        private final String categoryType;
-        private final List<String> possibleTypes = List.of(
+    private List<String> getDefaultPossibleCategories() {
+        return List.of(
                 "Not set",
                 "TRR270 Cluster Meetings",
                 "Sub-Project",
-                "Project",
                 "Publication",
                 "Equipment",
                 "Technique",
                 "Material",
                 "Sample"
         );
-
-        public Category() {
-            this.categoryType = "Project";
-        }
-
-        public String getCategoryType() { return categoryType; }
-        public List<String> getPossibleTypes() { return possibleTypes; }
     }
 
-    public TemplateData(String id, String customId, String status, Date createdAt, Date lastModified, List<String> tags, String baseAccess, List<String> availableAccess, List<String> userGroups) {
-        this.id = id;
-        this.customId = customId;
-        this.category = new Category();
-        this.status = status;
-        this.createdAt = createdAt;
-        this.lastModified = lastModified;
-        this.tags = new ArrayList<>();
-        this.suggestedTags = getSuggestedTags();
-        this.baseAccess = "Only members of the team";
-        this.availableAccess = getDefaultAvailableAccess();
-        this.userGroups = new ArrayList<>();
-        this.possibleTypes = getDefaultPossibleTypes();
-    }
-
-    private List<String> getSuggestedTags() {
+    private List<String> getDefaultSuggestedTags() {
         return List.of(
                 "Magnetism first",
                 "(Crn)2GaC",
@@ -171,7 +163,7 @@ public class TemplateData {
         );
     }
 
-    private List<String> getDefaultPossibleTypes() {
+    private List<String> getDefaultPossibleUserGroups() {
         return List.of(
                 "Not set",
                 "TRR270 Cluster Meetings",
@@ -186,12 +178,15 @@ public class TemplateData {
 
     public String getId() { return id; }
     public String getCustomId() { return customId; }
-    public Category getCategory() { return category; }
+    public String getCategory() { return category; }
+    public List<String> getPossibleCategroies() { return possibleCategories; }
     public String getStatus() { return status; }
     public Date getCreatedAt() { return createdAt; }
     public Date getLastModified() { return lastModified; }
     public List<String> getTags() { return tags; }
+    public List<String> getSuggestedTags() { return suggestedTags; }
     public String getBaseAccess() { return baseAccess; }
     public List<String> getAvailableAccess() { return availableAccess; }
     public List<String> getUserGroups() { return userGroups; }
+    public List<String> getPossibleUserGroups() { return possibleUserGroups; }
 }
