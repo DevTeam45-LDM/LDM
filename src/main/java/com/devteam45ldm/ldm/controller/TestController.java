@@ -12,7 +12,7 @@ public class TestController {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    @GetMapping("/test-mongo-connection")
+    @GetMapping("/test/mongo-connection")
     public ResponseEntity<String> testMongoConnection() {
         boolean collectionExists = mongoTemplate.collectionExists("admin");
         if (collectionExists) {
