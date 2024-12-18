@@ -1,6 +1,5 @@
 package com.devteam45ldm.ldm.data;
 
-import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -10,8 +9,8 @@ public class TemplateData {
     private final String status;
     private final String category;
     private final List<String> possibleCategories;
-    private final Date createdAt;
-    private final Date lastModified;
+    private final String createdAt;
+    private final String lastModified;
     private final List<String> tags;
     private final List<String> suggestedTags;
     private final String baseAccess;
@@ -19,7 +18,7 @@ public class TemplateData {
     private final List<String> userGroups;
     private final List<String> possibleUserGroups;
 
-    public TemplateData(String id, String customId, String status, Date createdAt, Date lastModified) {
+    public TemplateData(String id, String customId, String status, String createdAt, String lastModified) {
         this.id = id;
         this.customId = customId;
         this.category = "Project";
@@ -181,8 +180,8 @@ public class TemplateData {
     public String getCategory() { return category; }
     public List<String> getPossibleCategroies() { return possibleCategories; }
     public String getStatus() { return status; }
-    public Date getCreatedAt() { return createdAt; }
-    public Date getLastModified() { return lastModified; }
+    public String getCreatedAt() { return createdAt; }
+    public String getLastModified() { return lastModified; }
     public List<String> getTags() { return tags; }
     public List<String> getSuggestedTags() { return suggestedTags; }
     public String getBaseAccess() { return baseAccess; }
