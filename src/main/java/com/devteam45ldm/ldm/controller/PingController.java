@@ -1,6 +1,7 @@
 package com.devteam45ldm.ldm.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 
@@ -50,6 +51,21 @@ public class PingController {
             }
         } catch (Exception e) {
             return ResponseEntity.status(500).body("An error occurred while pinging the Keycloak container: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/ping/url")
+    public ResponseEntity<String> pingELab(@RequestParam String url) {
+        try {
+            InetAddress address = InetAddress.getByName(url);
+            boolean reachable = address.isReachable(5000); // Timeout in milliseconds
+            if (reachable) {
+                return ResponseEntity.ok(url + " is reachable.");
+            } else {
+                return ResponseEntity.status(500).body(url + " is not reachable.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("An error occurred while pinging " + url + ": " + e.getMessage());
         }
     }
 }
