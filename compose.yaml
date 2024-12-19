@@ -8,13 +8,19 @@ services:
     volumes:
       - "./config/core/:/config/"
     environment:
+      # MongoDB
       MONGO_HOST: "mongo"
       MONGO_PORT: "27017"
       MONGO_INITDB_DATABASE: "ldm"
       MONGO_INITDB_ROOT_USERNAME: "ldm"
       MONGO_INITDB_ROOT_PASSWORD: /run/secrets/MONGO_INITDB_ROOT_PASSWORD
+      # HashiCorp Vault
+      VAULT_HOST: "vault"
+      VAULT_PORT: "8200"
+      VAULT_TOKEN: /run/secrets/VAULT_TOKEN
     secrets:
       - MONGO_INITDB_ROOT_PASSWORD
+      - VAULT_TOKEN
     depends_on:
       mongo:
         condition: service_healthy
@@ -48,6 +54,8 @@ services:
     build:
       context: docker
       dockerfile: Dockerfile_vault
+    ports:
+      - "8200:8200"
     restart: always
     volumes:
       - "vault-data:/vault/file"
@@ -56,8 +64,10 @@ services:
     cap_add:
       - IPC_LOCK  # Lock memory to prevent sensitive data from swapping to disk
     environment:
-      VAULT_DEV_ROOT_TOKEN_ID: myroot  # Root token for dev mode
+      VAULT_DEV_ROOT_TOKEN_ID: /run/secrets/VAULT_TOKEN  # Root token for dev mode
       VAULT_ADDR: http://vault:8200  # Set the Vault address
+    secrets:
+      - VAULT_TOKEN
     command: server -dev
     healthcheck:
       test: [ "CMD", "vault", "status" ]
@@ -94,3 +104,5 @@ volumes:
 secrets:
   MONGO_INITDB_ROOT_PASSWORD:
     file: ./docker/secrets/mongo_root_password.txt
+  VAULT_TOKEN:
+    file: ./docker/secrets/vault_token.txt
