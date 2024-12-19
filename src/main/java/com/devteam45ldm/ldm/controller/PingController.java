@@ -56,13 +56,16 @@ public class PingController {
 
     @GetMapping("/ping/url")
     public ResponseEntity<String> pingELab(@RequestParam String url) {
+        url = url.replace("http://", "");
+        url = url.replace("https://", "");
+        url = url.replace("www.", "");
         try {
             InetAddress address = InetAddress.getByName(url);
             boolean reachable = address.isReachable(5000); // Timeout in milliseconds
             if (reachable) {
-                return ResponseEntity.ok(url + " is reachable.");
+                return ResponseEntity.ok(url + " (" + address.getHostAddress() + ") is reachable.");
             } else {
-                return ResponseEntity.status(500).body(url + " is not reachable.");
+                return ResponseEntity.status(500).body(url + " (" + address.getHostAddress() + ") is not reachable.");
             }
         } catch (Exception e) {
             return ResponseEntity.status(500).body("An error occurred while pinging " + url + ": " + e.getMessage());
