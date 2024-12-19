@@ -14,8 +14,7 @@ public class TestController {
 
     @GetMapping("/test/mongo-connection")
     public ResponseEntity<String> testMongoConnection() {
-        boolean collectionExists = mongoTemplate.collectionExists("admin");
-        if (collectionExists) {
+        if (mongoTemplate.getDb().getName().equals("ldm")) {
             return ResponseEntity.ok("MongoDB connection is successful.");
         } else {
             return ResponseEntity.status(500).body("MongoDB connection failed.");
