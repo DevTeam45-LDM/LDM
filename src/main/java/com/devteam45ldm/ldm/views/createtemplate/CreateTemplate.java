@@ -65,6 +65,15 @@ public class CreateTemplate extends Composite<VerticalLayout> {
         layoutRow2.addClassName(Padding.XSMALL);
         layoutRow2.setWidth("100%");
         layoutRow2.getStyle().set("flex-grow", "1");
+        select.setLabel("Select Your Template");
+        select.setWidth("min-content");
+        setSelectSampleData(select);
+        buttonSecondary.setText("Create Template");
+        buttonSecondary.setWidth("min-content");
+        getContent().add(layoutRow);
+        layoutRow.add(layoutRow2);
+        layoutRow2.add(select);
+        layoutRow.add(buttonSecondary);
     }
 
     record SampleItem(String value, String label, Boolean disabled) {
