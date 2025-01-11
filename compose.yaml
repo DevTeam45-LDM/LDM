@@ -94,12 +94,23 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+  setup:
+    build:
+      context: docker
+      dockerfile: Dockerfile_setup
+    restart: no
+    volumes:
+      - "./docker/secrets/:/secrets/"
 
 volumes:
   mongo-data:
   vault-data:
   vault-log:
   keycloak-data:
+  secrets:
 
 secrets:
   MONGO_INITDB_ROOT_PASSWORD:

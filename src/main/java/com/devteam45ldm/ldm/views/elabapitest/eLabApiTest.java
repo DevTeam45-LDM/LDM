@@ -1,79 +1,115 @@
 package com.devteam45ldm.ldm.views.elabapitest;
 
-import com.squareup.okhttp.Call;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
-import com.vaadin.flow.router.Menu;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
-
 import io.swagger.client.ApiClient;
+import io.swagger.client.ApiException;
+import io.swagger.client.api.TagsApi;
+import io.swagger.client.model.Tag;
+import com.devteam45ldm.ldm.controller.PingController;
 
-import java.util.Collections;
 import java.util.List;
 
 @PageTitle("eLab API Test")
 @Route("elab-api-test")
-@Menu(order = 10, icon = "line-awesome/svg/filter-solid.svg")
 @UIScope
 public class eLabApiTest extends Div {
 
+    private TextField urlField;
+    private Button testButton;
     private PasswordField apiKeyField;
-    private Button sendRequestButton;
-    private ComboBox<String> responseDropdown;
+    private Button readTagsButton;
+    private Div jsonResponseDiv;
+    private Grid<Tag> responseGrid;
 
     public eLabApiTest() {
+        // Erste Zeile: URL und Test-Button
+        urlField = new TextField("URL");
+        testButton = new Button("Test");
 
+        testButton.addClickListener(event -> testUrl());
+
+        HorizontalLayout firstRow = new HorizontalLayout(urlField, testButton);
+        firstRow.setWidthFull();
+        firstRow.setSpacing(true);
+
+        // Zweite Zeile: API-Key und Read Tags Button
         apiKeyField = new PasswordField("API Key");
-        sendRequestButton = new Button("Send GET-Request");
-        responseDropdown = new ComboBox<>("Response");
+        readTagsButton = new Button("Read Tags");
 
-        sendRequestButton.addClickListener(event -> handleApiRequest());
+        readTagsButton.addClickListener(event -> readTags());
 
-        HorizontalLayout topLayout = new HorizontalLayout(apiKeyField, sendRequestButton);
-        topLayout.setWidthFull();
-        topLayout.setAlignItems(HorizontalLayout.Alignment.START);
-        topLayout.setSpacing(true);
+        HorizontalLayout secondRow = new HorizontalLayout(apiKeyField, readTagsButton);
+        secondRow.setWidthFull();
+        secondRow.setSpacing(true);
 
-        VerticalLayout mainLayout = new VerticalLayout(topLayout, responseDropdown);
+        // Dritte Zeile: JSON-Antwort
+        jsonResponseDiv = new Div();
+        jsonResponseDiv.getStyle().set("white-space", "pre-wrap");
+        jsonResponseDiv.getStyle().set("overflow", "auto");
+        jsonResponseDiv.setHeight("300px");
+        jsonResponseDiv.setWidthFull();
+
+        // Grid for displaying tags
+        responseGrid = new Grid<>(Tag.class);
+        responseGrid.setSizeFull();
+        responseGrid.setColumns("tag", "itemCount"); // Update with actual fields of Tag
+
+        VerticalLayout mainLayout = new VerticalLayout(firstRow, secondRow, jsonResponseDiv, responseGrid);
         mainLayout.setSizeFull();
-        mainLayout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
-
-        responseDropdown.setWidth("300px");
-        responseDropdown.setPlaceholder("Waiting for response...");
-
         add(mainLayout);
     }
 
-    private void handleApiRequest() {
+    private void testUrl() {
+        String url = urlField.getValue();
+        if (url == null || url.isEmpty()) {
+            Notification.show("Please enter a URL.");
+            return;
+        }
+
+        PingController pingController = new PingController();
+        if (pingController.pingELab(url).getStatusCode().is2xxSuccessful()){
+            Notification.show("URL is reachable.");
+        } else {
+            Notification.show("URL is not reachable.");
+        }
+    }
+
+    private void readTags() {
         String apiKey = apiKeyField.getValue();
+        String url = urlField.getValue();
         if (apiKey == null || apiKey.isEmpty()) {
-            responseDropdown.setPlaceholder("Please enter an API key.");
+            Notification.show("Please enter an API key.");
+            return;
+        }
+        if (url == null || url.isEmpty()) {
+            Notification.show("Please enter a URL.");
             return;
         }
 
         try {
-            List<String> apiResponse = callExternalApi(apiKey);
-
-            responseDropdown.setItems(apiResponse);
-            responseDropdown.setPlaceholder("Data loaded.");
+            List<Tag> apiResponse = callExternalApi(apiKey, url);
+            responseGrid.setItems(apiResponse);
         } catch (Exception e) {
-            responseDropdown.setPlaceholder("Error: " + e.getMessage());
+            Notification.show("Error: " + e.getMessage());
         }
     }
 
-    private List<String> callExternalApi(String apiKey) throws Exception {
+    private List<Tag> callExternalApi(String apiKey, String url) throws ApiException {
         ApiClient client = new ApiClient();
-        client.setBasePath("https://sfb270eln.physik.uni-due.de/api/v2/");
+        client.setBasePath(url);
         client.setApiKey(apiKey);
-        Call call = client.buildCall("teams/5/tags", "GET", Collections.emptyList(), Collections.emptyList(), null, null, null, Collections.emptyList().toArray(new String[0]), null);
-        Object response =  client.execute(call).getData();
-        return Collections.singletonList(response.toString());
+
+        TagsApi api = new TagsApi(client);
+        return api.readTags("teams", 5);
     }
 }
