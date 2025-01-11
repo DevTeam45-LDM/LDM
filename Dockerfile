@@ -1,7 +1,13 @@
+# Base image
 FROM eclipse-temurin:21-jre
-MAINTAINER DevTeam45
+LABEL org.opencontainers.image.authors="devteam45.ldm@gmail.com"
 
+# Create config directory
 RUN mkdir -p /config
+
+# Copy the trust-cert installation script
+COPY docker/install_trust_certs.sh /usr/local/bin/install_trust_certs.sh
+RUN chmod +x /usr/local/bin/install_trust_certs.sh
 
 # MongoDB
 ARG MONGO_HOST
@@ -15,6 +21,11 @@ ARG VAULT_HOST
 ARG VAULT_PORT
 ARG VAULT_TOKEN
 
+# Copy application JAR
 COPY target/*.jar app.jar
+
+# Expose the application port
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+
+# Run the trust-cert script on container start and then start the Java application
+ENTRYPOINT ["/bin/bash", "-c", "/usr/local/bin/install_trust_certs.sh && java -jar /app.jar"]

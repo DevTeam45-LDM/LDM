@@ -1,5 +1,5 @@
 FROM alpine:latest AS builder
-MAINTAINER DevTeam45
+LABEL org.opencontainers.image.authors="devteam45.ldm@gmail.com"
 
 # install openssl
 RUN apk add --no-cache bash

@@ -1,0 +1,5 @@
+# add trustful certs here
+# use crt.sh id
+# or use /file_name to add a cert from this folder
+
+2475254782 # GEANT OV RSA CA 4

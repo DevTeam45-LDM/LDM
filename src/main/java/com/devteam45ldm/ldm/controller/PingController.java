@@ -55,7 +55,7 @@ public class PingController {
     }
 
     @GetMapping("/ping/url")
-    public ResponseEntity<String> pingELab(@RequestParam String url) {
+    public ResponseEntity<String> pingURL(@RequestParam String url) {
         url = url.replace("http://", "");
         url = url.replace("https://", "");
         url = url.replace("www.", "");
@@ -71,4 +71,5 @@ public class PingController {
             return ResponseEntity.status(500).body("An error occurred while pinging " + url + ": " + e.getMessage());
         }
     }
+
 }

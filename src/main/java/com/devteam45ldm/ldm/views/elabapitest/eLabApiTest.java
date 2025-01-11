@@ -8,6 +8,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
@@ -15,12 +16,15 @@ import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
 import io.swagger.client.api.TagsApi;
 import io.swagger.client.model.Tag;
-import com.devteam45ldm.ldm.controller.PingController;
+import com.devteam45ldm.ldm.controller.HTTPController;
+import org.springframework.http.ResponseEntity;
 
+import java.io.IOException;
 import java.util.List;
 
 @PageTitle("eLab API Test")
 @Route("elab-api-test")
+@Menu(order = 10, icon = "line-awesome/svg/globe-solid.svg")
 @UIScope
 public class eLabApiTest extends Div {
 
@@ -36,7 +40,13 @@ public class eLabApiTest extends Div {
         urlField = new TextField("URL");
         testButton = new Button("Test");
 
-        testButton.addClickListener(event -> testUrl());
+        testButton.addClickListener(event -> {
+            try {
+                testUrl();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         HorizontalLayout firstRow = new HorizontalLayout(urlField, testButton);
         firstRow.setWidthFull();
@@ -62,25 +72,26 @@ public class eLabApiTest extends Div {
         // Grid for displaying tags
         responseGrid = new Grid<>(Tag.class);
         responseGrid.setSizeFull();
-        responseGrid.setColumns("tag", "itemCount"); // Update with actual fields of Tag
+        responseGrid.setColumns("id"); // Update with actual fields of Tag
 
         VerticalLayout mainLayout = new VerticalLayout(firstRow, secondRow, jsonResponseDiv, responseGrid);
         mainLayout.setSizeFull();
         add(mainLayout);
     }
 
-    private void testUrl() {
+    private void testUrl() throws IOException {
         String url = urlField.getValue();
         if (url == null || url.isEmpty()) {
             Notification.show("Please enter a URL.");
             return;
         }
 
-        PingController pingController = new PingController();
-        if (pingController.pingELab(url).getStatusCode().is2xxSuccessful()){
+        HTTPController httpController = new HTTPController();
+        ResponseEntity<String> checkURL = httpController.checkURL(url);
+        if (checkURL.getStatusCode().is2xxSuccessful() || checkURL.getStatusCode().is3xxRedirection()) {
             Notification.show("URL is reachable.");
         } else {
-            Notification.show("URL is not reachable.");
+            Notification.show("URL is not reachable: " + checkURL.toString());
         }
     }
 
