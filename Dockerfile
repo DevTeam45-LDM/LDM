@@ -28,4 +28,4 @@ COPY target/*.jar app.jar
 EXPOSE 8080
 
 # Run the trust-cert script on container start and then start the Java application
-ENTRYPOINT ["/bin/bash", "-c", "/usr/local/bin/install_trust_certs.sh && java -jar /app.jar"]
+ENTRYPOINT ["/bin/bash", "-c", "/usr/local/bin/install_trust_certs.sh && java -Djavax.net.ssl.trustStore=/opt/java/openjdk/lib/security/cacerts -Djavax.net.ssl.trustStorePassword=changeit -jar /app.jar"]

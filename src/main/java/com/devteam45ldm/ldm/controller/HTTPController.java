@@ -53,7 +53,7 @@ public class HTTPController {
             return ResponseEntity.status(response.code())
                     .body("Headers for " + url + ":\n" + headers);
         } catch (SSLHandshakeException e) {
-            return ResponseEntity.status(500).body("An error occurred while checking " + url + ": Untrusted certificate");
+            return ResponseEntity.status(495).body("An error occurred while checking " + url + ": Untrusted certificate");
         } catch (IOException e) {
             return ResponseEntity.status(500).body("An error occurred while checking " + url + ": " + e.getMessage());
         } finally {

@@ -40,7 +40,7 @@ while IFS= read -r line || [ -n "$line" ]; do
       # Check if the download was successful
       if [ $? -eq 0 ]; then
         echo "local/crtsh_${CERT_ID}.crt" >> "$CA_CERTIFICATES_CONF"
-        keytool -import -trustcacerts -cacerts -storepass changeit -noprompt -alias crtsh_${CERT_ID}.crt -file ${CERT_FILE} # java keystore
+        keytool -import -trustcacerts -cacerts -storepass changeit -noprompt -alias local/crtsh_${CERT_ID}.crt -file ${CERT_FILE} # java keystore
         echo "Certificate for ID: $CERT_ID installed successfully."
       else
         echo "Failed to download certificate for ID: $CERT_ID. Skipping."
@@ -85,3 +85,4 @@ dpkg-reconfigure ca-certificates -f noninteractive
 update-ca-certificates
 
 echo "All certificates processed."
+echo ""
