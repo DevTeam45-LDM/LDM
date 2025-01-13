@@ -1,8 +1,9 @@
 package com.devteam45ldm.ldm.controller;
 
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.Headers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,7 +54,7 @@ public class HTTPController {
             return ResponseEntity.status(response.code())
                     .body("Headers for " + url + ":\n" + headers);
         } catch (SSLHandshakeException e) {
-            return ResponseEntity.status(495).body("An error occurred while checking " + url + ": Untrusted certificate");
+            return ResponseEntity.status(525).body("An error occurred while checking " + url + ": SSL Handshake Exception: " + e.getMessage());
         } catch (IOException e) {
             return ResponseEntity.status(500).body("An error occurred while checking " + url + ": " + e.getMessage());
         } finally {
@@ -65,36 +66,40 @@ public class HTTPController {
 
     private OkHttpClient getUnsafeOkHttpClient() {
         try {
-            // Create a trust manager that does not validate certificate chains
-            final TrustManager[] trustAllCerts = new TrustManager[]{
+            // Trust all certificates
+            TrustManager[] trustAllCerts = new TrustManager[]{
                     new X509TrustManager() {
                         @Override
-                        public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                        public void checkClientTrusted(X509Certificate[] chain, String authType) {
+                            // No implementation required
                         }
 
                         @Override
-                        public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                        public void checkServerTrusted(X509Certificate[] chain, String authType) {
+                            // No implementation required
                         }
 
                         @Override
                         public X509Certificate[] getAcceptedIssuers() {
-                            return new X509Certificate[]{};
+                            return new X509Certificate[0];
                         }
                     }
             };
 
-            // trust all certificates
-            final SSLContext sslContext = SSLContext.getInstance("SSL");
+            // Install the all-trusting trust manager
+            SSLContext sslContext = SSLContext.getInstance("SSL");
             sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
-            OkHttpClient okHttpClient = new OkHttpClient();
-            okHttpClient.setSslSocketFactory(sslSocketFactory);
-            okHttpClient.setHostnameVerifier((hostname, session) -> true);
+            // Create an all-trusting SSL Socket Factory
+            SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
-            return okHttpClient;
+            // Build the OkHttpClient with custom SSL settings
+            return new OkHttpClient.Builder()
+                    .sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0])
+                    .hostnameVerifier((hostname, session) -> true)
+                    .build();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to create an unsafe OkHttpClient", e);
         }
     }
 }
