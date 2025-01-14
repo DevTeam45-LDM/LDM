@@ -17,12 +17,19 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The CreateTemplate view allows users to create a new template.
+ * It provides a form with a select component to choose a template and a button to open a dialog for creating a new template.
+ */
 @PageTitle("Create Template")
 @Route("create-template")
 @Menu(order = 2, icon = "line-awesome/svg/pencil-ruler-solid.svg")
 public class CreateTemplate extends Composite<VerticalLayout> {
 
-
+    /**
+     * Constructs a new CreateTemplate view.
+     * Initializes the layout, select component, and button.
+     */
     public CreateTemplate() {
         HorizontalLayout layoutRow = new HorizontalLayout();
         HorizontalLayout layoutRow2 = new HorizontalLayout();
@@ -48,6 +55,14 @@ public class CreateTemplate extends Composite<VerticalLayout> {
         layoutRow.add(buttonSecondary);
     }
 
+    /**
+     * Configures the layouts and adds the select and button components
+     *
+     * @param layoutRow the main horizontal layout
+     * @param layoutRow2 the secondary horizontal layout
+     * @param select the select component
+     * @param buttonSecondary the button component
+     */
     private void configureLayouts(HorizontalLayout layoutRow, HorizontalLayout layoutRow2, Select select, Button buttonSecondary) {
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
@@ -79,6 +94,11 @@ public class CreateTemplate extends Composite<VerticalLayout> {
     record SampleItem(String value, String label, Boolean disabled) {
     }
 
+    /**
+     * Sets sample data for the select component.
+     *
+     * @param select the select component
+     */
     private void setSelectSampleData(Select select) {
         List<SampleItem> sampleItems = new ArrayList<>();
         sampleItems.add(new SampleItem("first", "v1", null));
@@ -90,6 +110,9 @@ public class CreateTemplate extends Composite<VerticalLayout> {
         select.setItemEnabledProvider(item -> !Boolean.TRUE.equals(((SampleItem) item).disabled()));
     }
 
+    /**
+     * Shows a dialog for creating a new template.
+     */
     private void showCreateTemplateDialog() {
         Dialog dialog = new Dialog();
         dialog.setHeaderTitle("Create Template");
