@@ -30,7 +30,7 @@ public class CreateTemplate extends Composite<VerticalLayout> {
         Button buttonSecondary = new Button();
 
         // Configure layouts
-        configureLayouts(layoutRow, layoutRow2);
+        configureLayouts(layoutRow, layoutRow2, select, buttonSecondary);
 
         // Configure select
         select.setLabel("Select Your Template");
@@ -48,7 +48,7 @@ public class CreateTemplate extends Composite<VerticalLayout> {
         layoutRow.add(buttonSecondary);
     }
 
-    private void configureLayouts(HorizontalLayout layoutRow, HorizontalLayout layoutRow2) {
+    private void configureLayouts(HorizontalLayout layoutRow, HorizontalLayout layoutRow2, Select select, Button buttonSecondary) {
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
         layoutRow.setWidthFull();
