@@ -9,11 +9,23 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import java.io.InputStream;
 
+/**
+ * A Vaadin view component that provides file upload functionality with drag and drop support.
+ * This view allows users to upload files through a customized interface with specific
+ * constraints on file size and number of files.
+ *
+ * @author DevTeam45LDM
+ */
 @PageTitle("File Upload")
 @Route("file-upload")
 @Menu(order = 3, icon = "line-awesome/svg/arrow-alt-circle-down.svg")
 public class FileDropView extends VerticalLayout {
 
+/**
+ * Constructs a new FileDropView instance.
+ * Initializes and configures the uploaded file with custom design,
+ * file constraints, and messages for successful and failed uploads.
+ */
     public FileDropView() {
         // Create a memory buffer to store uploaded files
         MemoryBuffer buffer = new MemoryBuffer();
@@ -64,14 +76,24 @@ public class FileDropView extends VerticalLayout {
         add(upload);
     }
 
-    private void processUploadedFile(String fileName, InputStream inputStream,
+/**
+ * Processes an uploaded file by handling its metadata and content.
+ * This method is called after a successful file upload and performs the necessary
+ * processing of the uploaded file's content and metadata.
+ *
+ * @param fileName      The name of the uploaded file
+ * @param inputStream   The input stream containing the file's content
+ * @param mimeType      The MIME type of the uploaded file
+ * @param contentLength The size of the uploaded file in bytes
+ *
+ * @throws RuntimeException if there's an error processing the file
+ */
+private void processUploadedFile(String fileName, InputStream inputStream,
                                      String mimeType, long contentLength) {
         // Implement your file processing logic here
         System.out.println("File uploaded: " + fileName);
         System.out.println("MIME Type: " + mimeType);
         System.out.println("File Size: " + contentLength + " bytes");
 
-        // Example: You might want to save the file, process it, or store its details
-        // This is where you'd add your specific file handling logic
     }
 }
