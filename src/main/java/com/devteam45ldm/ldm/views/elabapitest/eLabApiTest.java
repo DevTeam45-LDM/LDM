@@ -21,7 +21,12 @@ import io.swagger.client.model.Tag;
 import com.devteam45ldm.ldm.controller.HTTPController;
 import org.springframework.http.ResponseEntity;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
 import java.io.IOException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @PageTitle("eLab API Test")
@@ -132,16 +137,35 @@ public class eLabApiTest extends Div {
 
         // Set up the API client
         ApiClient client = Configuration.getDefaultApiClient();
+        client.setVerifyingSsl(false);
         client.setBasePath(url);
+        client.setApiKey(apiKey);
+//
+//
+//        // Use system-trusted certificates
+//        SSLContext sslContext = null;
+//        TrustManagerFactory tmf = null;
+//        try {
+//            tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+//            tmf.init((KeyStore) null);
+//            sslContext = SSLContext.getInstance("TLS");
+//            sslContext.init(null, tmf.getTrustManagers(), new java.security.SecureRandom());
+//
+//        } catch (NoSuchAlgorithmException | KeyStoreException | java.security.KeyManagementException e) {
+//            throw new ApiException(e);
+//        }
+//
+//        client.getHttpClient().setSslSocketFactory(sslContext.getSocketFactory());
 
         // Set up ApiKeyAuth for authentication
-        ApiKeyAuth token = (ApiKeyAuth) client.getAuthentication("token");
-        token.setApiKey(apiKey);
-        if (token == null) {
-            throw new IllegalStateException("ApiKeyAuth not configured in the ApiClient");
-        }
+        //piKeyAuth token = (ApiKeyAuth) client.getAuthentication("token");
+        //token.setApiKey(apiKey);
+        //if (token == null) {
+        //    throw new IllegalStateException("ApiKeyAuth not configured in the ApiClient");
+        //}
 
         TagsApi api = new TagsApi(client);
+        //Notification.show(client.getSslCaCert().toString());
         return api.readTags("teams", 5);
     }
 }
