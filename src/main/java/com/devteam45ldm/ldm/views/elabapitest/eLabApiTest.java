@@ -26,10 +26,7 @@ import javax.net.ssl.TrustManagerFactory;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
 import java.util.List;
 
 @PageTitle("eLab API Test")
@@ -173,7 +170,26 @@ public class eLabApiTest extends Div {
         //}
 
         TagsApi api = new TagsApi(client);
-        Notification.show(client.getSslCaCert().toString());
+        SSLContext context = null;
+        try {
+            context = SSLContext.getDefault();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        for (String protocol : context.getSupportedSSLParameters().getProtocols()) {
+            Notification.show(protocol);
+        }
+
         return api.readTags("teams", 5);
     }
+
+//    public static void configureApiClient(ApiClient client) throws Exception {
+//        TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+//        tmf.init((KeyStore) null);
+//
+//        SSLContext sslContext = SSLContext.getInstance("TLSv1.3");
+//        sslContext.init(null, tmf.getTrustManagers(), new SecureRandom());
+//
+//        client.getHttpClient().setSslSocketFactory(sslContext.getSocketFactory());
+//    }
 }
