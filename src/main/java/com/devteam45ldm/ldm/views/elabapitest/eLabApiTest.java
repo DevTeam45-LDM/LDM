@@ -26,6 +26,7 @@ import javax.net.ssl.TrustManagerFactory;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -139,8 +140,8 @@ public class eLabApiTest extends Div {
 
         // Set up the API client
         ApiClient client = Configuration.getDefaultApiClient();
-        //client.setVerifyingSsl(false);
-        String certFilePath = "/usr/share/ca-certificates/local/crtsh_2475254782.crt";
+        client.setVerifyingSsl(false);
+        String certFilePath = "/usr/share/ca-certificates/local/crtsh_15634656612.crt";
         try (InputStream certInputStream = new FileInputStream(certFilePath)) {
             client.setSslCaCert(certInputStream);
         } catch (IOException e) {
@@ -148,19 +149,18 @@ public class eLabApiTest extends Div {
         }
         client.setBasePath(url);
         client.setApiKey(apiKey);
-//
-//
+
 //        // Use system-trusted certificates
-//        SSLContext sslContext = null;
 //        TrustManagerFactory tmf = null;
+//        SSLContext sslContext = null;
 //        try {
 //            tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
 //            tmf.init((KeyStore) null);
-//            sslContext = SSLContext.getInstance("TLS");
+//            sslContext = SSLContext.getInstance("TLSv1.3");
 //            sslContext.init(null, tmf.getTrustManagers(), new java.security.SecureRandom());
-//
-//        } catch (NoSuchAlgorithmException | KeyStoreException | java.security.KeyManagementException e) {
-//            throw new ApiException(e);
+//        } catch (NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {
+//            Notification.show("Error: " + e.getMessage());
+//            throw new RuntimeException(e);
 //        }
 //
 //        client.getHttpClient().setSslSocketFactory(sslContext.getSocketFactory());

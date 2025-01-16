@@ -2,5 +2,6 @@
 # use crt.sh id
 # or use /file_name to add a cert from this folder
 
-2475254782 # GEANT OV RSA CA 4
+#2475254782 # GEANT OV RSA CA 4
 #1199354 # USERTrust RSA Certification Authority
+15634656612 # sfb270eln.physik.uni-due.de

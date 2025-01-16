@@ -24,6 +24,7 @@ public class Application implements AppShellConfigurator {
 
     public static void main(String[] args) {
         java.lang.System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2,TLSv1.3");
+        System.setProperty("javax.net.debug", "ssl:handshake");
         SpringApplication.run(Application.class, args);
     }
 
