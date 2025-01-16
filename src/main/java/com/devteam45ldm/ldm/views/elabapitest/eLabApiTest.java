@@ -23,7 +23,9 @@ import org.springframework.http.ResponseEntity;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -137,7 +139,13 @@ public class eLabApiTest extends Div {
 
         // Set up the API client
         ApiClient client = Configuration.getDefaultApiClient();
-        client.setVerifyingSsl(false);
+        //client.setVerifyingSsl(false);
+        String certFilePath = "/usr/share/ca-certificates/local/crtsh_2475254782.crt";
+        try (InputStream certInputStream = new FileInputStream(certFilePath)) {
+            client.setSslCaCert(certInputStream);
+        } catch (IOException e) {
+            throw new ApiException(e);
+        }
         client.setBasePath(url);
         client.setApiKey(apiKey);
 //
@@ -165,7 +173,7 @@ public class eLabApiTest extends Div {
         //}
 
         TagsApi api = new TagsApi(client);
-        //Notification.show(client.getSslCaCert().toString());
+        Notification.show(client.getSslCaCert().toString());
         return api.readTags("teams", 5);
     }
 }
