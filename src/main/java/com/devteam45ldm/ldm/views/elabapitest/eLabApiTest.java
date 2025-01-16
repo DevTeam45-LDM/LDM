@@ -14,6 +14,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
 import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
+import io.swagger.client.Configuration;
 import io.swagger.client.api.TagsApi;
 import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.model.Tag;
@@ -87,12 +88,16 @@ public class eLabApiTest extends Div {
             return;
         }
 
+        if (!url.endsWith("/api/v2/info")) {
+            url = url.endsWith("/") ? url + "api/v2/info" : url + "/api/v2/info";
+        }
+
         HTTPController httpController = new HTTPController();
         ResponseEntity<String> checkURL = httpController.checkURL(url);
-        if (checkURL.getStatusCode().is2xxSuccessful() || checkURL.getStatusCode().is3xxRedirection()) {
-            Notification.show("URL is reachable.");
+        if (checkURL.getStatusCode().is2xxSuccessful() || checkURL.getStatusCode().is3xxRedirection() || checkURL.getStatusCode().value() == 401) {
+            Notification.show("API is reachable.");
         } else {
-            Notification.show("URL is not reachable: " + checkURL.toString());
+            Notification.show("API is not reachable: " + checkURL.toString());
         }
     }
 
@@ -124,14 +129,17 @@ public class eLabApiTest extends Div {
             url = url.endsWith("/") ? url + "api/v2" : url + "/api/v2";
         }
 
+
         // Set up the API client
-        ApiClient client = new ApiClient();
+        ApiClient client = Configuration.getDefaultApiClient();
         client.setBasePath(url);
-        client.setApiKey(apiKey);
 
         // Set up ApiKeyAuth for authentication
-        ApiKeyAuth apiKeyAuth = (ApiKeyAuth) client.getAuthentication("api_key");
-        apiKeyAuth.setApiKey(apiKey);
+        ApiKeyAuth token = (ApiKeyAuth) client.getAuthentication("token");
+        token.setApiKey(apiKey);
+        if (token == null) {
+            throw new IllegalStateException("ApiKeyAuth not configured in the ApiClient");
+        }
 
         TagsApi api = new TagsApi(client);
         return api.readTags("teams", 5);
