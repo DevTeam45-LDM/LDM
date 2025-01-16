@@ -23,6 +23,7 @@ import org.springframework.context.annotation.Bean;
 public class Application implements AppShellConfigurator {
 
     public static void main(String[] args) {
+        java.lang.System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2,TLSv1.3");
         SpringApplication.run(Application.class, args);
     }
 

@@ -1,9 +1,9 @@
 package com.devteam45ldm.ldm.controller;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.Headers;
+import okhttp3.*;
+import okhttp3.logging.HttpLoggingInterceptor;
+import org.jetbrains.annotations.NotNull;
+import org.riversun.okhttp3.OkHttp3CookieHelper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.net.ssl.*;
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.stream.Collectors;
@@ -88,15 +89,22 @@ public class HTTPController {
 
             // Install the all-trusting trust manager
             SSLContext sslContext = SSLContext.getInstance("SSL");
-            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+            sslContext.init(null, trustAllCerts, new SecureRandom());
 
             // Create an all-trusting SSL Socket Factory
             SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
             // Build the OkHttpClient with custom SSL settings
+            OkHttp3CookieHelper cookieHelper = new OkHttp3CookieHelper();
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
             return new OkHttpClient.Builder()
                     .sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0])
                     .hostnameVerifier((hostname, session) -> true)
+                    .followRedirects(true) // Standardmäßig aktiviert, kann explizit gesetzt werden
+                    .followSslRedirects(true) // Für SSL-Umleitungen
+                    .cookieJar(cookieHelper.cookieJar())
+                    .addInterceptor(logging)
                     .build();
         } catch (Exception e) {
             throw new RuntimeException("Failed to create an unsafe OkHttpClient", e);

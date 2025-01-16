@@ -15,6 +15,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
 import io.swagger.client.api.TagsApi;
+import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.model.Tag;
 import com.devteam45ldm.ldm.controller.HTTPController;
 import org.springframework.http.ResponseEntity;
@@ -116,9 +117,21 @@ public class eLabApiTest extends Div {
     }
 
     private List<Tag> callExternalApi(String apiKey, String url) throws ApiException {
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            url = "https://" + url;
+        }
+        if (!url.endsWith("/api/v2")) {
+            url = url.endsWith("/") ? url + "api/v2" : url + "/api/v2";
+        }
+
+        // Set up the API client
         ApiClient client = new ApiClient();
         client.setBasePath(url);
         client.setApiKey(apiKey);
+
+        // Set up ApiKeyAuth for authentication
+        ApiKeyAuth apiKeyAuth = (ApiKeyAuth) client.getAuthentication("api_key");
+        apiKeyAuth.setApiKey(apiKey);
 
         TagsApi api = new TagsApi(client);
         return api.readTags("teams", 5);
