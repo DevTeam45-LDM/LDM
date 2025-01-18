@@ -14,9 +14,9 @@ import java.util.List;
 @PageTitle("Import Files")
 @Route("import-files")
 @Menu(order = 2, icon = "line-awesome/svg/filter-solid.svg")
-public class ImportFilesView extends Composite<VerticalLayout> {
+public class ImportFiles extends Composite<VerticalLayout> {
 
-    public ImportFilesView() {
+    public ImportFiles() {
         HorizontalLayout layoutRow = new HorizontalLayout();
         VerticalLayout layoutColumn3 = new VerticalLayout();
         ComboBox comboBox = new ComboBox();
