@@ -205,7 +205,11 @@ public class CustomInstantDeserializer<T extends Temporal>
         return value;
       }
     }
-    throw context.mappingException("Expected type float, integer, or string.");
+      try {
+          throw (Throwable) context.reportInputMismatch(handledType(), "Expected type float, integer, or string.");
+      } catch (Throwable e) {
+          throw new RuntimeException(e);
+      }
   }
 
   private ZoneId getZone(DeserializationContext context) {
