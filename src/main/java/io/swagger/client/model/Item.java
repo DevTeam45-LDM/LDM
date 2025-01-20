@@ -14,11 +14,9 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.client.model.Comment;
 import io.swagger.client.model.Entity;
 import io.swagger.client.model.ExclusiveEditMode;
@@ -26,39 +24,36 @@ import io.swagger.client.model.Link;
 import io.swagger.client.model.Step;
 import io.swagger.client.model.Upload;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.annotation.processing.Generated;
-import java.io.IOException;
 import java.util.List;
 /**
  * Item
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class Item extends Entity implements ItemsIdBody1 {
-  @SerializedName("is_bookable")
+  @JsonProperty("is_bookable")
   private Integer isBookable = null;
 
-  @SerializedName("canbook")
+  @JsonProperty("canbook")
   private String canbook = null;
 
-  @SerializedName("book_max_minutes")
+  @JsonProperty("book_max_minutes")
   private Integer bookMaxMinutes = null;
 
-  @SerializedName("book_max_slots")
+  @JsonProperty("book_max_slots")
   private Integer bookMaxSlots = null;
 
-  @SerializedName("book_can_overlap")
+  @JsonProperty("book_can_overlap")
   private Integer bookCanOverlap = null;
 
-  @SerializedName("book_users_can_in_past")
+  @JsonProperty("book_users_can_in_past")
   private Integer bookUsersCanInPast = null;
 
-  @SerializedName("book_is_cancellable")
+  @JsonProperty("book_is_cancellable")
   private Integer bookIsCancellable = null;
 
-  @SerializedName("book_cancel_minutes")
+  @JsonProperty("book_cancel_minutes")
   private Integer bookCancelMinutes = null;
 
   public Item isBookable(Integer isBookable) {

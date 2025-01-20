@@ -14,36 +14,25 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.annotation.processing.Generated;
-import java.io.IOException;
 /**
  * ExportsBody
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class ExportsBody {
   /**
    * File format for the export
    */
-  @JsonAdapter(FormatEnum.Adapter.class)
   public enum FormatEnum {
-    @SerializedName("csv")
     CSV("csv"),
-    @SerializedName("eln")
     ELN("eln"),
-    @SerializedName("json")
     JSON("json"),
-    @SerializedName("pdf")
     PDF("pdf"),
-    @SerializedName("zip")
     ZIP("zip");
 
     private String value;
@@ -51,6 +40,7 @@ public class ExportsBody {
     FormatEnum(String value) {
       this.value = value;
     }
+    @JsonValue
     public String getValue() {
       return value;
     }
@@ -59,6 +49,7 @@ public class ExportsBody {
     public String toString() {
       return String.valueOf(value);
     }
+    @JsonCreator
     public static FormatEnum fromValue(String input) {
       for (FormatEnum b : FormatEnum.values()) {
         if (b.value.equals(input)) {
@@ -67,40 +58,29 @@ public class ExportsBody {
       }
       return null;
     }
-    public static class Adapter extends TypeAdapter<FormatEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final FormatEnum enumeration) throws IOException {
-        jsonWriter.value(String.valueOf(enumeration.getValue()));
-      }
 
-      @Override
-      public FormatEnum read(final JsonReader jsonReader) throws IOException {
-        Object value = jsonReader.nextString();
-        return FormatEnum.fromValue((String)(value));
-      }
-    }
-  }  @SerializedName("format")
+  }  @JsonProperty("format")
   private FormatEnum format = null;
 
-  @SerializedName("experiments")
+  @JsonProperty("experiments")
   private String experiments = null;
 
-  @SerializedName("items")
+  @JsonProperty("items")
   private String items = null;
 
-  @SerializedName("experiments_templates")
+  @JsonProperty("experiments_templates")
   private String experimentsTemplates = null;
 
-  @SerializedName("items_types")
+  @JsonProperty("items_types")
   private String itemsTypes = null;
 
-  @SerializedName("changelog")
+  @JsonProperty("changelog")
   private String changelog = null;
 
-  @SerializedName("json")
+  @JsonProperty("json")
   private String json = null;
 
-  @SerializedName("pdfa")
+  @JsonProperty("pdfa")
   private String pdfa = null;
 
   public ExportsBody format(FormatEnum format) {

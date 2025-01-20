@@ -14,144 +14,136 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.annotation.processing.Generated;
-import java.io.IOException;
 /**
  * Config
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class Config {
-  @SerializedName("admins_create_users")
+  @JsonProperty("admins_create_users")
   private String adminsCreateUsers = null;
 
-  @SerializedName("admins_create_users_remote_dir")
+  @JsonProperty("admins_create_users_remote_dir")
   private String adminsCreateUsersRemoteDir = null;
 
-  @SerializedName("admin_validate")
+  @JsonProperty("admin_validate")
   private String adminValidate = null;
 
-  @SerializedName("announcement")
+  @JsonProperty("announcement")
   private String announcement = null;
 
-  @SerializedName("anon_users")
+  @JsonProperty("anon_users")
   private String anonUsers = null;
 
-  @SerializedName("autologout_time")
+  @JsonProperty("autologout_time")
   private String autologoutTime = null;
 
-  @SerializedName("blox_anon")
+  @JsonProperty("blox_anon")
   private String bloxAnon = null;
 
-  @SerializedName("blox_enabled")
+  @JsonProperty("blox_enabled")
   private String bloxEnabled = null;
 
-  @SerializedName("cookie_validity_time")
+  @JsonProperty("cookie_validity_time")
   private Integer cookieValidityTime = null;
 
-  @SerializedName("debug")
+  @JsonProperty("debug")
   private String debug = null;
 
-  @SerializedName("email_domain")
+  @JsonProperty("email_domain")
   private String emailDomain = null;
 
-  @SerializedName("extauth_email")
+  @JsonProperty("extauth_email")
   private String extauthEmail = null;
 
-  @SerializedName("extauth_firstname")
+  @JsonProperty("extauth_firstname")
   private String extauthFirstname = null;
 
-  @SerializedName("extauth_lastname")
+  @JsonProperty("extauth_lastname")
   private String extauthLastname = null;
 
-  @SerializedName("extauth_remote_user")
+  @JsonProperty("extauth_remote_user")
   private String extauthRemoteUser = null;
 
-  @SerializedName("extauth_teams")
+  @JsonProperty("extauth_teams")
   private String extauthTeams = null;
 
-  @SerializedName("lang")
+  @JsonProperty("lang")
   private String lang = null;
 
-  @SerializedName("ldap_base_dn")
+  @JsonProperty("ldap_base_dn")
   private String ldapBaseDn = null;
 
-  @SerializedName("ldap_search_attr")
+  @JsonProperty("ldap_search_attr")
   private String ldapSearchAttr = null;
 
-  @SerializedName("ldap_email")
+  @JsonProperty("ldap_email")
   private String ldapEmail = null;
 
-  @SerializedName("ldap_firstname")
+  @JsonProperty("ldap_firstname")
   private String ldapFirstname = null;
 
-  @SerializedName("ldap_host")
+  @JsonProperty("ldap_host")
   private String ldapHost = null;
 
-  @SerializedName("ldap_lastname")
+  @JsonProperty("ldap_lastname")
   private String ldapLastname = null;
 
-  @SerializedName("ldap_password")
+  @JsonProperty("ldap_password")
   private String ldapPassword = null;
 
-  @SerializedName("ldap_port")
+  @JsonProperty("ldap_port")
   private String ldapPort = null;
 
-  @SerializedName("ldap_team")
+  @JsonProperty("ldap_team")
   private String ldapTeam = null;
 
-  @SerializedName("ldap_toggle")
+  @JsonProperty("ldap_toggle")
   private String ldapToggle = null;
 
-  @SerializedName("ldap_use_tls")
+  @JsonProperty("ldap_use_tls")
   private String ldapUseTls = null;
 
-  @SerializedName("ldap_username")
+  @JsonProperty("ldap_username")
   private String ldapUsername = null;
 
-  @SerializedName("local_login")
+  @JsonProperty("local_login")
   private String localLogin = null;
 
-  @SerializedName("local_register")
+  @JsonProperty("local_register")
   private String localRegister = null;
 
-  @SerializedName("login_announcement")
+  @JsonProperty("login_announcement")
   private String loginAnnouncement = null;
 
-  @SerializedName("login_tries")
+  @JsonProperty("login_tries")
   private String loginTries = null;
 
-  @SerializedName("logout_url")
+  @JsonProperty("logout_url")
   private String logoutUrl = null;
 
-  @SerializedName("mail_from")
+  @JsonProperty("mail_from")
   private String mailFrom = null;
 
-  @SerializedName("max_revisions")
+  @JsonProperty("max_revisions")
   private String maxRevisions = null;
 
-  @SerializedName("min_days_revisions")
+  @JsonProperty("min_days_revisions")
   private String minDaysRevisions = null;
 
-  @SerializedName("min_delta_revisions")
+  @JsonProperty("min_delta_revisions")
   private String minDeltaRevisions = null;
 
   /**
    * Gets or Sets onboardingEmailActive
    */
-  @JsonAdapter(OnboardingEmailActiveEnum.Adapter.class)
   public enum OnboardingEmailActiveEnum {
-    @SerializedName("0")
     _0("0"),
-    @SerializedName("1")
     _1("1");
 
     private String value;
@@ -159,6 +151,7 @@ public class Config {
     OnboardingEmailActiveEnum(String value) {
       this.value = value;
     }
+    @JsonValue
     public String getValue() {
       return value;
     }
@@ -167,6 +160,7 @@ public class Config {
     public String toString() {
       return String.valueOf(value);
     }
+    @JsonCreator
     public static OnboardingEmailActiveEnum fromValue(String input) {
       for (OnboardingEmailActiveEnum b : OnboardingEmailActiveEnum.values()) {
         if (b.value.equals(input)) {
@@ -175,38 +169,24 @@ public class Config {
       }
       return null;
     }
-    public static class Adapter extends TypeAdapter<OnboardingEmailActiveEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final OnboardingEmailActiveEnum enumeration) throws IOException {
-        jsonWriter.value(String.valueOf(enumeration.getValue()));
-      }
 
-      @Override
-      public OnboardingEmailActiveEnum read(final JsonReader jsonReader) throws IOException {
-        Object value = jsonReader.nextString();
-        return OnboardingEmailActiveEnum.fromValue((String)(value));
-      }
-    }
-  }  @SerializedName("onboarding_email_active")
+  }  @JsonProperty("onboarding_email_active")
   private OnboardingEmailActiveEnum onboardingEmailActive = null;
 
-  @SerializedName("onboarding_email_admins_body")
+  @JsonProperty("onboarding_email_admins_body")
   private String onboardingEmailAdminsBody = null;
 
-  @SerializedName("onboarding_email_admins_subject")
+  @JsonProperty("onboarding_email_admins_subject")
   private String onboardingEmailAdminsSubject = null;
 
-  @SerializedName("onboarding_email_body")
+  @JsonProperty("onboarding_email_body")
   private String onboardingEmailBody = null;
 
   /**
    * Gets or Sets onboardingEmailDifferentForAdmins
    */
-  @JsonAdapter(OnboardingEmailDifferentForAdminsEnum.Adapter.class)
   public enum OnboardingEmailDifferentForAdminsEnum {
-    @SerializedName("0")
     _0("0"),
-    @SerializedName("1")
     _1("1");
 
     private String value;
@@ -214,6 +194,7 @@ public class Config {
     OnboardingEmailDifferentForAdminsEnum(String value) {
       this.value = value;
     }
+    @JsonValue
     public String getValue() {
       return value;
     }
@@ -222,6 +203,7 @@ public class Config {
     public String toString() {
       return String.valueOf(value);
     }
+    @JsonCreator
     public static OnboardingEmailDifferentForAdminsEnum fromValue(String input) {
       for (OnboardingEmailDifferentForAdminsEnum b : OnboardingEmailDifferentForAdminsEnum.values()) {
         if (b.value.equals(input)) {
@@ -230,187 +212,176 @@ public class Config {
       }
       return null;
     }
-    public static class Adapter extends TypeAdapter<OnboardingEmailDifferentForAdminsEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final OnboardingEmailDifferentForAdminsEnum enumeration) throws IOException {
-        jsonWriter.value(String.valueOf(enumeration.getValue()));
-      }
 
-      @Override
-      public OnboardingEmailDifferentForAdminsEnum read(final JsonReader jsonReader) throws IOException {
-        Object value = jsonReader.nextString();
-        return OnboardingEmailDifferentForAdminsEnum.fromValue((String)(value));
-      }
-    }
-  }  @SerializedName("onboarding_email_different_for_admins")
+  }  @JsonProperty("onboarding_email_different_for_admins")
   private OnboardingEmailDifferentForAdminsEnum onboardingEmailDifferentForAdmins = null;
 
-  @SerializedName("onboarding_email_subject")
+  @JsonProperty("onboarding_email_subject")
   private String onboardingEmailSubject = null;
 
-  @SerializedName("open_science")
+  @JsonProperty("open_science")
   private String openScience = null;
 
-  @SerializedName("open_team")
+  @JsonProperty("open_team")
   private String openTeam = null;
 
-  @SerializedName("privacy_policy")
+  @JsonProperty("privacy_policy")
   private String privacyPolicy = null;
 
-  @SerializedName("proxy")
+  @JsonProperty("proxy")
   private String proxy = null;
 
-  @SerializedName("remote_dir_config")
+  @JsonProperty("remote_dir_config")
   private String remoteDirConfig = null;
 
-  @SerializedName("remote_dir_service")
+  @JsonProperty("remote_dir_service")
   private String remoteDirService = null;
 
-  @SerializedName("s3_bucket_name")
+  @JsonProperty("s3_bucket_name")
   private String s3BucketName = null;
 
-  @SerializedName("s3_endpoint")
+  @JsonProperty("s3_endpoint")
   private String s3Endpoint = null;
 
-  @SerializedName("s3_path_prefix")
+  @JsonProperty("s3_path_prefix")
   private String s3PathPrefix = null;
 
-  @SerializedName("s3_region")
+  @JsonProperty("s3_region")
   private String s3Region = null;
 
-  @SerializedName("s3_verify_cert")
+  @JsonProperty("s3_verify_cert")
   private String s3VerifyCert = null;
 
-  @SerializedName("saml_acs_binding")
+  @JsonProperty("saml_acs_binding")
   private String samlAcsBinding = null;
 
-  @SerializedName("saml_allowrepeatattributename")
+  @JsonProperty("saml_allowrepeatattributename")
   private String samlAllowrepeatattributename = null;
 
-  @SerializedName("saml_authnrequestssigned")
+  @JsonProperty("saml_authnrequestssigned")
   private String samlAuthnrequestssigned = null;
 
-  @SerializedName("saml_baseurl")
+  @JsonProperty("saml_baseurl")
   private String samlBaseurl = null;
 
-  @SerializedName("saml_debug")
+  @JsonProperty("saml_debug")
   private String samlDebug = null;
 
-  @SerializedName("saml_entityid")
+  @JsonProperty("saml_entityid")
   private String samlEntityid = null;
 
-  @SerializedName("saml_logoutrequestsigned")
+  @JsonProperty("saml_logoutrequestsigned")
   private String samlLogoutrequestsigned = null;
 
-  @SerializedName("saml_logoutresponsesigned")
+  @JsonProperty("saml_logoutresponsesigned")
   private String samlLogoutresponsesigned = null;
 
-  @SerializedName("saml_lowercaseurlencoding")
+  @JsonProperty("saml_lowercaseurlencoding")
   private String samlLowercaseurlencoding = null;
 
-  @SerializedName("saml_nameidencrypted")
+  @JsonProperty("saml_nameidencrypted")
   private String samlNameidencrypted = null;
 
-  @SerializedName("saml_nameidformat")
+  @JsonProperty("saml_nameidformat")
   private String samlNameidformat = null;
 
-  @SerializedName("saml_privatekey")
+  @JsonProperty("saml_privatekey")
   private String samlPrivatekey = null;
 
-  @SerializedName("saml_relaxdestinationvalidation")
+  @JsonProperty("saml_relaxdestinationvalidation")
   private String samlRelaxdestinationvalidation = null;
 
-  @SerializedName("saml_signmetadata")
+  @JsonProperty("saml_signmetadata")
   private String samlSignmetadata = null;
 
-  @SerializedName("saml_slo_binding")
+  @JsonProperty("saml_slo_binding")
   private String samlSloBinding = null;
 
-  @SerializedName("saml_strict")
+  @JsonProperty("saml_strict")
   private String samlStrict = null;
 
-  @SerializedName("saml_sync_teams")
+  @JsonProperty("saml_sync_teams")
   private String samlSyncTeams = null;
 
-  @SerializedName("saml_team_create")
+  @JsonProperty("saml_team_create")
   private String samlTeamCreate = null;
 
-  @SerializedName("saml_team_default")
+  @JsonProperty("saml_team_default")
   private String samlTeamDefault = null;
 
-  @SerializedName("saml_toggle")
+  @JsonProperty("saml_toggle")
   private String samlToggle = null;
 
-  @SerializedName("saml_user_default")
+  @JsonProperty("saml_user_default")
   private String samlUserDefault = null;
 
-  @SerializedName("saml_wantassertionsencrypted")
+  @JsonProperty("saml_wantassertionsencrypted")
   private String samlWantassertionsencrypted = null;
 
-  @SerializedName("saml_wantassertionssigned")
+  @JsonProperty("saml_wantassertionssigned")
   private String samlWantassertionssigned = null;
 
-  @SerializedName("saml_wantmessagessigned")
+  @JsonProperty("saml_wantmessagessigned")
   private String samlWantmessagessigned = null;
 
-  @SerializedName("saml_wantnameid")
+  @JsonProperty("saml_wantnameid")
   private String samlWantnameid = null;
 
-  @SerializedName("saml_wantnameidencrypted")
+  @JsonProperty("saml_wantnameidencrypted")
   private String samlWantnameidencrypted = null;
 
-  @SerializedName("saml_wantxmlvalidation")
+  @JsonProperty("saml_wantxmlvalidation")
   private String samlWantxmlvalidation = null;
 
-  @SerializedName("saml_x509")
+  @JsonProperty("saml_x509")
   private String samlX509 = null;
 
-  @SerializedName("saml_x509_new")
+  @JsonProperty("saml_x509_new")
   private String samlX509New = null;
 
-  @SerializedName("schema")
+  @JsonProperty("schema")
   private String schema = null;
 
-  @SerializedName("smtp_address")
+  @JsonProperty("smtp_address")
   private String smtpAddress = null;
 
-  @SerializedName("smtp_encryption")
+  @JsonProperty("smtp_encryption")
   private String smtpEncryption = null;
 
-  @SerializedName("smtp_password")
+  @JsonProperty("smtp_password")
   private String smtpPassword = null;
 
-  @SerializedName("smtp_port")
+  @JsonProperty("smtp_port")
   private String smtpPort = null;
 
-  @SerializedName("smtp_username")
+  @JsonProperty("smtp_username")
   private String smtpUsername = null;
 
-  @SerializedName("support_url")
+  @JsonProperty("support_url")
   private String supportUrl = null;
 
-  @SerializedName("ts_authority")
+  @JsonProperty("ts_authority")
   private String tsAuthority = null;
 
-  @SerializedName("ts_cert")
+  @JsonProperty("ts_cert")
   private String tsCert = null;
 
-  @SerializedName("ts_hash")
+  @JsonProperty("ts_hash")
   private String tsHash = null;
 
-  @SerializedName("ts_limit")
+  @JsonProperty("ts_limit")
   private String tsLimit = null;
 
-  @SerializedName("ts_login")
+  @JsonProperty("ts_login")
   private String tsLogin = null;
 
-  @SerializedName("ts_password")
+  @JsonProperty("ts_password")
   private String tsPassword = null;
 
-  @SerializedName("ts_url")
+  @JsonProperty("ts_url")
   private String tsUrl = null;
 
-  @SerializedName("uploads_storage")
+  @JsonProperty("uploads_storage")
   private String uploadsStorage = null;
 
   public Config adminsCreateUsers(String adminsCreateUsers) {

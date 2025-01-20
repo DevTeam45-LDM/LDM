@@ -14,32 +14,27 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.annotation.processing.Generated;
-import java.io.IOException;
 /**
  * Statuslike
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class Statuslike {
-  @SerializedName("id")
+  @JsonProperty("id")
   private Integer id = null;
 
-  @SerializedName("title")
+  @JsonProperty("title")
   private String title = null;
 
-  @SerializedName("color")
+  @JsonProperty("color")
   private String color = null;
 
-  @SerializedName("is_default")
+  @JsonProperty("is_default")
   private Integer isDefault = null;
 
   public Statuslike id(Integer id) {

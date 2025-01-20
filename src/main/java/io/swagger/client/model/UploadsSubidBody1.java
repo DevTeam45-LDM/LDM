@@ -14,28 +14,21 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.annotation.processing.Generated;
-import java.io.IOException;
 /**
  * UploadsSubidBody1
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class UploadsSubidBody1 implements AnyOfuploadsSubidBody1 {
   /**
    * Gets or Sets action
    */
-  @JsonAdapter(ActionEnum.Adapter.class)
   public enum ActionEnum {
-    @SerializedName("update")
     UPDATE("update");
 
     private String value;
@@ -43,6 +36,7 @@ public class UploadsSubidBody1 implements AnyOfuploadsSubidBody1 {
     ActionEnum(String value) {
       this.value = value;
     }
+    @JsonValue
     public String getValue() {
       return value;
     }
@@ -51,6 +45,7 @@ public class UploadsSubidBody1 implements AnyOfuploadsSubidBody1 {
     public String toString() {
       return String.valueOf(value);
     }
+    @JsonCreator
     public static ActionEnum fromValue(String input) {
       for (ActionEnum b : ActionEnum.values()) {
         if (b.value.equals(input)) {
@@ -59,37 +54,22 @@ public class UploadsSubidBody1 implements AnyOfuploadsSubidBody1 {
       }
       return null;
     }
-    public static class Adapter extends TypeAdapter<ActionEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final ActionEnum enumeration) throws IOException {
-        jsonWriter.value(String.valueOf(enumeration.getValue()));
-      }
 
-      @Override
-      public ActionEnum read(final JsonReader jsonReader) throws IOException {
-        Object value = jsonReader.nextString();
-        return ActionEnum.fromValue((String)(value));
-      }
-    }
-  }  @SerializedName("action")
+  }  @JsonProperty("action")
   private ActionEnum action = null;
 
-  @SerializedName("real_name")
+  @JsonProperty("real_name")
   private String realName = null;
 
-  @SerializedName("comment")
+  @JsonProperty("comment")
   private String comment = null;
 
   /**
    * Gets or Sets state
    */
-  @JsonAdapter(StateEnum.Adapter.class)
   public enum StateEnum {
-    @SerializedName("1")
     NUMBER_1(1),
-    @SerializedName("2")
     NUMBER_2(2),
-    @SerializedName("3")
     NUMBER_3(3);
 
     private Integer value;
@@ -97,6 +77,7 @@ public class UploadsSubidBody1 implements AnyOfuploadsSubidBody1 {
     StateEnum(Integer value) {
       this.value = value;
     }
+    @JsonValue
     public Integer getValue() {
       return value;
     }
@@ -105,6 +86,7 @@ public class UploadsSubidBody1 implements AnyOfuploadsSubidBody1 {
     public String toString() {
       return String.valueOf(value);
     }
+    @JsonCreator
     public static StateEnum fromValue(Integer input) {
       for (StateEnum b : StateEnum.values()) {
         if (b.value.equals(input)) {
@@ -113,19 +95,8 @@ public class UploadsSubidBody1 implements AnyOfuploadsSubidBody1 {
       }
       return null;
     }
-    public static class Adapter extends TypeAdapter<StateEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final StateEnum enumeration) throws IOException {
-        jsonWriter.value(String.valueOf(enumeration.getValue()));
-      }
 
-      @Override
-      public StateEnum read(final JsonReader jsonReader) throws IOException {
-        Object value = jsonReader.nextInt();
-        return StateEnum.fromValue((Integer)(value));
-      }
-    }
-  }  @SerializedName("state")
+  }  @JsonProperty("state")
   private StateEnum state = null;
 
   public UploadsSubidBody1 action(ActionEnum action) {

@@ -14,71 +14,69 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.client.model.UsersTeams;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.annotation.processing.Generated;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 /**
  * Users
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class Users implements UsersIdBody {
-  @SerializedName("userid")
+  @JsonProperty("userid")
   private Integer userid = null;
 
-  @SerializedName("firstname")
+  @JsonProperty("firstname")
   private String firstname = null;
 
-  @SerializedName("lastname")
+  @JsonProperty("lastname")
   private String lastname = null;
 
-  @SerializedName("email")
+  @JsonProperty("initials")
+  private String initials = null;
+
+  @JsonProperty("email")
   private String email = null;
 
-  @SerializedName("validated")
+  @JsonProperty("validated")
   private Integer validated = null;
 
-  @SerializedName("valid_until")
+  @JsonProperty("valid_until")
   private String validUntil = null;
 
-  @SerializedName("archived")
+  @JsonProperty("archived")
   private Integer archived = null;
 
-  @SerializedName("last_login")
+  @JsonProperty("last_login")
   private String lastLogin = null;
 
-  @SerializedName("fullname")
+  @JsonProperty("fullname")
   private String fullname = null;
 
-  @SerializedName("orcid")
+  @JsonProperty("orcid")
   private String orcid = null;
 
-  @SerializedName("orgid")
+  @JsonProperty("orgid")
   private String orgid = null;
 
-  @SerializedName("auth_service")
+  @JsonProperty("auth_service")
   private Integer authService = null;
 
-  @SerializedName("is_sysadmin")
+  @JsonProperty("is_sysadmin")
   private Integer isSysadmin = null;
 
-  @SerializedName("entrypoint")
+  @JsonProperty("entrypoint")
   private Integer entrypoint = null;
 
-  @SerializedName("sig_pubkey")
+  @JsonProperty("sig_pubkey")
   private String sigPubkey = null;
 
-  @SerializedName("teams")
+  @JsonProperty("teams")
   private List<UsersTeams> teams = null;
 
   public Users userid(Integer userid) {
@@ -133,6 +131,24 @@ public class Users implements UsersIdBody {
 
   public void setLastname(String lastname) {
     this.lastname = lastname;
+  }
+
+  public Users initials(String initials) {
+    this.initials = initials;
+    return this;
+  }
+
+   /**
+   * Get initials
+   * @return initials
+  **/
+  @Schema(description = "")
+  public String getInitials() {
+    return initials;
+  }
+
+  public void setInitials(String initials) {
+    this.initials = initials;
   }
 
   public Users email(String email) {
@@ -390,6 +406,7 @@ public class Users implements UsersIdBody {
     return Objects.equals(this.userid, users.userid) &&
         Objects.equals(this.firstname, users.firstname) &&
         Objects.equals(this.lastname, users.lastname) &&
+        Objects.equals(this.initials, users.initials) &&
         Objects.equals(this.email, users.email) &&
         Objects.equals(this.validated, users.validated) &&
         Objects.equals(this.validUntil, users.validUntil) &&
@@ -407,7 +424,7 @@ public class Users implements UsersIdBody {
 
   @Override
   public int hashCode() {
-    return Objects.hash(userid, firstname, lastname, email, validated, validUntil, archived, lastLogin, fullname, orcid, orgid, authService, isSysadmin, entrypoint, sigPubkey, teams);
+    return Objects.hash(userid, firstname, lastname, initials, email, validated, validUntil, archived, lastLogin, fullname, orcid, orgid, authService, isSysadmin, entrypoint, sigPubkey, teams);
   }
 
 
@@ -419,6 +436,7 @@ public class Users implements UsersIdBody {
     sb.append("    userid: ").append(toIndentedString(userid)).append("\n");
     sb.append("    firstname: ").append(toIndentedString(firstname)).append("\n");
     sb.append("    lastname: ").append(toIndentedString(lastname)).append("\n");
+    sb.append("    initials: ").append(toIndentedString(initials)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    validated: ").append(toIndentedString(validated)).append("\n");
     sb.append("    validUntil: ").append(toIndentedString(validUntil)).append("\n");

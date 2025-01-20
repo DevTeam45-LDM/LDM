@@ -14,50 +14,41 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.annotation.processing.Generated;
-import java.io.IOException;
 /**
  * UsersBody
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class UsersBody {
-  @SerializedName("firstname")
+  @JsonProperty("firstname")
   private String firstname = null;
 
-  @SerializedName("lastname")
+  @JsonProperty("lastname")
   private String lastname = null;
 
-  @SerializedName("email")
+  @JsonProperty("email")
   private String email = null;
 
-  @SerializedName("team")
+  @JsonProperty("team")
   private Integer team = null;
 
-  @SerializedName("valid_until")
+  @JsonProperty("valid_until")
   private String validUntil = null;
 
-  @SerializedName("orgid")
+  @JsonProperty("orgid")
   private String orgid = null;
 
   /**
    * Which permissions level the user will get? &#x60;1&#x60; is Sysadmin, &#x60;2&#x60; is Admin, &#x60;4&#x60; is user (default)
    */
-  @JsonAdapter(UsergroupEnum.Adapter.class)
   public enum UsergroupEnum {
-    @SerializedName("1")
     NUMBER_1(1),
-    @SerializedName("2")
     NUMBER_2(2),
-    @SerializedName("4")
     NUMBER_4(4);
 
     private Integer value;
@@ -65,6 +56,7 @@ public class UsersBody {
     UsergroupEnum(Integer value) {
       this.value = value;
     }
+    @JsonValue
     public Integer getValue() {
       return value;
     }
@@ -73,6 +65,7 @@ public class UsersBody {
     public String toString() {
       return String.valueOf(value);
     }
+    @JsonCreator
     public static UsergroupEnum fromValue(Integer input) {
       for (UsergroupEnum b : UsergroupEnum.values()) {
         if (b.value.equals(input)) {
@@ -81,19 +74,8 @@ public class UsersBody {
       }
       return null;
     }
-    public static class Adapter extends TypeAdapter<UsergroupEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final UsergroupEnum enumeration) throws IOException {
-        jsonWriter.value(String.valueOf(enumeration.getValue()));
-      }
 
-      @Override
-      public UsergroupEnum read(final JsonReader jsonReader) throws IOException {
-        Object value = jsonReader.nextInt();
-        return UsergroupEnum.fromValue((Integer)(value));
-      }
-    }
-  }  @SerializedName("usergroup")
+  }  @JsonProperty("usergroup")
   private UsergroupEnum usergroup = null;
 
   public UsersBody firstname(String firstname) {

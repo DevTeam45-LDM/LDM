@@ -14,28 +14,21 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.annotation.processing.Generated;
-import java.io.IOException;
 /**
  * Find all duplicate tags and deduplicate them.
  */
 @Schema(description = "Find all duplicate tags and deduplicate them.")
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class IdTagsBody1 {
   /**
    * Gets or Sets action
    */
-  @JsonAdapter(ActionEnum.Adapter.class)
   public enum ActionEnum {
-    @SerializedName("deduplicate")
     DEDUPLICATE("deduplicate");
 
     private String value;
@@ -43,6 +36,7 @@ public class IdTagsBody1 {
     ActionEnum(String value) {
       this.value = value;
     }
+    @JsonValue
     public String getValue() {
       return value;
     }
@@ -51,6 +45,7 @@ public class IdTagsBody1 {
     public String toString() {
       return String.valueOf(value);
     }
+    @JsonCreator
     public static ActionEnum fromValue(String input) {
       for (ActionEnum b : ActionEnum.values()) {
         if (b.value.equals(input)) {
@@ -59,19 +54,8 @@ public class IdTagsBody1 {
       }
       return null;
     }
-    public static class Adapter extends TypeAdapter<ActionEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final ActionEnum enumeration) throws IOException {
-        jsonWriter.value(String.valueOf(enumeration.getValue()));
-      }
 
-      @Override
-      public ActionEnum read(final JsonReader jsonReader) throws IOException {
-        Object value = jsonReader.nextString();
-        return ActionEnum.fromValue((String)(value));
-      }
-    }
-  }  @SerializedName("action")
+  }  @JsonProperty("action")
   private ActionEnum action = null;
 
   public IdTagsBody1 action(ActionEnum action) {

@@ -14,186 +14,181 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.client.model.Comment;
 import io.swagger.client.model.ExclusiveEditMode;
 import io.swagger.client.model.Link;
 import io.swagger.client.model.Step;
 import io.swagger.client.model.Upload;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.annotation.processing.Generated;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 /**
  * Entity
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class Entity {
-  @SerializedName("access_key")
+  @JsonProperty("access_key")
   private String accessKey = null;
 
-  @SerializedName("body")
+  @JsonProperty("body")
   private String body = null;
 
-  @SerializedName("body_html")
+  @JsonProperty("body_html")
   private String bodyHtml = null;
 
-  @SerializedName("canread")
+  @JsonProperty("canread")
   private String canread = null;
 
-  @SerializedName("canwrite")
+  @JsonProperty("canwrite")
   private String canwrite = null;
 
-  @SerializedName("category")
+  @JsonProperty("category")
   private Integer category = null;
 
-  @SerializedName("category_color")
+  @JsonProperty("category_color")
   private String categoryColor = null;
 
-  @SerializedName("category_title")
+  @JsonProperty("category_title")
   private String categoryTitle = null;
 
-  @SerializedName("comments")
+  @JsonProperty("comments")
   private List<Comment> comments = null;
 
-  @SerializedName("content_type")
+  @JsonProperty("content_type")
   private Integer contentType = null;
 
-  @SerializedName("created_at")
+  @JsonProperty("created_at")
   private String createdAt = null;
 
-  @SerializedName("custom_id")
+  @JsonProperty("custom_id")
   private Integer customId = null;
 
-  @SerializedName("date")
+  @JsonProperty("date")
   private String date = null;
 
-  @SerializedName("elabid")
+  @JsonProperty("elabid")
   private String elabid = null;
 
-  @SerializedName("exclusive_edit_mode")
+  @JsonProperty("exclusive_edit_mode")
   private ExclusiveEditMode exclusiveEditMode = null;
 
-  @SerializedName("experiments_links")
+  @JsonProperty("experiments_links")
   private List<Link> experimentsLinks = null;
 
-  @SerializedName("firstname")
+  @JsonProperty("firstname")
   private String firstname = null;
 
-  @SerializedName("fullname")
+  @JsonProperty("fullname")
   private String fullname = null;
 
-  @SerializedName("has_attachement")
+  @JsonProperty("has_attachement")
   private Integer hasAttachement = null;
 
-  @SerializedName("has_comment")
+  @JsonProperty("has_comment")
   private Integer hasComment = null;
 
-  @SerializedName("id")
+  @JsonProperty("id")
   private Integer id = null;
 
-  @SerializedName("items_links")
+  @JsonProperty("items_links")
   private List<Link> itemsLinks = null;
 
-  @SerializedName("lastchangeby")
+  @JsonProperty("lastchangeby")
   private Integer lastchangeby = null;
 
-  @SerializedName("lastname")
+  @JsonProperty("lastname")
   private String lastname = null;
 
-  @SerializedName("locked")
+  @JsonProperty("locked")
   private Integer locked = null;
 
-  @SerializedName("lockedby")
+  @JsonProperty("lockedby")
   private Integer lockedby = null;
 
-  @SerializedName("locked_at")
+  @JsonProperty("locked_at")
   private String lockedAt = null;
 
-  @SerializedName("metadata")
+  @JsonProperty("metadata")
   private String metadata = null;
 
-  @SerializedName("modified_at")
+  @JsonProperty("modified_at")
   private String modifiedAt = null;
 
-  @SerializedName("next_step")
+  @JsonProperty("next_step")
   private String nextStep = null;
 
-  @SerializedName("orcid")
+  @JsonProperty("orcid")
   private String orcid = null;
 
-  @SerializedName("page")
+  @JsonProperty("page")
   private String page = null;
 
-  @SerializedName("rating")
+  @JsonProperty("rating")
   private Integer rating = null;
 
-  @SerializedName("recent_comment")
+  @JsonProperty("recent_comment")
   private String recentComment = null;
 
-  @SerializedName("related_experiments_links")
+  @JsonProperty("related_experiments_links")
   private List<Link> relatedExperimentsLinks = null;
 
-  @SerializedName("related_items_links")
+  @JsonProperty("related_items_links")
   private List<Link> relatedItemsLinks = null;
 
-  @SerializedName("sharelink")
+  @JsonProperty("sharelink")
   private String sharelink = null;
 
-  @SerializedName("state")
+  @JsonProperty("state")
   private Integer state = null;
 
-  @SerializedName("status")
+  @JsonProperty("status")
   private Integer status = null;
 
-  @SerializedName("status_color")
+  @JsonProperty("status_color")
   private String statusColor = null;
 
-  @SerializedName("status_title")
+  @JsonProperty("status_title")
   private String statusTitle = null;
 
-  @SerializedName("steps")
+  @JsonProperty("steps")
   private List<Step> steps = null;
 
-  @SerializedName("tags")
+  @JsonProperty("tags")
   private String tags = null;
 
-  @SerializedName("tags_id")
+  @JsonProperty("tags_id")
   private String tagsId = null;
 
-  @SerializedName("team")
+  @JsonProperty("team")
   private Integer team = null;
 
-  @SerializedName("timestamped")
+  @JsonProperty("timestamped")
   private Integer timestamped = null;
 
-  @SerializedName("timestampedby")
+  @JsonProperty("timestampedby")
   private Integer timestampedby = null;
 
-  @SerializedName("timestamped_at")
+  @JsonProperty("timestamped_at")
   private String timestampedAt = null;
 
-  @SerializedName("title")
+  @JsonProperty("title")
   private String title = null;
 
-  @SerializedName("type")
+  @JsonProperty("type")
   private String type = null;
 
-  @SerializedName("up_item_id")
+  @JsonProperty("up_item_id")
   private Integer upItemId = null;
 
-  @SerializedName("uploads")
+  @JsonProperty("uploads")
   private List<Upload> uploads = null;
 
-  @SerializedName("userid")
+  @JsonProperty("userid")
   private Integer userid = null;
 
   public Entity accessKey(String accessKey) {
@@ -292,10 +287,10 @@ public class Entity {
   }
 
    /**
-   * Get category
+   * Cannot be negative nor empty string. Can be reset with \&quot;0\&quot; and null.
    * @return category
   **/
-  @Schema(description = "")
+  @Schema(description = "Cannot be negative nor empty string. Can be reset with \"0\" and null.")
   public Integer getCategory() {
     return category;
   }
@@ -408,10 +403,10 @@ public class Entity {
   }
 
    /**
-   * Get customId
+   * Cannot be negative. Can be reset with \&quot;0\&quot;, null or empty string.
    * @return customId
   **/
-  @Schema(description = "")
+  @Schema(description = "Cannot be negative. Can be reset with \"0\", null or empty string.")
   public Integer getCustomId() {
     return customId;
   }
@@ -926,10 +921,10 @@ public class Entity {
   }
 
    /**
-   * Get status
+   * Cannot be negative nor empty string. Can be reset with \&quot;0\&quot; and null.
    * @return status
   **/
-  @Schema(description = "")
+  @Schema(description = "Cannot be negative nor empty string. Can be reset with \"0\" and null.")
   public Integer getStatus() {
     return status;
   }

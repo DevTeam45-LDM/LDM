@@ -14,47 +14,42 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.annotation.processing.Generated;
-import java.io.IOException;
 /**
  * ItemsType
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class ItemsType {
-  @SerializedName("id")
+  @JsonProperty("id")
   private Integer id = null;
 
-  @SerializedName("title")
+  @JsonProperty("title")
   private String title = null;
 
-  @SerializedName("status")
+  @JsonProperty("status")
   private Integer status = null;
 
-  @SerializedName("color")
+  @JsonProperty("color")
   private String color = null;
 
-  @SerializedName("body")
+  @JsonProperty("body")
   private String body = null;
 
-  @SerializedName("ordering")
+  @JsonProperty("ordering")
   private Integer ordering = null;
 
-  @SerializedName("canread")
+  @JsonProperty("canread")
   private String canread = null;
 
-  @SerializedName("canwrite")
+  @JsonProperty("canwrite")
   private String canwrite = null;
 
-  @SerializedName("metadata")
+  @JsonProperty("metadata")
   private String metadata = null;
 
   public ItemsType id(Integer id) {

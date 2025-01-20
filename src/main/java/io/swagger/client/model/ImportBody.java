@@ -14,38 +14,28 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.annotation.processing.Generated;
 import java.io.File;
-import java.io.IOException;
 /**
  * ImportBody
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class ImportBody {
-  @SerializedName("file")
+  @JsonProperty("file")
   private File file = null;
 
   /**
    * The target entity type
    */
-  @JsonAdapter(EntityTypeEnum.Adapter.class)
   public enum EntityTypeEnum {
-    @SerializedName("experiments")
     EXPERIMENTS("experiments"),
-    @SerializedName("items")
     ITEMS("items"),
-    @SerializedName("experiments_templates")
     EXPERIMENTS_TEMPLATES("experiments_templates"),
-    @SerializedName("items_types")
     ITEMS_TYPES("items_types");
 
     private String value;
@@ -53,6 +43,7 @@ public class ImportBody {
     EntityTypeEnum(String value) {
       this.value = value;
     }
+    @JsonValue
     public String getValue() {
       return value;
     }
@@ -61,6 +52,7 @@ public class ImportBody {
     public String toString() {
       return String.valueOf(value);
     }
+    @JsonCreator
     public static EntityTypeEnum fromValue(String input) {
       for (EntityTypeEnum b : EntityTypeEnum.values()) {
         if (b.value.equals(input)) {
@@ -69,28 +61,17 @@ public class ImportBody {
       }
       return null;
     }
-    public static class Adapter extends TypeAdapter<EntityTypeEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final EntityTypeEnum enumeration) throws IOException {
-        jsonWriter.value(String.valueOf(enumeration.getValue()));
-      }
 
-      @Override
-      public EntityTypeEnum read(final JsonReader jsonReader) throws IOException {
-        Object value = jsonReader.nextString();
-        return EntityTypeEnum.fromValue((String)(value));
-      }
-    }
-  }  @SerializedName("entity_type")
+  }  @JsonProperty("entity_type")
   private EntityTypeEnum entityType = null;
 
-  @SerializedName("category")
+  @JsonProperty("category")
   private Integer category = null;
 
-  @SerializedName("canread")
+  @JsonProperty("canread")
   private String canread = null;
 
-  @SerializedName("canwrite")
+  @JsonProperty("canwrite")
   private String canwrite = null;
 
   public ImportBody file(File file) {

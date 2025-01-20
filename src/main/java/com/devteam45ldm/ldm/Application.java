@@ -23,9 +23,11 @@ import org.springframework.context.annotation.Bean;
 public class Application implements AppShellConfigurator {
 
     public static void main(String[] args) {
-        java.lang.System.setProperty("https.protocols", "TLSv1.3");
-        System.setProperty("javax.net.debug", "ssl:handshake");
+        //System.setProperty("https.protocols", "TLSv1.3");
+        System.setProperty("jdk.tls.client.protocols", "TLSv1.3");
+        System.setProperty("javax.net.debug", "ssl:handshake:verbose");
+        System.setProperty("javax.net.ssl.trustStore", "/opt/java/openjdk/lib/security/cacerts");
+        System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
         SpringApplication.run(Application.class, args);
     }
-
 }

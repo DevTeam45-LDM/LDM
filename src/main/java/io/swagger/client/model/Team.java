@@ -14,78 +14,70 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.annotation.processing.Generated;
-import java.io.IOException;
 /**
  * Team
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class Team implements TeamsIdBody {
-  @SerializedName("id")
+  @JsonProperty("id")
   private Integer id = null;
 
-  @SerializedName("name")
+  @JsonProperty("name")
   private String name = null;
 
-  @SerializedName("common_template")
+  @JsonProperty("common_template")
   private String commonTemplate = null;
 
-  @SerializedName("common_template_md")
+  @JsonProperty("common_template_md")
   private String commonTemplateMd = null;
 
-  @SerializedName("user_create_tag")
+  @JsonProperty("user_create_tag")
   private Integer userCreateTag = null;
 
-  @SerializedName("force_exp_tpl")
+  @JsonProperty("force_exp_tpl")
   private Integer forceExpTpl = null;
 
-  @SerializedName("link_name")
+  @JsonProperty("link_name")
   private String linkName = null;
 
-  @SerializedName("link_href")
+  @JsonProperty("link_href")
   private String linkHref = null;
 
-  @SerializedName("created_at")
+  @JsonProperty("created_at")
   private String createdAt = null;
 
-  @SerializedName("orgid")
+  @JsonProperty("orgid")
   private String orgid = null;
 
-  @SerializedName("force_canread")
+  @JsonProperty("force_canread")
   private String forceCanread = null;
 
-  @SerializedName("force_canwrite")
+  @JsonProperty("force_canwrite")
   private String forceCanwrite = null;
 
-  @SerializedName("do_force_canread")
+  @JsonProperty("do_force_canread")
   private Integer doForceCanread = null;
 
-  @SerializedName("do_force_canwrite")
+  @JsonProperty("do_force_canwrite")
   private Integer doForceCanwrite = null;
 
-  @SerializedName("visible")
+  @JsonProperty("visible")
   private Integer visible = null;
 
-  @SerializedName("announcement")
+  @JsonProperty("announcement")
   private String announcement = null;
 
   /**
    * Do we send onboarding emails to new users?
    */
-  @JsonAdapter(OnboardingEmailActiveEnum.Adapter.class)
   public enum OnboardingEmailActiveEnum {
-    @SerializedName("0")
     NUMBER_0(0),
-    @SerializedName("1")
     NUMBER_1(1);
 
     private Integer value;
@@ -93,6 +85,7 @@ public class Team implements TeamsIdBody {
     OnboardingEmailActiveEnum(Integer value) {
       this.value = value;
     }
+    @JsonValue
     public Integer getValue() {
       return value;
     }
@@ -101,6 +94,7 @@ public class Team implements TeamsIdBody {
     public String toString() {
       return String.valueOf(value);
     }
+    @JsonCreator
     public static OnboardingEmailActiveEnum fromValue(Integer input) {
       for (OnboardingEmailActiveEnum b : OnboardingEmailActiveEnum.values()) {
         if (b.value.equals(input)) {
@@ -109,25 +103,14 @@ public class Team implements TeamsIdBody {
       }
       return null;
     }
-    public static class Adapter extends TypeAdapter<OnboardingEmailActiveEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final OnboardingEmailActiveEnum enumeration) throws IOException {
-        jsonWriter.value(String.valueOf(enumeration.getValue()));
-      }
 
-      @Override
-      public OnboardingEmailActiveEnum read(final JsonReader jsonReader) throws IOException {
-        Object value = jsonReader.nextInt();
-        return OnboardingEmailActiveEnum.fromValue((Integer)(value));
-      }
-    }
-  }  @SerializedName("onboarding_email_active")
+  }  @JsonProperty("onboarding_email_active")
   private OnboardingEmailActiveEnum onboardingEmailActive = null;
 
-  @SerializedName("onboarding_email_body")
+  @JsonProperty("onboarding_email_body")
   private String onboardingEmailBody = null;
 
-  @SerializedName("onboarding_email_subject")
+  @JsonProperty("onboarding_email_subject")
   private String onboardingEmailSubject = null;
 
   public Team id(Integer id) {

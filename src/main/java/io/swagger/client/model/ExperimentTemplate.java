@@ -14,96 +14,91 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.client.model.ExclusiveEditMode;
 import io.swagger.client.model.Upload;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.annotation.processing.Generated;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 /**
  * ExperimentTemplate
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class ExperimentTemplate implements ExperimentsTemplatesIdBody1 {
-  @SerializedName("id")
+  @JsonProperty("id")
   private Integer id = null;
 
-  @SerializedName("title")
+  @JsonProperty("title")
   private String title = null;
 
-  @SerializedName("body")
+  @JsonProperty("body")
   private String body = null;
 
-  @SerializedName("category")
+  @JsonProperty("category")
   private Integer category = null;
 
-  @SerializedName("category_title")
+  @JsonProperty("category_title")
   private String categoryTitle = null;
 
-  @SerializedName("category_color")
+  @JsonProperty("category_color")
   private String categoryColor = null;
 
-  @SerializedName("exclusive_edit_mode")
+  @JsonProperty("exclusive_edit_mode")
   private ExclusiveEditMode exclusiveEditMode = null;
 
-  @SerializedName("userid")
+  @JsonProperty("userid")
   private Integer userid = null;
 
-  @SerializedName("canread")
+  @JsonProperty("canread")
   private String canread = null;
 
-  @SerializedName("canwrite")
+  @JsonProperty("canwrite")
   private String canwrite = null;
 
-  @SerializedName("locked")
+  @JsonProperty("locked")
   private Integer locked = null;
 
-  @SerializedName("lockedby")
+  @JsonProperty("lockedby")
   private Integer lockedby = null;
 
-  @SerializedName("locked_at")
+  @JsonProperty("locked_at")
   private String lockedAt = null;
 
-  @SerializedName("fullname")
+  @JsonProperty("fullname")
   private String fullname = null;
 
-  @SerializedName("metadata")
+  @JsonProperty("metadata")
   private String metadata = null;
 
-  @SerializedName("teams_id")
+  @JsonProperty("teams_id")
   private Integer teamsId = null;
 
-  @SerializedName("is_pinned")
+  @JsonProperty("is_pinned")
   private Integer isPinned = null;
 
-  @SerializedName("sharelink")
+  @JsonProperty("sharelink")
   private String sharelink = null;
 
-  @SerializedName("status")
+  @JsonProperty("status")
   private Integer status = null;
 
-  @SerializedName("status_title")
+  @JsonProperty("status_title")
   private String statusTitle = null;
 
-  @SerializedName("status_color")
+  @JsonProperty("status_color")
   private String statusColor = null;
 
-  @SerializedName("tags")
+  @JsonProperty("tags")
   private String tags = null;
 
-  @SerializedName("tags_id")
+  @JsonProperty("tags_id")
   private String tagsId = null;
 
-  @SerializedName("uploads")
+  @JsonProperty("uploads")
   private List<Upload> uploads = null;
 
   public ExperimentTemplate id(Integer id) {

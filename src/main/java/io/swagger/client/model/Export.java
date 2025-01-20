@@ -14,77 +14,72 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.annotation.processing.Generated;
-import java.io.IOException;
 /**
  * Export
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class Export {
-  @SerializedName("id")
+  @JsonProperty("id")
   private Integer id = null;
 
-  @SerializedName("created_at")
+  @JsonProperty("created_at")
   private String createdAt = null;
 
-  @SerializedName("requester_userid")
+  @JsonProperty("requester_userid")
   private Integer requesterUserid = null;
 
-  @SerializedName("state")
+  @JsonProperty("state")
   private Integer state = null;
 
-  @SerializedName("long_name")
+  @JsonProperty("long_name")
   private String longName = null;
 
-  @SerializedName("filesize")
+  @JsonProperty("filesize")
   private Integer filesize = null;
 
-  @SerializedName("modified_at")
+  @JsonProperty("modified_at")
   private String modifiedAt = null;
 
-  @SerializedName("real_name")
+  @JsonProperty("real_name")
   private String realName = null;
 
-  @SerializedName("team")
+  @JsonProperty("team")
   private Integer team = null;
 
-  @SerializedName("changelog")
+  @JsonProperty("changelog")
   private Integer changelog = null;
 
-  @SerializedName("pdfa")
+  @JsonProperty("pdfa")
   private Integer pdfa = null;
 
-  @SerializedName("json")
+  @JsonProperty("json")
   private Integer json = null;
 
-  @SerializedName("hash")
+  @JsonProperty("hash")
   private String hash = null;
 
-  @SerializedName("hash_algo")
+  @JsonProperty("hash_algo")
   private String hashAlgo = null;
 
-  @SerializedName("experiments")
+  @JsonProperty("experiments")
   private Integer experiments = null;
 
-  @SerializedName("items")
+  @JsonProperty("items")
   private Integer items = null;
 
-  @SerializedName("experiments_templates")
+  @JsonProperty("experiments_templates")
   private Integer experimentsTemplates = null;
 
-  @SerializedName("items_types")
+  @JsonProperty("items_types")
   private Integer itemsTypes = null;
 
-  @SerializedName("format")
+  @JsonProperty("format")
   private String format = null;
 
   public Export id(Integer id) {

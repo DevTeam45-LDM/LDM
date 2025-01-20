@@ -14,59 +14,54 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.annotation.processing.Generated;
-import java.io.IOException;
 /**
  * InlineResponse2006
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class InlineResponse2006 {
-  @SerializedName("userid")
+  @JsonProperty("userid")
   private Integer userid = null;
 
-  @SerializedName("firstname")
+  @JsonProperty("firstname")
   private String firstname = null;
 
-  @SerializedName("lastname")
+  @JsonProperty("lastname")
   private String lastname = null;
 
-  @SerializedName("orgid")
+  @JsonProperty("orgid")
   private String orgid = null;
 
-  @SerializedName("email")
+  @JsonProperty("email")
   private String email = null;
 
-  @SerializedName("validated")
+  @JsonProperty("validated")
   private Integer validated = null;
 
-  @SerializedName("archived")
+  @JsonProperty("archived")
   private Integer archived = null;
 
-  @SerializedName("last_login")
+  @JsonProperty("last_login")
   private String lastLogin = null;
 
-  @SerializedName("valid_until")
+  @JsonProperty("valid_until")
   private String validUntil = null;
 
-  @SerializedName("is_sysadmin")
+  @JsonProperty("is_sysadmin")
   private Integer isSysadmin = null;
 
-  @SerializedName("fullname")
+  @JsonProperty("fullname")
   private String fullname = null;
 
-  @SerializedName("orcid")
+  @JsonProperty("orcid")
   private String orcid = null;
 
-  @SerializedName("auth_service")
+  @JsonProperty("auth_service")
   private Integer authService = null;
 
   public InlineResponse2006 userid(Integer userid) {

@@ -14,56 +14,51 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.annotation.processing.Generated;
-import java.io.IOException;
 /**
  * Event
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class Event {
-  @SerializedName("title")
+  @JsonProperty("title")
   private String title = null;
 
-  @SerializedName("id")
+  @JsonProperty("id")
   private Integer id = null;
 
-  @SerializedName("start")
+  @JsonProperty("start")
   private String start = null;
 
-  @SerializedName("end")
+  @JsonProperty("end")
   private String end = null;
 
-  @SerializedName("userid")
+  @JsonProperty("userid")
   private Integer userid = null;
 
-  @SerializedName("item_title")
+  @JsonProperty("item_title")
   private String itemTitle = null;
 
-  @SerializedName("color")
+  @JsonProperty("color")
   private String color = null;
 
-  @SerializedName("fullname")
+  @JsonProperty("fullname")
   private String fullname = null;
 
-  @SerializedName("item_link")
+  @JsonProperty("item_link")
   private Integer itemLink = null;
 
-  @SerializedName("item_link_title")
+  @JsonProperty("item_link_title")
   private String itemLinkTitle = null;
 
-  @SerializedName("experiment")
+  @JsonProperty("experiment")
   private Integer experiment = null;
 
-  @SerializedName("experiment_title")
+  @JsonProperty("experiment_title")
   private String experimentTitle = null;
 
   public Event title(String title) {

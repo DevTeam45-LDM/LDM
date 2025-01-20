@@ -20,14 +20,12 @@ import io.swagger.client.model.ExclusiveEditMode;
 import io.swagger.client.model.Link;
 import io.swagger.client.model.Step;
 import io.swagger.client.model.Upload;
-
-import javax.annotation.processing.Generated;
 import java.util.List;
 /**
  * Experiment
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class Experiment extends Entity implements ExperimentsIdBody1 {
 

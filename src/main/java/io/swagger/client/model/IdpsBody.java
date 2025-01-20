@@ -14,59 +14,54 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.annotation.processing.Generated;
-import java.io.IOException;
 /**
  * IdpsBody
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class IdpsBody {
-  @SerializedName("name")
+  @JsonProperty("name")
   private String name = null;
 
-  @SerializedName("entityid")
+  @JsonProperty("entityid")
   private String entityid = null;
 
-  @SerializedName("sso_url")
+  @JsonProperty("sso_url")
   private String ssoUrl = null;
 
-  @SerializedName("sso_binding")
+  @JsonProperty("sso_binding")
   private String ssoBinding = null;
 
-  @SerializedName("slo_url")
+  @JsonProperty("slo_url")
   private String sloUrl = null;
 
-  @SerializedName("slo_binding")
+  @JsonProperty("slo_binding")
   private String sloBinding = null;
 
-  @SerializedName("x509")
+  @JsonProperty("x509")
   private String x509 = null;
 
-  @SerializedName("x509_new")
+  @JsonProperty("x509_new")
   private String x509New = null;
 
-  @SerializedName("email_attr")
+  @JsonProperty("email_attr")
   private String emailAttr = null;
 
-  @SerializedName("team_attr")
+  @JsonProperty("team_attr")
   private String teamAttr = null;
 
-  @SerializedName("fname_attr")
+  @JsonProperty("fname_attr")
   private String fnameAttr = null;
 
-  @SerializedName("lname_attr")
+  @JsonProperty("lname_attr")
   private String lnameAttr = null;
 
-  @SerializedName("orgid_attr")
+  @JsonProperty("orgid_attr")
   private String orgidAttr = null;
 
   public IdpsBody name(String name) {

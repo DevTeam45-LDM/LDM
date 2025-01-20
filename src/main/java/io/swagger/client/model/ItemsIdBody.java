@@ -14,29 +14,24 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.annotation.processing.Generated;
-import java.io.IOException;
 /**
  * ItemsIdBody
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class ItemsIdBody {
-  @SerializedName("action")
+  @JsonProperty("action")
   private String action = "duplicate";
 
-  @SerializedName("copyFiles")
+  @JsonProperty("copyFiles")
   private Boolean copyFiles = false;
 
-  @SerializedName("linkToOriginal")
+  @JsonProperty("linkToOriginal")
   private Boolean linkToOriginal = true;
 
   public ItemsIdBody action(String action) {

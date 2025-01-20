@@ -14,65 +14,60 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.annotation.processing.Generated;
-import java.io.IOException;
 /**
  * Upload
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class Upload {
-  @SerializedName("id")
+  @JsonProperty("id")
   private Integer id = null;
 
-  @SerializedName("real_name")
+  @JsonProperty("real_name")
   private String realName = null;
 
-  @SerializedName("long_name")
+  @JsonProperty("long_name")
   private String longName = null;
 
-  @SerializedName("comment")
+  @JsonProperty("comment")
   private String comment = null;
 
-  @SerializedName("item_id")
+  @JsonProperty("item_id")
   private Integer itemId = null;
 
-  @SerializedName("userid")
+  @JsonProperty("userid")
   private String userid = null;
 
-  @SerializedName("type")
+  @JsonProperty("type")
   private String type = null;
 
-  @SerializedName("created_at")
+  @JsonProperty("created_at")
   private String createdAt = null;
 
-  @SerializedName("hash")
+  @JsonProperty("hash")
   private String hash = null;
 
-  @SerializedName("hash_algorithm")
+  @JsonProperty("hash_algorithm")
   private String hashAlgorithm = null;
 
-  @SerializedName("storage")
+  @JsonProperty("storage")
   private Integer storage = null;
 
-  @SerializedName("filesize")
+  @JsonProperty("filesize")
   private Integer filesize = null;
 
-  @SerializedName("state")
+  @JsonProperty("state")
   private Integer state = null;
 
-  @SerializedName("immutable")
+  @JsonProperty("immutable")
   private Integer immutable = null;
 
-  @SerializedName("fullname")
+  @JsonProperty("fullname")
   private String fullname = null;
 
   public Upload id(Integer id) {

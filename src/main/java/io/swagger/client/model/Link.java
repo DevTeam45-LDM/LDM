@@ -14,53 +14,48 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.annotation.processing.Generated;
-import java.io.IOException;
 /**
  * Link
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class Link {
-  @SerializedName("entityid")
+  @JsonProperty("entityid")
   private Integer entityid = null;
 
-  @SerializedName("title")
+  @JsonProperty("title")
   private String title = null;
 
-  @SerializedName("is_bookable")
+  @JsonProperty("is_bookable")
   private Integer isBookable = null;
 
-  @SerializedName("link_state")
+  @JsonProperty("link_state")
   private Integer linkState = null;
 
-  @SerializedName("category_color")
+  @JsonProperty("category_color")
   private String categoryColor = null;
 
-  @SerializedName("category_title")
+  @JsonProperty("category_title")
   private String categoryTitle = null;
 
-  @SerializedName("status_color")
+  @JsonProperty("status_color")
   private String statusColor = null;
 
-  @SerializedName("status_title")
+  @JsonProperty("status_title")
   private String statusTitle = null;
 
-  @SerializedName("custom_id")
+  @JsonProperty("custom_id")
   private Integer customId = null;
 
-  @SerializedName("page")
+  @JsonProperty("page")
   private String page = null;
 
-  @SerializedName("type")
+  @JsonProperty("type")
   private String type = null;
 
   public Link entityid(Integer entityid) {

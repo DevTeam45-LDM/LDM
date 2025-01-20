@@ -14,52 +14,46 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.io.IOException;
 import org.threeten.bp.OffsetDateTime;
-
-import javax.annotation.processing.Generated;
-
 /**
  * InlineResponse2007
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class InlineResponse2007 {
-  @SerializedName("id")
+  @JsonProperty("id")
   private Integer id = null;
 
-  @SerializedName("real_name")
+  @JsonProperty("real_name")
   private String realName = null;
 
-  @SerializedName("long_name")
+  @JsonProperty("long_name")
   private String longName = null;
 
-  @SerializedName("created_at")
+  @JsonProperty("created_at")
   private OffsetDateTime createdAt = null;
 
-  @SerializedName("filesize")
+  @JsonProperty("filesize")
   private Integer filesize = null;
 
-  @SerializedName("type")
+  @JsonProperty("type")
   private String type = null;
 
-  @SerializedName("comment")
+  @JsonProperty("comment")
   private String comment = null;
 
-  @SerializedName("entity_id")
+  @JsonProperty("entity_id")
   private Integer entityId = null;
 
-  @SerializedName("entity_title")
+  @JsonProperty("entity_title")
   private String entityTitle = null;
 
-  @SerializedName("page")
+  @JsonProperty("page")
   private String page = null;
 
   public InlineResponse2007 id(Integer id) {

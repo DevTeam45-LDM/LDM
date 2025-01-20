@@ -12,9 +12,18 @@
 
 package io.swagger.client.model;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 /**
 * ExperimentsIdBody1
 */
+@JsonTypeInfo(
+  use = JsonTypeInfo.Id.NAME,
+  include = JsonTypeInfo.As.PROPERTY,
+  property = "")
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = Experiment.class, name = "experiment")
+})
 public interface ExperimentsIdBody1 {
 
 }

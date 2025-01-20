@@ -14,53 +14,48 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.annotation.processing.Generated;
-import java.io.IOException;
 /**
  * InlineResponse200
  */
 
-@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-11-15T12:02:45.960786319Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class InlineResponse200 {
-  @SerializedName("elabftw_version")
+  @JsonProperty("elabftw_version")
   private String elabftwVersion = null;
 
-  @SerializedName("elabftw_version_int")
+  @JsonProperty("elabftw_version_int")
   private Integer elabftwVersionInt = null;
 
-  @SerializedName("ts_balance")
+  @JsonProperty("ts_balance")
   private Integer tsBalance = null;
 
-  @SerializedName("all_users_count")
+  @JsonProperty("all_users_count")
   private Integer allUsersCount = null;
 
-  @SerializedName("active_users_count")
+  @JsonProperty("active_users_count")
   private Integer activeUsersCount = null;
 
-  @SerializedName("items_count")
+  @JsonProperty("items_count")
   private Integer itemsCount = null;
 
-  @SerializedName("teams_count")
+  @JsonProperty("teams_count")
   private Integer teamsCount = null;
 
-  @SerializedName("experiments_count")
+  @JsonProperty("experiments_count")
   private Integer experimentsCount = null;
 
-  @SerializedName("experiments_timestamped_count")
+  @JsonProperty("experiments_timestamped_count")
   private Integer experimentsTimestampedCount = null;
 
-  @SerializedName("uploads_filesize_sum")
+  @JsonProperty("uploads_filesize_sum")
   private Integer uploadsFilesizeSum = null;
 
-  @SerializedName("uploads_filesize_sum_formatted")
+  @JsonProperty("uploads_filesize_sum_formatted")
   private String uploadsFilesizeSumFormatted = null;
 
   public InlineResponse200 elabftwVersion(String elabftwVersion) {
