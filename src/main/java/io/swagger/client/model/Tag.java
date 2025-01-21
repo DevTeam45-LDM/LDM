@@ -73,6 +73,15 @@ public class Tag {
     this.tag = tag;
   }
 
+    public Tag itemCount(Integer itemCount) {
+        this.itemCount = itemCount;
+        return this;
+    }
+
+     /**
+     * Get itemCount
+     * @return itemCount
+    **/
   @Schema(description = "")
   public Integer getItemCount() {
     return itemCount;
@@ -82,6 +91,15 @@ public class Tag {
     this.itemCount = itemCount;
   }
 
+  public Tag isFavorite(Integer isFavorite) {
+    this.isFavorite = isFavorite;
+    return this;
+  }
+
+   /**
+   * Get isFavorite
+   * @return isFavorite
+  **/
   @Schema(description = "")
   public Integer getIsFavorite() {
     return isFavorite;
