@@ -1,6 +1,5 @@
 package com.devteam45ldm.ldm.views.elabapitest;
 
-import com.squareup.okhttp.TlsVersion;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
@@ -14,16 +13,13 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
 import com.devteam45ldm.ldm.controller.HTTPController;
-import org.apache.hc.core5.http.ssl.TLS;
+import io.swagger.client.*;
+import io.swagger.client.api.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
 import org.springframework.http.ResponseEntity;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManagerFactory;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.security.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @PageTitle("eLab API Test")
@@ -37,7 +33,7 @@ public class eLabApiTest extends Div {
     private PasswordField apiKeyField;
     private Button readTagsButton;
     private Div jsonResponseDiv;
-    //private Grid<Tag> responseGrid;
+    private Grid<Tag> responseGrid;
 
     public eLabApiTest() {
         // Erste Zeile: URL und Test-Button
@@ -74,11 +70,11 @@ public class eLabApiTest extends Div {
         jsonResponseDiv.setWidthFull();
 
         // Grid for displaying tags
-        //responseGrid = new Grid<>(Tag.class);
-        //responseGrid.setSizeFull();
-        //responseGrid.setColumns("id"); // Update with actual fields of Tag
+        responseGrid = new Grid<Object>(InlineResponse2003);
+        responseGrid.setSizeFull();
+        responseGrid.setColumns("id", "tag"); // Update with actual fields of Tag
 
-        VerticalLayout mainLayout = new VerticalLayout(firstRow, secondRow, jsonResponseDiv/*, responseGrid*/);
+        VerticalLayout mainLayout = new VerticalLayout(firstRow, secondRow, jsonResponseDiv, responseGrid);
         mainLayout.setSizeFull();
         add(mainLayout);
     }
@@ -115,81 +111,36 @@ public class eLabApiTest extends Div {
             return;
         }
 
-//        try {
-//            List<Tag> apiResponse = callExternalApi(apiKey, url);
-//            responseGrid.setItems(apiResponse);
-//        } catch (Exception e) {
-//            Notification.show("Error: " + e.getMessage());
-//        }
+        try {
+            InlineResponse2003 apiResponse = callExternalApi(apiKey, url);
+            responseGrid.setItems(apiResponse);
+        } catch (Exception e) {
+            Notification.show("Error: " + e.getMessage());
+        }
     }
 
-//    private List<Tag> callExternalApi(String apiKey, String url) throws ApiException {
-//        if (!url.startsWith("http://") && !url.startsWith("https://")) {
-//            url = "https://" + url;
-//        }
-//        if (!url.endsWith("/api/v2")) {
-//            url = url.endsWith("/") ? url + "api/v2" : url + "/api/v2";
-//        }
-//
-//
-//        // Set up the API client
-//        ApiClient client = Configuration.getDefaultApiClient();
-//        client.setVerifyingSsl(false);
-//        String certFilePath = "/usr/share/ca-certificates/local/crtsh_15634656612.crt";
-//        try (InputStream certInputStream = new FileInputStream(certFilePath)) {
-//            client.setSslCaCert(certInputStream);
-//        } catch (IOException e) {
-//            throw new ApiException(e);
-//        }
-//        client.setBasePath(url);
-//        client.setApiKey(apiKey);
-//        client.setDebugging(true);
-//        ArrayList<com.squareup.okhttp.Protocol> protocols = new ArrayList<>(TlsVersion.TLS_1_2);
-//        client.getHttpClient().setProtocols(protocols);
-//
-////        // Use system-trusted certificates
-////        TrustManagerFactory tmf = null;
-////        SSLContext sslContext = null;
-////        try {
-////            tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-////            tmf.init((KeyStore) null);
-////            sslContext = SSLContext.getInstance("TLSv1.3");
-////            sslContext.init(null, tmf.getTrustManagers(), new java.security.SecureRandom());
-////        } catch (NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {
-////            Notification.show("Error: " + e.getMessage());
-////            throw new RuntimeException(e);
-////        }
-////
-////        client.getHttpClient().setSslSocketFactory(sslContext.getSocketFactory());
-//
-//        // Set up ApiKeyAuth for authentication
-//        //piKeyAuth token = (ApiKeyAuth) client.getAuthentication("token");
-//        //token.setApiKey(apiKey);
-//        //if (token == null) {
-//        //    throw new IllegalStateException("ApiKeyAuth not configured in the ApiClient");
-//        //}
-//
-//        TagsApi api = new TagsApi(client);
-//        SSLContext context = null;
-//        try {
-//            context = SSLContext.getDefault();
-//        } catch (NoSuchAlgorithmException e) {
-//            throw new RuntimeException(e);
-//        }
-//        for (String protocol : context.getSupportedSSLParameters().getProtocols()) {
-//            Notification.show(protocol);
-//        }
-//
-//        return api.readTags("teams", 5);
-//    }
-//
-////    public static void configureApiClient(ApiClient client) throws Exception {
-////        TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-////        tmf.init((KeyStore) null);
-////
-////        SSLContext sslContext = SSLContext.getInstance("TLSv1.3");
-////        sslContext.init(null, tmf.getTrustManagers(), new SecureRandom());
-////
-////        client.getHttpClient().setSslSocketFactory(sslContext.getSocketFactory());
-////    }
+    private InlineResponse2003 callExternalApi(String apiKey, String url) {
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            url = "https://" + url;
+        }
+        if (!url.endsWith("/api/v2")) {
+            url = url.endsWith("/") ? url + "api/v2" : url + "/api/v2";
+        }
+
+        // Set up the API client
+        ApiClient client = new ApiClient();
+        ConfigApi api = new ConfigApi(client);
+        client.setBasePath(url);
+
+        // Configure API key authorization: token
+        ApiKeyAuth token = (ApiKeyAuth) client.getAuthentication("token");
+        token.setApiKey(apiKey);
+
+        // Create an instance of the TeamTagsApi
+        TeamTagsApi apiInstance = new TeamTagsApi(client);
+
+        // Get the tags for the team with id=5
+        return apiInstance.readTeamTags(5);
+    }
+
 }
