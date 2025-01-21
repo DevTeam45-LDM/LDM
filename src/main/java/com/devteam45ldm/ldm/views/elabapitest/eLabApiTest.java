@@ -1,8 +1,8 @@
 package com.devteam45ldm.ldm.views.elabapitest;
 
+import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -12,7 +12,9 @@ import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
+
 import com.devteam45ldm.ldm.controller.HTTPController;
+
 import io.swagger.client.*;
 import io.swagger.client.api.*;
 import io.swagger.client.auth.*;
@@ -20,15 +22,18 @@ import io.swagger.client.model.*;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * The eLabApiTest class represents a Vaadin view for testing the eLab API.
+ * It allows users to enter a URL and API key, test the URL, and read tags from the API.
+ */
 @PageTitle("eLab API Test")
 @Route("elab-api-test")
 @Menu(order = 10, icon = "line-awesome/svg/globe-solid.svg")
 @UIScope
-public class eLabApiTest extends Div {
+public class eLabApiTest extends Composite<VerticalLayout> {
 
     private final TextField urlField;
     private final Button testButton;
@@ -37,6 +42,10 @@ public class eLabApiTest extends Div {
     private final Grid<Tag> responseGrid;
 
 
+    /**
+     * Constructs the eLabApiTest view.
+     * Initializes the UI components and layout.
+     */
     public eLabApiTest() {
         // Erste Zeile: URL und Test-Button
         urlField = new TextField("URL");
@@ -66,15 +75,21 @@ public class eLabApiTest extends Div {
 
         // Grid for displaying tags
         responseGrid = new Grid<>(Tag.class);
-        responseGrid.setHeightFull();
-        responseGrid.setColumns("id", "tag", "itemCount", "isFavorite"); // Update with actual fields of Tag
-        responseGrid.setItems(List.of(new Tag().id(1).tag("Sample Tag").itemCount(10).isFavorite(1)));
+        responseGrid.setColumns("id", "tag", "itemCount", "isFavorite");
+        responseGrid.setWidth("100%");
+        responseGrid.getStyle().set("flex-grow", "0");
 
-        VerticalLayout mainLayout = new VerticalLayout(firstRow, secondRow, responseGrid);
-        mainLayout.setSizeFull();
-        add(mainLayout);
+        getContent().setWidth("100%");
+        getContent().getStyle().set("flex-grow", "1");
+        getContent().add(firstRow, secondRow, responseGrid);
     }
 
+    /**
+     * Tests the URL entered by the user.
+     * Checks if the URL is reachable and shows a notification with the result.
+     *
+     * @throws IOException if an I/O error occurs
+     */
     private void testUrl() throws IOException {
         String url = urlField.getValue();
         if (url == null || url.isEmpty()) {
@@ -95,6 +110,10 @@ public class eLabApiTest extends Div {
         }
     }
 
+    /**
+     * Reads tags from the API using the provided API key and URL.
+     * Sets the retrieved tags to the grid.
+     */
     private void readTags() {
         String apiKey = apiKeyField.getValue();
         String url = urlField.getValue();
@@ -115,6 +134,13 @@ public class eLabApiTest extends Div {
         }
     }
 
+    /**
+     * Calls the external API to retrieve tags.
+     *
+     * @param apiKey the API key
+     * @param url the URL
+     * @return a list of tags
+     */
     private List<Tag> callExternalApi(String apiKey, String url) {
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "https://" + url;

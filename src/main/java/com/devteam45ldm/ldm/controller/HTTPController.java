@@ -23,8 +23,8 @@ public class HTTPController {
 
     @GetMapping("/http/url")
     public ResponseEntity<String> checkURL(@RequestParam String url) throws IOException {
-        String httpUrl = url.startsWith("http://") ? url : "http://" + url;
         String httpsUrl = url.startsWith("https://") ? url : "https://" + url;
+        String httpUrl = url.startsWith("http://") ? url : "http://" + url;
 
         if (url.startsWith("http://") || url.startsWith("https://")) {
             return checkUrlHeaders(url);
