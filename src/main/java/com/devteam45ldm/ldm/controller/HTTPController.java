@@ -21,7 +21,7 @@ public class HTTPController {
 
     private final OkHttpClient client = getUnsafeOkHttpClient();
 
-    @GetMapping("/https/url")
+    @GetMapping("/http/url")
     public ResponseEntity<String> checkURL(@RequestParam String url) throws IOException {
         String httpsUrl = url.startsWith("https://") ? url : "https://" + url;
         String httpUrl = url.startsWith("http://") ? url : "http://" + url;
@@ -30,7 +30,7 @@ public class HTTPController {
             return checkUrlHeaders(url);
         } else {
             ResponseEntity<String> httpsResponse = checkUrlHeaders(httpsUrl);
-            if (httpsResponse.getStatusCode().is2xxSuccessful() || httpsResponse.getStatusCode().is3xxRedirection()) {
+            if (httpsResponse.getStatusCode().is2xxSuccessful() || httpsResponse.getStatusCode().is3xxRedirection() || httpsResponse.getStatusCode().value() == 401) {
                 return httpsResponse;
             } else {
                 return checkUrlHeaders(httpUrl);
