@@ -21,7 +21,7 @@ public class HTTPController {
 
     private final OkHttpClient client = getUnsafeOkHttpClient();
 
-    @GetMapping("/http/url")
+    @GetMapping("/https/url")
     public ResponseEntity<String> checkURL(@RequestParam String url) throws IOException {
         String httpsUrl = url.startsWith("https://") ? url : "https://" + url;
         String httpUrl = url.startsWith("http://") ? url : "http://" + url;
