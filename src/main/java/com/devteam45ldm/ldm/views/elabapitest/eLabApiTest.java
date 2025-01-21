@@ -20,6 +20,7 @@ import io.swagger.client.model.*;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @PageTitle("eLab API Test")
@@ -33,7 +34,7 @@ public class eLabApiTest extends Div {
     private PasswordField apiKeyField;
     private Button readTagsButton;
     private Div jsonResponseDiv;
-    private Grid<Tag> responseGrid;
+
 
     public eLabApiTest() {
         // Erste Zeile: URL und Test-Button
@@ -70,11 +71,11 @@ public class eLabApiTest extends Div {
         jsonResponseDiv.setWidthFull();
 
         // Grid for displaying tags
-        responseGrid = new Grid<Object>(InlineResponse2003);
-        responseGrid.setSizeFull();
-        responseGrid.setColumns("id", "tag"); // Update with actual fields of Tag
+        //responseGrid = new Grid<>(Tag.class);
+        //responseGrid.setSizeFull();
+        //responseGrid.setColumns("id", "tag", "itemCount"); // Update with actual fields of Tag
 
-        VerticalLayout mainLayout = new VerticalLayout(firstRow, secondRow, jsonResponseDiv, responseGrid);
+        VerticalLayout mainLayout = new VerticalLayout(firstRow, secondRow, jsonResponseDiv);
         mainLayout.setSizeFull();
         add(mainLayout);
     }
@@ -113,10 +114,14 @@ public class eLabApiTest extends Div {
 
         try {
             InlineResponse2003 apiResponse = callExternalApi(apiKey, url);
-            responseGrid.setItems(apiResponse);
+            displayTags(apiResponse);
         } catch (Exception e) {
             Notification.show("Error: " + e.getMessage());
         }
+    }
+
+    private void displayTags(InlineResponse2003 apiResponse) {
+        jsonResponseDiv.setText(apiResponse.toString());
     }
 
     private InlineResponse2003 callExternalApi(String apiKey, String url) {

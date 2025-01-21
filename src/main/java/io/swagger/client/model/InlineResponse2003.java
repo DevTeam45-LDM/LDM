@@ -34,6 +34,9 @@ public class InlineResponse2003 {
   @JsonProperty("item_count")
   private Integer itemCount = null;
 
+  @JsonProperty("is_favorite")
+  private Integer isFavorite = null;
+
   public InlineResponse2003 tag(String tag) {
     this.tag = tag;
     return this;
@@ -88,6 +91,19 @@ public class InlineResponse2003 {
     this.itemCount = itemCount;
   }
 
+  /**
+   * Get isFavorite
+   * @return isFavorite
+   **/
+  @Schema(description = "")
+  public Integer getIsFavorite() {
+    return isFavorite;
+  }
+
+  public void setIsFavorite(Integer isFavorite) {
+    this.isFavorite = isFavorite;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -100,12 +116,13 @@ public class InlineResponse2003 {
     InlineResponse2003 inlineResponse2003 = (InlineResponse2003) o;
     return Objects.equals(this.tag, inlineResponse2003.tag) &&
         Objects.equals(this.id, inlineResponse2003.id) &&
-        Objects.equals(this.itemCount, inlineResponse2003.itemCount);
+        Objects.equals(this.itemCount, inlineResponse2003.itemCount) &&
+        Objects.equals(this.isFavorite, inlineResponse2003.isFavorite);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(tag, id, itemCount);
+    return Objects.hash(tag, id, itemCount, isFavorite);
   }
 
 
@@ -117,6 +134,7 @@ public class InlineResponse2003 {
     sb.append("    tag: ").append(toIndentedString(tag)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    itemCount: ").append(toIndentedString(itemCount)).append("\n");
+    sb.append("    is_favorite: ").append(toIndentedString(isFavorite)).append("\n");
     sb.append("}");
     return sb.toString();
   }
