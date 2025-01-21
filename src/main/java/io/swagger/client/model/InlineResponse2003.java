@@ -26,7 +26,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class InlineResponse2003 {
-  @JsonProperty("tags")
+  @JsonProperty("")
   private List<Tag> tags = null;
 
   public InlineResponse2003 tags(List<Tag> tags) {

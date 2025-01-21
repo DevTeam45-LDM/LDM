@@ -17,17 +17,21 @@ import io.swagger.client.*;
 import io.swagger.client.api.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @PageTitle("eLab API Test")
 @Route("elab-api-test")
 @Menu(order = 10, icon = "line-awesome/svg/globe-solid.svg")
 @UIScope
 public class eLabApiTest extends Div {
+    private static final Logger logger = LoggerFactory.getLogger(eLabApiTest.class);
 
     private TextField urlField;
     private Button testButton;
@@ -145,7 +149,8 @@ public class eLabApiTest extends Div {
         TeamTagsApi apiInstance = new TeamTagsApi(client);
 
         // Get the tags for the team with id=5
-        return apiInstance.readTeamTags(5);
+        InlineResponse2003 response2003 = apiInstance.readTeamTags(5);
+        logger.debug("API Response: {}", response2003.toString());
+        return response2003;
     }
-
 }
