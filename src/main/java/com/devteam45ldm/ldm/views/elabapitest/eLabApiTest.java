@@ -17,8 +17,6 @@ import io.swagger.client.*;
 import io.swagger.client.api.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
@@ -31,14 +29,13 @@ import java.util.List;
 @Menu(order = 10, icon = "line-awesome/svg/globe-solid.svg")
 @UIScope
 public class eLabApiTest extends Div {
-    private static final Logger logger = LoggerFactory.getLogger(eLabApiTest.class);
 
-    private TextField urlField;
-    private Button testButton;
-    private PasswordField apiKeyField;
-    private Button readTagsButton;
-    private Div jsonResponseDiv;
-    private Grid responseGrid;
+    private final TextField urlField;
+    private final Button testButton;
+    private final PasswordField apiKeyField;
+    private final Button readTagsButton;
+    private final Div jsonResponseDiv;
+    private final Grid<Tag> responseGrid;
 
 
     public eLabApiTest() {
@@ -78,7 +75,7 @@ public class eLabApiTest extends Div {
         // Grid for displaying tags
         responseGrid = new Grid<>(Tag.class);
         responseGrid.setSizeFull();
-        responseGrid.setColumns("id", "tag", "itemCount", "is_favorite"); // Update with actual fields of Tag
+        responseGrid.setColumns("id", "tag", "itemCount", "isFavorite"); // Update with actual fields of Tag
 
         VerticalLayout mainLayout = new VerticalLayout(firstRow, secondRow, jsonResponseDiv, responseGrid);
         mainLayout.setSizeFull();
@@ -119,6 +116,7 @@ public class eLabApiTest extends Div {
 
         try {
             List<Tag> apiResponse = callExternalApi(apiKey, url);
+            responseGrid.setItems(apiResponse);
         } catch (Exception e) {
             Notification.show("Error: " + e.getMessage());
         }
@@ -145,8 +143,6 @@ public class eLabApiTest extends Div {
         TeamTagsApi apiInstance = new TeamTagsApi(client);
 
         // Get the tags for the team with id=5
-        List<Tag> tags = apiInstance.readTeamTags(5);
-        logger.debug("API Response: {}", tags.toString());
-        return tags;
+        return apiInstance.readTeamTags(5);
     }
 }
