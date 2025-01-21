@@ -29,9 +29,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 @Component("io.swagger.client.api.TeamTagsApi")
 public class TeamTagsApi {
+    private static final Logger logger = LoggerFactory.getLogger(TeamTagsApi.class);
     private ApiClient apiClient;
 
     public TeamTagsApi() {
@@ -339,6 +343,7 @@ public class TeamTagsApi {
         Object postBody = null;
         // verify the required parameter 'id' is set
         if (id == null) {
+            logger.error("Missing the required parameter 'id' when calling readTeamTags");
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'id' when calling readTeamTags");
         }
         // create path and map variables
@@ -360,6 +365,11 @@ public class TeamTagsApi {
         String[] authNames = new String[] { "token" };
 
         ParameterizedTypeReference<InlineResponse2003> returnType = new ParameterizedTypeReference<InlineResponse2003>() {};
-        return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+        try {
+            return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+        } catch (RestClientException e) {
+            logger.error("Error occurred while calling readTeamTags API: {}", e.getMessage(), e);
+            throw e;
+        }
     }
 }
