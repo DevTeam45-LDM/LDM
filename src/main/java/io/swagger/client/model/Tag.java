@@ -26,10 +26,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 public class Tag {
   @JsonProperty("id")
-  private Integer id = null;
+  private Integer id;
 
   @JsonProperty("tag")
-  private String tag = null;
+  private String tag;
+
+  @JsonProperty("item_count")
+  private Integer itemCount;
+
+  @JsonProperty("is_favorite")
+  private Integer isFavorite;
 
   public Tag id(Integer id) {
     this.id = id;
@@ -67,9 +73,26 @@ public class Tag {
     this.tag = tag;
   }
 
+  @Schema(description = "")
+  public Integer getItemCount() {
+    return itemCount;
+  }
+
+  public void setItemCount(Integer itemCount) {
+    this.itemCount = itemCount;
+  }
+
+  @Schema(description = "")
+  public Integer getIsFavorite() {
+    return isFavorite;
+  }
+
+  public void setIsFavorite(Integer isFavorite) {
+    this.isFavorite = isFavorite;
+  }
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -78,12 +101,14 @@ public class Tag {
     }
     Tag tag = (Tag) o;
     return Objects.equals(this.id, tag.id) &&
-        Objects.equals(this.tag, tag.tag);
+            Objects.equals(this.tag, tag.tag) &&
+            Objects.equals(this.itemCount, tag.itemCount) &&
+            Objects.equals(this.isFavorite, tag.isFavorite);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, tag);
+    return Objects.hash(id, tag, itemCount, isFavorite);
   }
 
 
@@ -91,9 +116,10 @@ public class Tag {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Tag {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    tag: ").append(toIndentedString(tag)).append("\n");
+    sb.append("    itemCount: ").append(toIndentedString(itemCount)).append("\n");
+    sb.append("    isFavorite: ").append(toIndentedString(isFavorite)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -12,6 +12,7 @@
 
 package io.swagger.client.model;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,125 +26,50 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class InlineResponse2003 {
-  @JsonProperty("tag")
-  private String tag = null;
+  @JsonProperty("tags")
+  private List<Tag> tags = null;
 
-  @JsonProperty("id")
-  private Integer id = null;
-
-  @JsonProperty("item_count")
-  private Integer itemCount = null;
-
-  @JsonProperty("is_favorite")
-  private Integer isFavorite = null;
-
-  public InlineResponse2003 tag(String tag) {
-    this.tag = tag;
+  public InlineResponse2003 tags(List<Tag> tags) {
+    this.tags = tags;
     return this;
   }
 
-   /**
-   * Get tag
-   * @return tag
-  **/
   @Schema(description = "")
-  public String getTag() {
-    return tag;
+  public List<Tag> getTags() {
+    return tags;
   }
 
-  public void setTag(String tag) {
-    this.tag = tag;
+  public void setTags(List<Tag> tags) {
+    this.tags = tags;
   }
-
-  public InlineResponse2003 id(Integer id) {
-    this.id = id;
-    return this;
-  }
-
-   /**
-   * Get id
-   * @return id
-  **/
-  @Schema(description = "")
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public InlineResponse2003 itemCount(Integer itemCount) {
-    this.itemCount = itemCount;
-    return this;
-  }
-
-   /**
-   * Get itemCount
-   * @return itemCount
-  **/
-  @Schema(description = "")
-  public Integer getItemCount() {
-    return itemCount;
-  }
-
-  public void setItemCount(Integer itemCount) {
-    this.itemCount = itemCount;
-  }
-
-  /**
-   * Get isFavorite
-   * @return isFavorite
-   **/
-  @Schema(description = "")
-  public Integer getIsFavorite() {
-    return isFavorite;
-  }
-
-  public void setIsFavorite(Integer isFavorite) {
-    this.isFavorite = isFavorite;
-  }
-
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    InlineResponse2003 inlineResponse2003 = (InlineResponse2003) o;
-    return Objects.equals(this.tag, inlineResponse2003.tag) &&
-        Objects.equals(this.id, inlineResponse2003.id) &&
-        Objects.equals(this.itemCount, inlineResponse2003.itemCount) &&
-        Objects.equals(this.isFavorite, inlineResponse2003.isFavorite);
+    InlineResponse2003 that = (InlineResponse2003) o;
+    return Objects.equals(tags, that.tags);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(tag, id, itemCount, isFavorite);
+    return Objects.hash(tags);
   }
-
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class InlineResponse2003 {\n");
-    
-    sb.append("    tag: ").append(toIndentedString(tag)).append("\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    itemCount: ").append(toIndentedString(itemCount)).append("\n");
-    sb.append("    is_favorite: ").append(toIndentedString(isFavorite)).append("\n");
+    sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
     sb.append("}");
     return sb.toString();
   }
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
