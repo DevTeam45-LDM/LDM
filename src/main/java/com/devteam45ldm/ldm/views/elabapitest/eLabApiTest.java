@@ -34,7 +34,6 @@ public class eLabApiTest extends Div {
     private final Button testButton;
     private final PasswordField apiKeyField;
     private final Button readTagsButton;
-    private final Div jsonResponseDiv;
     private final Grid<Tag> responseGrid;
 
 
@@ -65,19 +64,13 @@ public class eLabApiTest extends Div {
         secondRow.setWidthFull();
         secondRow.setSpacing(true);
 
-        // Dritte Zeile: JSON-Antwort
-        jsonResponseDiv = new Div();
-        jsonResponseDiv.getStyle().set("white-space", "pre-wrap");
-        jsonResponseDiv.getStyle().set("overflow", "auto");
-        jsonResponseDiv.setHeight("300px");
-        jsonResponseDiv.setWidthFull();
-
         // Grid for displaying tags
         responseGrid = new Grid<>(Tag.class);
-        responseGrid.setSizeFull();
+        responseGrid.setHeightFull();
         responseGrid.setColumns("id", "tag", "itemCount", "isFavorite"); // Update with actual fields of Tag
+        responseGrid.setItems(List.of(new Tag().id(1).tag("Sample Tag").itemCount(10).isFavorite(1)));
 
-        VerticalLayout mainLayout = new VerticalLayout(firstRow, secondRow, jsonResponseDiv, responseGrid);
+        VerticalLayout mainLayout = new VerticalLayout(firstRow, secondRow, responseGrid);
         mainLayout.setSizeFull();
         add(mainLayout);
     }
