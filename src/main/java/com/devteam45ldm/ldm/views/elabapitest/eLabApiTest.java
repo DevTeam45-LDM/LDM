@@ -3,6 +3,7 @@ package com.devteam45ldm.ldm.views.elabapitest;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -36,7 +37,6 @@ import java.util.List;
 public class eLabApiTest extends Composite<VerticalLayout> {
 
     private final TextField urlField;
-    private final Button testButton;
     private final PasswordField apiKeyField;
     private final Button readTagsButton;
     private final Grid<Tag> responseGrid;
@@ -49,17 +49,24 @@ public class eLabApiTest extends Composite<VerticalLayout> {
     public eLabApiTest() {
         // Erste Zeile: URL und Test-Button
         urlField = new TextField("URL");
-        testButton = new Button("Test");
 
-        testButton.addClickListener(event -> {
+        // Create the MenuBar
+        MenuBar menuBar = new MenuBar();
+        menuBar.setWidth("min-content");
+
+        // Add menu items
+        menuBar.addItem("Verbindungstest", event -> {
             try {
                 testUrl();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                Notification.show("Error: " + e.getMessage());
             }
         });
 
-        HorizontalLayout firstRow = new HorizontalLayout(urlField, testButton);
+        menuBar.addItem("Tags lesen", event -> readTags());
+        menuBar.addItem("Experimente lesen", event -> readExperiments());
+
+        HorizontalLayout firstRow = new HorizontalLayout(urlField);
         firstRow.setWidthFull();
         firstRow.setSpacing(true);
 
@@ -69,7 +76,7 @@ public class eLabApiTest extends Composite<VerticalLayout> {
 
         readTagsButton.addClickListener(event -> readTags());
 
-        HorizontalLayout secondRow = new HorizontalLayout(apiKeyField, readTagsButton);
+        HorizontalLayout secondRow = new HorizontalLayout(apiKeyField);
         secondRow.setWidthFull();
         secondRow.setSpacing(true);
 
@@ -81,7 +88,10 @@ public class eLabApiTest extends Composite<VerticalLayout> {
 
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
-        getContent().add(firstRow, secondRow, responseGrid);
+        getContent().add(firstRow, secondRow, menuBar, responseGrid);
+    }
+
+    private void readExperiments() {
     }
 
     /**
