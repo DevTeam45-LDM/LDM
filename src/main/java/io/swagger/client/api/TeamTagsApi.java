@@ -327,7 +327,7 @@ public class TeamTagsApi {
      * @return InlineResponse2003
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public InlineResponse2003 readTeamTags(Integer id) throws RestClientException {
+    public List<Tag> readTeamTags(Integer id) throws RestClientException {
         return readTeamTagsWithHttpInfo(id).getBody();
     }
 
@@ -339,7 +339,7 @@ public class TeamTagsApi {
      * @return ResponseEntity&lt;InlineResponse2003&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<InlineResponse2003> readTeamTagsWithHttpInfo(Integer id) throws RestClientException {
+    public ResponseEntity<List<Tag>> readTeamTagsWithHttpInfo(Integer id) throws RestClientException {
         Object postBody = null;
         // verify the required parameter 'id' is set
         if (id == null) {
@@ -364,7 +364,7 @@ public class TeamTagsApi {
 
         String[] authNames = new String[] { "token" };
 
-        ParameterizedTypeReference<InlineResponse2003> returnType = new ParameterizedTypeReference<InlineResponse2003>() {};
+        ParameterizedTypeReference<List<Tag>> returnType = new ParameterizedTypeReference<List<Tag>>() {};
         try {
             return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
         } catch (RestClientException e) {

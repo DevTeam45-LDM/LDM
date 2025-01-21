@@ -38,6 +38,7 @@ public class eLabApiTest extends Div {
     private PasswordField apiKeyField;
     private Button readTagsButton;
     private Div jsonResponseDiv;
+    private Grid responseGrid;
 
 
     public eLabApiTest() {
@@ -75,11 +76,11 @@ public class eLabApiTest extends Div {
         jsonResponseDiv.setWidthFull();
 
         // Grid for displaying tags
-        //responseGrid = new Grid<>(Tag.class);
-        //responseGrid.setSizeFull();
-        //responseGrid.setColumns("id", "tag", "itemCount"); // Update with actual fields of Tag
+        responseGrid = new Grid<>(Tag.class);
+        responseGrid.setSizeFull();
+        responseGrid.setColumns("id", "tag", "itemCount", "is_favorite"); // Update with actual fields of Tag
 
-        VerticalLayout mainLayout = new VerticalLayout(firstRow, secondRow, jsonResponseDiv);
+        VerticalLayout mainLayout = new VerticalLayout(firstRow, secondRow, jsonResponseDiv, responseGrid);
         mainLayout.setSizeFull();
         add(mainLayout);
     }
@@ -117,18 +118,13 @@ public class eLabApiTest extends Div {
         }
 
         try {
-            InlineResponse2003 apiResponse = callExternalApi(apiKey, url);
-            displayTags(apiResponse);
+            List<Tag> apiResponse = callExternalApi(apiKey, url);
         } catch (Exception e) {
             Notification.show("Error: " + e.getMessage());
         }
     }
 
-    private void displayTags(InlineResponse2003 apiResponse) {
-        jsonResponseDiv.setText(apiResponse.toString());
-    }
-
-    private InlineResponse2003 callExternalApi(String apiKey, String url) {
+    private List<Tag> callExternalApi(String apiKey, String url) {
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "https://" + url;
         }
@@ -149,8 +145,8 @@ public class eLabApiTest extends Div {
         TeamTagsApi apiInstance = new TeamTagsApi(client);
 
         // Get the tags for the team with id=5
-        InlineResponse2003 response2003 = apiInstance.readTeamTags(5);
-        logger.debug("API Response: {}", response2003.toString());
-        return response2003;
+        List<Tag> tags = apiInstance.readTeamTags(5);
+        logger.debug("API Response: {}", tags.toString());
+        return tags;
     }
 }
