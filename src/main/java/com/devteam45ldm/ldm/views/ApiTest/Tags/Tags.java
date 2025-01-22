@@ -302,7 +302,7 @@ public class Tags extends Composite<VerticalLayout> {
         if (result) {
             Notification.show("Änderungen erfolgreich gespeichert.");
         } else {
-            Notification.show("Keine Berechtigung Tags zu Bearbeiten: eLab Admin kontaktieren.");
+            Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
         }
 
         resetEditComponents();
