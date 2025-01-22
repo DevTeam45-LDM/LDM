@@ -33,7 +33,7 @@ import java.util.List;
  */
 @PageTitle("Tags")
 @Route("api-test/tags")
-@Menu(order = 10, icon = "line-awesome/svg/globe-solid.svg")
+// @Menu(order = 10, icon = "line-awesome/svg/globe-solid.svg")
 @UIScope
 public class Tags extends Composite<VerticalLayout> {
 

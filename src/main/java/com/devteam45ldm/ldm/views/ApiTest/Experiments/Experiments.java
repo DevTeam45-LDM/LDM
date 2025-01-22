@@ -33,7 +33,7 @@ import java.util.List;
  */
 @PageTitle("Experiments")
 @Route("api-test/experiments")
-@Menu(order = 10, icon = "line-awesome/svg/globe-solid.svg")
+// @Menu(order = 10, icon = "line-awesome/svg/globe-solid.svg")
 @UIScope
 public class Experiments extends Composite<VerticalLayout> {
 
