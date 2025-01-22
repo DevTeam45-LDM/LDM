@@ -167,7 +167,7 @@ public class Tags extends Composite<VerticalLayout> {
         }
 
         try {
-            List<Tag> apiResponse = callApi(apiKey, url);
+            List<Tag> apiResponse = callApiGet(apiKey, url);
             responseGrid.setItems(apiResponse);
         } catch (Exception e) {
             Notification.show("Error: " + e.getMessage());
@@ -181,7 +181,7 @@ public class Tags extends Composite<VerticalLayout> {
      * @param url the URL
      * @return a list of tags
      */
-    private List<Tag> callApi(String apiKey, String url) {
+    private List<Tag> callApiGet(String apiKey, String url) {
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "https://" + url;
         }
@@ -205,8 +205,34 @@ public class Tags extends Composite<VerticalLayout> {
         return apiInstance.readTeamTags(5);
     }
 
+    private boolean callApiPost(String apiKey, String url, String tag) {
+        return false;
+    }
+
+    private void createTag(){
+        boolean result = callApiPost(apiKeyField.getValue(), urlField.getValue(), editField.getValue());
+        if (result) {
+            Notification.show("Tag created successfully.");
+        } else {
+            Notification.show("Error creating tag.");
+        }
+
+        resetEditComponents();
+        readTags();
+    }
+
+    private boolean callApiPost(String apiKey, String url, String tag, Integer id) {
+        return false;
+    }
+
     private void saveTag() {
-        //TODO Implement save logic here
+        boolean result = callApiPost(apiKeyField.getValue(), urlField.getValue(), editField.getValue(), selectedTag.getId());
+        if (result) {
+            Notification.show("Changes saved successfully.");
+        } else {
+            Notification.show("Error saving changes.");
+        }
+
         resetEditComponents();
         readTags();
     }
