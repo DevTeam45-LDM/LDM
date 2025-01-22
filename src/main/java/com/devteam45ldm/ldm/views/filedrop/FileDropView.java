@@ -168,7 +168,7 @@ public class FileDropView extends VerticalLayout {
                         case 2:
                             barFields.get(i).setValue(contentLength + "");
                             break;
-                        case 3: barFields.get(i).setValue("붕신tR");
+                        case 3: barFields.get(i).setValue("empty parameter");
                             break;
                         default:
                             break;
