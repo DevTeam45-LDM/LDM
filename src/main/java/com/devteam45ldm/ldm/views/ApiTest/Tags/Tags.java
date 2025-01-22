@@ -32,7 +32,7 @@ import java.util.List;
  * It allows users to enter a URL and API key, test the URL, and read tags from the API.
  */
 @PageTitle("Tags")
-@Route("api-test/tags")
+//@Route("api-test/tags")
 // @Menu(order = 10, icon = "line-awesome/svg/globe-solid.svg")
 @UIScope
 public class Tags extends Composite<VerticalLayout> {
