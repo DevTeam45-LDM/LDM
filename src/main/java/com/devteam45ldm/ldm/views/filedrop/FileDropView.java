@@ -25,10 +25,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 //additional imports for display of certain parameters
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import java.util.List;
-import java.util.ArrayList;
 
 
 /**
