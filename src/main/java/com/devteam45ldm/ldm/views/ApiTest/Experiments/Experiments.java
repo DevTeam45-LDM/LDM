@@ -1,7 +1,8 @@
-package com.devteam45ldm.ldm.views.elabapitest;
+package com.devteam45ldm.ldm.views.ApiTest.Experiments;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.notification.Notification;
@@ -30,25 +31,34 @@ import java.util.List;
  * The eLabApiTest class represents a Vaadin view for testing the eLab API.
  * It allows users to enter a URL and API key, test the URL, and read tags from the API.
  */
-@PageTitle("eLab API Test")
-@Route("elab-api-test")
+@PageTitle("Experiments")
+@Route("api-test/experiments")
 @Menu(order = 10, icon = "line-awesome/svg/globe-solid.svg")
 @UIScope
-public class eLabApiTest extends Composite<VerticalLayout> {
+public class Experiments extends Composite<VerticalLayout> {
 
     private final TextField urlField;
     private final PasswordField apiKeyField;
-    private final Button readTagsButton;
-    private final Grid<Tag> responseGrid;
-
 
     /**
      * Constructs the eLabApiTest view.
      * Initializes the UI components and layout.
      */
-    public eLabApiTest() {
+    public Experiments() {
         // Erste Zeile: URL und Test-Button
         urlField = new TextField("URL");
+
+        HorizontalLayout firstRow = new HorizontalLayout(urlField);
+        firstRow.setWidthFull();
+        firstRow.setSpacing(true);
+
+        // Zweite Zeile: API-Key und Read Tags Button
+        apiKeyField = new PasswordField("API Key");
+
+        HorizontalLayout secondRow = new HorizontalLayout(apiKeyField);
+        secondRow.setWidthFull();
+        secondRow.setSpacing(true);
+        secondRow.getStyle().set("margin-bottom", "20px");
 
         // Create the MenuBar
         MenuBar menuBar = new MenuBar();
@@ -63,35 +73,17 @@ public class eLabApiTest extends Composite<VerticalLayout> {
             }
         });
 
-        menuBar.addItem("Tags lesen", event -> readTags());
         menuBar.addItem("Experimente lesen", event -> readExperiments());
+        menuBar.getStyle().set("margin-bottom", "50px");
 
-        HorizontalLayout firstRow = new HorizontalLayout(urlField);
-        firstRow.setWidthFull();
-        firstRow.setSpacing(true);
-
-        // Zweite Zeile: API-Key und Read Tags Button
-        apiKeyField = new PasswordField("API Key");
-        readTagsButton = new Button("Read Tags");
-
-        readTagsButton.addClickListener(event -> readTags());
-
-        HorizontalLayout secondRow = new HorizontalLayout(apiKeyField);
-        secondRow.setWidthFull();
-        secondRow.setSpacing(true);
-
-        // Grid for displaying tags
-        responseGrid = new Grid<>(Tag.class);
-        responseGrid.setColumns("id", "tag", "itemCount", "isFavorite");
-        responseGrid.setWidth("100%");
-        responseGrid.getStyle().set("flex-grow", "0");
+        // Initialize ComboBox for experiments
+        ComboBox<String> experimentsComboBox = new ComboBox<>("Experimente");
+        experimentsComboBox.setWidthFull();
+        experimentsComboBox.getStyle().set("margin-bottom", "50px");
 
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
-        getContent().add(firstRow, secondRow, menuBar, responseGrid);
-    }
-
-    private void readExperiments() {
+        getContent().add(firstRow, secondRow, menuBar, experimentsComboBox);
     }
 
     /**
@@ -120,11 +112,8 @@ public class eLabApiTest extends Composite<VerticalLayout> {
         }
     }
 
-    /**
-     * Reads tags from the API using the provided API key and URL.
-     * Sets the retrieved tags to the grid.
-     */
-    private void readTags() {
+
+    private void readExperiments() {
         String apiKey = apiKeyField.getValue();
         String url = urlField.getValue();
         if (apiKey == null || apiKey.isEmpty()) {
@@ -137,21 +126,16 @@ public class eLabApiTest extends Composite<VerticalLayout> {
         }
 
         try {
-            List<Tag> apiResponse = callExternalApi(apiKey, url);
-            responseGrid.setItems(apiResponse);
+            List<Experiment> experiments = callExperimentsApi(apiKey, url);
+            // Assuming you have a grid or other UI component to display experiments
+            // responseGrid.setItems(experiments);
+            Notification.show("Experiments fetched successfully.");
         } catch (Exception e) {
             Notification.show("Error: " + e.getMessage());
         }
     }
 
-    /**
-     * Calls the external API to retrieve tags.
-     *
-     * @param apiKey the API key
-     * @param url the URL
-     * @return a list of tags
-     */
-    private List<Tag> callExternalApi(String apiKey, String url) {
+    private List<Experiment> callExperimentsApi(String apiKey, String url) {
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "https://" + url;
         }
@@ -161,17 +145,16 @@ public class eLabApiTest extends Composite<VerticalLayout> {
 
         // Set up the API client
         ApiClient client = new ApiClient();
-        ConfigApi api = new ConfigApi(client);
         client.setBasePath(url);
 
         // Configure API key authorization: token
         ApiKeyAuth token = (ApiKeyAuth) client.getAuthentication("token");
         token.setApiKey(apiKey);
 
-        // Create an instance of the TeamTagsApi
-        TeamTagsApi apiInstance = new TeamTagsApi(client);
+        // Create an instance of the ExperimentsApi
+        ExperimentsApi apiInstance = new ExperimentsApi(client);
 
-        // Get the tags for the team with id=5
-        return apiInstance.readTeamTags(5);
+        // Fetch experiments
+        return apiInstance.readExperiments(null, null, null, null, null, null, 1000, 0, null, null, null, null);
     }
 }

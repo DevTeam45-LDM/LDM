@@ -23,8 +23,11 @@ import 'Frontend/generated/jar-resources/ReactRouterOutletElement.tsx';
 
 const loadOnDemand = (key) => {
   const pending = [];
-  if (key === 'e4c23988ac5efae0989c9b6bed5e900b6a6bb41243ae804321feecc5622bb510') {
-    pending.push(import('./chunks/chunk-ba102e3560cf5482e1fc5ac26c0c43de78ac5b71f784d72b8fd7cf45f3605bbb.js'));
+  if (key === 'f0c86b88dcec296de8712f4d50abd5343dc78b2b3be9a77723085c99c94a5817') {
+    pending.push(import('./chunks/chunk-954dac77ec6b4da8254eff9a95444ebd25c43c29cdae1c2d3f701a5795993674.js'));
+  }
+  if (key === '9aba34741490f94a214b0b48ff5396bbdefe4d215425148446a2d83eb69af7be') {
+    pending.push(import('./chunks/chunk-954dac77ec6b4da8254eff9a95444ebd25c43c29cdae1c2d3f701a5795993674.js'));
   }
   return Promise.all(pending);
 }
