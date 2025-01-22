@@ -5,3 +5,4 @@
 #2475254782 # GEANT OV RSA CA 4
 #1199354 # USERTrust RSA Certification Authority
 15634656612 # sfb270eln.physik.uni-due.de
+/mitmproxy-ca-cert.cer

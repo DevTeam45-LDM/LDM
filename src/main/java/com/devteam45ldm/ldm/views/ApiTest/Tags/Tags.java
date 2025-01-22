@@ -18,6 +18,7 @@ import io.swagger.client.api.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
 import org.springframework.data.mongodb.core.aggregation.BooleanOperators;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 
@@ -141,6 +142,7 @@ public class Tags extends Composite<VerticalLayout> {
      * Sets the retrieved tags to the grid.
      */
     private void readTags() {
+        Notification.show(HttpMethod.values().toString());
         String apiKey = apiKeyField.getValue();
         String url = urlField.getValue();
 
@@ -180,7 +182,7 @@ public class Tags extends Composite<VerticalLayout> {
     private void loadModifier() {
         if(selectedTag != null) {
             editMenuBar.removeAll();
-            editMenuBar.addItem("Speichern", event -> saveTag());
+            editMenuBar.addItem("Speichern", event -> saveChanges());
             editMenuBar.addItem("Abbrechen", event -> cancelTag());
             editField.setVisible(true);
             editMenuBar.setVisible(true);
@@ -214,8 +216,8 @@ public class Tags extends Composite<VerticalLayout> {
 
         // Set up the API client
         ApiClient client = new ApiClient();
-        ConfigApi api = new ConfigApi(client);
         client.setBasePath(url);
+        client.setDebugging(true);
 
         // Configure API key authorization: token
         ApiKeyAuth token = (ApiKeyAuth) client.getAuthentication("token");
@@ -274,33 +276,40 @@ public class Tags extends Composite<VerticalLayout> {
         readTags();
     }
 
-    private boolean callApiPost(String tag, Integer id) {
+    private boolean callApiPatch(String tag, Integer id) {
         // Create an instance of the TeamTagsApi
         TeamTagsApi apiInstance = getClient();
 
         // Update a tag for the team with id=5
         try {
-            apiInstance.patchTeamTag(5, selectedTag.getId(), new TagsSubidBody().tag(tag));
+            apiInstance.patchTeamTag(5, selectedTag.getId(), new TagsSubidBody().tag(tag).action(TagsSubidBody.ActionEnum.UPDATETAG));
             return true;
         } catch (RestClientException e) {
-            Notification.show("Error: " + e.getMessage());
+            Notification.show("Error: " + e.getMessage()); //DEBUG
             return false;
         }
     }
 
-    private void saveTag() {
-        boolean result = callApiPost(editField.getValue(), selectedTag.getId());
+    /**
+     Der Fehler wird ursprünglich von HttpComponentsClientHttpRequestFactory geworfen und in der Methode createResourceAccessException von RestTemplate aufgefangen.
+     Dort wird der Fehler in eine RessourceAccessException umgewandelt und aufgrund der fehlenden Fehlerbehandlung propagiert.
+     Die Methode patchTeamTagWithHttpInfo von TeamTagsApi macht dann daraus eine RestClientException.
+     Daher, wie auch der mitmproxy zeigt, wird keine PATCH-Anfrage an den Server gesendet.
+     */
+
+    private void saveChanges() {
+        boolean result = callApiPatch(editField.getValue(), selectedTag.getId());
         if (result) {
             Notification.show("Änderungen erfolgreich gespeichert.");
         } else {
-            Notification.show("Fehler beim Speichern der Änderungen.");
+            Notification.show("Keine Berechtigung Tags zu Bearbeiten: eLab Admin kontaktieren.");
         }
 
         resetEditComponents();
         readTags();
     }
 
-    private boolean callApiPost(Integer id) {
+    private boolean callApiDelete(Integer id) {
         // Create an instance of the TeamTagsApi
         TeamTagsApi apiInstance = getClient();
 
@@ -309,13 +318,13 @@ public class Tags extends Composite<VerticalLayout> {
             apiInstance.deleteTeamTag(5, id);
             return true;
         } catch (RestClientException e) {
-            //Notification.show("Error: " + e.getMessage()); //DEBUG
+            Notification.show("Error: " + e.getMessage()); //DEBUG
             return false;
         }
     }
 
     private void deleteTag() {
-        boolean result = callApiPost(selectedTag.getId());
+        boolean result = callApiDelete(selectedTag.getId());
         if (result) {
             Notification.show("Tag erfolgreich gelöscht.");
         } else {
