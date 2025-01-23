@@ -65,3 +65,22 @@ Using docker compose, you can build and run the project using the following comm
 mvn clean package -Pproduction
 docker compose up -d --build
 ```
+
+## Debug
+### HTTP and HTTPS traffic
+You can run a man-in-the-middle proxy for debugging purposes:
+1. customize entrypoint in dockerfile
+```
+ENTRYPOINT ["/bin/bash", "-c", "/usr/local/bin/install_trust_certs.sh && java -Dhttp.proxyHost=host.docker.internal -Dhttp.proxyPort=8088 -Dhttps.proxyHost=host.docker.internal -Dhttps.proxyPort=8088 -jar /app.jar"]
+```
+2. start mitmproxy
+```
+docker run --rm -it -d -p 8088:8088 -p 127.0.0.1:8081:8081 mitmproxy/mitmproxy mitmweb --web-host 0.0.0.0
+```
+4. copy the certificate from the Docker container ```/home/mitmproxy/.mitmproxy/mitmproxy-ca-cert.cer``` to the project folder ldm ```config/core/mitmproxy-ca-cert.cer```.
+5. command 
+```
+mvn clean package -Pproduction
+docker compose up -d --build
+```
+
