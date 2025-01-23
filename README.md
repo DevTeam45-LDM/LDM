@@ -83,4 +83,7 @@ docker run --rm -it -d -p 8088:8088 -p 127.0.0.1:8081:8081 mitmproxy/mitmproxy m
 mvn clean package -Pproduction
 docker compose up -d --build
 ```
-- proxy is accessible under http://localhost:8081
+6. configure proxy
+   - is accessible under http://localhost:8081
+   - <img width="512" alt="Bildschirmfoto 2025-01-23 um 16 12 38" src="https://github.com/user-attachments/assets/ee292ca2-02eb-4860-b158-765ed97c0fb5" />
+
