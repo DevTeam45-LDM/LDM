@@ -17,8 +17,6 @@ import io.swagger.client.*;
 import io.swagger.client.api.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import org.springframework.data.mongodb.core.aggregation.BooleanOperators;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 
@@ -42,7 +40,7 @@ public class Tags extends Composite<VerticalLayout> {
     private final TextField editField = new TextField();
     private final MenuBar editMenuBar = new MenuBar();
     private TeamTagsApi apiClient;
-    private MenuBar tagsMenuBar;
+    private final MenuBar tagsMenuBar;
     private Tag selectedTag;
 
 
@@ -89,9 +87,7 @@ public class Tags extends Composite<VerticalLayout> {
         responseGrid.getStyle().set("margin-bottom", "20px");
         responseGrid.setVisible(false);
 
-        responseGrid.addSelectionListener(event -> {
-            selectedTag = event.getFirstSelectedItem().orElse(null);
-        });
+        responseGrid.addSelectionListener(event -> selectedTag = event.getFirstSelectedItem().orElse(null));
 
         editField.setVisible(false);
         editMenuBar.setVisible(false);
@@ -133,7 +129,7 @@ public class Tags extends Composite<VerticalLayout> {
         if (checkURL.getStatusCode().is2xxSuccessful() || checkURL.getStatusCode().is3xxRedirection() || checkURL.getStatusCode().value() == 401) {
             Notification.show("API ist erreichtbar.");
         } else {
-            Notification.show("API ist nicht erreichbar: " + checkURL.toString());
+            Notification.show("API ist nicht erreichbar: " + checkURL);
         }
     }
 
@@ -281,7 +277,7 @@ public class Tags extends Composite<VerticalLayout> {
 
         // Update a tag for the team with id=5
         try {
-            apiInstance.patchTeamTag(5, selectedTag.getId(), new TagsSubidBody().tag(tag).action(TagsSubidBody.ActionEnum.UPDATETAG));
+            apiInstance.patchTeamTag(5, id, new TagsSubidBody().tag(tag).action(TagsSubidBody.ActionEnum.UPDATETAG));
             return true;
         } catch (RestClientException e) {
             Notification.show("Error: " + e.getMessage()); //DEBUG
