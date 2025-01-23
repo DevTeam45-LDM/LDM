@@ -47,8 +47,8 @@ public class ExperimentTemplate implements ExperimentsTemplatesIdBody1 {
   @JsonProperty("category_color")
   private String categoryColor = null;
 
-  @JsonProperty("exclusive_edit_mode")
-  private ExclusiveEditMode exclusiveEditMode = null;
+  //@JsonProperty("exclusive_edit_mode") //TODO not in response
+  //private ExclusiveEditMode exclusiveEditMode = null;
 
   @JsonProperty("userid")
   private Integer userid = null;
@@ -74,14 +74,14 @@ public class ExperimentTemplate implements ExperimentsTemplatesIdBody1 {
   @JsonProperty("metadata")
   private String metadata = null;
 
-  @JsonProperty("teams_id")
+  @JsonProperty("team") //teams_id
   private Integer teamsId = null;
 
   @JsonProperty("is_pinned")
   private Integer isPinned = null;
 
-  @JsonProperty("sharelink")
-  private String sharelink = null;
+  //@JsonProperty("sharelink") //TODO not in response
+  //private String sharelink = null;
 
   @JsonProperty("status")
   private Integer status = null;
@@ -98,8 +98,51 @@ public class ExperimentTemplate implements ExperimentsTemplatesIdBody1 {
   @JsonProperty("tags_id")
   private String tagsId = null;
 
-  @JsonProperty("uploads")
-  private List<Upload> uploads = null;
+  //@JsonProperty("uploads") //TODO not in response
+  //private List<Upload> uploads = null;
+
+  //added aftwerwards
+  @JsonProperty("created_at")
+  private String createdAt = null;
+
+  @JsonProperty("modified_at")
+  private String modifiedAt = null;
+
+  @JsonProperty("ordering")
+  private String ordering = null;
+
+  @JsonProperty("canread_target")
+  private String canReadTarget = null;
+
+  @JsonProperty("canwrite_target")
+  private String canWriteTarget = null;
+
+  @JsonProperty("content_type")
+  private Integer contentType = null;
+
+  @JsonProperty("state")
+  private Integer state = null;
+
+  @JsonProperty("next_step")
+  private String nextStep = null;
+
+  @JsonProperty("firstname")
+  private String firstname = null;
+
+  @JsonProperty("lastname")
+  private String lastname = null;
+
+  @JsonProperty("orcid")
+  private String orcId = null;
+
+  @JsonProperty("team_name")
+  private String teamName = null;
+
+  @JsonProperty("up_item_id")
+  private String upItemId = null;
+
+  @JsonProperty("has_attachment")
+  private String hasAttachment = null;
 
   public ExperimentTemplate id(Integer id) {
     this.id = id;
@@ -209,23 +252,23 @@ public class ExperimentTemplate implements ExperimentsTemplatesIdBody1 {
     this.categoryColor = categoryColor;
   }
 
-  public ExperimentTemplate exclusiveEditMode(ExclusiveEditMode exclusiveEditMode) {
-    this.exclusiveEditMode = exclusiveEditMode;
-    return this;
-  }
-
-   /**
-   * Get exclusiveEditMode
-   * @return exclusiveEditMode
-  **/
-  @Schema(description = "")
-  public ExclusiveEditMode getExclusiveEditMode() {
-    return exclusiveEditMode;
-  }
-
-  public void setExclusiveEditMode(ExclusiveEditMode exclusiveEditMode) {
-    this.exclusiveEditMode = exclusiveEditMode;
-  }
+//  public ExperimentTemplate exclusiveEditMode(ExclusiveEditMode exclusiveEditMode) {
+//    this.exclusiveEditMode = exclusiveEditMode;
+//    return this;
+//  }
+//
+//   /**
+//   * Get exclusiveEditMode
+//   * @return exclusiveEditMode
+//  **/
+//  @Schema(description = "")
+//  public ExclusiveEditMode getExclusiveEditMode() {
+//    return exclusiveEditMode;
+//  }
+//
+//  public void setExclusiveEditMode(ExclusiveEditMode exclusiveEditMode) {
+//    this.exclusiveEditMode = exclusiveEditMode;
+//  }
 
   public ExperimentTemplate userid(Integer userid) {
     this.userid = userid;
@@ -407,23 +450,23 @@ public class ExperimentTemplate implements ExperimentsTemplatesIdBody1 {
     this.isPinned = isPinned;
   }
 
-  public ExperimentTemplate sharelink(String sharelink) {
-    this.sharelink = sharelink;
-    return this;
-  }
-
-   /**
-   * Get sharelink
-   * @return sharelink
-  **/
-  @Schema(description = "")
-  public String getSharelink() {
-    return sharelink;
-  }
-
-  public void setSharelink(String sharelink) {
-    this.sharelink = sharelink;
-  }
+//  public ExperimentTemplate sharelink(String sharelink) {
+//    this.sharelink = sharelink;
+//    return this;
+//  }
+//
+//   /**
+//   * Get sharelink
+//   * @return sharelink
+//  **/
+//  @Schema(description = "")
+//  public String getSharelink() {
+//    return sharelink;
+//  }
+//
+//  public void setSharelink(String sharelink) {
+//    this.sharelink = sharelink;
+//  }
 
   public ExperimentTemplate status(Integer status) {
     this.status = status;
@@ -515,31 +558,31 @@ public class ExperimentTemplate implements ExperimentsTemplatesIdBody1 {
     this.tagsId = tagsId;
   }
 
-  public ExperimentTemplate uploads(List<Upload> uploads) {
-    this.uploads = uploads;
-    return this;
-  }
-
-  public ExperimentTemplate addUploadsItem(Upload uploadsItem) {
-    if (this.uploads == null) {
-      this.uploads = new ArrayList<Upload>();
-    }
-    this.uploads.add(uploadsItem);
-    return this;
-  }
-
-   /**
-   * Get uploads
-   * @return uploads
-  **/
-  @Schema(description = "")
-  public List<Upload> getUploads() {
-    return uploads;
-  }
-
-  public void setUploads(List<Upload> uploads) {
-    this.uploads = uploads;
-  }
+//  public ExperimentTemplate uploads(List<Upload> uploads) {
+//    this.uploads = uploads;
+//    return this;
+//  }
+//
+//  public ExperimentTemplate addUploadsItem(Upload uploadsItem) {
+//    if (this.uploads == null) {
+//      this.uploads = new ArrayList<Upload>();
+//    }
+//    this.uploads.add(uploadsItem);
+//    return this;
+//  }
+//
+//   /**
+//   * Get uploads
+//   * @return uploads
+//  **/
+//  @Schema(description = "")
+//  public List<Upload> getUploads() {
+//    return uploads;
+//  }
+//
+//  public void setUploads(List<Upload> uploads) {
+//    this.uploads = uploads;
+//  }
 
 
   @Override
@@ -552,34 +595,49 @@ public class ExperimentTemplate implements ExperimentsTemplatesIdBody1 {
     }
     ExperimentTemplate experimentTemplate = (ExperimentTemplate) o;
     return Objects.equals(this.id, experimentTemplate.id) &&
-        Objects.equals(this.title, experimentTemplate.title) &&
-        Objects.equals(this.body, experimentTemplate.body) &&
-        Objects.equals(this.category, experimentTemplate.category) &&
-        Objects.equals(this.categoryTitle, experimentTemplate.categoryTitle) &&
-        Objects.equals(this.categoryColor, experimentTemplate.categoryColor) &&
-        Objects.equals(this.exclusiveEditMode, experimentTemplate.exclusiveEditMode) &&
-        Objects.equals(this.userid, experimentTemplate.userid) &&
-        Objects.equals(this.canread, experimentTemplate.canread) &&
-        Objects.equals(this.canwrite, experimentTemplate.canwrite) &&
-        Objects.equals(this.locked, experimentTemplate.locked) &&
-        Objects.equals(this.lockedby, experimentTemplate.lockedby) &&
-        Objects.equals(this.lockedAt, experimentTemplate.lockedAt) &&
-        Objects.equals(this.fullname, experimentTemplate.fullname) &&
-        Objects.equals(this.metadata, experimentTemplate.metadata) &&
-        Objects.equals(this.teamsId, experimentTemplate.teamsId) &&
-        Objects.equals(this.isPinned, experimentTemplate.isPinned) &&
-        Objects.equals(this.sharelink, experimentTemplate.sharelink) &&
-        Objects.equals(this.status, experimentTemplate.status) &&
-        Objects.equals(this.statusTitle, experimentTemplate.statusTitle) &&
-        Objects.equals(this.statusColor, experimentTemplate.statusColor) &&
-        Objects.equals(this.tags, experimentTemplate.tags) &&
-        Objects.equals(this.tagsId, experimentTemplate.tagsId) &&
-        Objects.equals(this.uploads, experimentTemplate.uploads);
+            Objects.equals(this.title, experimentTemplate.title) &&
+            Objects.equals(this.body, experimentTemplate.body) &&
+            Objects.equals(this.category, experimentTemplate.category) &&
+            Objects.equals(this.categoryTitle, experimentTemplate.categoryTitle) &&
+            Objects.equals(this.categoryColor, experimentTemplate.categoryColor) &&
+            //Objects.equals(this.exclusiveEditMode, experimentTemplate.exclusiveEditMode) &&
+            Objects.equals(this.userid, experimentTemplate.userid) &&
+            Objects.equals(this.canread, experimentTemplate.canread) &&
+            Objects.equals(this.canwrite, experimentTemplate.canwrite) &&
+            Objects.equals(this.locked, experimentTemplate.locked) &&
+            Objects.equals(this.lockedby, experimentTemplate.lockedby) &&
+            Objects.equals(this.lockedAt, experimentTemplate.lockedAt) &&
+            Objects.equals(this.fullname, experimentTemplate.fullname) &&
+            Objects.equals(this.metadata, experimentTemplate.metadata) &&
+            Objects.equals(this.teamsId, experimentTemplate.teamsId) &&
+            Objects.equals(this.isPinned, experimentTemplate.isPinned) &&
+            //Objects.equals(this.sharelink, experimentTemplate.sharelink) &&
+            Objects.equals(this.status, experimentTemplate.status) &&
+            Objects.equals(this.statusTitle, experimentTemplate.statusTitle) &&
+            Objects.equals(this.statusColor, experimentTemplate.statusColor) &&
+            Objects.equals(this.tags, experimentTemplate.tags) &&
+            Objects.equals(this.tagsId, experimentTemplate.tagsId) &&
+            //Objects.equals(this.uploads, experimentTemplate.uploads) &&
+            Objects.equals(this.createdAt, experimentTemplate.createdAt) &&
+            Objects.equals(this.modifiedAt, experimentTemplate.modifiedAt) &&
+            Objects.equals(this.ordering, experimentTemplate.ordering) &&
+            Objects.equals(this.canReadTarget, experimentTemplate.canReadTarget) &&
+            Objects.equals(this.canWriteTarget, experimentTemplate.canWriteTarget) &&
+            Objects.equals(this.contentType, experimentTemplate.contentType) &&
+            Objects.equals(this.state, experimentTemplate.state) &&
+            Objects.equals(this.nextStep, experimentTemplate.nextStep) &&
+            Objects.equals(this.firstname, experimentTemplate.firstname) &&
+            Objects.equals(this.lastname, experimentTemplate.lastname) &&
+            Objects.equals(this.orcId, experimentTemplate.orcId) &&
+            Objects.equals(this.teamName, experimentTemplate.teamName) &&
+            Objects.equals(this.upItemId, experimentTemplate.upItemId) &&
+            Objects.equals(this.hasAttachment, experimentTemplate.hasAttachment);
+
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, body, category, categoryTitle, categoryColor, exclusiveEditMode, userid, canread, canwrite, locked, lockedby, lockedAt, fullname, metadata, teamsId, isPinned, sharelink, status, statusTitle, statusColor, tags, tagsId, uploads);
+    return Objects.hash(id, title, body, category, categoryTitle, categoryColor, userid, canread, canwrite, locked, lockedby, lockedAt, fullname, metadata, teamsId, isPinned, status, statusTitle, statusColor, tags, tagsId, createdAt, modifiedAt, ordering, canReadTarget, canWriteTarget, contentType, state, nextStep, firstname, lastname, orcId, teamName, upItemId, hasAttachment);
   }
 
 
@@ -587,14 +645,14 @@ public class ExperimentTemplate implements ExperimentsTemplatesIdBody1 {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ExperimentTemplate {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    body: ").append(toIndentedString(body)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    categoryTitle: ").append(toIndentedString(categoryTitle)).append("\n");
     sb.append("    categoryColor: ").append(toIndentedString(categoryColor)).append("\n");
-    sb.append("    exclusiveEditMode: ").append(toIndentedString(exclusiveEditMode)).append("\n");
+    //sb.append("    exclusiveEditMode: ").append(toIndentedString(exclusiveEditMode)).append("\n");
     sb.append("    userid: ").append(toIndentedString(userid)).append("\n");
     sb.append("    canread: ").append(toIndentedString(canread)).append("\n");
     sb.append("    canwrite: ").append(toIndentedString(canwrite)).append("\n");
@@ -603,15 +661,29 @@ public class ExperimentTemplate implements ExperimentsTemplatesIdBody1 {
     sb.append("    lockedAt: ").append(toIndentedString(lockedAt)).append("\n");
     sb.append("    fullname: ").append(toIndentedString(fullname)).append("\n");
     sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
-    sb.append("    teamsId: ").append(toIndentedString(teamsId)).append("\n");
+    sb.append("    team: ").append(toIndentedString(teamsId)).append("\n");
     sb.append("    isPinned: ").append(toIndentedString(isPinned)).append("\n");
-    sb.append("    sharelink: ").append(toIndentedString(sharelink)).append("\n");
+    //sb.append("    sharelink: ").append(toIndentedString(sharelink)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    statusTitle: ").append(toIndentedString(statusTitle)).append("\n");
     sb.append("    statusColor: ").append(toIndentedString(statusColor)).append("\n");
     sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
     sb.append("    tagsId: ").append(toIndentedString(tagsId)).append("\n");
-    sb.append("    uploads: ").append(toIndentedString(uploads)).append("\n");
+    //sb.append("    uploads: ").append(toIndentedString(uploads)).append("\n");
+    sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
+    sb.append("    modifiedAt: ").append(toIndentedString(modifiedAt)).append("\n");
+    sb.append("    ordering: ").append(toIndentedString(ordering)).append("\n");
+    sb.append("    canReadTarget: ").append(toIndentedString(canReadTarget)).append("\n");
+    sb.append("    canWriteTarget: ").append(toIndentedString(canWriteTarget)).append("\n");
+    sb.append("    contentType: ").append(toIndentedString(contentType)).append("\n");
+    sb.append("    state: ").append(toIndentedString(state)).append("\n");
+    sb.append("    nextStep: ").append(toIndentedString(nextStep)).append("\n");
+    sb.append("    firstname: ").append(toIndentedString(firstname)).append("\n");
+    sb.append("    lastname: ").append(toIndentedString(lastname)).append("\n");
+    sb.append("    orcId: ").append(toIndentedString(orcId)).append("\n");
+    sb.append("    teamName: ").append(toIndentedString(teamName)).append("\n");
+    sb.append("    upItemId: ").append(toIndentedString(upItemId)).append("\n");
+    sb.append("    hasAttachment: ").append(toIndentedString(hasAttachment)).append("\n");
     sb.append("}");
     return sb.toString();
   }
