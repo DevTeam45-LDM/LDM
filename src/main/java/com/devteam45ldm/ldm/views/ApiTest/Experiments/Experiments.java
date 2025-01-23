@@ -33,7 +33,7 @@ import java.util.List;
  */
 @PageTitle("Experiments")
 //@Route("api-test/experiments")
-// @Menu(order = 10, icon = "line-awesome/svg/globe-solid.svg")
+//@Menu(order = 10, icon = "line-awesome/svg/globe-solid.svg")
 @UIScope
 public class Experiments extends Composite<VerticalLayout> {
 
@@ -126,7 +126,7 @@ public class Experiments extends Composite<VerticalLayout> {
         }
 
         try {
-            List<Experiment> experiments = callExperimentsApi(apiKey, url);
+            List<ExperimentTemplate> experiments = callExperimentsApi(apiKey, url);
             // Assuming you have a grid or other UI component to display experiments
             // responseGrid.setItems(experiments);
             Notification.show("Experiments fetched successfully.");
@@ -135,7 +135,7 @@ public class Experiments extends Composite<VerticalLayout> {
         }
     }
 
-    private List<Experiment> callExperimentsApi(String apiKey, String url) {
+    private List<ExperimentTemplate> callExperimentsApi(String apiKey, String url) {
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "https://" + url;
         }
@@ -152,9 +152,9 @@ public class Experiments extends Composite<VerticalLayout> {
         token.setApiKey(apiKey);
 
         // Create an instance of the ExperimentsApi
-        ExperimentsApi apiInstance = new ExperimentsApi(client);
+        ExperimentsTemplatesApi apiInstance = new ExperimentsTemplatesApi(client);
 
         // Fetch experiments
-        return apiInstance.readExperiments(null, null, null, null, null, null, 1000, 0, null, null, null, null);
+        return apiInstance.readExperimentsTemplates();
     }
 }

@@ -142,7 +142,6 @@ public class Tags extends Composite<VerticalLayout> {
      * Sets the retrieved tags to the grid.
      */
     private void readTags() {
-        Notification.show(HttpMethod.values().toString());
         String apiKey = apiKeyField.getValue();
         String url = urlField.getValue();
 

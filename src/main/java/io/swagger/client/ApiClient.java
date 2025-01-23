@@ -487,12 +487,12 @@ public class ApiClient {
      */
     public <T> ResponseEntity<T> invokeAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         updateParamsForAuth(authNames, queryParams, headerParams);
-        
+
         final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(path);
         if (queryParams != null) {
             builder.queryParams(queryParams);
         }
-        
+
         final BodyBuilder requestBuilder = RequestEntity.method(method, builder.build().toUri());
         if(accept != null) {
             requestBuilder.accept(accept.toArray(new MediaType[accept.size()]));
@@ -500,13 +500,21 @@ public class ApiClient {
         if(contentType != null) {
             requestBuilder.contentType(contentType);
         }
-        
+
         addHeadersToRequest(headerParams, requestBuilder);
         addHeadersToRequest(defaultHeaders, requestBuilder);
-        
+
         RequestEntity<Object> requestEntity = requestBuilder.body(selectBody(body, formParams, contentType));
 
+        if(HttpMethod.PATCH.equals(method)) { //DEBUG
+            throw new RestClientException(requestBuilder.build().toString() + " !-! " + body + " !-! " + formParams + " !-! " + contentType);
+        } //until here, no exception thrown during patch request
+
         ResponseEntity<T> responseEntity = restTemplate.exchange(requestEntity, returnType);
+
+        //if(HttpMethod.PATCH.equals(method)) { //DEBUG
+        //    throw new RestClientException(responseEntity.getStatusCode().toString() + " !-! " + responseEntity.toString() + " !-! " + requestBuilder.build().toString() + " !-! " + body + " !-! " + formParams + " !-! " + contentType);
+        //}
 
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
             return responseEntity;

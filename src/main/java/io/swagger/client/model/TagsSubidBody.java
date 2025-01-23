@@ -120,7 +120,7 @@ public class TagsSubidBody {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("{\n"); //"class TagsSubidBody " stand vor {
+    sb.append("class TagsSubidBody {\n"); //"class TagsSubidBody " stand vor {
     
     sb.append("    action: ").append(toIndentedString(action)).append("\n");
     sb.append("    tag: ").append(toIndentedString(tag)).append("\n");
