@@ -64,6 +64,16 @@ public class MainLayout extends AppLayout {
             }
         });
 
+//        List<MenuEntry> apiTestEntries = menuEntries.stream()
+//                .filter(entry -> entry.path().startsWith("api-test/"))
+//                .toList();
+//
+//        SideNavItem apiTestsGroup = new SideNavItem("API Tests");
+//        apiTestEntries.forEach(entry -> {
+//            apiTestsGroup.addItem(new SideNavItem(entry.title(), entry.path(), new SvgIcon(entry.icon())));
+//        });
+//        nav.addItem(apiTestsGroup);
+
         return nav;
     }
 

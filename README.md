@@ -59,3 +59,9 @@ Once the Docker image is correctly built, you can test it locally using
 ```
 docker run -p 8080:8080 ldm:latest
 ```
+
+Using docker compose, you can build and run the project using the following command:
+```
+mvn clean package -Pproduction
+docker compose up -d --build
+```

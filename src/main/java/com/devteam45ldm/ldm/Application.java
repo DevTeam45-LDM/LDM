@@ -1,7 +1,7 @@
 package com.devteam45ldm.ldm;
 
-import com.devteam45ldm.ldm.data.SamplePersonRepository;
 import com.vaadin.flow.component.page.AppShellConfigurator;
+import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import javax.sql.DataSource;
 import org.springframework.boot.SpringApplication;
@@ -18,24 +18,16 @@ import org.springframework.context.annotation.Bean;
  *
  */
 @SpringBootApplication
+@PWA(name = "LaborDatenManager", shortName = "LDM")
 @Theme(value = "ldm")
 public class Application implements AppShellConfigurator {
 
     public static void main(String[] args) {
+        //System.setProperty("https.protocols", "TLSv1.3");
+        //System.setProperty("jdk.tls.client.protocols", "TLSv1.3");
+        //System.setProperty("javax.net.debug", "ssl:handshake:verbose");
+        //System.setProperty("javax.net.ssl.trustStore", "/opt/java/openjdk/lib/security/cacerts");
+        //System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
         SpringApplication.run(Application.class, args);
-    }
-    @Bean
-    SqlDataSourceScriptDatabaseInitializer dataSourceScriptDatabaseInitializer(DataSource dataSource,
-            SqlInitializationProperties properties, SamplePersonRepository repository) {
-        // This bean ensures the database is only initialized when empty
-        return new SqlDataSourceScriptDatabaseInitializer(dataSource, properties) {
-            @Override
-            public boolean initializeDatabase() {
-                if (repository.count() == 0L) {
-                    return super.initializeDatabase();
-                }
-                return false;
-            }
-        };
     }
 }

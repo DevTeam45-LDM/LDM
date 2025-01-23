@@ -1,0 +1,14 @@
+FROM alpine:latest AS builder
+LABEL org.opencontainers.image.authors="devteam45.ldm@gmail.com"
+
+# install openssl
+RUN apk add --no-cache bash
+RUN apk add --no-cache openssl
+
+# copy script
+COPY generate_secrets.sh /usr/local/bin/generate_secrets.sh
+RUN chmod +x /usr/local/bin/generate_secrets.sh
+
+# start script
+CMD ["/usr/local/bin/generate_secrets.sh"]
+# CMD ["tail", "-f", "/dev/null"] #debugging

@@ -1,0 +1,119 @@
+services:
+  core:
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    restart: always
+    volumes:
+      - "./config/core/:/config/"
+    environment:
+      # MongoDB
+      MONGO_HOST: "mongo"
+      MONGO_PORT: "27017"
+      MONGO_INITDB_DATABASE: "ldm"
+      MONGO_INITDB_ROOT_USERNAME: "ldm"
+      MONGO_INITDB_ROOT_PASSWORD: /run/secrets/MONGO_INITDB_ROOT_PASSWORD
+      # HashiCorp Vault
+      VAULT_HOST: "vault"
+      VAULT_PORT: "8200"
+      VAULT_TOKEN: /run/secrets/VAULT_TOKEN
+    secrets:
+      - MONGO_INITDB_ROOT_PASSWORD
+      - VAULT_TOKEN
+    depends_on:
+      mongo:
+        condition: service_healthy
+        restart: true
+  mongo:
+    build:
+      context: docker
+      dockerfile: Dockerfile_mongo
+    #ports:
+    #  - "27017:27017"
+    restart: always
+    volumes:
+      - "mongo-data:/data/db"
+     # - "./config/mongo/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh"
+    environment:
+      MONGO_INITDB_DATABASE: "ldm"
+      MONGO_INITDB_ROOT_USERNAME: "ldm"
+      MONGO_INITDB_ROOT_PASSWORD: /run/secrets/MONGO_INITDB_ROOT_PASSWORD
+    secrets:
+      - MONGO_INITDB_ROOT_PASSWORD
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/ldm --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      keycloak:
+        condition: service_healthy
+        restart: true
+  vault:
+    build:
+      context: docker
+      dockerfile: Dockerfile_vault
+    ports:
+      - "8200:8200"
+    restart: always
+    volumes:
+      - "vault-data:/vault/file"
+      - "vault-log:/vault/logs"
+      - "./config/vault/:/vault/config.d"
+    cap_add:
+      - IPC_LOCK  # Lock memory to prevent sensitive data from swapping to disk
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: /run/secrets/VAULT_TOKEN  # Root token for dev mode
+      VAULT_ADDR: http://vault:8200  # Set the Vault address
+    secrets:
+      - VAULT_TOKEN
+    command: server -dev
+    healthcheck:
+      test: [ "CMD", "vault", "status" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      keycloak:
+        condition: service_healthy
+        restart: true
+  keycloak:
+    build:
+      context: docker
+      dockerfile: Dockerfile_keycloak
+    restart: always
+    volumes:
+      - "keycloak-data:/opt/keycloak/data/"
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: "admin"
+      KC_BOOTSTRAP_ADMIN_PASSWORD: "admin"
+    command: ["start-dev"]
+    healthcheck:
+      test: [ 'CMD-SHELL', '[ -f /tmp/HealthCheck.java ] || echo "public class HealthCheck { public static void main(String[] args) throws java.lang.Throwable { System.exit(java.net.HttpURLConnection.HTTP_OK == ((java.net.HttpURLConnection)new java.net.URL(args[0]).openConnection()).getResponseCode() ? 0 : 1); } }" > /tmp/HealthCheck.java && java /tmp/HealthCheck.java http://localhost:9000/health/live' ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+  setup:
+    build:
+      context: docker
+      dockerfile: Dockerfile_setup
+    restart: no
+    volumes:
+      - "./docker/secrets/:/secrets/"
+
+volumes:
+  mongo-data:
+  vault-data:
+  vault-log:
+  keycloak-data:
+  secrets:
+
+secrets:
+  MONGO_INITDB_ROOT_PASSWORD:
+    file: ./docker/secrets/mongo_root_password.txt
+  VAULT_TOKEN:
+    file: ./docker/secrets/vault_token.txt
