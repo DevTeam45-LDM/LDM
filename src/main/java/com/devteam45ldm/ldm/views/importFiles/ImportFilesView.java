@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @PageTitle("Import Files")
-@Route("import-files")
+@Route("import-files-view")
 @Menu(order = 2, icon = "line-awesome/svg/filter-solid.svg")
 public class ImportFilesView extends Composite<VerticalLayout> {
 
