@@ -105,7 +105,7 @@ public class Experiments extends Composite<VerticalLayout> {
 
         HTTPController httpController = new HTTPController();
         ResponseEntity<String> checkURL = httpController.checkURL(url);
-        if (checkURL.getStatusCode().is2xxSuccessful() || checkURL.getStatusCode().is3xxRedirection() || checkURL.getStatusCode().value() == 401) {
+        if (checkURL.getStatusCode().is2xxSuccessful() || checkURL.getStatusCode().is3xxRedirection()) {
             Notification.show("API is reachable.");
         } else {
             Notification.show("API is not reachable: " + checkURL.toString());
@@ -129,8 +129,12 @@ public class Experiments extends Composite<VerticalLayout> {
             List<ExperimentTemplate> experiments = callExperimentsApi(apiKey, url);
             // Assuming you have a grid or other UI component to display experiments
             // responseGrid.setItems(experiments);
+            System.out.println("break point : ");
+            System.out.println(experiments);
             Notification.show("Experiments fetched successfully.");
         } catch (Exception e) {
+            System.out.println("break point 2 : ");
+            System.out.println(e.getMessage());
             Notification.show("Error: " + e.getMessage());
         }
     }
@@ -150,10 +154,10 @@ public class Experiments extends Composite<VerticalLayout> {
         // Configure API key authorization: token
         ApiKeyAuth token = (ApiKeyAuth) client.getAuthentication("token");
         token.setApiKey(apiKey);
+        client.addDefaultHeader("Authorization" ,token.getApiKey());
 
         // Create an instance of the ExperimentsApi
         ExperimentsTemplatesApi apiInstance = new ExperimentsTemplatesApi(client);
-
         // Fetch experiments
         return apiInstance.readExperimentsTemplates();
     }

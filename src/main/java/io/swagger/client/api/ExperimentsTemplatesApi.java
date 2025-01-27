@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.vault.config.VaultReactiveAutoConfiguration;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -31,6 +32,7 @@ import org.springframework.http.ResponseEntity;
 @Component("io.swagger.client.api.ExperimentsTemplatesApi")
 public class ExperimentsTemplatesApi {
     private ApiClient apiClient;
+    private VaultReactiveAutoConfiguration.ClientHttpConnectorWrapper clientHttpConnectorWrapper;
 
     public ExperimentsTemplatesApi() {
         this(new ApiClient());
@@ -85,7 +87,8 @@ public class ExperimentsTemplatesApi {
 
         final String[] accepts = {  };
         final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
-        final String[] contentTypes = { 
+        final String[] contentTypes = {
+
             "application/json"
          };
         final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
