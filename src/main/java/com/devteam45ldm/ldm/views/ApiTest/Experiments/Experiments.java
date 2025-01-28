@@ -26,6 +26,9 @@ import org.springframework.http.ResponseEntity;
 import java.io.IOException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * The eLabApiTest class represents a Vaadin view for testing the eLab API.
@@ -36,6 +39,8 @@ import java.util.List;
 //@Menu(order = 10, icon = "line-awesome/svg/globe-solid.svg")
 @UIScope
 public class Experiments extends Composite<VerticalLayout> {
+
+    private static final Logger logger = LoggerFactory.getLogger(Experiments.class);
 
     private final TextField urlField;
     private final PasswordField apiKeyField;
@@ -69,6 +74,7 @@ public class Experiments extends Composite<VerticalLayout> {
             try {
                 testUrl();
             } catch (IOException e) {
+                logger.error("Error testing URL", e);
                 Notification.show("Error: " + e.getMessage());
             }
         });
@@ -107,8 +113,10 @@ public class Experiments extends Composite<VerticalLayout> {
         ResponseEntity<String> checkURL = httpController.checkURL(url);
         if (checkURL.getStatusCode().is2xxSuccessful() || checkURL.getStatusCode().is3xxRedirection() || checkURL.getStatusCode().value() == 401) {
             Notification.show("API is reachable.");
+            logger.info("API is reachable.");
         } else {
-            Notification.show("API is not reachable: " + checkURL.toString());
+            Notification.show("API is not reachable: " + checkURL);
+            logger.warn("API is not reachable: {}", checkURL);
         }
     }
 
@@ -129,8 +137,10 @@ public class Experiments extends Composite<VerticalLayout> {
             List<ExperimentTemplate> experiments = callExperimentsApi(apiKey, url);
             // Assuming you have a grid or other UI component to display experiments
             // responseGrid.setItems(experiments);
+            logger.info("Experiments fetched successfully.");
             Notification.show("Experiments fetched successfully.");
         } catch (Exception e) {
+            logger.error("Error fetching experiments", e);
             Notification.show("Error: " + e.getMessage());
         }
     }
@@ -155,6 +165,9 @@ public class Experiments extends Composite<VerticalLayout> {
         ExperimentsTemplatesApi apiInstance = new ExperimentsTemplatesApi(client);
 
         // Fetch experiments
-        return apiInstance.readExperimentsTemplates();
+        List<ExperimentTemplate> result = apiInstance.readExperimentsTemplates();
+        logger.info("Fetching experiments from {}", url);
+        logger.info("Experiments: {}", result);
+        return result;
     }
 }

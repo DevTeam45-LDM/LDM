@@ -1,13 +1,11 @@
 package io.swagger.client.api;
 
 import io.swagger.client.ApiClient;
-
 import io.swagger.client.model.ExperimentTemplate;
 import io.swagger.client.model.ExperimentsTemplatesBody;
 import io.swagger.client.model.ExperimentsTemplatesIdBody;
 import io.swagger.client.model.ExperimentsTemplatesIdBody1;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,12 +18,12 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 @Component("io.swagger.client.api.ExperimentsTemplatesApi")
