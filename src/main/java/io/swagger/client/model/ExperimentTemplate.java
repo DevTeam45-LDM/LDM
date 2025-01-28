@@ -28,7 +28,7 @@ import java.util.List;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
-public class ExperimentTemplate implements ExperimentsTemplatesIdBody1 {
+public class ExperimentTemplate { //implements ExperimentsTemplatesIdBody1 {
   @JsonProperty("id")
   private Integer id = null;
 
