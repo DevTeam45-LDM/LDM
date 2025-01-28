@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -48,6 +49,10 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
     private List<ExperimentTemplate> experiments;
     private final VerticalLayout experimentDetailsLayout;
     private final ELabClient<ExperimentsTemplatesApi> apiInstance = new ELabClient<>(ExperimentsTemplatesApi.class);
+    private final TextField editField = new TextField();
+    private final MenuBar editMenuBar = new MenuBar();
+    private final MenuBar experimentsMenuBar = new MenuBar();
+    private ExperimentTemplate selectedExperiment;
 
     /**
      * Constructs the ExperimentTemplates view.
@@ -98,9 +103,55 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
         experimentDetailsLayout.setMinHeight("500px");
         experimentDetailsLayout.setVisible(false);
 
+        editField.setVisible(false);
+        editMenuBar.setVisible(false);
+
+        HorizontalLayout editLayout = new HorizontalLayout(editField, editMenuBar);
+        editLayout.setWidthFull();
+        editLayout.setSpacing(true);
+
+        experimentsMenuBar.addItem("Experiment erstellen", event -> loadCreator());
+        experimentsMenuBar.addItem("Experiment bearbeiten", event -> loadModifier());
+        experimentsMenuBar.addItem("Experiment löschen", event -> loadDeleter());
+        experimentsMenuBar.setVisible(false);
+
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
-        getContent().add(firstRow, secondRow, menuBar, experimentsComboBox, experimentDetailsLayout);
+        getContent().add(firstRow, secondRow, menuBar, experimentsComboBox, experimentDetailsLayout, experimentsMenuBar, editLayout);
+    }
+
+    private void loadCreator() {
+        editMenuBar.removeAll();
+        editMenuBar.addItem("Erstellen", event -> createExperiment());
+        editMenuBar.addItem("Abbrechen", event -> cancelExperiment());
+        editField.setVisible(true);
+        editMenuBar.setVisible(true);
+        experimentsMenuBar.setVisible(false);
+    }
+
+    private void loadModifier() {
+        if (selectedExperiment != null) {
+            editMenuBar.removeAll();
+            editMenuBar.addItem("Speichern", event -> saveChanges());
+            editMenuBar.addItem("Abbrechen", event -> cancelExperiment());
+            editField.setVisible(false);
+            editMenuBar.setVisible(true);
+            experimentsMenuBar.setVisible(false);
+        } else {
+            Notification.show("Bitte wählen Sie ein Experiment aus.");
+        }
+    }
+
+    private void loadDeleter() {
+        if (selectedExperiment != null) {
+            editMenuBar.removeAll();
+            editMenuBar.addItem("Löschen", event -> deleteExperiment());
+            editMenuBar.addItem("Abbrechen", event -> cancelExperiment());
+            editMenuBar.setVisible(true);
+            experimentsMenuBar.setVisible(false);
+        } else {
+            Notification.show("Bitte wählen Sie ein Experiment aus.");
+        }
     }
 
     /**
@@ -205,7 +256,6 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
         Pattern pattern = Pattern.compile(idPattern);
         Matcher matcher = pattern.matcher(selectedTitle);
 
-        ExperimentTemplate selectedExperiment;
         if (matcher.find()) {
             // Extract the ID and search by ID
             int id = Integer.parseInt(matcher.group(1));
@@ -275,6 +325,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
         }
 
         experimentDetailsLayout.setVisible(true);
+        experimentsMenuBar.setVisible(true);
     }
 
     /**
@@ -290,5 +341,50 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
         textField.setReadOnly(true);
         textField.setWidth("400px");
         return textField;
+    }
+
+    private void createExperiment() {
+        Integer id = selectedExperiment.getId();
+        // Implement the logic to create a new experiment
+        Notification.show("Experiment erfolgreich erstellt.");
+        resetEditComponents();
+        readExperiments();
+        setExperimentById(id);
+    }
+
+    private void saveChanges() {
+        Integer id = selectedExperiment.getId();
+        // Implement the logic to save changes to the selected experiment
+        Notification.show("Änderungen erfolgreich gespeichert.");
+        resetEditComponents();
+        readExperiments();
+        setExperimentById(id);
+    }
+
+    private void deleteExperiment() {
+        // Implement the logic to delete the selected experiment
+        Notification.show("Experiment erfolgreich gelöscht.");
+        resetEditComponents();
+        readExperiments();
+    }
+
+    private void cancelExperiment() {
+        resetEditComponents();
+    }
+
+    private void resetEditComponents() {
+        editField.setVisible(false);
+        editMenuBar.setVisible(false);
+        experimentsMenuBar.setVisible(true);
+    }
+
+    private void setExperimentById(Integer id) {
+        if (id != null) {
+            experimentsComboBox.setValue(experiments.stream()
+                    .filter(experiment -> Objects.equals(experiment.getId(), id))
+                    .map(ExperimentTemplate::getTitle)
+                    .findFirst()
+                    .orElse(null));
+        }
     }
 }
