@@ -223,43 +223,58 @@ public class Experiments extends Composite<VerticalLayout> {
                     .orElse(null);
         }
 
-        if (selectedExperiment != null) {
-            experimentDetailsLayout.add(
-                    createTextField("ID", String.valueOf(selectedExperiment.getId())),
-                    createTextField("User ID", String.valueOf(selectedExperiment.getUserid())),
-                    createTextField("Created At", selectedExperiment.getCreatedAt()),
-                    createTextField("Modified At", selectedExperiment.getModifiedAt()),
-                    createTextField("Team", String.valueOf(selectedExperiment.getTeamsId())),
-                    createTextField("Title", selectedExperiment.getTitle()),
-                    createTextField("Status", String.valueOf(selectedExperiment.getStatus())),
-                    createTextField("Body", selectedExperiment.getBody()),
-                    createTextField("Category", String.valueOf(selectedExperiment.getCategory())),
-                    createTextField("Ordering", String.valueOf(selectedExperiment.getOrdering())),
-                    createTextField("Can Read", selectedExperiment.getCanread()),
-                    createTextField("Can Write", selectedExperiment.getCanwrite()),
-                    createTextField("Can Read Target", selectedExperiment.getCanReadTarget()),
-                    createTextField("Can Write Target", selectedExperiment.getCanWriteTarget()),
-                    createTextField("Content Type", String.valueOf(selectedExperiment.getContentType())),
-                    createTextField("Locked", String.valueOf(selectedExperiment.getLocked())),
-                    createTextField("Locked By", String.valueOf(selectedExperiment.getLockedby())),
-                    createTextField("Locked At", selectedExperiment.getLockedAt()),
-                    createTextField("Metadata", selectedExperiment.getMetadata()),
-                    createTextField("State", String.valueOf(selectedExperiment.getState())),
-                    createTextField("Is Pinned", String.valueOf(selectedExperiment.getIsPinned())),
-                    createTextField("Status Title", selectedExperiment.getStatusTitle()),
-                    createTextField("Status Color", selectedExperiment.getStatusColor()),
-                    createTextField("Category Title", selectedExperiment.getCategoryTitle()),
-                    createTextField("Category Color", selectedExperiment.getCategoryColor()),
-                    createTextField("Next Step", selectedExperiment.getNextStep()),
-                    createTextField("First Name", selectedExperiment.getFirstname()),
-                    createTextField("Last Name", selectedExperiment.getLastname()),
-                    createTextField("Orc ID", selectedExperiment.getOrcId()),
-                    createTextField("Full Name", selectedExperiment.getFullname()),
-                    createTextField("Team Name", selectedExperiment.getTeamName()),
-                    createTextField("Up Item ID", String.valueOf(selectedExperiment.getUpItemId())),
-                    createTextField("Has Attachment", String.valueOf(selectedExperiment.getHasAttachment()))
-            );
+        try {
+            if (selectedExperiment != null) {
+                VerticalLayout leftColumn = new VerticalLayout();
+                VerticalLayout rightColumn = new VerticalLayout();
+                leftColumn.add(
+                        createTextField("ID", selectedExperiment.getId() != null ? String.valueOf(selectedExperiment.getId()) : "null"),
+                        createTextField("User ID", selectedExperiment.getUserid() != null ? String.valueOf(selectedExperiment.getUserid()) : "null"),
+                        createTextField("Created At", selectedExperiment.getCreatedAt() != null ? selectedExperiment.getCreatedAt() : "null"),
+                        createTextField("Modified At", selectedExperiment.getModifiedAt() != null ? selectedExperiment.getModifiedAt() : "null"),
+                        createTextField("Team", selectedExperiment.getTeamsId() != null ? String.valueOf(selectedExperiment.getTeamsId()) : "null"),
+                        createTextField("Title", selectedExperiment.getTitle() != null ? selectedExperiment.getTitle() : "null"),
+                        createTextField("Status", selectedExperiment.getStatus() != null ? String.valueOf(selectedExperiment.getStatus()) : "null"),
+                        createTextField("Body", selectedExperiment.getBody() != null ? selectedExperiment.getBody() : "null"),
+                        createTextField("Category", selectedExperiment.getCategory() != null ? String.valueOf(selectedExperiment.getCategory()) : "null"),
+                        createTextField("Ordering", selectedExperiment.getOrdering() != null ? String.valueOf(selectedExperiment.getOrdering()) : "null"),
+                        createTextField("Can Read", selectedExperiment.getCanread() != null ? selectedExperiment.getCanread() : "null"),
+                        createTextField("Can Write", selectedExperiment.getCanwrite() != null ? selectedExperiment.getCanwrite() : "null"),
+                        createTextField("Can Read Target", selectedExperiment.getCanReadTarget() != null ? selectedExperiment.getCanReadTarget() : "null"),
+                        createTextField("Can Write Target", selectedExperiment.getCanWriteTarget() != null ? selectedExperiment.getCanWriteTarget() : "null"),
+                        createTextField("Up Item ID", selectedExperiment.getUpItemId() != null ? String.valueOf(selectedExperiment.getUpItemId()) : "null"),
+                        createTextField("Has Attachment", selectedExperiment.getHasAttachment() != null ? selectedExperiment.getHasAttachment() : "null")
+                );
+
+                rightColumn.add(
+                        createTextField("Content Type", selectedExperiment.getContentType() != null ? String.valueOf(selectedExperiment.getContentType()) : "null"),
+                        createTextField("Locked", selectedExperiment.getLocked() != null ? String.valueOf(selectedExperiment.getLocked()) : "null"),
+                        createTextField("Locked By", selectedExperiment.getLockedby() != null ? String.valueOf(selectedExperiment.getLockedby()) : "null"),
+                        createTextField("Locked At", selectedExperiment.getLockedAt() != null ? selectedExperiment.getLockedAt() : "null"),
+                        createTextField("Metadata", selectedExperiment.getMetadata() != null ? selectedExperiment.getMetadata() : "null"),
+                        createTextField("State", selectedExperiment.getState() != null ? String.valueOf(selectedExperiment.getState()) : "null"),
+                        createTextField("Is Pinned", selectedExperiment.getIsPinned() != null ? String.valueOf(selectedExperiment.getIsPinned()) : "null"),
+                        createTextField("Status Title", selectedExperiment.getStatusTitle() != null ? selectedExperiment.getStatusTitle() : "null"),
+                        createTextField("Status Color", selectedExperiment.getStatusColor() != null ? selectedExperiment.getStatusColor() : "null"),
+                        createTextField("Category Title", selectedExperiment.getCategoryTitle() != null ? selectedExperiment.getCategoryTitle() : "null"),
+                        createTextField("Category Color", selectedExperiment.getCategoryColor() != null ? selectedExperiment.getCategoryColor() : "null"),
+                        createTextField("Next Step", selectedExperiment.getNextStep() != null ? selectedExperiment.getNextStep() : "null"),
+                        createTextField("First Name", selectedExperiment.getFirstname() != null ? selectedExperiment.getFirstname() : "null"),
+                        createTextField("Last Name", selectedExperiment.getLastname() != null ? selectedExperiment.getLastname() : "null"),
+                        createTextField("Orc ID", selectedExperiment.getOrcId() != null ? selectedExperiment.getOrcId() : "null"),
+                        createTextField("Full Name", selectedExperiment.getFullname() != null ? selectedExperiment.getFullname() : "null"),
+                        createTextField("Team Name", selectedExperiment.getTeamName() != null ? selectedExperiment.getTeamName() : "null")
+                );
+
+                HorizontalLayout columns = new HorizontalLayout(leftColumn, rightColumn);
+                columns.setWidthFull();
+                experimentDetailsLayout.add(columns);
+            }
+        } catch (Exception e) {
+            logger.error("Error showing experiment details", e);
+            Notification.show("Error: " + e.getMessage());
         }
+
         experimentDetailsLayout.setVisible(true);
     }
 
@@ -267,6 +282,7 @@ public class Experiments extends Composite<VerticalLayout> {
         TextField textField = new TextField(label);
         textField.setValue(value);
         textField.setReadOnly(true);
+        textField.setWidth("400px");
         return textField;
     }
 }

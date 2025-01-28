@@ -108,43 +108,44 @@ public class ExperimentTemplateTest {
         experimentTemplate.setId(1);
         experimentTemplate.setTitle("Test Title");
 
-        String expectedString = "class ExperimentTemplate {\n" +
-                "    id: 1\n" +
-                "    title: Test Title\n" +
-                "    body: null\n" +
-                "    category: null\n" +
-                "    categoryTitle: null\n" +
-                "    categoryColor: null\n" +
-                "    userid: null\n" +
-                "    canread: null\n" +
-                "    canwrite: null\n" +
-                "    locked: null\n" +
-                "    lockedby: null\n" +
-                "    lockedAt: null\n" +
-                "    fullname: null\n" +
-                "    metadata: null\n" +
-                "    team: null\n" +
-                "    isPinned: null\n" +
-                "    status: null\n" +
-                "    statusTitle: null\n" +
-                "    statusColor: null\n" +
-                "    tags: null\n" +
-                "    tagsId: null\n" +
-                "    createdAt: null\n" +
-                "    modifiedAt: null\n" +
-                "    ordering: null\n" +
-                "    canReadTarget: null\n" +
-                "    canWriteTarget: null\n" +
-                "    contentType: null\n" +
-                "    state: null\n" +
-                "    nextStep: null\n" +
-                "    firstname: null\n" +
-                "    lastname: null\n" +
-                "    orcId: null\n" +
-                "    teamName: null\n" +
-                "    upItemId: null\n" +
-                "    hasAttachment: null\n" +
-                "}";
+        String expectedString = """
+                class ExperimentTemplate {
+                    id: 1
+                    title: Test Title
+                    body: null
+                    category: null
+                    categoryTitle: null
+                    categoryColor: null
+                    userid: null
+                    canread: null
+                    canwrite: null
+                    locked: null
+                    lockedby: null
+                    lockedAt: null
+                    fullname: null
+                    metadata: null
+                    team: null
+                    isPinned: null
+                    status: null
+                    statusTitle: null
+                    statusColor: null
+                    tags: null
+                    tagsId: null
+                    createdAt: null
+                    modifiedAt: null
+                    ordering: null
+                    canReadTarget: null
+                    canWriteTarget: null
+                    contentType: null
+                    state: null
+                    nextStep: null
+                    firstname: null
+                    lastname: null
+                    orcId: null
+                    teamName: null
+                    upItemId: null
+                    hasAttachment: null
+                }""";
         assertEquals(expectedString, experimentTemplate.toString());
     }
 

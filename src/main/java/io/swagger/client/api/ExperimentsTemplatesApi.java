@@ -4,7 +4,6 @@ import io.swagger.client.ApiClient;
 import io.swagger.client.model.ExperimentTemplate;
 import io.swagger.client.model.ExperimentsTemplatesBody;
 import io.swagger.client.model.ExperimentsTemplatesIdBody;
-import io.swagger.client.model.ExperimentsTemplatesIdBody1;
 
 import java.util.HashMap;
 import java.util.List;
@@ -149,7 +148,7 @@ public class ExperimentsTemplatesApi {
      * @return ExperimentTemplate
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ExperimentTemplate patchExperimentTemplate(Integer id, ExperimentsTemplatesIdBody1 body) throws RestClientException {
+    public ExperimentTemplate patchExperimentTemplate(Integer id, ExperimentTemplate body) throws RestClientException {
         return patchExperimentTemplateWithHttpInfo(id, body).getBody();
     }
 
@@ -162,7 +161,7 @@ public class ExperimentsTemplatesApi {
      * @return ResponseEntity&lt;ExperimentTemplate&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<ExperimentTemplate> patchExperimentTemplateWithHttpInfo(Integer id, ExperimentsTemplatesIdBody1 body) throws RestClientException {
+    public ResponseEntity<ExperimentTemplate> patchExperimentTemplateWithHttpInfo(Integer id, ExperimentTemplate body) throws RestClientException {
         Object postBody = body;
         // verify the required parameter 'id' is set
         if (id == null) {
