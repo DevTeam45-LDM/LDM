@@ -1,5 +1,6 @@
 package com.devteam45ldm.ldm.views.ApiTest.Tags;
 
+import com.devteam45ldm.ldm.views.ApiTest.ELabClient;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.menubar.MenuBar;
@@ -13,9 +14,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 
 import com.devteam45ldm.ldm.controller.HTTPController;
 
-import io.swagger.client.*;
 import io.swagger.client.api.*;
-import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
@@ -39,9 +38,9 @@ public class Tags extends Composite<VerticalLayout> {
     private final Grid<Tag> responseGrid;
     private final TextField editField = new TextField();
     private final MenuBar editMenuBar = new MenuBar();
-    private TeamTagsApi apiClient;
     private final MenuBar tagsMenuBar;
     private Tag selectedTag;
+    private final ELabClient<TeamTagsApi> elabClient = new ELabClient<>(TeamTagsApi.class);
 
 
     /**
@@ -201,38 +200,6 @@ public class Tags extends Composite<VerticalLayout> {
         }
     }
 
-    private TeamTagsApi createClient(String apiKey , String url) {
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            url = "https://" + url;
-        }
-        if (!url.endsWith("/api/v2")) {
-            url = url.endsWith("/") ? url + "api/v2" : url + "/api/v2";
-        }
-
-        // Set up the API client
-        ApiClient client = new ApiClient();
-        client.setBasePath(url);
-        client.setDebugging(true);
-
-        // Configure API key authorization: token
-        ApiKeyAuth token = (ApiKeyAuth) client.getAuthentication("token");
-        token.setApiKey(apiKey);
-        return new TeamTagsApi(client);
-    }
-
-    private TeamTagsApi getClient(){
-        String apiKey = apiKeyField.getValue();
-        String url = urlField.getValue();
-        if(apiClient == null){
-            apiClient = createClient(apiKey, url);
-        }
-        else if(!apiClient.getApiClient().getBasePath().equals(urlField.getValue()) || !((ApiKeyAuth) apiClient.getApiClient().getAuthentication("token")).getApiKey().equals(apiKeyField.getValue())){
-            apiClient = createClient(apiKey, url);
-        }
-        return apiClient;
-    }
-
-
     /**
      * Calls the external API to retrieve tags.
      *
@@ -240,7 +207,7 @@ public class Tags extends Composite<VerticalLayout> {
      */
     private List<Tag> callApiGet() {
         // Create an instance of the TeamTagsApi
-        TeamTagsApi apiInstance = getClient();
+        TeamTagsApi apiInstance = elabClient.getClient(apiKeyField.getValue(), urlField.getValue());
 
         // Get the tags for the team with id=5
         return apiInstance.readTeamTags(5);
@@ -248,7 +215,7 @@ public class Tags extends Composite<VerticalLayout> {
 
     private boolean callApiPost(String tag) {
         // Create an instance of the TeamTagsApi
-        TeamTagsApi apiInstance = getClient();
+        TeamTagsApi apiInstance = elabClient.getClient(apiKeyField.getValue(), urlField.getValue());
 
         // Create a tag for the team with id=5
         try {
@@ -273,7 +240,7 @@ public class Tags extends Composite<VerticalLayout> {
 
     private boolean callApiPatch(String tag, Integer id) {
         // Create an instance of the TeamTagsApi
-        TeamTagsApi apiInstance = getClient();
+        TeamTagsApi apiInstance = elabClient.getClient(apiKeyField.getValue(), urlField.getValue());
 
         // Update a tag for the team with id=5
         try {
@@ -306,7 +273,7 @@ public class Tags extends Composite<VerticalLayout> {
 
     private boolean callApiDelete(Integer id) {
         // Create an instance of the TeamTagsApi
-        TeamTagsApi apiInstance = getClient();
+        TeamTagsApi apiInstance = elabClient.getClient(apiKeyField.getValue(), urlField.getValue());
 
         // Create a tag for the team with id=5
         try {

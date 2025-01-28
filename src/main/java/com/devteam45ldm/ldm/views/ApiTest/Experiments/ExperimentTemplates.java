@@ -29,6 +29,8 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.devteam45ldm.ldm.views.ApiTest.ELabClient;
+
 
 /**
  * The eLabApiTest class represents a Vaadin view for testing the eLab API.
@@ -38,21 +40,22 @@ import org.slf4j.LoggerFactory;
 //@Route("api-test/experiments")
 //@Menu(order = 10, icon = "line-awesome/svg/globe-solid.svg")
 @UIScope
-public class Experiments extends Composite<VerticalLayout> {
+public class ExperimentTemplates extends Composite<VerticalLayout> {
 
-    private static final Logger logger = LoggerFactory.getLogger(Experiments.class);
+    private static final Logger logger = LoggerFactory.getLogger(ExperimentTemplates.class);
 
     private final TextField urlField;
     private final PasswordField apiKeyField;
     private final ComboBox<String> experimentsComboBox;
     private List<ExperimentTemplate> experiments;
     private final VerticalLayout experimentDetailsLayout;
+    private final ELabClient<ExperimentsTemplatesApi> apiInstance = new ELabClient<>(ExperimentsTemplatesApi.class);
 
     /**
      * Constructs the eLabApiTest view.
      * Initializes the UI components and layout.
      */
-    public Experiments() {
+    public ExperimentTemplates() {
         // Erste Zeile: URL und Test-Button
         urlField = new TextField("URL");
 
@@ -161,7 +164,6 @@ public class Experiments extends Composite<VerticalLayout> {
 
             experimentsComboBox.setItems(experimentTitles);
             experimentsComboBox.setLabel("Experimente (" + experiments.size() + ")");
-            //experimentsComboBox.setValue(experiments.size() + " Experimente geladen");
             logger.info("Experiments fetched successfully.");
             Notification.show("Experiments fetched successfully.");
         } catch (Exception e) {
@@ -171,26 +173,8 @@ public class Experiments extends Composite<VerticalLayout> {
     }
 
     private List<ExperimentTemplate> callExperimentsApi(String apiKey, String url) {
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            url = "https://" + url;
-        }
-        if (!url.endsWith("/api/v2")) {
-            url = url.endsWith("/") ? url + "api/v2" : url + "/api/v2";
-        }
-
-        // Set up the API client
-        ApiClient client = new ApiClient();
-        client.setBasePath(url);
-
-        // Configure API key authorization: token
-        ApiKeyAuth token = (ApiKeyAuth) client.getAuthentication("token");
-        token.setApiKey(apiKey);
-
-        // Create an instance of the ExperimentsApi
-        ExperimentsTemplatesApi apiInstance = new ExperimentsTemplatesApi(client);
-
         // Fetch experiments
-        List<ExperimentTemplate> result = apiInstance.readExperimentsTemplates();
+        List<ExperimentTemplate> result = apiInstance.getClient(apiKey, url).readExperimentsTemplates();
         logger.info("Fetching experiments from {}", url);
         logger.info("Experiments: {}", result);
         return result;

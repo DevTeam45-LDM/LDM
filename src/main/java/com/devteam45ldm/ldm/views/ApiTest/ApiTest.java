@@ -1,6 +1,6 @@
 package com.devteam45ldm.ldm.views.ApiTest;
 
-import com.devteam45ldm.ldm.views.ApiTest.Experiments.Experiments;
+import com.devteam45ldm.ldm.views.ApiTest.Experiments.ExperimentTemplates;
 import com.devteam45ldm.ldm.views.ApiTest.Tags.Tags;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -26,7 +26,7 @@ public class ApiTest extends Composite<VerticalLayout> {
     }
 
     private void setTabSheetContent(TabSheet tabSheet) {
-        tabSheet.add("Experiments", new Experiments());
+        tabSheet.add("Experiments", new ExperimentTemplates());
         tabSheet.add("Tags", new Tags());
     }
 }
