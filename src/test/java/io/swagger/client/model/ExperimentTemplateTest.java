@@ -50,6 +50,7 @@ public class ExperimentTemplateTest {
         experimentTemplate.setTeamName("Team Name");
         experimentTemplate.setUpItemId("Up Item ID");
         experimentTemplate.setHasAttachment("Has Attachment");
+        experimentTemplate.setExclusiveEditMode(new ExclusiveEditMode());
 
         assertEquals(123, experimentTemplate.getId());
         assertEquals("Test Title", experimentTemplate.getTitle());
@@ -86,6 +87,7 @@ public class ExperimentTemplateTest {
         assertEquals("Team Name", experimentTemplate.getTeamName());
         assertEquals("Up Item ID", experimentTemplate.getUpItemId());
         assertEquals("Has Attachment", experimentTemplate.getHasAttachment());
+        assertEquals(new ExclusiveEditMode(), experimentTemplate.getExclusiveEditMode());
     }
 
     @Test
@@ -145,6 +147,7 @@ public class ExperimentTemplateTest {
                     teamName: null
                     upItemId: null
                     hasAttachment: null
+                    exclusiveEditMode: null
                 }""";
         assertEquals(expectedString, experimentTemplate.toString());
     }
@@ -189,5 +192,6 @@ public class ExperimentTemplateTest {
         assertEquals("CRC/TRR 270", experimentTemplate.getTeamName());
         assertNull(experimentTemplate.getUpItemId());
         assertNull(experimentTemplate.getHasAttachment());
+        assertNull(experimentTemplate.getExclusiveEditMode());
     }
 }

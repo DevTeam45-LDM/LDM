@@ -13,11 +13,13 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ExperimentTemplate {
   @JsonProperty("id")
   private Integer id = null;
@@ -123,6 +125,9 @@ public class ExperimentTemplate {
 
   @JsonProperty("has_attachment")
   private String hasAttachment = null;
+
+  @JsonProperty("exclusive_edit_mode")
+    private ExclusiveEditMode exclusiveEditMode = null;
 
   public ExperimentTemplate id(Integer id) {
     this.id = id;
@@ -614,6 +619,20 @@ public class ExperimentTemplate {
     this.hasAttachment = hasAttachment;
   }
 
+  public ExperimentTemplate exclusiveEditMode(Integer id) {
+    this.exclusiveEditMode = exclusiveEditMode;
+    return this;
+  }
+
+  @Schema(description = "")
+  public ExclusiveEditMode getExclusiveEditMode() {
+    return exclusiveEditMode;
+  }
+
+  public void setExclusiveEditMode(ExclusiveEditMode exclusiveEditMode) {
+    this.exclusiveEditMode = exclusiveEditMode;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -661,13 +680,13 @@ public class ExperimentTemplate {
             Objects.equals(this.orcId, experimentTemplate.orcId) &&
             Objects.equals(this.teamName, experimentTemplate.teamName) &&
             Objects.equals(this.upItemId, experimentTemplate.upItemId) &&
-            Objects.equals(this.hasAttachment, experimentTemplate.hasAttachment);
-
+            Objects.equals(this.hasAttachment, experimentTemplate.hasAttachment) &&
+            Objects.equals(this.exclusiveEditMode, experimentTemplate.exclusiveEditMode);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, body, category, categoryTitle, categoryColor, userid, canread, canwrite, locked, lockedby, lockedAt, fullname, metadata, teamsId, isPinned, status, statusTitle, statusColor, tags, tagsId, createdAt, modifiedAt, ordering, canReadTarget, canWriteTarget, contentType, state, nextStep, firstname, lastname, orcId, teamName, upItemId, hasAttachment);
+    return Objects.hash(id, title, body, category, categoryTitle, categoryColor, userid, canread, canwrite, locked, lockedby, lockedAt, fullname, metadata, teamsId, isPinned, status, statusTitle, statusColor, tags, tagsId, createdAt, modifiedAt, ordering, canReadTarget, canWriteTarget, contentType, state, nextStep, firstname, lastname, orcId, teamName, upItemId, hasAttachment, exclusiveEditMode);
   }
 
 
@@ -714,6 +733,7 @@ public class ExperimentTemplate {
     sb.append("    teamName: ").append(toIndentedString(teamName)).append("\n");
     sb.append("    upItemId: ").append(toIndentedString(upItemId)).append("\n");
     sb.append("    hasAttachment: ").append(toIndentedString(hasAttachment)).append("\n");
+    sb.append("    exclusiveEditMode: ").append(toIndentedString(exclusiveEditMode)).append("\n");
     sb.append("}");
     return sb.toString();
   }

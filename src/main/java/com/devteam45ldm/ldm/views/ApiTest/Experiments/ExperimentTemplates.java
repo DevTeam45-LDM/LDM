@@ -241,7 +241,8 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
                         createTextField("Can Read Target", selectedExperiment.getCanReadTarget() != null ? selectedExperiment.getCanReadTarget() : "null"),
                         createTextField("Can Write Target", selectedExperiment.getCanWriteTarget() != null ? selectedExperiment.getCanWriteTarget() : "null"),
                         createTextField("Up Item ID", selectedExperiment.getUpItemId() != null ? String.valueOf(selectedExperiment.getUpItemId()) : "null"),
-                        createTextField("Has Attachment", selectedExperiment.getHasAttachment() != null ? selectedExperiment.getHasAttachment() : "null")
+                        createTextField("Has Attachment", selectedExperiment.getHasAttachment() != null ? selectedExperiment.getHasAttachment() : "null"),
+                        createTextField("Exclusive Edit Mode", selectedExperiment.getExclusiveEditMode() != null ? selectedExperiment.getExclusiveEditMode().toString() : "null")
                 );
 
                 rightColumn.add(
