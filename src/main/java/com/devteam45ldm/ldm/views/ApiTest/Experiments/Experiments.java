@@ -22,6 +22,8 @@ import org.springframework.http.ResponseEntity;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -87,10 +89,13 @@ public class Experiments extends Composite<VerticalLayout> {
         experimentsComboBox = new ComboBox<>("Experimente");
         experimentsComboBox.setWidthFull();
         experimentsComboBox.getStyle().set("margin-bottom", "50px");
+        experimentsComboBox.setAllowCustomValue(false);
         experimentsComboBox.addValueChangeListener(event -> showExperimentDetails(event.getValue()));
 
         experimentDetailsLayout = new VerticalLayout();
         experimentDetailsLayout.setWidthFull();
+        experimentDetailsLayout.setMinHeight("500px");
+        experimentDetailsLayout.setVisible(false);
 
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
@@ -155,6 +160,8 @@ public class Experiments extends Composite<VerticalLayout> {
                     .collect(Collectors.toList());
 
             experimentsComboBox.setItems(experimentTitles);
+            experimentsComboBox.setLabel("Experimente (" + experiments.size() + ")");
+            //experimentsComboBox.setValue(experiments.size() + " Experimente geladen");
             logger.info("Experiments fetched successfully.");
             Notification.show("Experiments fetched successfully.");
         } catch (Exception e) {
@@ -195,42 +202,71 @@ public class Experiments extends Composite<VerticalLayout> {
             return;
         }
 
-        experiments.stream()
-                .filter(experiment -> selectedTitle.equals(experiment.getTitle()) || selectedTitle.equals(experiment.getTitle() + "; [id:" + experiment.getId() + "]"))
-                .findFirst().ifPresent(selectedExperiment -> experimentDetailsLayout.add(
-                        new TextField("ID", String.valueOf(selectedExperiment.getId()), ""),
-                        new TextField("User ID", String.valueOf(selectedExperiment.getUserid()), ""),
-                        new TextField("Created At", selectedExperiment.getCreatedAt(), ""),
-                        new TextField("Modified At", selectedExperiment.getModifiedAt(), ""),
-                        new TextField("Team", String.valueOf(selectedExperiment.getTeamsId()), ""),
-                        new TextField("Title", selectedExperiment.getTitle(), ""),
-                        new TextField("Status", String.valueOf(selectedExperiment.getStatus()), ""),
-                        new TextField("Body", selectedExperiment.getBody(), ""),
-                        new TextField("Category", String.valueOf(selectedExperiment.getCategory()), ""),
-                        new TextField("Ordering", String.valueOf(selectedExperiment.getOrdering()), ""),
-                        new TextField("Can Read", selectedExperiment.getCanread(), ""),
-                        new TextField("Can Write", selectedExperiment.getCanwrite(), ""),
-                        new TextField("Can Read Target", selectedExperiment.getCanReadTarget(), ""),
-                        new TextField("Can Write Target", selectedExperiment.getCanWriteTarget(), ""),
-                        new TextField("Content Type", String.valueOf(selectedExperiment.getContentType()), ""),
-                        new TextField("Locked", String.valueOf(selectedExperiment.getLocked()), ""),
-                        new TextField("Locked By", String.valueOf(selectedExperiment.getLockedby()), ""),
-                        new TextField("Locked At", selectedExperiment.getLockedAt(), ""),
-                        new TextField("Metadata", selectedExperiment.getMetadata(), ""),
-                        new TextField("State", String.valueOf(selectedExperiment.getState()), ""),
-                        new TextField("Is Pinned", String.valueOf(selectedExperiment.getIsPinned()), ""),
-                        new TextField("Status Title", selectedExperiment.getStatusTitle(), ""),
-                        new TextField("Status Color", selectedExperiment.getStatusColor(), ""),
-                        new TextField("Category Title", selectedExperiment.getCategoryTitle(), ""),
-                        new TextField("Category Color", selectedExperiment.getCategoryColor(), ""),
-                        new TextField("Next Step", selectedExperiment.getNextStep(), ""),
-                        new TextField("First Name", selectedExperiment.getFirstname(), ""),
-                        new TextField("Last Name", selectedExperiment.getLastname(), ""),
-                        new TextField("Orc ID", selectedExperiment.getOrcId(), ""),
-                        new TextField("Full Name", selectedExperiment.getFullname(), ""),
-                        new TextField("Team Name", selectedExperiment.getTeamName(), ""),
-                        new TextField("Up Item ID", String.valueOf(selectedExperiment.getUpItemId()), ""),
-                        new TextField("Has Attachment", String.valueOf(selectedExperiment.getHasAttachment()), "")
-                ));
+        // Check if the title contains an ID
+        String idPattern = "; \\[id:(\\d+)]";
+        Pattern pattern = Pattern.compile(idPattern);
+        Matcher matcher = pattern.matcher(selectedTitle);
+
+        ExperimentTemplate selectedExperiment;
+        if (matcher.find()) {
+            // Extract the ID and search by ID
+            int id = Integer.parseInt(matcher.group(1));
+            selectedExperiment = experiments.stream()
+                    .filter(experiment -> experiment.getId() == id)
+                    .findFirst()
+                    .orElse(null);
+        } else {
+            // Search by title
+            selectedExperiment = experiments.stream()
+                    .filter(experiment -> selectedTitle.equals(experiment.getTitle()))
+                    .findFirst()
+                    .orElse(null);
+        }
+
+        if (selectedExperiment != null) {
+            experimentDetailsLayout.add(
+                    createTextField("ID", String.valueOf(selectedExperiment.getId())),
+                    createTextField("User ID", String.valueOf(selectedExperiment.getUserid())),
+                    createTextField("Created At", selectedExperiment.getCreatedAt()),
+                    createTextField("Modified At", selectedExperiment.getModifiedAt()),
+                    createTextField("Team", String.valueOf(selectedExperiment.getTeamsId())),
+                    createTextField("Title", selectedExperiment.getTitle()),
+                    createTextField("Status", String.valueOf(selectedExperiment.getStatus())),
+                    createTextField("Body", selectedExperiment.getBody()),
+                    createTextField("Category", String.valueOf(selectedExperiment.getCategory())),
+                    createTextField("Ordering", String.valueOf(selectedExperiment.getOrdering())),
+                    createTextField("Can Read", selectedExperiment.getCanread()),
+                    createTextField("Can Write", selectedExperiment.getCanwrite()),
+                    createTextField("Can Read Target", selectedExperiment.getCanReadTarget()),
+                    createTextField("Can Write Target", selectedExperiment.getCanWriteTarget()),
+                    createTextField("Content Type", String.valueOf(selectedExperiment.getContentType())),
+                    createTextField("Locked", String.valueOf(selectedExperiment.getLocked())),
+                    createTextField("Locked By", String.valueOf(selectedExperiment.getLockedby())),
+                    createTextField("Locked At", selectedExperiment.getLockedAt()),
+                    createTextField("Metadata", selectedExperiment.getMetadata()),
+                    createTextField("State", String.valueOf(selectedExperiment.getState())),
+                    createTextField("Is Pinned", String.valueOf(selectedExperiment.getIsPinned())),
+                    createTextField("Status Title", selectedExperiment.getStatusTitle()),
+                    createTextField("Status Color", selectedExperiment.getStatusColor()),
+                    createTextField("Category Title", selectedExperiment.getCategoryTitle()),
+                    createTextField("Category Color", selectedExperiment.getCategoryColor()),
+                    createTextField("Next Step", selectedExperiment.getNextStep()),
+                    createTextField("First Name", selectedExperiment.getFirstname()),
+                    createTextField("Last Name", selectedExperiment.getLastname()),
+                    createTextField("Orc ID", selectedExperiment.getOrcId()),
+                    createTextField("Full Name", selectedExperiment.getFullname()),
+                    createTextField("Team Name", selectedExperiment.getTeamName()),
+                    createTextField("Up Item ID", String.valueOf(selectedExperiment.getUpItemId())),
+                    createTextField("Has Attachment", String.valueOf(selectedExperiment.getHasAttachment()))
+            );
+        }
+        experimentDetailsLayout.setVisible(true);
+    }
+
+    private TextField createTextField(String label, String value) {
+        TextField textField = new TextField(label);
+        textField.setValue(value);
+        textField.setReadOnly(true);
+        return textField;
     }
 }
