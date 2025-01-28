@@ -1,18 +1,14 @@
 package com.devteam45ldm.ldm.views.ApiTest.Experiments;
 
 import com.vaadin.flow.component.Composite;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
 
 import com.devteam45ldm.ldm.controller.HTTPController;
@@ -25,6 +21,8 @@ import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +42,9 @@ public class Experiments extends Composite<VerticalLayout> {
 
     private final TextField urlField;
     private final PasswordField apiKeyField;
+    private final ComboBox<String> experimentsComboBox;
+    private List<ExperimentTemplate> experiments;
+    private final VerticalLayout experimentDetailsLayout;
 
     /**
      * Constructs the eLabApiTest view.
@@ -83,13 +84,17 @@ public class Experiments extends Composite<VerticalLayout> {
         menuBar.getStyle().set("margin-bottom", "50px");
 
         // Initialize ComboBox for experiments
-        ComboBox<String> experimentsComboBox = new ComboBox<>("Experimente");
+        experimentsComboBox = new ComboBox<>("Experimente");
         experimentsComboBox.setWidthFull();
         experimentsComboBox.getStyle().set("margin-bottom", "50px");
+        experimentsComboBox.addValueChangeListener(event -> showExperimentDetails(event.getValue()));
+
+        experimentDetailsLayout = new VerticalLayout();
+        experimentDetailsLayout.setWidthFull();
 
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
-        getContent().add(firstRow, secondRow, menuBar, experimentsComboBox);
+        getContent().add(firstRow, secondRow, menuBar, experimentsComboBox, experimentDetailsLayout);
     }
 
     /**
@@ -134,9 +139,22 @@ public class Experiments extends Composite<VerticalLayout> {
         }
 
         try {
-            List<ExperimentTemplate> experiments = callExperimentsApi(apiKey, url);
-            // Assuming you have a grid or other UI component to display experiments
-            // responseGrid.setItems(experiments);
+            experiments = callExperimentsApi(apiKey, url);
+            Map<String, Long> titleCount = experiments.stream()
+                    .collect(Collectors.groupingBy(ExperimentTemplate::getTitle, Collectors.counting()));
+
+            List<String> experimentTitles = experiments.stream()
+                    .map(experiment -> {
+                        String title = experiment.getTitle();
+                        if (titleCount.get(title) > 1) {
+                            return title + "; [id:" + experiment.getId() + "]";
+                        } else {
+                            return title;
+                        }
+                    })
+                    .collect(Collectors.toList());
+
+            experimentsComboBox.setItems(experimentTitles);
             logger.info("Experiments fetched successfully.");
             Notification.show("Experiments fetched successfully.");
         } catch (Exception e) {
@@ -169,5 +187,50 @@ public class Experiments extends Composite<VerticalLayout> {
         logger.info("Fetching experiments from {}", url);
         logger.info("Experiments: {}", result);
         return result;
+    }
+
+    private void showExperimentDetails(String selectedTitle) {
+        experimentDetailsLayout.removeAll();
+        if (selectedTitle == null || selectedTitle.isEmpty()) {
+            return;
+        }
+
+        experiments.stream()
+                .filter(experiment -> selectedTitle.equals(experiment.getTitle()) || selectedTitle.equals(experiment.getTitle() + "; [id:" + experiment.getId() + "]"))
+                .findFirst().ifPresent(selectedExperiment -> experimentDetailsLayout.add(
+                        new TextField("ID", String.valueOf(selectedExperiment.getId()), ""),
+                        new TextField("User ID", String.valueOf(selectedExperiment.getUserid()), ""),
+                        new TextField("Created At", selectedExperiment.getCreatedAt(), ""),
+                        new TextField("Modified At", selectedExperiment.getModifiedAt(), ""),
+                        new TextField("Team", String.valueOf(selectedExperiment.getTeamsId()), ""),
+                        new TextField("Title", selectedExperiment.getTitle(), ""),
+                        new TextField("Status", String.valueOf(selectedExperiment.getStatus()), ""),
+                        new TextField("Body", selectedExperiment.getBody(), ""),
+                        new TextField("Category", String.valueOf(selectedExperiment.getCategory()), ""),
+                        new TextField("Ordering", String.valueOf(selectedExperiment.getOrdering()), ""),
+                        new TextField("Can Read", selectedExperiment.getCanread(), ""),
+                        new TextField("Can Write", selectedExperiment.getCanwrite(), ""),
+                        new TextField("Can Read Target", selectedExperiment.getCanReadTarget(), ""),
+                        new TextField("Can Write Target", selectedExperiment.getCanWriteTarget(), ""),
+                        new TextField("Content Type", String.valueOf(selectedExperiment.getContentType()), ""),
+                        new TextField("Locked", String.valueOf(selectedExperiment.getLocked()), ""),
+                        new TextField("Locked By", String.valueOf(selectedExperiment.getLockedby()), ""),
+                        new TextField("Locked At", selectedExperiment.getLockedAt(), ""),
+                        new TextField("Metadata", selectedExperiment.getMetadata(), ""),
+                        new TextField("State", String.valueOf(selectedExperiment.getState()), ""),
+                        new TextField("Is Pinned", String.valueOf(selectedExperiment.getIsPinned()), ""),
+                        new TextField("Status Title", selectedExperiment.getStatusTitle(), ""),
+                        new TextField("Status Color", selectedExperiment.getStatusColor(), ""),
+                        new TextField("Category Title", selectedExperiment.getCategoryTitle(), ""),
+                        new TextField("Category Color", selectedExperiment.getCategoryColor(), ""),
+                        new TextField("Next Step", selectedExperiment.getNextStep(), ""),
+                        new TextField("First Name", selectedExperiment.getFirstname(), ""),
+                        new TextField("Last Name", selectedExperiment.getLastname(), ""),
+                        new TextField("Orc ID", selectedExperiment.getOrcId(), ""),
+                        new TextField("Full Name", selectedExperiment.getFullname(), ""),
+                        new TextField("Team Name", selectedExperiment.getTeamName(), ""),
+                        new TextField("Up Item ID", String.valueOf(selectedExperiment.getUpItemId()), ""),
+                        new TextField("Has Attachment", String.valueOf(selectedExperiment.getHasAttachment()), "")
+                ));
     }
 }
