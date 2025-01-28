@@ -24,7 +24,7 @@ import java.util.List;
 
 
 /**
- * The eLabApiTest class represents a Vaadin view for testing the eLab API.
+ * The Tags class represents a Vaadin view for testing the eLab API.
  * It allows users to enter a URL and API key, test the URL, and read tags from the API.
  */
 @PageTitle("Tags")
@@ -44,7 +44,7 @@ public class Tags extends Composite<VerticalLayout> {
 
 
     /**
-     * Constructs the eLabApiTest view.
+     * Constructs the Tags view.
      * Initializes the UI components and layout.
      */
     public Tags() {
@@ -164,6 +164,9 @@ public class Tags extends Composite<VerticalLayout> {
     }
 
 
+    /**
+     * Loads the tag creation UI components.
+     */
     private void loadCreator() {
         editMenuBar.removeAll();
         editMenuBar.addItem("Erstellen", event -> createTag());
@@ -173,6 +176,9 @@ public class Tags extends Composite<VerticalLayout> {
         tagsMenuBar.setVisible(false);
     }
 
+    /**
+     * Loads the tag modification UI components.
+     */
     private void loadModifier() {
         if(selectedTag != null) {
             editMenuBar.removeAll();
@@ -187,6 +193,9 @@ public class Tags extends Composite<VerticalLayout> {
         }
     }
 
+    /**
+     * Loads the tag deletion UI components.
+     */
     private void loadDeleter() {
         if(selectedTag != null) {
             editMenuBar.removeAll();
@@ -213,6 +222,12 @@ public class Tags extends Composite<VerticalLayout> {
         return apiInstance.readTeamTags(5);
     }
 
+    /**
+     * Calls the external API to create a new tag.
+     *
+     * @param tag the tag to create
+     * @return true if the tag was created successfully, false otherwise
+     */
     private boolean callApiPost(String tag) {
         // Create an instance of the TeamTagsApi
         TeamTagsApi apiInstance = elabClient.getClient(apiKeyField.getValue(), urlField.getValue());
@@ -226,6 +241,9 @@ public class Tags extends Composite<VerticalLayout> {
         }
     }
 
+    /**
+     * Creates a new tag using the value from the edit field.
+     */
     private void createTag(){
         boolean result = callApiPost(editField.getValue());
         if (result) {
@@ -238,6 +256,13 @@ public class Tags extends Composite<VerticalLayout> {
         readTags();
     }
 
+    /**
+     * Calls the external API to update an existing tag.
+     *
+     * @param tag the new tag value
+     * @param id the ID of the tag to update
+     * @return true if the tag was updated successfully, false otherwise
+     */
     private boolean callApiPatch(String tag, Integer id) {
         // Create an instance of the TeamTagsApi
         TeamTagsApi apiInstance = elabClient.getClient(apiKeyField.getValue(), urlField.getValue());
@@ -252,13 +277,16 @@ public class Tags extends Composite<VerticalLayout> {
         }
     }
 
-    /**
-     Der Fehler wird ursprünglich von HttpComponentsClientHttpRequestFactory geworfen und in der Methode createResourceAccessException von RestTemplate aufgefangen.
-     Dort wird der Fehler in eine RessourceAccessException umgewandelt und aufgrund der fehlenden Fehlerbehandlung propagiert.
-     Die Methode patchTeamTagWithHttpInfo von TeamTagsApi macht dann daraus eine RestClientException.
-     Daher, wie auch der mitmproxy zeigt, wird keine PATCH-Anfrage an den Server gesendet.
-     */
 
+     //Der Fehler wird ursprünglich von HttpComponentsClientHttpRequestFactory geworfen und in der Methode createResourceAccessException von RestTemplate aufgefangen.
+     //Dort wird der Fehler in eine RessourceAccessException umgewandelt und aufgrund der fehlenden Fehlerbehandlung propagiert.
+     //Die Methode patchTeamTagWithHttpInfo von TeamTagsApi macht dann daraus eine RestClientException.
+     //Daher, wie auch der mitmproxy zeigt, wird keine PATCH-Anfrage an den Server gesendet.
+
+
+    /**
+     * Saves changes to the selected tag using the value from the edit field.
+     */
     private void saveChanges() {
         boolean result = callApiPatch(editField.getValue(), selectedTag.getId());
         if (result) {
@@ -271,6 +299,12 @@ public class Tags extends Composite<VerticalLayout> {
         readTags();
     }
 
+    /**
+     * Calls the external API to delete an existing tag.
+     *
+     * @param id the ID of the tag to delete
+     * @return true if the tag was deleted successfully, false otherwise
+     */
     private boolean callApiDelete(Integer id) {
         // Create an instance of the TeamTagsApi
         TeamTagsApi apiInstance = elabClient.getClient(apiKeyField.getValue(), urlField.getValue());
@@ -285,6 +319,9 @@ public class Tags extends Composite<VerticalLayout> {
         }
     }
 
+    /**
+     * Deletes the selected tag.
+     */
     private void deleteTag() {
         boolean result = callApiDelete(selectedTag.getId());
         if (result) {
@@ -297,10 +334,16 @@ public class Tags extends Composite<VerticalLayout> {
         readTags();
     }
 
+    /**
+     * Cancels the current tag operation and resets the UI components.
+     */
     private void cancelTag() {
         resetEditComponents();
     }
 
+    /**
+     * Resets the edit components to their default state.
+     */
     private void resetEditComponents() {
         responseGrid.deselectAll();
         editField.setVisible(false);

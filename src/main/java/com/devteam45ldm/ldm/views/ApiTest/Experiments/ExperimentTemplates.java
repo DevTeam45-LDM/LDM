@@ -13,9 +13,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 
 import com.devteam45ldm.ldm.controller.HTTPController;
 
-import io.swagger.client.*;
 import io.swagger.client.api.*;
-import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
 import org.springframework.http.ResponseEntity;
 
@@ -33,8 +31,8 @@ import com.devteam45ldm.ldm.views.ApiTest.ELabClient;
 
 
 /**
- * The eLabApiTest class represents a Vaadin view for testing the eLab API.
- * It allows users to enter a URL and API key, test the URL, and read tags from the API.
+ * The ExperimentTemplates class represents a Vaadin view for testing the eLab API.
+ * It allows users to enter a URL and API key, test the URL, and read experiments from the API.
  */
 @PageTitle("Experiments")
 //@Route("api-test/experiments")
@@ -52,7 +50,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
     private final ELabClient<ExperimentsTemplatesApi> apiInstance = new ELabClient<>(ExperimentsTemplatesApi.class);
 
     /**
-     * Constructs the eLabApiTest view.
+     * Constructs the ExperimentTemplates view.
      * Initializes the UI components and layout.
      */
     public ExperimentTemplates() {
@@ -133,7 +131,10 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
         }
     }
 
-
+    /**
+     * Reads experiments from the API using the provided API key and URL.
+     * Populates the ComboBox with the experiment titles.
+     */
     private void readExperiments() {
         String apiKey = apiKeyField.getValue();
         String url = urlField.getValue();
@@ -172,6 +173,13 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
         }
     }
 
+    /**
+     * Calls the experiments API to fetch the list of experiments.
+     *
+     * @param apiKey the API key
+     * @param url the URL
+     * @return the list of experiments
+     */
     private List<ExperimentTemplate> callExperimentsApi(String apiKey, String url) {
         // Fetch experiments
         List<ExperimentTemplate> result = apiInstance.getClient(apiKey, url).readExperimentsTemplates();
@@ -180,6 +188,12 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
         return result;
     }
 
+    /**
+     * Shows the details of the selected experiment.
+     * Displays the details in two columns within the experimentDetailsLayout.
+     *
+     * @param selectedTitle the title of the selected experiment
+     */
     private void showExperimentDetails(String selectedTitle) {
         experimentDetailsLayout.removeAll();
         if (selectedTitle == null || selectedTitle.isEmpty()) {
@@ -262,6 +276,13 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
         experimentDetailsLayout.setVisible(true);
     }
 
+    /**
+     * Creates a read-only TextField with the specified label and value.
+     *
+     * @param label the label of the TextField
+     * @param value the value of the TextField
+     * @return the created TextField
+     */
     private TextField createTextField(String label, String value) {
         TextField textField = new TextField(label);
         textField.setValue(value);
