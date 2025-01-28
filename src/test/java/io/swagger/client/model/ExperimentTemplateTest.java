@@ -1,5 +1,6 @@
 package io.swagger.client.model;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -122,7 +123,7 @@ public class ExperimentTemplateTest {
                 "    lockedAt: null\n" +
                 "    fullname: null\n" +
                 "    metadata: null\n" +
-                "    teamsId: null\n" +
+                "    team: null\n" +
                 "    isPinned: null\n" +
                 "    status: null\n" +
                 "    statusTitle: null\n" +
@@ -145,5 +146,47 @@ public class ExperimentTemplateTest {
                 "    hasAttachment: null\n" +
                 "}";
         assertEquals(expectedString, experimentTemplate.toString());
+    }
+
+    @Test
+    public void testJsonDeserialization() throws Exception {
+        String json = "[{\"id\":75,\"userid\":136,\"created_at\":\"2025-01-20 20:01:35\",\"modified_at\":\"2025-01-24 15:39:32\",\"team\":5,\"title\":\"METIS Magnetometer TU-Da I\",\"status\":null,\"body\":\"<p>Description of the sample and measurement procedure.</p>\",\"category\":2,\"ordering\":null,\"canread\":\"{\\\"base\\\": 30, \\\"teams\\\": [], \\\"users\\\": [], \\\"teamgroups\\\": []}\",\"canwrite\":\"{\\\"base\\\": 20, \\\"teams\\\": [], \\\"users\\\": [], \\\"teamgroups\\\": []}\",\"canread_target\":\"{\\\"base\\\": 30, \\\"teams\\\": [], \\\"users\\\": [], \\\"teamgroups\\\": []}\",\"canwrite_target\":\"{\\\"base\\\": 20, \\\"teams\\\": [], \\\"users\\\": [], \\\"teamgroups\\\": []}\",\"content_type\":2,\"locked\":0,\"lockedby\":null,\"locked_at\":null,\"metadata\":\"{\\\"elabftw\\\":{\\\"extra_fields_groups\\\":[{\\\"id\\\":1,\\\"name\\\":\\\"Measurement Parameters\\\"}]},\\\"extra_fields\\\":{\\\"Pulse Magnetic Field Strength (in Tesla)\\\":{\\\"type\\\":\\\"text\\\",\\\"value\\\":\\\"\\\",\\\"required\\\":true,\\\"group_id\\\":1},\\\"Sample Temperature (in °C)\\\":{\\\"type\\\":\\\"text\\\",\\\"value\\\":\\\"RT\\\",\\\"required\\\":true,\\\"group_id\\\":1},\\\"Coil Diameter (in mm)\\\":{\\\"type\\\":\\\"text\\\",\\\"value\\\":\\\"\\\",\\\"required\\\":true,\\\"group_id\\\":1},\\\"Demagnetization Factor (N)\\\":{\\\"type\\\":\\\"text\\\",\\\"value\\\":\\\"-\\\",\\\"group_id\\\":1}}}\",\"state\":1,\"is_pinned\":0,\"status_title\":null,\"status_color\":null,\"category_title\":\"Experiment Analysis\",\"category_color\":\"bfbfff\",\"next_step\":null,\"firstname\":\"Myeongjong\",\"lastname\":\"Kim\",\"orcid\":null,\"fullname\":\"Myeongjong Kim\",\"team_name\":\"CRC/TRR 270\",\"up_item_id\":null,\"has_attachment\":null}]";
+        ObjectMapper objectMapper = new ObjectMapper();
+        ExperimentTemplate[] experimentTemplates = objectMapper.readValue(json, ExperimentTemplate[].class);
+        ExperimentTemplate experimentTemplate = experimentTemplates[0];
+
+        assertEquals(75, experimentTemplate.getId());
+        assertEquals(136, experimentTemplate.getUserid());
+        assertEquals("2025-01-20 20:01:35", experimentTemplate.getCreatedAt());
+        assertEquals("2025-01-24 15:39:32", experimentTemplate.getModifiedAt());
+        assertEquals(5, experimentTemplate.getTeamsId());
+        assertEquals("METIS Magnetometer TU-Da I", experimentTemplate.getTitle());
+        assertNull(experimentTemplate.getStatus());
+        assertEquals("<p>Description of the sample and measurement procedure.</p>", experimentTemplate.getBody());
+        assertEquals(2, experimentTemplate.getCategory());
+        assertNull(experimentTemplate.getOrdering());
+        assertEquals("{\"base\": 30, \"teams\": [], \"users\": [], \"teamgroups\": []}", experimentTemplate.getCanread());
+        assertEquals("{\"base\": 20, \"teams\": [], \"users\": [], \"teamgroups\": []}", experimentTemplate.getCanwrite());
+        assertEquals("{\"base\": 30, \"teams\": [], \"users\": [], \"teamgroups\": []}", experimentTemplate.getCanReadTarget());
+        assertEquals("{\"base\": 20, \"teams\": [], \"users\": [], \"teamgroups\": []}", experimentTemplate.getCanWriteTarget());
+        assertEquals(2, experimentTemplate.getContentType());
+        assertEquals(0, experimentTemplate.getLocked());
+        assertNull(experimentTemplate.getLockedby());
+        assertNull(experimentTemplate.getLockedAt());
+        assertEquals("{\"elabftw\":{\"extra_fields_groups\":[{\"id\":1,\"name\":\"Measurement Parameters\"}]},\"extra_fields\":{\"Pulse Magnetic Field Strength (in Tesla)\":{\"type\":\"text\",\"value\":\"\",\"required\":true,\"group_id\":1},\"Sample Temperature (in °C)\":{\"type\":\"text\",\"value\":\"RT\",\"required\":true,\"group_id\":1},\"Coil Diameter (in mm)\":{\"type\":\"text\",\"value\":\"\",\"required\":true,\"group_id\":1},\"Demagnetization Factor (N)\":{\"type\":\"text\",\"value\":\"-\",\"group_id\":1}}}", experimentTemplate.getMetadata());
+        assertEquals(1, experimentTemplate.getState());
+        assertEquals(0, experimentTemplate.getIsPinned());
+        assertNull(experimentTemplate.getStatusTitle());
+        assertNull(experimentTemplate.getStatusColor());
+        assertEquals("Experiment Analysis", experimentTemplate.getCategoryTitle());
+        assertEquals("bfbfff", experimentTemplate.getCategoryColor());
+        assertNull(experimentTemplate.getNextStep());
+        assertEquals("Myeongjong", experimentTemplate.getFirstname());
+        assertEquals("Kim", experimentTemplate.getLastname());
+        assertNull(experimentTemplate.getOrcId());
+        assertEquals("Myeongjong Kim", experimentTemplate.getFullname());
+        assertEquals("CRC/TRR 270", experimentTemplate.getTeamName());
+        assertNull(experimentTemplate.getUpItemId());
+        assertNull(experimentTemplate.getHasAttachment());
     }
 }
