@@ -18,10 +18,7 @@ import io.swagger.client.model.*;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -256,7 +253,7 @@ public class Experiments extends Composite<VerticalLayout> {
      */
     private List<Experiment> callExperimentsApi(String apiKey, String url) {
         // Fetch experiments
-        List<Experiment> result = apiInstance.getClient(apiKey, url).readExperiments(apiKey, url, null, null, null, null, null, null, null, null, null, null);
+        List<Experiment> result = apiInstance.getClient(apiKey, url).readExperiments(null, null, null, null, null, null, null, null, null, null, null, null); //read all experiments
         logger.info("Fetching experiments from {}", url);
         logger.info("Experiments: {}", result);
         return result;
