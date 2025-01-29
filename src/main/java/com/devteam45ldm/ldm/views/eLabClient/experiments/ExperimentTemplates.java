@@ -133,9 +133,9 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
     @Override
     public void setCredentials(String apiKey, String url) {
         this.apiKeyField.setValue(apiKey);
-        this.apiKeyField.setReadOnly(true);
+        this.apiKeyField.setReadOnly(apiKey!=null && !(apiKey.isEmpty()));
         this.urlField.setValue(url);
-        this.urlField.setReadOnly(true);
+        this.urlField.setReadOnly(url!=null && !(url.isEmpty()));
     }
 
     /**

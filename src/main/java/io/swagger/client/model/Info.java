@@ -13,18 +13,17 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 /**
  * InlineResponse200
  */
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
-
-public class InlineResponse200 {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Info {
   @JsonProperty("elabftw_version")
   private String elabftwVersion = null;
 
@@ -33,6 +32,9 @@ public class InlineResponse200 {
 
   @JsonProperty("ts_balance")
   private Integer tsBalance = null;
+
+  @JsonProperty("ts_limit")
+  private Integer tsLimit = null;
 
   @JsonProperty("all_users_count")
   private Integer allUsersCount = null;
@@ -58,7 +60,10 @@ public class InlineResponse200 {
   @JsonProperty("uploads_filesize_sum_formatted")
   private String uploadsFilesizeSumFormatted = null;
 
-  public InlineResponse200 elabftwVersion(String elabftwVersion) {
+  @JsonProperty("entities_timestamped_count_last_30_days")
+  private Integer entitiesTimestampedCountLast30Days = null;
+
+  public Info elabftwVersion(String elabftwVersion) {
     this.elabftwVersion = elabftwVersion;
     return this;
   }
@@ -76,7 +81,7 @@ public class InlineResponse200 {
     this.elabftwVersion = elabftwVersion;
   }
 
-  public InlineResponse200 elabftwVersionInt(Integer elabftwVersionInt) {
+  public Info elabftwVersionInt(Integer elabftwVersionInt) {
     this.elabftwVersionInt = elabftwVersionInt;
     return this;
   }
@@ -94,7 +99,7 @@ public class InlineResponse200 {
     this.elabftwVersionInt = elabftwVersionInt;
   }
 
-  public InlineResponse200 tsBalance(Integer tsBalance) {
+  public Info tsBalance(Integer tsBalance) {
     this.tsBalance = tsBalance;
     return this;
   }
@@ -112,7 +117,25 @@ public class InlineResponse200 {
     this.tsBalance = tsBalance;
   }
 
-  public InlineResponse200 allUsersCount(Integer allUsersCount) {
+  public Info tsLimit(Integer tsLimit) {
+    this.tsLimit = tsLimit;
+    return this;
+  }
+
+  /**
+   * Number of timestamp tokens left
+   * @return tsBalance
+   **/
+  @Schema(example = "461", description = "Number of timestamp tokens left")
+  public Integer getTsLimit() {
+    return tsLimit;
+  }
+
+  public void setTsLimit(Integer tsLimit) {
+    this.tsLimit = tsLimit;
+  }
+
+  public Info allUsersCount(Integer allUsersCount) {
     this.allUsersCount = allUsersCount;
     return this;
   }
@@ -130,7 +153,7 @@ public class InlineResponse200 {
     this.allUsersCount = allUsersCount;
   }
 
-  public InlineResponse200 activeUsersCount(Integer activeUsersCount) {
+  public Info activeUsersCount(Integer activeUsersCount) {
     this.activeUsersCount = activeUsersCount;
     return this;
   }
@@ -148,7 +171,7 @@ public class InlineResponse200 {
     this.activeUsersCount = activeUsersCount;
   }
 
-  public InlineResponse200 itemsCount(Integer itemsCount) {
+  public Info itemsCount(Integer itemsCount) {
     this.itemsCount = itemsCount;
     return this;
   }
@@ -166,7 +189,7 @@ public class InlineResponse200 {
     this.itemsCount = itemsCount;
   }
 
-  public InlineResponse200 teamsCount(Integer teamsCount) {
+  public Info teamsCount(Integer teamsCount) {
     this.teamsCount = teamsCount;
     return this;
   }
@@ -184,7 +207,7 @@ public class InlineResponse200 {
     this.teamsCount = teamsCount;
   }
 
-  public InlineResponse200 experimentsCount(Integer experimentsCount) {
+  public Info experimentsCount(Integer experimentsCount) {
     this.experimentsCount = experimentsCount;
     return this;
   }
@@ -202,7 +225,7 @@ public class InlineResponse200 {
     this.experimentsCount = experimentsCount;
   }
 
-  public InlineResponse200 experimentsTimestampedCount(Integer experimentsTimestampedCount) {
+  public Info experimentsTimestampedCount(Integer experimentsTimestampedCount) {
     this.experimentsTimestampedCount = experimentsTimestampedCount;
     return this;
   }
@@ -220,7 +243,7 @@ public class InlineResponse200 {
     this.experimentsTimestampedCount = experimentsTimestampedCount;
   }
 
-  public InlineResponse200 uploadsFilesizeSum(Integer uploadsFilesizeSum) {
+  public Info uploadsFilesizeSum(Integer uploadsFilesizeSum) {
     this.uploadsFilesizeSum = uploadsFilesizeSum;
     return this;
   }
@@ -238,7 +261,7 @@ public class InlineResponse200 {
     this.uploadsFilesizeSum = uploadsFilesizeSum;
   }
 
-  public InlineResponse200 uploadsFilesizeSumFormatted(String uploadsFilesizeSumFormatted) {
+  public Info uploadsFilesizeSumFormatted(String uploadsFilesizeSumFormatted) {
     this.uploadsFilesizeSumFormatted = uploadsFilesizeSumFormatted;
     return this;
   }
@@ -256,6 +279,18 @@ public class InlineResponse200 {
     this.uploadsFilesizeSumFormatted = uploadsFilesizeSumFormatted;
   }
 
+  public Integer getEntitiesTimestampedCountLast30Days() {
+    return entitiesTimestampedCountLast30Days;
+  }
+
+  public void setEntitiesTimestampedCountLast30Days(Integer entitiesTimestampedCountLast30Days) {
+    this.entitiesTimestampedCountLast30Days = entitiesTimestampedCountLast30Days;
+  }
+
+  public Info entitiesTimestampedCountLast30Days(Integer entitiesTimestampedCountLast30Days) {
+    this.entitiesTimestampedCountLast30Days = entitiesTimestampedCountLast30Days;
+    return this;
+  }
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -265,23 +300,25 @@ public class InlineResponse200 {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    InlineResponse200 inlineResponse200 = (InlineResponse200) o;
-    return Objects.equals(this.elabftwVersion, inlineResponse200.elabftwVersion) &&
-        Objects.equals(this.elabftwVersionInt, inlineResponse200.elabftwVersionInt) &&
-        Objects.equals(this.tsBalance, inlineResponse200.tsBalance) &&
-        Objects.equals(this.allUsersCount, inlineResponse200.allUsersCount) &&
-        Objects.equals(this.activeUsersCount, inlineResponse200.activeUsersCount) &&
-        Objects.equals(this.itemsCount, inlineResponse200.itemsCount) &&
-        Objects.equals(this.teamsCount, inlineResponse200.teamsCount) &&
-        Objects.equals(this.experimentsCount, inlineResponse200.experimentsCount) &&
-        Objects.equals(this.experimentsTimestampedCount, inlineResponse200.experimentsTimestampedCount) &&
-        Objects.equals(this.uploadsFilesizeSum, inlineResponse200.uploadsFilesizeSum) &&
-        Objects.equals(this.uploadsFilesizeSumFormatted, inlineResponse200.uploadsFilesizeSumFormatted);
+    Info info = (Info) o;
+    return Objects.equals(this.elabftwVersion, info.elabftwVersion) &&
+        Objects.equals(this.elabftwVersionInt, info.elabftwVersionInt) &&
+        Objects.equals(this.tsBalance, info.tsBalance) &&
+        Objects.equals(this.tsLimit, info.tsLimit) &&
+        Objects.equals(this.allUsersCount, info.allUsersCount) &&
+        Objects.equals(this.activeUsersCount, info.activeUsersCount) &&
+        Objects.equals(this.itemsCount, info.itemsCount) &&
+        Objects.equals(this.teamsCount, info.teamsCount) &&
+        Objects.equals(this.experimentsCount, info.experimentsCount) &&
+        Objects.equals(this.experimentsTimestampedCount, info.experimentsTimestampedCount) &&
+        Objects.equals(this.uploadsFilesizeSum, info.uploadsFilesizeSum) &&
+        Objects.equals(this.uploadsFilesizeSumFormatted, info.uploadsFilesizeSumFormatted) &&
+        Objects.equals(this.entitiesTimestampedCountLast30Days, info.entitiesTimestampedCountLast30Days);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(elabftwVersion, elabftwVersionInt, tsBalance, allUsersCount, activeUsersCount, itemsCount, teamsCount, experimentsCount, experimentsTimestampedCount, uploadsFilesizeSum, uploadsFilesizeSumFormatted);
+    return Objects.hash(elabftwVersion, elabftwVersionInt, tsBalance, tsLimit, allUsersCount, activeUsersCount, itemsCount, teamsCount, experimentsCount, experimentsTimestampedCount, uploadsFilesizeSum, uploadsFilesizeSumFormatted, entitiesTimestampedCountLast30Days);
   }
 
 
@@ -293,6 +330,7 @@ public class InlineResponse200 {
     sb.append("    elabftwVersion: ").append(toIndentedString(elabftwVersion)).append("\n");
     sb.append("    elabftwVersionInt: ").append(toIndentedString(elabftwVersionInt)).append("\n");
     sb.append("    tsBalance: ").append(toIndentedString(tsBalance)).append("\n");
+    sb.append("    tsLimit: ").append(toIndentedString(tsLimit)).append("\n");
     sb.append("    allUsersCount: ").append(toIndentedString(allUsersCount)).append("\n");
     sb.append("    activeUsersCount: ").append(toIndentedString(activeUsersCount)).append("\n");
     sb.append("    itemsCount: ").append(toIndentedString(itemsCount)).append("\n");
@@ -301,6 +339,7 @@ public class InlineResponse200 {
     sb.append("    experimentsTimestampedCount: ").append(toIndentedString(experimentsTimestampedCount)).append("\n");
     sb.append("    uploadsFilesizeSum: ").append(toIndentedString(uploadsFilesizeSum)).append("\n");
     sb.append("    uploadsFilesizeSumFormatted: ").append(toIndentedString(uploadsFilesizeSumFormatted)).append("\n");
+    sb.append("    entitiesTimestampedCountLast30Days: ").append(toIndentedString(entitiesTimestampedCountLast30Days)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -12,7 +12,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.spring.annotation.UIScope;
 import io.swagger.client.api.InfoApi;
-import io.swagger.client.model.InlineResponse200;
+import io.swagger.client.model.Info;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
@@ -57,6 +57,7 @@ public class Login extends Composite<VerticalLayout> {
             }
         });
         menuBar.addItem("Login", event -> getInfo());
+        menuBar.addItem("Logout", event -> deleteLogin());
         menuBar.getStyle().set("margin-bottom", "80px");
 
         getContent().setWidth("100%");
@@ -101,13 +102,20 @@ public class Login extends Composite<VerticalLayout> {
             return;
         }
 
-        InlineResponse200 info = eLabClient.getClient(apiKey, url).getInfo();
-        if (info != null) {
-            Notification.show("Anmeldung erfolgreich.");
+        try {
+            Info info = eLabClient.getClient(apiKey, url).getInfo();
+            String version = (info != null && info.getElabftwVersion() != null && !info.getElabftwVersion().isEmpty()) ? info.getElabftwVersion() : "unbekannt";
+            Notification.show("Anmeldung erfolgreich. eLab-Version: " + version);
             fireLoginEvent();
-        } else {
-            Notification.show("Fehler bei der Anmeldung.");
+        } catch (Exception e) {
+            Notification.show("Fehler bei der Anmeldung: " + e.getMessage());
         }
+    }
+
+    private void deleteLogin() {
+        urlField.clear();
+        apiKeyField.clear();
+        fireLoginEvent();
     }
 
     public void addLoginEventListener(LoginEventListener listener) {
