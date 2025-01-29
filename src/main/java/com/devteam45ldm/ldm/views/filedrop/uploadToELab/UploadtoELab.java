@@ -1,6 +1,6 @@
 package com.devteam45ldm.ldm.views.filedrop.uploadToELab;
 
-import com.devteam45ldm.ldm.views.filedrop.Template;
+import com.devteam45ldm.ldm.views.filedrop.eLabTemplate;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
@@ -22,35 +22,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 // add new for mongodb
-import org.springframework.stereotype.Component;
-import com.devteam45ldm.ldm.models.JsonTemplate;
 import com.devteam45ldm.ldm.services.JsonTemplateService;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
-import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.grid.Grid;
+import org.springframework.stereotype.Component;
+import com.devteam45ldm.ldm.models.Template;
 import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.component.combobox.ComboBox;
 import org.springframework.beans.factory.annotation.Autowired;
-import java.time.format.DateTimeFormatter;
+
+// imports for conversion
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.server.StreamResource;
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 
 @PageTitle("Upload to eLab")
 @UIScope
 @Component
 public class UploadtoELab extends Composite<VerticalLayout> {
+    private Grid<Template> grid2;
+    private final JsonTemplateService templateService;
+    private final ObjectMapper jsonMapper;
+    private final XmlMapper xmlMapper;
+
     @Autowired
-    private JsonTemplateService templateService;
-    private Grid<JsonTemplate> templateGrid;
 
-    public UploadtoELab() {
-
+    public UploadtoELab(JsonTemplateService templateService) {
+        jsonMapper = new ObjectMapper();
+        xmlMapper = new XmlMapper();
+        this.templateService = templateService;
+        //this.templateService = templateService;
         getContent().setSizeFull();
         // Create a memory buffer to store uploaded files
         MemoryBuffer buffer = new MemoryBuffer();
@@ -67,6 +69,7 @@ public class UploadtoELab extends Composite<VerticalLayout> {
         // Set some additional configurations
         upload.setMaxFiles(5);  // Limit to 5 files
         upload.setMaxFileSize(10 * 1024 * 1024);  // 10MB max file size
+        upload.setAcceptedFileTypes(".xml");
 
         // Optional: Customize the drop zone styling
         upload.getElement().getStyle()
@@ -122,6 +125,7 @@ public class UploadtoELab extends Composite<VerticalLayout> {
         barsSection.setSpacing(true);
         barsSection.setPadding(true);
 
+        /*
         // Create 4 bars with labels
         for (int i = 1; i <= 4; i++) {
             HorizontalLayout barLayout = new HorizontalLayout();
@@ -143,47 +147,37 @@ public class UploadtoELab extends Composite<VerticalLayout> {
             barsSection.add(barLayout);
         }
         getContent().add(barsSection);
-
+*/
 
 
         // Add event listeners for upload events
         upload.addSucceededListener(event -> {
             String fileName = event.getFileName();
-            String mimeType = event.getMIMEType();
-            long contentLength = event.getContentLength();
 
             try {
                 // Get the input stream of the uploaded file
                 InputStream inputStream = buffer.getInputStream();
-
-                // Process the file here (e.g., save to disk, database, etc.)
-                processUploadedFile(fileName, inputStream, mimeType, contentLength);
+                String xmlContent = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+                // Convert XML to JSON
+                Object xmlTree = xmlMapper.readValue(xmlContent, Object.class);
+                String jsonString = jsonMapper.writerWithDefaultPrettyPrinter()
+                        .writeValueAsString(xmlTree);
 
                 convertButton.addClickListener(event2 -> {
                     // add the processing logic later
                     Notification.show(buffer.getFileName() + " is being processed!");
                 });
+                // Create download link for JSON file
+                String jsonFileName = fileName.replace(".xml", ".json");
+                createDownloadLink(jsonString, jsonFileName);
+                Notification.show("File converted successfully: " + fileName,
+                        3000, Notification.Position.MIDDLE);
 
-                for(int i = 0; i < 4; i++) {
-                    switch(i){
-                        case 0:
-                            barFields.get(i).setValue(fileName);
-                            break;
-                        case 1:
-                            barFields.get(i).setValue(mimeType);
-                            break;
-                        case 2:
-                            barFields.get(i).setValue(contentLength + "");
-                            break;
-                        case 3: barFields.get(i).setValue("empty parameter");
-                            break;
-                        default:
-                            break;
-                    }
-                }
 
             } catch (Exception e) {
                 // Handle any upload errors
+                Notification.show("Error converting file: " + e.getMessage(),
+                        3000, Notification.Position.MIDDLE);
                 e.printStackTrace();
             }
         });
@@ -196,7 +190,7 @@ public class UploadtoELab extends Composite<VerticalLayout> {
         //-------------------------------------new Vertical Layout Component------------------------------------
 
         // Create the grid for database content
-        Grid<Template> grid = new Grid<>(Template.class);
+        Grid<eLabTemplate> grid = new Grid<>(eLabTemplate.class);
 
         // Configure grid columns to match your sketch
         grid.setColumns(); // Clear default columns
@@ -215,7 +209,48 @@ public class UploadtoELab extends Composite<VerticalLayout> {
         getContent().add(grid);
 
         //add table for mongodb
-        addTemplateManagementSection();
+        //addTemplateManagementSection();
+
+        //------------------------------------------------
+
+        // Create the grid
+        grid2 = new Grid<>(Template.class);
+        grid2.setColumns("name", "category", "status", "createdAt");
+
+        // Create input fields
+        TextField nameField = new TextField("Template Name");
+        TextField categoryField = new TextField("Category");
+        TextField statusField = new TextField("Status");
+
+        // Create add button
+        Button addButton = new Button("Add Template", e -> {
+            Template template = new Template();
+            template.setName(nameField.getValue());
+            template.setCategory(categoryField.getValue());
+            template.setStatus(statusField.getValue());
+
+            //templateService.save(template);
+            //updateGrid();
+
+            // Clear fields
+            nameField.clear();
+            categoryField.clear();
+            statusField.clear();
+        });
+
+        // Layout for input fields
+        HorizontalLayout inputLayout = new HorizontalLayout();
+        inputLayout.add(nameField, categoryField, statusField, addButton);
+
+        // Add components to main layout
+        getContent().add(
+                new H3("Templates"),
+                inputLayout,
+                grid
+        );
+
+        // Initial grid update
+        //updateGrid();
     }
 
     /**
@@ -241,6 +276,24 @@ public class UploadtoELab extends Composite<VerticalLayout> {
         // This is where you'd add your specific file handling logic
     }
 
+    private void updateGrid() {
+        grid2.setItems(templateService.findAll());
+    }
+
+    private void createDownloadLink(String content, String fileName) {
+        byte[] bytes = content.getBytes(StandardCharsets.UTF_8);
+        StreamResource resource = new StreamResource(fileName,
+                () -> new ByteArrayInputStream(bytes));
+        Anchor downloadLink = new Anchor(resource, "Download " + fileName);
+        downloadLink.getElement().setAttribute("download", true);
+        downloadLink.getElement().getStyle()
+                .set("margin", "10px")
+                .set("display", "block");
+        this.getContent().add(downloadLink);
+    }
+
+
+    /*
     private void updateTemplateGrid() {
         templateGrid.setItems(templateService.getAllTemplates());
     }
@@ -359,4 +412,6 @@ public class UploadtoELab extends Composite<VerticalLayout> {
         editor.add(dialogLayout);
         editor.open();
     }
+
+     */
 }

@@ -1,7 +1,7 @@
 
 package com.devteam45ldm.ldm.views.filedrop;
 
-public class Template {
+public class eLabTemplate {
     private String templateId;
     private String templateName;
     private String param1;

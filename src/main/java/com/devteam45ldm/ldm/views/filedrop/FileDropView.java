@@ -1,5 +1,6 @@
 package com.devteam45ldm.ldm.views.filedrop;
 
+import com.devteam45ldm.ldm.services.JsonTemplateService;
 import com.devteam45ldm.ldm.views.filedrop.uploadToELab.UploadtoELab;
 import com.devteam45ldm.ldm.views.filedrop.conversion.Conversion;
 import com.vaadin.flow.component.Composite;
@@ -16,6 +17,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 //new imports for extension
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.grid.Grid;
@@ -39,14 +42,17 @@ import java.util.List;
 @PageTitle("File Upload")
 @Route("file-upload")
 @Menu(order = 3, icon = "line-awesome/svg/arrow-alt-circle-down.svg")
+
 public class FileDropView extends Composite<VerticalLayout> {
 
+    private final JsonTemplateService templateService;
     /**
      * Constructs a new FileDropView instance.
      * Initializes and configures the uploaded file with custom design,
      * file constraints, and messages for successful and failed uploads.
      */
-    public FileDropView() {
+    public FileDropView(JsonTemplateService templateService) {
+        this.templateService = templateService;
         // Create Tabs for conversion and file upload
         getContent().setSizeFull();
 
@@ -62,9 +68,8 @@ public class FileDropView extends Composite<VerticalLayout> {
     }
 
     private void setTabSheetContent(TabSheet tabSheet) {
-        // Create instances of your content components
-        UploadtoELab uploadTab = new UploadtoELab();
-        uploadTab.getContent().setSizeFull(); // Make sure UploadtoELab uses full size
+        UploadtoELab uploadTab = new UploadtoELab(templateService);
+        uploadTab.getContent().setSizeFull();
 
         Conversion conversionTab = new Conversion();
         conversionTab.getContent().setSizeFull();
