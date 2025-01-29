@@ -23,43 +23,43 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 public class Info {
   @JsonProperty("elabftw_version")
-  private String elabftwVersion = null;
+  private String elabftwVersion;
 
   @JsonProperty("elabftw_version_int")
-  private Integer elabftwVersionInt = null;
+  private Integer elabftwVersionInt;
 
   @JsonProperty("ts_balance")
-  private Integer tsBalance = null;
+  private Integer tsBalance;
 
   @JsonProperty("ts_limit")
-  private Integer tsLimit = null;
-
-  @JsonProperty("all_users_count")
-  private Integer allUsersCount = null;
-
-  @JsonProperty("active_users_count")
-  private Integer activeUsersCount = null;
-
-  @JsonProperty("items_count")
-  private Integer itemsCount = null;
-
-  @JsonProperty("teams_count")
-  private Integer teamsCount = null;
-
-  @JsonProperty("experiments_count")
-  private Integer experimentsCount = null;
-
-  @JsonProperty("experiments_timestamped_count")
-  private Integer experimentsTimestampedCount = null;
+  private Integer tsLimit;
 
   @JsonProperty("uploads_filesize_sum")
-  private Integer uploadsFilesizeSum = null;
+  private Long uploadsFilesizeSum;
 
   @JsonProperty("uploads_filesize_sum_formatted")
-  private String uploadsFilesizeSumFormatted = null;
+  private String uploadsFilesizeSumFormatted;
+
+  @JsonProperty("all_users_count")
+  private Integer allUsersCount;
+
+  @JsonProperty("active_users_count")
+  private Integer activeUsersCount;
+
+  @JsonProperty("items_count")
+  private Integer itemsCount;
+
+  @JsonProperty("teams_count")
+  private Integer teamsCount;
+
+  @JsonProperty("experiments_count")
+  private Integer experimentsCount;
+
+  @JsonProperty("experiments_timestamped_count")
+  private Integer experimentsTimestampedCount;
 
   @JsonProperty("entities_timestamped_count_last_30_days")
-  private Integer entitiesTimestampedCountLast30Days = null;
+  private Integer entitiesTimestampedCountLast30Days;
 
   public Info elabftwVersion(String elabftwVersion) {
     this.elabftwVersion = elabftwVersion;
@@ -241,7 +241,7 @@ public class Info {
     this.experimentsTimestampedCount = experimentsTimestampedCount;
   }
 
-  public Info uploadsFilesizeSum(Integer uploadsFilesizeSum) {
+  public Info uploadsFilesizeSum(Long uploadsFilesizeSum) {
     this.uploadsFilesizeSum = uploadsFilesizeSum;
     return this;
   }
@@ -251,11 +251,11 @@ public class Info {
    * @return uploadsFilesizeSum
   **/
   @Schema(example = "25681672", description = "Sum of stored filesize in MySQL for all uploads of the instance.")
-  public Integer getUploadsFilesizeSum() {
+  public Long getUploadsFilesizeSum() {
     return uploadsFilesizeSum;
   }
 
-  public void setUploadsFilesizeSum(Integer uploadsFilesizeSum) {
+  public void setUploadsFilesizeSum(Long uploadsFilesizeSum) {
     this.uploadsFilesizeSum = uploadsFilesizeSum;
   }
 
