@@ -1,6 +1,6 @@
-package com.devteam45ldm.ldm.views.ApiTest.Tags;
+package com.devteam45ldm.ldm.views.eLabClient.tags;
 
-import com.devteam45ldm.ldm.views.ApiTest.ELabClient;
+import com.devteam45ldm.ldm.views.eLabClient.ELabClient;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.menubar.MenuBar;

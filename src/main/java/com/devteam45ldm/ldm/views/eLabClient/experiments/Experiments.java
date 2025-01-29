@@ -1,4 +1,4 @@
-package com.devteam45ldm.ldm.views.ApiTest.Experiments;
+package com.devteam45ldm.ldm.views.eLabClient.experiments;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.devteam45ldm.ldm.views.ApiTest.ELabClient;
+import com.devteam45ldm.ldm.views.eLabClient.ELabClient;
 import org.springframework.web.client.RestClientException;
 import org.yaml.snakeyaml.util.Tuple;
 
@@ -42,20 +42,20 @@ import org.yaml.snakeyaml.util.Tuple;
 //@Route("api-test/experiments")
 //@Menu(order = 10, icon = "line-awesome/svg/globe-solid.svg")
 @UIScope
-public class ExperimentTemplates extends Composite<VerticalLayout> {
+public class Experiments extends Composite<VerticalLayout> {
 
-    private static final Logger logger = LoggerFactory.getLogger(ExperimentTemplates.class);
+    private static final Logger logger = LoggerFactory.getLogger(Experiments.class);
 
     private final TextField urlField;
     private final PasswordField apiKeyField;
     private final ComboBox<String> experimentsComboBox;
-    private List<ExperimentTemplate> experiments;
+    private List<Experiment> experiments;
     private final VerticalLayout experimentDetailsLayout;
-    private final ELabClient<ExperimentsTemplatesApi> apiInstance = new ELabClient<>(ExperimentsTemplatesApi.class);
+    private final ELabClient<ExperimentsApi> apiInstance = new ELabClient<>(ExperimentsApi.class);
     private final TextField editField = new TextField();
     private final MenuBar editMenuBar = new MenuBar();
     private final MenuBar experimentsMenuBar = new MenuBar();
-    private ExperimentTemplate selectedExperiment;
+    private Experiment selectedExperiment;
     private final HashMap<String, TextField> leftComponents = new HashMap<>();
     private final HashMap<String, TextField> rightComponents = new HashMap<>();
 
@@ -63,7 +63,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
      * Constructs the ExperimentTemplates view.
      * Initializes the UI components and layout.
      */
-    public ExperimentTemplates() {
+    public Experiments() {
         // Erste Zeile: URL und Test-Button
         urlField = new TextField("URL");
 
@@ -223,7 +223,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
         try {
             experiments = callExperimentsApi(apiKey, url);
             Map<String, Long> titleCount = experiments.stream()
-                    .collect(Collectors.groupingBy(ExperimentTemplate::getTitle, Collectors.counting()));
+                    .collect(Collectors.groupingBy(Experiment::getTitle, Collectors.counting()));
 
             List<String> experimentTitles = experiments.stream()
                     .map(experiment -> {
@@ -254,9 +254,9 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
      * @param url the URL
      * @return the list of experiments
      */
-    private List<ExperimentTemplate> callExperimentsApi(String apiKey, String url) {
+    private List<Experiment> callExperimentsApi(String apiKey, String url) {
         // Fetch experiments
-        List<ExperimentTemplate> result = apiInstance.getClient(apiKey, url).readExperimentsTemplates();
+        List<Experiment> result = apiInstance.getClient(apiKey, url).readExperiments(apiKey, url, null, null, null, null, null, null, null, null, null, null);
         logger.info("Fetching experiments from {}", url);
         logger.info("Experiments: {}", result);
         return result;
@@ -305,17 +305,17 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
                 leftMapping.put("User ID", new Tuple<>(selectedExperiment.getUserid() != null ? String.valueOf(selectedExperiment.getUserid()) : "null", 2));
                 leftMapping.put("Created At", new Tuple<>(selectedExperiment.getCreatedAt() != null ? selectedExperiment.getCreatedAt() : "null", 3));
                 leftMapping.put("Modified At", new Tuple<>(selectedExperiment.getModifiedAt() != null ? selectedExperiment.getModifiedAt() : "null", 4));
-                leftMapping.put("Team", new Tuple<>(selectedExperiment.getTeamsId() != null ? String.valueOf(selectedExperiment.getTeamsId()) : "null", 5));
+                //leftMapping.put("Team", new Tuple<>(selectedExperiment.getTeamsId() != null ? String.valueOf(selectedExperiment.getTeamsId()) : "null", 5));
                 leftMapping.put("Status", new Tuple<>(selectedExperiment.getStatus() != null ? String.valueOf(selectedExperiment.getStatus()) : "null", 6));
                 leftMapping.put("Body", new Tuple<>(selectedExperiment.getBody() != null ? selectedExperiment.getBody() : "null", 7));
                 leftMapping.put("Category", new Tuple<>(selectedExperiment.getCategory() != null ? String.valueOf(selectedExperiment.getCategory()) : "null", 8));
-                leftMapping.put("Ordering", new Tuple<>(selectedExperiment.getOrdering() != null ? String.valueOf(selectedExperiment.getOrdering()) : "null", 9));
+                //leftMapping.put("Ordering", new Tuple<>(selectedExperiment.getOrdering() != null ? String.valueOf(selectedExperiment.getOrdering()) : "null", 9));
                 leftMapping.put("Can Read", new Tuple<>(selectedExperiment.getCanread() != null ? selectedExperiment.getCanread() : "null", 10));
                 leftMapping.put("Can Write", new Tuple<>(selectedExperiment.getCanwrite() != null ? selectedExperiment.getCanwrite() : "null", 11));
-                leftMapping.put("Can Read Target", new Tuple<>(selectedExperiment.getCanReadTarget() != null ? selectedExperiment.getCanReadTarget() : "null", 12));
-                leftMapping.put("Can Write Target", new Tuple<>(selectedExperiment.getCanWriteTarget() != null ? selectedExperiment.getCanWriteTarget() : "null", 13));
+                //leftMapping.put("Can Read Target", new Tuple<>(selectedExperiment.getCanReadTarget() != null ? selectedExperiment.getCanReadTarget() : "null", 12));
+                //leftMapping.put("Can Write Target", new Tuple<>(selectedExperiment.getCanWriteTarget() != null ? selectedExperiment.getCanWriteTarget() : "null", 13));
                 leftMapping.put("Up Item ID", new Tuple<>(selectedExperiment.getUpItemId() != null ? String.valueOf(selectedExperiment.getUpItemId()) : "null", 14));
-                leftMapping.put("Has Attachment", new Tuple<>(selectedExperiment.getHasAttachment() != null ? selectedExperiment.getHasAttachment() : "null", 15));
+                //leftMapping.put("Has Attachment", new Tuple<>(selectedExperiment.getHasAttachment() != null ? selectedExperiment.getHasAttachment() : "null", 15));
                 leftMapping.put("Exclusive Edit Mode", new Tuple<>(selectedExperiment.getExclusiveEditMode() != null ? selectedExperiment.getExclusiveEditMode().toString() : "null", 16));
 
                 Map<String, Tuple<String, Integer>> rightMapping = new HashMap<>();
@@ -325,7 +325,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
                 rightMapping.put("Locked At", new Tuple<>(selectedExperiment.getLockedAt() != null ? selectedExperiment.getLockedAt() : "null", 3));
                 rightMapping.put("Metadata", new Tuple<>(selectedExperiment.getMetadata() != null ? selectedExperiment.getMetadata() : "null", 4));
                 rightMapping.put("State", new Tuple<>(selectedExperiment.getState() != null ? String.valueOf(selectedExperiment.getState()) : "null", 5));
-                rightMapping.put("Is Pinned", new Tuple<>(selectedExperiment.getIsPinned() != null ? String.valueOf(selectedExperiment.getIsPinned()) : "null", 6));
+                //rightMapping.put("Is Pinned", new Tuple<>(selectedExperiment.getIsPinned() != null ? String.valueOf(selectedExperiment.getIsPinned()) : "null", 6));
                 rightMapping.put("Status Title", new Tuple<>(selectedExperiment.getStatusTitle() != null ? selectedExperiment.getStatusTitle() : "null", 7));
                 rightMapping.put("Status Color", new Tuple<>(selectedExperiment.getStatusColor() != null ? selectedExperiment.getStatusColor() : "null", 8));
                 rightMapping.put("Category Title", new Tuple<>(selectedExperiment.getCategoryTitle() != null ? selectedExperiment.getCategoryTitle() : "null", 9));
@@ -333,9 +333,9 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
                 rightMapping.put("Next Step", new Tuple<>(selectedExperiment.getNextStep() != null ? selectedExperiment.getNextStep() : "null", 11));
                 rightMapping.put("First Name", new Tuple<>(selectedExperiment.getFirstname() != null ? selectedExperiment.getFirstname() : "null", 12));
                 rightMapping.put("Last Name", new Tuple<>(selectedExperiment.getLastname() != null ? selectedExperiment.getLastname() : "null", 13));
-                rightMapping.put("Orc ID", new Tuple<>(selectedExperiment.getOrcId() != null ? selectedExperiment.getOrcId() : "null", 14));
+                //rightMapping.put("Orc ID", new Tuple<>(selectedExperiment.getOrcId() != null ? selectedExperiment.getOrcId() : "null", 14));
                 rightMapping.put("Full Name", new Tuple<>(selectedExperiment.getFullname() != null ? selectedExperiment.getFullname() : "null", 15));
-                rightMapping.put("Team Name", new Tuple<>(selectedExperiment.getTeamName() != null ? selectedExperiment.getTeamName() : "null", 16));
+                //rightMapping.put("Team Name", new Tuple<>(selectedExperiment.getTeamName() != null ? selectedExperiment.getTeamName() : "null", 16));
 
                 leftMapping.forEach((label, tuple) -> {
                     TextField textField = createTextField(label, tuple._1(), tuple._2());
@@ -391,8 +391,8 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
      */
     private void createExperiment() {
         String title = editField.getValue();
-        ExperimentsTemplatesBody body = new ExperimentsTemplatesBody().title(title);
-        apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).postExperimentTemplate(body);
+        ExperimentsBody body = new ExperimentsBody();
+        apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).postExperiment(body);
         Notification.show("Experiment erfolgreich erstellt.");
         resetEditComponents();
         readExperiments();
@@ -410,7 +410,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
         Integer id = selectedExperiment.getId();
         updateSelectedExperiment();
         try {
-            apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).patchExperimentTemplate(id,selectedExperiment);
+            apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).patchExperiment(id,selectedExperiment);
         } catch (RestClientException e) {
             Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
         }
@@ -434,7 +434,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
      * Clears the ComboBox selection and resets the edit components.
      */
     private void deleteExperiment() {
-        apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).deleteExperimentTemplate(selectedExperiment.getId());
+        apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).deleteExperiment(selectedExperiment.getId());
         Notification.show("Experiment erfolgreich gelöscht.");
         resetEditComponents();
         readExperiments();
@@ -472,7 +472,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
         if (id != null) {
             experimentsComboBox.setValue(experiments.stream()
                     .filter(experiment -> Objects.equals(experiment.getId(), id))
-                    .map(ExperimentTemplate::getTitle)
+                    .map(Experiment::getTitle)
                     .findFirst()
                     .orElse(null));
         }
