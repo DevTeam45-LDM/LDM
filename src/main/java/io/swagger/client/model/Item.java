@@ -13,25 +13,17 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.client.model.Comment;
-import io.swagger.client.model.Entity;
-import io.swagger.client.model.ExclusiveEditMode;
-import io.swagger.client.model.Link;
-import io.swagger.client.model.Step;
-import io.swagger.client.model.Upload;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.util.List;
+
 /**
  * Item
  */
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
-public class Item extends Entity implements ItemsIdBody1 {
+public class Item extends Entity_DEPRECATED implements ItemsIdBody1 {
   @JsonProperty("is_bookable")
   private Integer isBookable = null;
 

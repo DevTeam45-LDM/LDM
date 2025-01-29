@@ -5,9 +5,8 @@ import io.swagger.client.ApiClient;
 import io.swagger.client.model.Experiment;
 import io.swagger.client.model.ExperimentsBody;
 import io.swagger.client.model.ExperimentsIdBody;
-import io.swagger.client.model.ExperimentsIdBody1;
+import io.swagger.client.model.ExperimentsIdBody1_DEPRECATED;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,6 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -166,7 +164,7 @@ public class ExperimentsApi {
      * @return Experiment
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Experiment patchExperiment(Integer id, ExperimentsIdBody1 body) throws RestClientException {
+    public Experiment patchExperiment(Integer id, ExperimentsIdBody1_DEPRECATED body) throws RestClientException {
         return patchExperimentWithHttpInfo(id, body).getBody();
     }
 
@@ -179,7 +177,7 @@ public class ExperimentsApi {
      * @return ResponseEntity&lt;Experiment&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Experiment> patchExperimentWithHttpInfo(Integer id, ExperimentsIdBody1 body) throws RestClientException {
+    public ResponseEntity<Experiment> patchExperimentWithHttpInfo(Integer id, ExperimentsIdBody1_DEPRECATED body) throws RestClientException {
         Object postBody = body;
         // verify the required parameter 'id' is set
         if (id == null) {
