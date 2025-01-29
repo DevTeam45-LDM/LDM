@@ -367,15 +367,3 @@ public class ExperimentsApi {
         return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
 }
-
-
-/*
-  curl --location --request PATCH 'https://sfb270eln.physik.uni-due.de/api/v2/experiments_templates/81' \
-  --header 'Authorization: xx-xxxxxxxxxxxxxxxxxxxx' \
-  --header 'action: update' \
-  --header 'Content-Type: application/json' \
-  --header 'Cookie: PHPSESSID=xxxxxxx' \
-  --data '{
-    "title": "testJonas2"
-  }'
- */
