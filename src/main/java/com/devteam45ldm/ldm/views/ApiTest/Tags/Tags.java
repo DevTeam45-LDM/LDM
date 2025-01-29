@@ -272,7 +272,7 @@ public class Tags extends Composite<VerticalLayout> {
             apiInstance.patchTeamTag(5, id, new TagsSubidBody().tag(tag).action(TagsSubidBody.ActionEnum.UPDATETAG));
             return true;
         } catch (RestClientException e) {
-            Notification.show("Error: " + e.getMessage()); //DEBUG
+            //Notification.show("Error: " + e.getMessage()); //DEBUG
             return false;
         }
     }

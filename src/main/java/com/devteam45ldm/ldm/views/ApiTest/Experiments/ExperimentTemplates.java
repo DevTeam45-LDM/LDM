@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.devteam45ldm.ldm.views.ApiTest.ELabClient;
+import org.springframework.web.client.RestClientException;
 import org.yaml.snakeyaml.util.Tuple;
 
 
@@ -408,7 +409,11 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
     private void saveChanges() {
         Integer id = selectedExperiment.getId();
         updateSelectedExperiment();
-        apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).patchExperimentTemplate(id,selectedExperiment);
+        try {
+            apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).patchExperimentTemplate(id,selectedExperiment);
+        } catch (RestClientException e) {
+            Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
+        }
         setFormComponentReadOnly(true);
         Notification.show("Änderungen erfolgreich gespeichert.");
         resetEditComponents();
