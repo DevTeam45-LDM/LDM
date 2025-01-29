@@ -22,10 +22,7 @@ import java.util.Objects;
 /**
  * Experiment
  */
-
-//TODO events_start, events_start_itemid, team_name
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
-
 public class Experiment {
 
   @JsonProperty("access_key")
@@ -69,6 +66,12 @@ public class Experiment {
 
   @JsonProperty("elabid")
   private String elabid = null;
+
+  @JsonProperty("events_start") //TODO GETTER, SETTER, FLUENT METHOD
+  private String eventsStart = null;
+
+  @JsonProperty("events_start_itemid") //TODO GETTER, SETTER, FLUENT METHOD
+  private String eventsStartItemId = null;
 
   @JsonProperty("exclusive_edit_mode")
   private ExclusiveEditMode exclusiveEditMode = null;
@@ -162,6 +165,9 @@ public class Experiment {
 
   @JsonProperty("team")
   private Integer team = null;
+
+  @JsonProperty("team_name") //TODO GETTER, SETTER, FLUENT METHOD
+  private Integer teamName = null;
 
   @JsonProperty("timestamped")
   private Integer timestamped = null;
@@ -433,6 +439,33 @@ public class Experiment {
     this.elabid = elabid;
     return this;
   }
+
+  public String getEventsStart() {
+    return eventsStart;
+  }
+
+  public void setEventsStart(String eventsStart) {
+    this.eventsStart = eventsStart;
+  }
+
+  public Experiment eventsStart(String eventsStart) {
+    this.eventsStart = eventsStart;
+    return this;
+  }
+
+  public String getEventsStartItemId() {
+    return eventsStartItemId;
+  }
+
+  public void setEventsStartItemId(String eventsStartItemId) {
+    this.eventsStartItemId = eventsStartItemId;
+  }
+
+  public Experiment eventsStartItemId(String eventsStartItemId) {
+    this.eventsStartItemId = eventsStartItemId;
+    return this;
+  }
+
 
   /**
    * Get elabid
@@ -1047,6 +1080,19 @@ public class Experiment {
 
   public Experiment timestamped(Integer timestamped) {
     this.timestamped = timestamped;
+    return this;
+  }
+
+  public Integer getTeamName() {
+    return teamName;
+  }
+
+  public void setTeamName(Integer teamName) {
+    this.teamName = teamName;
+  }
+
+  public Experiment teamName(Integer teamName) {
+    this.teamName = teamName;
     return this;
   }
 
