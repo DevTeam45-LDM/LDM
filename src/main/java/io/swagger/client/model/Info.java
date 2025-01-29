@@ -122,7 +122,7 @@ public class Info {
 
   /**
    * Number of timestamp tokens left
-   * @return tsBalance
+   * @return tsLimit
    **/
   @Schema(example = "461", description = "Number of timestamp tokens left")
   public Integer getTsLimit() {
