@@ -5,7 +5,6 @@ import io.swagger.client.ApiClient;
 import io.swagger.client.model.Experiment;
 import io.swagger.client.model.ExperimentsBody;
 import io.swagger.client.model.ExperimentsIdBody;
-import io.swagger.client.model.ExperimentsIdBody1_DEPRECATED;
 
 import java.util.HashMap;
 import java.util.List;
@@ -164,7 +163,7 @@ public class ExperimentsApi {
      * @return Experiment
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Experiment patchExperiment(Integer id, ExperimentsIdBody1_DEPRECATED body) throws RestClientException {
+    public Experiment patchExperiment(Integer id, Experiment body) throws RestClientException {
         return patchExperimentWithHttpInfo(id, body).getBody();
     }
 
@@ -177,7 +176,7 @@ public class ExperimentsApi {
      * @return ResponseEntity&lt;Experiment&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Experiment> patchExperimentWithHttpInfo(Integer id, ExperimentsIdBody1_DEPRECATED body) throws RestClientException {
+    public ResponseEntity<Experiment> patchExperimentWithHttpInfo(Integer id, Experiment body) throws RestClientException {
         Object postBody = body;
         // verify the required parameter 'id' is set
         if (id == null) {

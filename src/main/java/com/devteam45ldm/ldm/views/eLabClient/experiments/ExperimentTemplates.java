@@ -486,6 +486,6 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
      */
     private void setFormComponentReadOnly(Boolean status) {
         leftComponents.get("Title").setReadOnly(status);
-        rightComponents.get("Is Pinned").setReadOnly(status);
+        //rightComponents.get("Is Pinned").setReadOnly(status); // not editable
     }
 }
