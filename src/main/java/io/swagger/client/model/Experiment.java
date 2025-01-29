@@ -167,7 +167,7 @@ public class Experiment {
   private Integer team = null;
 
   @JsonProperty("team_name")
-  private Integer teamName = null;
+  private String teamName = null;
 
   @JsonProperty("timestamped")
   private Integer timestamped = null;
@@ -1083,15 +1083,15 @@ public class Experiment {
     return this;
   }
 
-  public Integer getTeamName() {
+  public String getTeamName() {
     return teamName;
   }
 
-  public void setTeamName(Integer teamName) {
+  public void setTeamName(String teamName) {
     this.teamName = teamName;
   }
 
-  public Experiment teamName(Integer teamName) {
+  public Experiment teamName(String teamName) {
     this.teamName = teamName;
     return this;
   }

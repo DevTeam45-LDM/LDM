@@ -2,6 +2,7 @@ package com.devteam45ldm.ldm.views.eLabClient;
 
 import com.devteam45ldm.ldm.views.eLabClient.experiments.ExperimentTemplates;
 import com.devteam45ldm.ldm.views.eLabClient.experiments.Experiments;
+import com.devteam45ldm.ldm.views.eLabClient.login.Login;
 import com.devteam45ldm.ldm.views.eLabClient.tags.Tags;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -17,6 +18,8 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @UIScope
 public class ApiTest extends Composite<VerticalLayout> {
 
+    private final Login login = new Login();
+
     public ApiTest() {
         TabSheet tabSheet = new TabSheet();
         getContent().setWidth("100%");
@@ -27,6 +30,7 @@ public class ApiTest extends Composite<VerticalLayout> {
     }
 
     private void setTabSheetContent(TabSheet tabSheet) {
+        tabSheet.add("Login", login);
         tabSheet.add("Tags", new Tags());
         tabSheet.add("Experimentvorlagen", new ExperimentTemplates());
         tabSheet.add("Experimente", new Experiments());

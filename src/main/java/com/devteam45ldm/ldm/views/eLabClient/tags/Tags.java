@@ -126,9 +126,9 @@ public class Tags extends Composite<VerticalLayout> {
         HTTPController httpController = new HTTPController();
         ResponseEntity<String> checkURL = httpController.checkURL(url);
         if (checkURL.getStatusCode().is2xxSuccessful() || checkURL.getStatusCode().is3xxRedirection() || checkURL.getStatusCode().value() == 401) {
-            Notification.show("API ist erreichtbar.");
+            Notification.show("eLab ist erreichbar.");
         } else {
-            Notification.show("API ist nicht erreichbar: " + checkURL);
+            Notification.show("eLab ist nicht erreichbar: " + checkURL);
         }
     }
 
@@ -141,15 +141,15 @@ public class Tags extends Composite<VerticalLayout> {
         String url = urlField.getValue();
 
         if ((apiKey == null || apiKey.isEmpty()) && (url == null || url.isEmpty())) {
-            Notification.show("Bitte geben Sie einen API-Schlüssel und eine URL ein.");
+            Notification.show("Bitte einen API-Schlüssel und eine URL eingeben.");
             return;
         }
         if (apiKey == null || apiKey.isEmpty()) {
-            Notification.show("Bitte geben Sie einen API-Schlüssel ein.");
+            Notification.show("Bitte einen API-Schlüssel eingeben.");
             return;
         }
         if (url == null || url.isEmpty()) {
-            Notification.show("Bitte geben Sie eine URL ein.");
+            Notification.show("Bitte eine URL eingeben.");
             return;
         }
 
@@ -159,7 +159,7 @@ public class Tags extends Composite<VerticalLayout> {
             responseGrid.setVisible(true);
             tagsMenuBar.setVisible(true);
         } catch (Exception e) {
-            Notification.show("Error: " + e.getMessage());
+            Notification.show("Fehler: " + e.getMessage());
         }
     }
 
@@ -189,7 +189,7 @@ public class Tags extends Composite<VerticalLayout> {
             tagsMenuBar.setVisible(false);
         }
         else {
-            Notification.show("Bitte wählen Sie einen Tag aus.");
+            Notification.show("Bitte wähle einen Tag aus.");
         }
     }
 
@@ -205,7 +205,7 @@ public class Tags extends Composite<VerticalLayout> {
             tagsMenuBar.setVisible(false);
         }
         else {
-            Notification.show("Bitte wählen Sie einen Tag aus.");
+            Notification.show("Bitte wähle einen Tag aus.");
         }
     }
 
