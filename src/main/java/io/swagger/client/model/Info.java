@@ -14,15 +14,13 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 /**
- * InlineResponse200
+ * Info
  */
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Info {
   @JsonProperty("elabftw_version")
   private String elabftwVersion = null;
