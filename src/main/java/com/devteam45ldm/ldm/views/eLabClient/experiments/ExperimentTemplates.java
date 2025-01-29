@@ -102,7 +102,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
         experimentDetailsLayout.setVisible(false);
 
         // Initialize ComboBox for experiments
-        experimentsComboBox = new ComboBox<>("Templates");
+        experimentsComboBox = new ComboBox<>("Vorlagen");
         experimentsComboBox.setWidthFull();
         experimentsComboBox.getStyle().set("margin-bottom", "50px");
         experimentsComboBox.setAllowCustomValue(false);
@@ -237,7 +237,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
                     .collect(Collectors.toList());
 
             experimentsComboBox.setItems(experimentTitles);
-            experimentsComboBox.setLabel("Templates (" + experiments.size() + ")");
+            experimentsComboBox.setLabel("Vorlagen (" + experiments.size() + ")");
             logger.info("Experiments fetched successfully.");
             Notification.show("Experiments fetched successfully.");
             experimentsMenuBar.setVisible(true);

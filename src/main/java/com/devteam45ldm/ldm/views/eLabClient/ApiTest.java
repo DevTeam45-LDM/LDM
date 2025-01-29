@@ -28,7 +28,7 @@ public class ApiTest extends Composite<VerticalLayout> {
 
     private void setTabSheetContent(TabSheet tabSheet) {
         tabSheet.add("Tags", new Tags());
-        tabSheet.add("ExperimentTemplates", new ExperimentTemplates());
-        tabSheet.add("Experiments", new Experiments());
+        tabSheet.add("Experimentvorlagen", new ExperimentTemplates());
+        tabSheet.add("Experimente", new Experiments());
     }
 }
