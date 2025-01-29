@@ -23,6 +23,7 @@ import java.util.Objects;
  * Experiment
  */
 
+//TODO events_start, events_start_itemid, team_name
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class Experiment {
