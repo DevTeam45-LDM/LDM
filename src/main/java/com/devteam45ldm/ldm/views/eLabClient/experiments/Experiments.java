@@ -89,7 +89,7 @@ public class Experiments extends Composite<VerticalLayout> {
                 testUrl();
             } catch (IOException e) {
                 logger.error("Error testing URL", e);
-                Notification.show("Error: " + e.getMessage());
+                Notification.show("Fehler: " + e.getMessage());
             }
         });
 
@@ -185,7 +185,7 @@ public class Experiments extends Composite<VerticalLayout> {
     private void testUrl() throws IOException {
         String url = urlField.getValue();
         if (url == null || url.isEmpty()) {
-            Notification.show("Please enter a URL.");
+            Notification.show("Bitte URL eingeben.");
             return;
         }
 
@@ -196,10 +196,10 @@ public class Experiments extends Composite<VerticalLayout> {
         HTTPController httpController = new HTTPController();
         ResponseEntity<String> checkURL = httpController.checkURL(url);
         if (checkURL.getStatusCode().is2xxSuccessful() || checkURL.getStatusCode().is3xxRedirection() || checkURL.getStatusCode().value() == 401) {
-            Notification.show("API is reachable.");
+            Notification.show("eLab ist erreichbar.");
             logger.info("API is reachable.");
         } else {
-            Notification.show("API is not reachable: " + checkURL);
+            Notification.show("eLab ist nicht erreichbar: " + checkURL);
             logger.warn("API is not reachable: {}", checkURL);
         }
     }
@@ -212,11 +212,11 @@ public class Experiments extends Composite<VerticalLayout> {
         String apiKey = apiKeyField.getValue();
         String url = urlField.getValue();
         if (apiKey == null || apiKey.isEmpty()) {
-            Notification.show("Please enter an API key.");
+            Notification.show("Bitte API Schlüssel eingeben.");
             return;
         }
         if (url == null || url.isEmpty()) {
-            Notification.show("Please enter a URL.");
+            Notification.show("Bitte URL eingeben.");
             return;
         }
 
@@ -239,11 +239,11 @@ public class Experiments extends Composite<VerticalLayout> {
             experimentsComboBox.setItems(experimentTitles);
             experimentsComboBox.setLabel("Experimente (" + experiments.size() + ")");
             logger.info("Experiments fetched successfully.");
-            Notification.show("Experiments fetched successfully.");
+            Notification.show("Experimente erfolgreich geladen.");
             experimentsMenuBar.setVisible(true);
         } catch (Exception e) {
             logger.error("Error fetching experiments", e);
-            Notification.show("Error: " + e.getMessage());
+            Notification.show("Fehler: " + e.getMessage());
         }
     }
 
@@ -361,7 +361,7 @@ public class Experiments extends Composite<VerticalLayout> {
             }
         } catch (Exception e) {
             logger.error("Error showing experiment details", e);
-            Notification.show("Error: " + e.getMessage());
+            Notification.show("Fehler: " + e.getMessage());
         }
 
         experimentDetailsLayout.setVisible(true);

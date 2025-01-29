@@ -314,7 +314,7 @@ public class Tags extends Composite<VerticalLayout> {
             apiInstance.deleteTeamTag(5, id);
             return true;
         } catch (RestClientException e) {
-            Notification.show("Error: " + e.getMessage()); //DEBUG
+            Notification.show("Fehler: " + e.getMessage()); //DEBUG
             return false;
         }
     }
