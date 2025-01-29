@@ -186,7 +186,7 @@ public class Experiment {
   @JsonProperty("userid")
   private Integer userid = null;
 
-  public Entity_DEPRECATED accessKey(String accessKey) {
+  public Experiment accessKey(String accessKey) {
     this.accessKey = accessKey;
     return this;
   }
@@ -204,7 +204,7 @@ public class Experiment {
     this.accessKey = accessKey;
   }
 
-  public Entity_DEPRECATED body(String body) {
+  public Experiment body(String body) {
     this.body = body;
     return this;
   }
@@ -222,7 +222,7 @@ public class Experiment {
     this.body = body;
   }
 
-  public Entity_DEPRECATED bodyHtml(String bodyHtml) {
+  public Experiment bodyHtml(String bodyHtml) {
     this.bodyHtml = bodyHtml;
     return this;
   }
@@ -240,7 +240,7 @@ public class Experiment {
     this.bodyHtml = bodyHtml;
   }
 
-  public Entity_DEPRECATED canread(String canread) {
+  public Experiment canread(String canread) {
     this.canread = canread;
     return this;
   }
@@ -258,7 +258,7 @@ public class Experiment {
     this.canread = canread;
   }
 
-  public Entity_DEPRECATED canwrite(String canwrite) {
+  public Experiment canwrite(String canwrite) {
     this.canwrite = canwrite;
     return this;
   }
@@ -276,7 +276,7 @@ public class Experiment {
     this.canwrite = canwrite;
   }
 
-  public Entity_DEPRECATED category(Integer category) {
+  public Experiment category(Integer category) {
     this.category = category;
     return this;
   }
@@ -294,7 +294,7 @@ public class Experiment {
     this.category = category;
   }
 
-  public Entity_DEPRECATED categoryColor(String categoryColor) {
+  public Experiment categoryColor(String categoryColor) {
     this.categoryColor = categoryColor;
     return this;
   }
@@ -312,7 +312,7 @@ public class Experiment {
     this.categoryColor = categoryColor;
   }
 
-  public Entity_DEPRECATED categoryTitle(String categoryTitle) {
+  public Experiment categoryTitle(String categoryTitle) {
     this.categoryTitle = categoryTitle;
     return this;
   }
@@ -330,12 +330,12 @@ public class Experiment {
     this.categoryTitle = categoryTitle;
   }
 
-  public Entity_DEPRECATED comments(List<Comment> comments) {
+  public Experiment comments(List<Comment> comments) {
     this.comments = comments;
     return this;
   }
 
-  public Entity_DEPRECATED addCommentsItem(Comment commentsItem) {
+  public Experiment addCommentsItem(Comment commentsItem) {
     if (this.comments == null) {
       this.comments = new ArrayList<Comment>();
     }
@@ -356,7 +356,7 @@ public class Experiment {
     this.comments = comments;
   }
 
-  public Entity_DEPRECATED contentType(Integer contentType) {
+  public Experiment contentType(Integer contentType) {
     this.contentType = contentType;
     return this;
   }
@@ -374,7 +374,7 @@ public class Experiment {
     this.contentType = contentType;
   }
 
-  public Entity_DEPRECATED createdAt(String createdAt) {
+  public Experiment createdAt(String createdAt) {
     this.createdAt = createdAt;
     return this;
   }
@@ -392,7 +392,7 @@ public class Experiment {
     this.createdAt = createdAt;
   }
 
-  public Entity_DEPRECATED customId(Integer customId) {
+  public Experiment customId(Integer customId) {
     this.customId = customId;
     return this;
   }
@@ -410,7 +410,7 @@ public class Experiment {
     this.customId = customId;
   }
 
-  public Entity_DEPRECATED date(String date) {
+  public Experiment date(String date) {
     this.date = date;
     return this;
   }
@@ -428,7 +428,7 @@ public class Experiment {
     this.date = date;
   }
 
-  public Entity_DEPRECATED elabid(String elabid) {
+  public Experiment elabid(String elabid) {
     this.elabid = elabid;
     return this;
   }
@@ -446,7 +446,7 @@ public class Experiment {
     this.elabid = elabid;
   }
 
-  public Entity_DEPRECATED exclusiveEditMode(ExclusiveEditMode exclusiveEditMode) {
+  public Experiment exclusiveEditMode(ExclusiveEditMode exclusiveEditMode) {
     this.exclusiveEditMode = exclusiveEditMode;
     return this;
   }
@@ -464,12 +464,12 @@ public class Experiment {
     this.exclusiveEditMode = exclusiveEditMode;
   }
 
-  public Entity_DEPRECATED experimentsLinks(List<Link> experimentsLinks) {
+  public Experiment experimentsLinks(List<Link> experimentsLinks) {
     this.experimentsLinks = experimentsLinks;
     return this;
   }
 
-  public Entity_DEPRECATED addExperimentsLinksItem(Link experimentsLinksItem) {
+  public Experiment addExperimentsLinksItem(Link experimentsLinksItem) {
     if (this.experimentsLinks == null) {
       this.experimentsLinks = new ArrayList<Link>();
     }
@@ -490,7 +490,7 @@ public class Experiment {
     this.experimentsLinks = experimentsLinks;
   }
 
-  public Entity_DEPRECATED firstname(String firstname) {
+  public Experiment firstname(String firstname) {
     this.firstname = firstname;
     return this;
   }
@@ -508,7 +508,7 @@ public class Experiment {
     this.firstname = firstname;
   }
 
-  public Entity_DEPRECATED fullname(String fullname) {
+  public Experiment fullname(String fullname) {
     this.fullname = fullname;
     return this;
   }
@@ -526,7 +526,7 @@ public class Experiment {
     this.fullname = fullname;
   }
 
-  public Entity_DEPRECATED hasAttachement(Integer hasAttachement) {
+  public Experiment hasAttachement(Integer hasAttachement) {
     this.hasAttachement = hasAttachement;
     return this;
   }
@@ -544,7 +544,7 @@ public class Experiment {
     this.hasAttachement = hasAttachement;
   }
 
-  public Entity_DEPRECATED hasComment(Integer hasComment) {
+  public Experiment hasComment(Integer hasComment) {
     this.hasComment = hasComment;
     return this;
   }
@@ -562,7 +562,7 @@ public class Experiment {
     this.hasComment = hasComment;
   }
 
-  public Entity_DEPRECATED id(Integer id) {
+  public Experiment id(Integer id) {
     this.id = id;
     return this;
   }
@@ -580,12 +580,12 @@ public class Experiment {
     this.id = id;
   }
 
-  public Entity_DEPRECATED itemsLinks(List<Link> itemsLinks) {
+  public Experiment itemsLinks(List<Link> itemsLinks) {
     this.itemsLinks = itemsLinks;
     return this;
   }
 
-  public Entity_DEPRECATED addItemsLinksItem(Link itemsLinksItem) {
+  public Experiment addItemsLinksItem(Link itemsLinksItem) {
     if (this.itemsLinks == null) {
       this.itemsLinks = new ArrayList<Link>();
     }
@@ -606,7 +606,7 @@ public class Experiment {
     this.itemsLinks = itemsLinks;
   }
 
-  public Entity_DEPRECATED lastchangeby(Integer lastchangeby) {
+  public Experiment lastchangeby(Integer lastchangeby) {
     this.lastchangeby = lastchangeby;
     return this;
   }
@@ -624,7 +624,7 @@ public class Experiment {
     this.lastchangeby = lastchangeby;
   }
 
-  public Entity_DEPRECATED lastname(String lastname) {
+  public Experiment lastname(String lastname) {
     this.lastname = lastname;
     return this;
   }
@@ -642,7 +642,7 @@ public class Experiment {
     this.lastname = lastname;
   }
 
-  public Entity_DEPRECATED locked(Integer locked) {
+  public Experiment locked(Integer locked) {
     this.locked = locked;
     return this;
   }
@@ -660,7 +660,7 @@ public class Experiment {
     this.locked = locked;
   }
 
-  public Entity_DEPRECATED lockedby(Integer lockedby) {
+  public Experiment lockedby(Integer lockedby) {
     this.lockedby = lockedby;
     return this;
   }
@@ -678,7 +678,7 @@ public class Experiment {
     this.lockedby = lockedby;
   }
 
-  public Entity_DEPRECATED lockedAt(String lockedAt) {
+  public Experiment lockedAt(String lockedAt) {
     this.lockedAt = lockedAt;
     return this;
   }
@@ -696,7 +696,7 @@ public class Experiment {
     this.lockedAt = lockedAt;
   }
 
-  public Entity_DEPRECATED metadata(String metadata) {
+  public Experiment metadata(String metadata) {
     this.metadata = metadata;
     return this;
   }
@@ -714,7 +714,7 @@ public class Experiment {
     this.metadata = metadata;
   }
 
-  public Entity_DEPRECATED modifiedAt(String modifiedAt) {
+  public Experiment modifiedAt(String modifiedAt) {
     this.modifiedAt = modifiedAt;
     return this;
   }
@@ -732,7 +732,7 @@ public class Experiment {
     this.modifiedAt = modifiedAt;
   }
 
-  public Entity_DEPRECATED nextStep(String nextStep) {
+  public Experiment nextStep(String nextStep) {
     this.nextStep = nextStep;
     return this;
   }
@@ -750,7 +750,7 @@ public class Experiment {
     this.nextStep = nextStep;
   }
 
-  public Entity_DEPRECATED orcid(String orcid) {
+  public Experiment orcid(String orcid) {
     this.orcid = orcid;
     return this;
   }
@@ -768,7 +768,7 @@ public class Experiment {
     this.orcid = orcid;
   }
 
-  public Entity_DEPRECATED page(String page) {
+  public Experiment page(String page) {
     this.page = page;
     return this;
   }
@@ -786,7 +786,7 @@ public class Experiment {
     this.page = page;
   }
 
-  public Entity_DEPRECATED rating(Integer rating) {
+  public Experiment rating(Integer rating) {
     this.rating = rating;
     return this;
   }
@@ -804,7 +804,7 @@ public class Experiment {
     this.rating = rating;
   }
 
-  public Entity_DEPRECATED recentComment(String recentComment) {
+  public Experiment recentComment(String recentComment) {
     this.recentComment = recentComment;
     return this;
   }
@@ -822,12 +822,12 @@ public class Experiment {
     this.recentComment = recentComment;
   }
 
-  public Entity_DEPRECATED relatedExperimentsLinks(List<Link> relatedExperimentsLinks) {
+  public Experiment relatedExperimentsLinks(List<Link> relatedExperimentsLinks) {
     this.relatedExperimentsLinks = relatedExperimentsLinks;
     return this;
   }
 
-  public Entity_DEPRECATED addRelatedExperimentsLinksItem(Link relatedExperimentsLinksItem) {
+  public Experiment addRelatedExperimentsLinksItem(Link relatedExperimentsLinksItem) {
     if (this.relatedExperimentsLinks == null) {
       this.relatedExperimentsLinks = new ArrayList<Link>();
     }
@@ -848,12 +848,12 @@ public class Experiment {
     this.relatedExperimentsLinks = relatedExperimentsLinks;
   }
 
-  public Entity_DEPRECATED relatedItemsLinks(List<Link> relatedItemsLinks) {
+  public Experiment relatedItemsLinks(List<Link> relatedItemsLinks) {
     this.relatedItemsLinks = relatedItemsLinks;
     return this;
   }
 
-  public Entity_DEPRECATED addRelatedItemsLinksItem(Link relatedItemsLinksItem) {
+  public Experiment addRelatedItemsLinksItem(Link relatedItemsLinksItem) {
     if (this.relatedItemsLinks == null) {
       this.relatedItemsLinks = new ArrayList<Link>();
     }
@@ -874,7 +874,7 @@ public class Experiment {
     this.relatedItemsLinks = relatedItemsLinks;
   }
 
-  public Entity_DEPRECATED sharelink(String sharelink) {
+  public Experiment sharelink(String sharelink) {
     this.sharelink = sharelink;
     return this;
   }
@@ -892,7 +892,7 @@ public class Experiment {
     this.sharelink = sharelink;
   }
 
-  public Entity_DEPRECATED state(Integer state) {
+  public Experiment state(Integer state) {
     this.state = state;
     return this;
   }
@@ -910,7 +910,7 @@ public class Experiment {
     this.state = state;
   }
 
-  public Entity_DEPRECATED status(Integer status) {
+  public Experiment status(Integer status) {
     this.status = status;
     return this;
   }
@@ -928,7 +928,7 @@ public class Experiment {
     this.status = status;
   }
 
-  public Entity_DEPRECATED statusColor(String statusColor) {
+  public Experiment statusColor(String statusColor) {
     this.statusColor = statusColor;
     return this;
   }
@@ -946,7 +946,7 @@ public class Experiment {
     this.statusColor = statusColor;
   }
 
-  public Entity_DEPRECATED statusTitle(String statusTitle) {
+  public Experiment statusTitle(String statusTitle) {
     this.statusTitle = statusTitle;
     return this;
   }
@@ -964,12 +964,12 @@ public class Experiment {
     this.statusTitle = statusTitle;
   }
 
-  public Entity_DEPRECATED steps(List<Step> steps) {
+  public Experiment steps(List<Step> steps) {
     this.steps = steps;
     return this;
   }
 
-  public Entity_DEPRECATED addStepsItem(Step stepsItem) {
+  public Experiment addStepsItem(Step stepsItem) {
     if (this.steps == null) {
       this.steps = new ArrayList<Step>();
     }
@@ -990,7 +990,7 @@ public class Experiment {
     this.steps = steps;
   }
 
-  public Entity_DEPRECATED tags(String tags) {
+  public Experiment tags(String tags) {
     this.tags = tags;
     return this;
   }
@@ -1008,7 +1008,7 @@ public class Experiment {
     this.tags = tags;
   }
 
-  public Entity_DEPRECATED tagsId(String tagsId) {
+  public Experiment tagsId(String tagsId) {
     this.tagsId = tagsId;
     return this;
   }
@@ -1026,7 +1026,7 @@ public class Experiment {
     this.tagsId = tagsId;
   }
 
-  public Entity_DEPRECATED team(Integer team) {
+  public Experiment team(Integer team) {
     this.team = team;
     return this;
   }
@@ -1044,7 +1044,7 @@ public class Experiment {
     this.team = team;
   }
 
-  public Entity_DEPRECATED timestamped(Integer timestamped) {
+  public Experiment timestamped(Integer timestamped) {
     this.timestamped = timestamped;
     return this;
   }
@@ -1062,7 +1062,7 @@ public class Experiment {
     this.timestamped = timestamped;
   }
 
-  public Entity_DEPRECATED timestampedby(Integer timestampedby) {
+  public Experiment timestampedby(Integer timestampedby) {
     this.timestampedby = timestampedby;
     return this;
   }
@@ -1080,7 +1080,7 @@ public class Experiment {
     this.timestampedby = timestampedby;
   }
 
-  public Entity_DEPRECATED timestampedAt(String timestampedAt) {
+  public Experiment timestampedAt(String timestampedAt) {
     this.timestampedAt = timestampedAt;
     return this;
   }
@@ -1098,7 +1098,7 @@ public class Experiment {
     this.timestampedAt = timestampedAt;
   }
 
-  public Entity_DEPRECATED title(String title) {
+  public Experiment title(String title) {
     this.title = title;
     return this;
   }
@@ -1116,7 +1116,7 @@ public class Experiment {
     this.title = title;
   }
 
-  public Entity_DEPRECATED type(String type) {
+  public Experiment type(String type) {
     this.type = type;
     return this;
   }
@@ -1134,7 +1134,7 @@ public class Experiment {
     this.type = type;
   }
 
-  public Entity_DEPRECATED upItemId(Integer upItemId) {
+  public Experiment upItemId(Integer upItemId) {
     this.upItemId = upItemId;
     return this;
   }
@@ -1152,12 +1152,12 @@ public class Experiment {
     this.upItemId = upItemId;
   }
 
-  public Entity_DEPRECATED uploads(List<Upload> uploads) {
+  public Experiment uploads(List<Upload> uploads) {
     this.uploads = uploads;
     return this;
   }
 
-  public Entity_DEPRECATED addUploadsItem(Upload uploadsItem) {
+  public Experiment addUploadsItem(Upload uploadsItem) {
     if (this.uploads == null) {
       this.uploads = new ArrayList<Upload>();
     }
@@ -1178,7 +1178,7 @@ public class Experiment {
     this.uploads = uploads;
   }
 
-  public Entity_DEPRECATED userid(Integer userid) {
+  public Experiment userid(Integer userid) {
     this.userid = userid;
     return this;
   }
@@ -1198,67 +1198,67 @@ public class Experiment {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Entity_DEPRECATED entity = (Entity_DEPRECATED) o;
-    return Objects.equals(this.accessKey, entity.accessKey) &&
-            Objects.equals(this.body, entity.body) &&
-            Objects.equals(this.bodyHtml, entity.bodyHtml) &&
-            Objects.equals(this.canread, entity.canread) &&
-            Objects.equals(this.canwrite, entity.canwrite) &&
-            Objects.equals(this.category, entity.category) &&
-            Objects.equals(this.categoryColor, entity.categoryColor) &&
-            Objects.equals(this.categoryTitle, entity.categoryTitle) &&
-            Objects.equals(this.comments, entity.comments) &&
-            Objects.equals(this.contentType, entity.contentType) &&
-            Objects.equals(this.createdAt, entity.createdAt) &&
-            Objects.equals(this.customId, entity.customId) &&
-            Objects.equals(this.date, entity.date) &&
-            Objects.equals(this.elabid, entity.elabid) &&
-            Objects.equals(this.exclusiveEditMode, entity.exclusiveEditMode) &&
-            Objects.equals(this.experimentsLinks, entity.experimentsLinks) &&
-            Objects.equals(this.firstname, entity.firstname) &&
-            Objects.equals(this.fullname, entity.fullname) &&
-            Objects.equals(this.hasAttachement, entity.hasAttachement) &&
-            Objects.equals(this.hasComment, entity.hasComment) &&
-            Objects.equals(this.id, entity.id) &&
-            Objects.equals(this.itemsLinks, entity.itemsLinks) &&
-            Objects.equals(this.lastchangeby, entity.lastchangeby) &&
-            Objects.equals(this.lastname, entity.lastname) &&
-            Objects.equals(this.locked, entity.locked) &&
-            Objects.equals(this.lockedby, entity.lockedby) &&
-            Objects.equals(this.lockedAt, entity.lockedAt) &&
-            Objects.equals(this.metadata, entity.metadata) &&
-            Objects.equals(this.modifiedAt, entity.modifiedAt) &&
-            Objects.equals(this.nextStep, entity.nextStep) &&
-            Objects.equals(this.orcid, entity.orcid) &&
-            Objects.equals(this.page, entity.page) &&
-            Objects.equals(this.rating, entity.rating) &&
-            Objects.equals(this.recentComment, entity.recentComment) &&
-            Objects.equals(this.relatedExperimentsLinks, entity.relatedExperimentsLinks) &&
-            Objects.equals(this.relatedItemsLinks, entity.relatedItemsLinks) &&
-            Objects.equals(this.sharelink, entity.sharelink) &&
-            Objects.equals(this.state, entity.state) &&
-            Objects.equals(this.status, entity.status) &&
-            Objects.equals(this.statusColor, entity.statusColor) &&
-            Objects.equals(this.statusTitle, entity.statusTitle) &&
-            Objects.equals(this.steps, entity.steps) &&
-            Objects.equals(this.tags, entity.tags) &&
-            Objects.equals(this.tagsId, entity.tagsId) &&
-            Objects.equals(this.team, entity.team) &&
-            Objects.equals(this.timestamped, entity.timestamped) &&
-            Objects.equals(this.timestampedby, entity.timestampedby) &&
-            Objects.equals(this.timestampedAt, entity.timestampedAt) &&
-            Objects.equals(this.title, entity.title) &&
-            Objects.equals(this.type, entity.type) &&
-            Objects.equals(this.upItemId, entity.upItemId) &&
-            Objects.equals(this.uploads, entity.uploads) &&
-            Objects.equals(this.userid, entity.userid);
+    Experiment experiment = (Experiment) o;
+    return Objects.equals(this.accessKey, experiment.accessKey) &&
+            Objects.equals(this.body, experiment.body) &&
+            Objects.equals(this.bodyHtml, experiment.bodyHtml) &&
+            Objects.equals(this.canread, experiment.canread) &&
+            Objects.equals(this.canwrite, experiment.canwrite) &&
+            Objects.equals(this.category, experiment.category) &&
+            Objects.equals(this.categoryColor, experiment.categoryColor) &&
+            Objects.equals(this.categoryTitle, experiment.categoryTitle) &&
+            Objects.equals(this.comments, experiment.comments) &&
+            Objects.equals(this.contentType, experiment.contentType) &&
+            Objects.equals(this.createdAt, experiment.createdAt) &&
+            Objects.equals(this.customId, experiment.customId) &&
+            Objects.equals(this.date, experiment.date) &&
+            Objects.equals(this.elabid, experiment.elabid) &&
+            Objects.equals(this.exclusiveEditMode, experiment.exclusiveEditMode) &&
+            Objects.equals(this.experimentsLinks, experiment.experimentsLinks) &&
+            Objects.equals(this.firstname, experiment.firstname) &&
+            Objects.equals(this.fullname, experiment.fullname) &&
+            Objects.equals(this.hasAttachement, experiment.hasAttachement) &&
+            Objects.equals(this.hasComment, experiment.hasComment) &&
+            Objects.equals(this.id, experiment.id) &&
+            Objects.equals(this.itemsLinks, experiment.itemsLinks) &&
+            Objects.equals(this.lastchangeby, experiment.lastchangeby) &&
+            Objects.equals(this.lastname, experiment.lastname) &&
+            Objects.equals(this.locked, experiment.locked) &&
+            Objects.equals(this.lockedby, experiment.lockedby) &&
+            Objects.equals(this.lockedAt, experiment.lockedAt) &&
+            Objects.equals(this.metadata, experiment.metadata) &&
+            Objects.equals(this.modifiedAt, experiment.modifiedAt) &&
+            Objects.equals(this.nextStep, experiment.nextStep) &&
+            Objects.equals(this.orcid, experiment.orcid) &&
+            Objects.equals(this.page, experiment.page) &&
+            Objects.equals(this.rating, experiment.rating) &&
+            Objects.equals(this.recentComment, experiment.recentComment) &&
+            Objects.equals(this.relatedExperimentsLinks, experiment.relatedExperimentsLinks) &&
+            Objects.equals(this.relatedItemsLinks, experiment.relatedItemsLinks) &&
+            Objects.equals(this.sharelink, experiment.sharelink) &&
+            Objects.equals(this.state, experiment.state) &&
+            Objects.equals(this.status, experiment.status) &&
+            Objects.equals(this.statusColor, experiment.statusColor) &&
+            Objects.equals(this.statusTitle, experiment.statusTitle) &&
+            Objects.equals(this.steps, experiment.steps) &&
+            Objects.equals(this.tags, experiment.tags) &&
+            Objects.equals(this.tagsId, experiment.tagsId) &&
+            Objects.equals(this.team, experiment.team) &&
+            Objects.equals(this.timestamped, experiment.timestamped) &&
+            Objects.equals(this.timestampedby, experiment.timestampedby) &&
+            Objects.equals(this.timestampedAt, experiment.timestampedAt) &&
+            Objects.equals(this.title, experiment.title) &&
+            Objects.equals(this.type, experiment.type) &&
+            Objects.equals(this.upItemId, experiment.upItemId) &&
+            Objects.equals(this.uploads, experiment.uploads) &&
+            Objects.equals(this.userid, experiment.userid);
   }
 
   @Override
@@ -1266,12 +1266,10 @@ public class Experiment {
     return Objects.hash(accessKey, body, bodyHtml, canread, canwrite, category, categoryColor, categoryTitle, comments, contentType, createdAt, customId, date, elabid, exclusiveEditMode, experimentsLinks, firstname, fullname, hasAttachement, hasComment, id, itemsLinks, lastchangeby, lastname, locked, lockedby, lockedAt, metadata, modifiedAt, nextStep, orcid, page, rating, recentComment, relatedExperimentsLinks, relatedItemsLinks, sharelink, state, status, statusColor, statusTitle, steps, tags, tagsId, team, timestamped, timestampedby, timestampedAt, title, type, upItemId, uploads, userid);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Entity {\n");
-
+    sb.append("class Experiment {\n");
     sb.append("    accessKey: ").append(toIndentedString(accessKey)).append("\n");
     sb.append("    body: ").append(toIndentedString(body)).append("\n");
     sb.append("    bodyHtml: ").append(toIndentedString(bodyHtml)).append("\n");
@@ -1339,44 +1337,4 @@ public class Experiment {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
-  // Code to extend the above with
-
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    return super.equals(o);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(super.hashCode());
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Experiment {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-
 }
