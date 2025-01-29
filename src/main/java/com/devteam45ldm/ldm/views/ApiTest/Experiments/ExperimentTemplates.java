@@ -18,6 +18,7 @@ import io.swagger.client.model.*;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -29,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.devteam45ldm.ldm.views.ApiTest.ELabClient;
+import org.yaml.snakeyaml.util.Tuple;
 
 
 /**
@@ -53,6 +55,8 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
     private final MenuBar editMenuBar = new MenuBar();
     private final MenuBar experimentsMenuBar = new MenuBar();
     private ExperimentTemplate selectedExperiment;
+    private final HashMap<String, TextField> leftComponents = new HashMap<>();
+    private final HashMap<String, TextField> rightComponents = new HashMap<>();
 
     /**
      * Constructs the ExperimentTemplates view.
@@ -91,17 +95,23 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
         menuBar.addItem("Experimente lesen", event -> readExperiments());
         menuBar.getStyle().set("margin-bottom", "50px");
 
+        experimentDetailsLayout = new VerticalLayout();
+        experimentDetailsLayout.setWidthFull();
+        experimentDetailsLayout.setMinHeight("500px");
+        experimentDetailsLayout.setVisible(false);
+
         // Initialize ComboBox for experiments
         experimentsComboBox = new ComboBox<>("Experimente");
         experimentsComboBox.setWidthFull();
         experimentsComboBox.getStyle().set("margin-bottom", "50px");
         experimentsComboBox.setAllowCustomValue(false);
         experimentsComboBox.addValueChangeListener(event -> showExperimentDetails(event.getValue()));
-
-        experimentDetailsLayout = new VerticalLayout();
-        experimentDetailsLayout.setWidthFull();
-        experimentDetailsLayout.setMinHeight("500px");
-        experimentDetailsLayout.setVisible(false);
+        experimentsComboBox.addValueChangeListener(event -> {
+            if (event.getValue() == null) {
+                resetEditComponents();
+                experimentDetailsLayout.setVisible(false);
+            }
+        });
 
         editField.setVisible(false);
         editMenuBar.setVisible(false);
@@ -111,8 +121,6 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
         editLayout.setSpacing(true);
 
         experimentsMenuBar.addItem("Experiment erstellen", event -> loadCreator());
-        experimentsMenuBar.addItem("Experiment bearbeiten", event -> loadModifier());
-        experimentsMenuBar.addItem("Experiment löschen", event -> loadDeleter());
         experimentsMenuBar.setVisible(false);
 
         getContent().setWidth("100%");
@@ -120,6 +128,10 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
         getContent().add(firstRow, secondRow, menuBar, experimentsComboBox, experimentDetailsLayout, experimentsMenuBar, editLayout);
     }
 
+    /**
+     * Loads the creator view for creating a new experiment.
+     * Sets up the edit menu bar for creating a new experiment.
+     */
     private void loadCreator() {
         editMenuBar.removeAll();
         editMenuBar.addItem("Erstellen", event -> createExperiment());
@@ -129,11 +141,16 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
         experimentsMenuBar.setVisible(false);
     }
 
+    /**
+     * Loads the modifier view for editing the selected experiment.
+     * Sets up the edit menu bar for modifying the selected experiment.
+     */
     private void loadModifier() {
         if (selectedExperiment != null) {
             editMenuBar.removeAll();
             editMenuBar.addItem("Speichern", event -> saveChanges());
             editMenuBar.addItem("Abbrechen", event -> cancelExperiment());
+            setFormComponentReadOnly(false);
             editField.setVisible(false);
             editMenuBar.setVisible(true);
             experimentsMenuBar.setVisible(false);
@@ -142,6 +159,10 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
         }
     }
 
+    /**
+     * Loads the deleter view for deleting the selected experiment.
+     * Sets up the edit menu bar for deleting the selected experiment.
+     */
     private void loadDeleter() {
         if (selectedExperiment != null) {
             editMenuBar.removeAll();
@@ -218,6 +239,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
             experimentsComboBox.setLabel("Experimente (" + experiments.size() + ")");
             logger.info("Experiments fetched successfully.");
             Notification.show("Experiments fetched successfully.");
+            experimentsMenuBar.setVisible(true);
         } catch (Exception e) {
             logger.error("Error fetching experiments", e);
             Notification.show("Error: " + e.getMessage());
@@ -275,49 +297,66 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
             if (selectedExperiment != null) {
                 VerticalLayout leftColumn = new VerticalLayout();
                 VerticalLayout rightColumn = new VerticalLayout();
-                leftColumn.add(
-                        createTextField("ID", selectedExperiment.getId() != null ? String.valueOf(selectedExperiment.getId()) : "null"),
-                        createTextField("User ID", selectedExperiment.getUserid() != null ? String.valueOf(selectedExperiment.getUserid()) : "null"),
-                        createTextField("Created At", selectedExperiment.getCreatedAt() != null ? selectedExperiment.getCreatedAt() : "null"),
-                        createTextField("Modified At", selectedExperiment.getModifiedAt() != null ? selectedExperiment.getModifiedAt() : "null"),
-                        createTextField("Team", selectedExperiment.getTeamsId() != null ? String.valueOf(selectedExperiment.getTeamsId()) : "null"),
-                        createTextField("Title", selectedExperiment.getTitle() != null ? selectedExperiment.getTitle() : "null"),
-                        createTextField("Status", selectedExperiment.getStatus() != null ? String.valueOf(selectedExperiment.getStatus()) : "null"),
-                        createTextField("Body", selectedExperiment.getBody() != null ? selectedExperiment.getBody() : "null"),
-                        createTextField("Category", selectedExperiment.getCategory() != null ? String.valueOf(selectedExperiment.getCategory()) : "null"),
-                        createTextField("Ordering", selectedExperiment.getOrdering() != null ? String.valueOf(selectedExperiment.getOrdering()) : "null"),
-                        createTextField("Can Read", selectedExperiment.getCanread() != null ? selectedExperiment.getCanread() : "null"),
-                        createTextField("Can Write", selectedExperiment.getCanwrite() != null ? selectedExperiment.getCanwrite() : "null"),
-                        createTextField("Can Read Target", selectedExperiment.getCanReadTarget() != null ? selectedExperiment.getCanReadTarget() : "null"),
-                        createTextField("Can Write Target", selectedExperiment.getCanWriteTarget() != null ? selectedExperiment.getCanWriteTarget() : "null"),
-                        createTextField("Up Item ID", selectedExperiment.getUpItemId() != null ? String.valueOf(selectedExperiment.getUpItemId()) : "null"),
-                        createTextField("Has Attachment", selectedExperiment.getHasAttachment() != null ? selectedExperiment.getHasAttachment() : "null"),
-                        createTextField("Exclusive Edit Mode", selectedExperiment.getExclusiveEditMode() != null ? selectedExperiment.getExclusiveEditMode().toString() : "null")
-                );
 
-                rightColumn.add(
-                        createTextField("Content Type", selectedExperiment.getContentType() != null ? String.valueOf(selectedExperiment.getContentType()) : "null"),
-                        createTextField("Locked", selectedExperiment.getLocked() != null ? String.valueOf(selectedExperiment.getLocked()) : "null"),
-                        createTextField("Locked By", selectedExperiment.getLockedby() != null ? String.valueOf(selectedExperiment.getLockedby()) : "null"),
-                        createTextField("Locked At", selectedExperiment.getLockedAt() != null ? selectedExperiment.getLockedAt() : "null"),
-                        createTextField("Metadata", selectedExperiment.getMetadata() != null ? selectedExperiment.getMetadata() : "null"),
-                        createTextField("State", selectedExperiment.getState() != null ? String.valueOf(selectedExperiment.getState()) : "null"),
-                        createTextField("Is Pinned", selectedExperiment.getIsPinned() != null ? String.valueOf(selectedExperiment.getIsPinned()) : "null"),
-                        createTextField("Status Title", selectedExperiment.getStatusTitle() != null ? selectedExperiment.getStatusTitle() : "null"),
-                        createTextField("Status Color", selectedExperiment.getStatusColor() != null ? selectedExperiment.getStatusColor() : "null"),
-                        createTextField("Category Title", selectedExperiment.getCategoryTitle() != null ? selectedExperiment.getCategoryTitle() : "null"),
-                        createTextField("Category Color", selectedExperiment.getCategoryColor() != null ? selectedExperiment.getCategoryColor() : "null"),
-                        createTextField("Next Step", selectedExperiment.getNextStep() != null ? selectedExperiment.getNextStep() : "null"),
-                        createTextField("First Name", selectedExperiment.getFirstname() != null ? selectedExperiment.getFirstname() : "null"),
-                        createTextField("Last Name", selectedExperiment.getLastname() != null ? selectedExperiment.getLastname() : "null"),
-                        createTextField("Orc ID", selectedExperiment.getOrcId() != null ? selectedExperiment.getOrcId() : "null"),
-                        createTextField("Full Name", selectedExperiment.getFullname() != null ? selectedExperiment.getFullname() : "null"),
-                        createTextField("Team Name", selectedExperiment.getTeamName() != null ? selectedExperiment.getTeamName() : "null")
-                );
+                Map<String, Tuple<String, Integer>> leftMapping = new HashMap<>();
+                leftMapping.put("Title", new Tuple<>(selectedExperiment.getTitle() != null ? selectedExperiment.getTitle() : "null", 0));
+                leftMapping.put("ID", new Tuple<>(selectedExperiment.getId() != null ? String.valueOf(selectedExperiment.getId()) : "null", 1));
+                leftMapping.put("User ID", new Tuple<>(selectedExperiment.getUserid() != null ? String.valueOf(selectedExperiment.getUserid()) : "null", 2));
+                leftMapping.put("Created At", new Tuple<>(selectedExperiment.getCreatedAt() != null ? selectedExperiment.getCreatedAt() : "null", 3));
+                leftMapping.put("Modified At", new Tuple<>(selectedExperiment.getModifiedAt() != null ? selectedExperiment.getModifiedAt() : "null", 4));
+                leftMapping.put("Team", new Tuple<>(selectedExperiment.getTeamsId() != null ? String.valueOf(selectedExperiment.getTeamsId()) : "null", 5));
+                leftMapping.put("Status", new Tuple<>(selectedExperiment.getStatus() != null ? String.valueOf(selectedExperiment.getStatus()) : "null", 6));
+                leftMapping.put("Body", new Tuple<>(selectedExperiment.getBody() != null ? selectedExperiment.getBody() : "null", 7));
+                leftMapping.put("Category", new Tuple<>(selectedExperiment.getCategory() != null ? String.valueOf(selectedExperiment.getCategory()) : "null", 8));
+                leftMapping.put("Ordering", new Tuple<>(selectedExperiment.getOrdering() != null ? String.valueOf(selectedExperiment.getOrdering()) : "null", 9));
+                leftMapping.put("Can Read", new Tuple<>(selectedExperiment.getCanread() != null ? selectedExperiment.getCanread() : "null", 10));
+                leftMapping.put("Can Write", new Tuple<>(selectedExperiment.getCanwrite() != null ? selectedExperiment.getCanwrite() : "null", 11));
+                leftMapping.put("Can Read Target", new Tuple<>(selectedExperiment.getCanReadTarget() != null ? selectedExperiment.getCanReadTarget() : "null", 12));
+                leftMapping.put("Can Write Target", new Tuple<>(selectedExperiment.getCanWriteTarget() != null ? selectedExperiment.getCanWriteTarget() : "null", 13));
+                leftMapping.put("Up Item ID", new Tuple<>(selectedExperiment.getUpItemId() != null ? String.valueOf(selectedExperiment.getUpItemId()) : "null", 14));
+                leftMapping.put("Has Attachment", new Tuple<>(selectedExperiment.getHasAttachment() != null ? selectedExperiment.getHasAttachment() : "null", 15));
+                leftMapping.put("Exclusive Edit Mode", new Tuple<>(selectedExperiment.getExclusiveEditMode() != null ? selectedExperiment.getExclusiveEditMode().toString() : "null", 16));
+
+                Map<String, Tuple<String, Integer>> rightMapping = new HashMap<>();
+                rightMapping.put("Content Type", new Tuple<>(selectedExperiment.getContentType() != null ? String.valueOf(selectedExperiment.getContentType()) : "null", 0));
+                rightMapping.put("Locked", new Tuple<>(selectedExperiment.getLocked() != null ? String.valueOf(selectedExperiment.getLocked()) : "null", 1));
+                rightMapping.put("Locked By", new Tuple<>(selectedExperiment.getLockedby() != null ? String.valueOf(selectedExperiment.getLockedby()) : "null", 2));
+                rightMapping.put("Locked At", new Tuple<>(selectedExperiment.getLockedAt() != null ? selectedExperiment.getLockedAt() : "null", 3));
+                rightMapping.put("Metadata", new Tuple<>(selectedExperiment.getMetadata() != null ? selectedExperiment.getMetadata() : "null", 4));
+                rightMapping.put("State", new Tuple<>(selectedExperiment.getState() != null ? String.valueOf(selectedExperiment.getState()) : "null", 5));
+                rightMapping.put("Is Pinned", new Tuple<>(selectedExperiment.getIsPinned() != null ? String.valueOf(selectedExperiment.getIsPinned()) : "null", 6));
+                rightMapping.put("Status Title", new Tuple<>(selectedExperiment.getStatusTitle() != null ? selectedExperiment.getStatusTitle() : "null", 7));
+                rightMapping.put("Status Color", new Tuple<>(selectedExperiment.getStatusColor() != null ? selectedExperiment.getStatusColor() : "null", 8));
+                rightMapping.put("Category Title", new Tuple<>(selectedExperiment.getCategoryTitle() != null ? selectedExperiment.getCategoryTitle() : "null", 9));
+                rightMapping.put("Category Color", new Tuple<>(selectedExperiment.getCategoryColor() != null ? selectedExperiment.getCategoryColor() : "null", 10));
+                rightMapping.put("Next Step", new Tuple<>(selectedExperiment.getNextStep() != null ? selectedExperiment.getNextStep() : "null", 11));
+                rightMapping.put("First Name", new Tuple<>(selectedExperiment.getFirstname() != null ? selectedExperiment.getFirstname() : "null", 12));
+                rightMapping.put("Last Name", new Tuple<>(selectedExperiment.getLastname() != null ? selectedExperiment.getLastname() : "null", 13));
+                rightMapping.put("Orc ID", new Tuple<>(selectedExperiment.getOrcId() != null ? selectedExperiment.getOrcId() : "null", 14));
+                rightMapping.put("Full Name", new Tuple<>(selectedExperiment.getFullname() != null ? selectedExperiment.getFullname() : "null", 15));
+                rightMapping.put("Team Name", new Tuple<>(selectedExperiment.getTeamName() != null ? selectedExperiment.getTeamName() : "null", 16));
+
+                leftMapping.forEach((label, tuple) -> {
+                    TextField textField = createTextField(label, tuple._1(), tuple._2());
+                    leftComponents.put(label, textField);
+                    leftColumn.add(textField);
+                });
+
+                rightMapping.forEach((label, tuple) -> {
+                    TextField textField = createTextField(label, tuple._1(), tuple._2());
+                    rightComponents.put(label, textField);
+                    rightColumn.add(textField);
+                });
 
                 HorizontalLayout columns = new HorizontalLayout(leftColumn, rightColumn);
                 columns.setWidthFull();
                 experimentDetailsLayout.add(columns);
+
+                experimentsMenuBar.removeAll();
+                experimentsMenuBar.addItem("Experiment erstellen", event -> loadCreator());
+                experimentsMenuBar.addItem("Experiment bearbeiten", event -> loadModifier());
+                experimentsMenuBar.addItem("Experiment löschen", event -> loadDeleter());
+
             }
         } catch (Exception e) {
             logger.error("Error showing experiment details", e);
@@ -333,51 +372,97 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
      *
      * @param label the label of the TextField
      * @param value the value of the TextField
+     * @param order the order of the TextField in the layout
      * @return the created TextField
      */
-    private TextField createTextField(String label, String value) {
+    private TextField createTextField(String label, String value, Integer order) {
         TextField textField = new TextField(label);
         textField.setValue(value);
         textField.setReadOnly(true);
+        textField.getElement().getStyle().set("order", order.toString());
         textField.setWidth("400px");
         return textField;
     }
 
+    /**
+     * Creates a new experiment using the provided title.
+     * Resets the edit components and refreshes the experiments list.
+     */
     private void createExperiment() {
-        Integer id = selectedExperiment.getId();
-        // Implement the logic to create a new experiment
+        String title = editField.getValue();
+        ExperimentsTemplatesBody body = new ExperimentsTemplatesBody().title(title);
+        apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).postExperimentTemplate(body);
         Notification.show("Experiment erfolgreich erstellt.");
         resetEditComponents();
         readExperiments();
-        setExperimentById(id);
+        experiments.stream()
+                .filter(experiment -> experiment.getTitle().equals(title))
+                .findFirst()
+                .ifPresent(experiment -> setExperimentById(experiment.getId()));
     }
 
+    /**
+     * Saves the changes made to the selected experiment.
+     * Updates the selected experiment and refreshes the experiments list.
+     */
     private void saveChanges() {
         Integer id = selectedExperiment.getId();
-        // Implement the logic to save changes to the selected experiment
+        updateSelectedExperiment();
+        apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).patchExperimentTemplate(id,selectedExperiment);
+        setFormComponentReadOnly(true);
         Notification.show("Änderungen erfolgreich gespeichert.");
         resetEditComponents();
         readExperiments();
         setExperimentById(id);
     }
 
+    /**
+     * Updates the selected experiment with the values from the form components.
+     */
+    private void updateSelectedExperiment() {
+        selectedExperiment.setTitle(leftComponents.get("Title").getValue());
+    }
+
+    /**
+     * Deletes the selected experiment.
+     * Calls the API to delete the experiment and refreshes the experiments list.
+     * Clears the ComboBox selection and resets the edit components.
+     */
     private void deleteExperiment() {
-        // Implement the logic to delete the selected experiment
+        apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).deleteExperimentTemplate(selectedExperiment.getId());
         Notification.show("Experiment erfolgreich gelöscht.");
         resetEditComponents();
         readExperiments();
+        experimentsComboBox.clear();
     }
 
+    /**
+     * Cancels the current operation.
+     * Resets the edit components to their default state.
+     */
     private void cancelExperiment() {
         resetEditComponents();
     }
 
+    /**
+     * Cancels the current operation.
+     * Resets the edit components to their default state.
+     */
     private void resetEditComponents() {
         editField.setVisible(false);
         editMenuBar.setVisible(false);
+        experimentsMenuBar.removeAll();
+        experimentsMenuBar.addItem("Experiment erstellen", event -> loadCreator());
         experimentsMenuBar.setVisible(true);
+        experimentDetailsLayout.setVisible(false);
     }
 
+    /**
+     * Sets the selected experiment in the ComboBox by its ID.
+     * Finds the experiment by ID and sets it as the selected value in the ComboBox.
+     *
+     * @param id the ID of the experiment to select
+     */
     private void setExperimentById(Integer id) {
         if (id != null) {
             experimentsComboBox.setValue(experiments.stream()
@@ -386,5 +471,15 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
                     .findFirst()
                     .orElse(null));
         }
+    }
+
+    /**
+     * Sets the read-only status of the form components.
+     * Updates the read-only status of the form components based on the provided status.
+     *
+     * @param status the read-only status to set
+     */
+    private void setFormComponentReadOnly(Boolean status) {
+        leftComponents.get("Title").setReadOnly(status);
     }
 }
