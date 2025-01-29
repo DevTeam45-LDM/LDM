@@ -1,6 +1,7 @@
 package com.devteam45ldm.ldm.views.eLabClient.tags;
 
 import com.devteam45ldm.ldm.views.eLabClient.ELabClient;
+import com.devteam45ldm.ldm.views.eLabClient.login.CredentialsAware;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.menubar.MenuBar;
@@ -28,10 +29,10 @@ import java.util.List;
  * It allows users to enter a URL and API key, test the URL, and read tags from the API.
  */
 @PageTitle("Tags")
-//@Route("api-test/tags")
+//@Route("elab/tags")
 // @Menu(order = 10, icon = "line-awesome/svg/globe-solid.svg")
 @UIScope
-public class Tags extends Composite<VerticalLayout> {
+public class Tags extends Composite<VerticalLayout> implements CredentialsAware {
 
     private final TextField urlField;
     private final PasswordField apiKeyField;
@@ -104,6 +105,14 @@ public class Tags extends Composite<VerticalLayout> {
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
         getContent().add(firstRow, secondRow, menuBar, responseGrid, tagsMenuBar, editLayout);
+    }
+
+    @Override
+    public void setCredentials(String apiKey, String url) {
+        this.apiKeyField.setValue(apiKey);
+        this.apiKeyField.setReadOnly(true);
+        this.urlField.setValue(url);
+        this.urlField.setReadOnly(true);
     }
 
     /**

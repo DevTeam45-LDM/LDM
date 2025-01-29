@@ -1,5 +1,6 @@
 package com.devteam45ldm.ldm.views.eLabClient.experiments;
 
+import com.devteam45ldm.ldm.views.eLabClient.login.CredentialsAware;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.menubar.MenuBar;
@@ -39,10 +40,10 @@ import org.yaml.snakeyaml.util.Tuple;
  * It allows users to enter a URL and API key, test the URL, and read experiments from the API.
  */
 @PageTitle("ExperimentTemplates")
-//@Route("api-test/experiment-templates")
+//@Route("elab/experiment-templates")
 //@Menu(order = 10, icon = "line-awesome/svg/globe-solid.svg")
 @UIScope
-public class ExperimentTemplates extends Composite<VerticalLayout> {
+public class ExperimentTemplates extends Composite<VerticalLayout> implements CredentialsAware {
 
     private static final Logger logger = LoggerFactory.getLogger(ExperimentTemplates.class);
 
@@ -127,6 +128,14 @@ public class ExperimentTemplates extends Composite<VerticalLayout> {
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
         getContent().add(firstRow, secondRow, menuBar, experimentsComboBox, experimentDetailsLayout, experimentsMenuBar, editLayout);
+    }
+
+    @Override
+    public void setCredentials(String apiKey, String url) {
+        this.apiKeyField.setValue(apiKey);
+        this.apiKeyField.setReadOnly(true);
+        this.urlField.setValue(url);
+        this.urlField.setReadOnly(true);
     }
 
     /**
