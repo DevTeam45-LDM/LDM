@@ -67,10 +67,10 @@ public class Experiment {
   @JsonProperty("elabid")
   private String elabid = null;
 
-  @JsonProperty("events_start") //TODO GETTER, SETTER, FLUENT METHOD
+  @JsonProperty("events_start")
   private String eventsStart = null;
 
-  @JsonProperty("events_start_itemid") //TODO GETTER, SETTER, FLUENT METHOD
+  @JsonProperty("events_start_itemid")
   private String eventsStartItemId = null;
 
   @JsonProperty("exclusive_edit_mode")
@@ -166,7 +166,7 @@ public class Experiment {
   @JsonProperty("team")
   private Integer team = null;
 
-  @JsonProperty("team_name") //TODO GETTER, SETTER, FLUENT METHOD
+  @JsonProperty("team_name")
   private Integer teamName = null;
 
   @JsonProperty("timestamped")
