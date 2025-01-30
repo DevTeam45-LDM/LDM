@@ -154,12 +154,12 @@ public class DragNDrop extends Composite<VerticalLayout> implements CredentialsA
                 --header 'Authorization: %s' \\
                 --header 'Content-Type: application/json' \\
                 --data '{
-                    "title": "%s",
-                    "body": "%s"
+                    "body": "%s",
+                    "title": "%s"
                 }'
             """;
 
-            String command = String.format(commandTemplate, apiKey, title, classicEditor.getValue());
+            String command = String.format(commandTemplate, apiKey, classicEditor.getValue(), title);
             ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", command);
             processBuilder.directory(new File("/home"));
             Process process = processBuilder.start();
