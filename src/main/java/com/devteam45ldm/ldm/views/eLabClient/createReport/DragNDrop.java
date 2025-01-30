@@ -1,6 +1,7 @@
 package com.devteam45ldm.ldm.views.eLabClient.createReport;
 
 import com.devteam45ldm.ldm.views.eLabClient.login.CredentialsAware;
+import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.notification.Notification;
@@ -22,7 +23,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 @PageTitle("Bericht erstellen")
-public class DragNDrop extends VerticalLayout implements CredentialsAware {
+public class DragNDrop extends Composite<VerticalLayout> implements CredentialsAware {
 
     private String uploadedFileName;
     private InputStream uploadedInputStream;
@@ -78,12 +79,8 @@ public class DragNDrop extends VerticalLayout implements CredentialsAware {
             }
         });
 
-        add(upload, titleField, createReportButton); // TODO replace with following code
-        setWidthFull(); //TODO replace with following code
+        getContent().add(upload, titleField, createReportButton);
         getContent().setWidth("100%");
-        getContent().getStyle().set("flex-grow", "1");
-        getContent().add(firstRow, secondRow, menuBar, experimentsComboBox, experimentDetailsLayout, classicEditor, experimentsMenuBar, editLayout);
-
 
     }
 
