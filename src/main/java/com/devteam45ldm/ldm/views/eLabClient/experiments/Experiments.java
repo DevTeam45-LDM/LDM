@@ -425,6 +425,8 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
             int exitCode = process.waitFor();
 
             Notification.show("Result: " + result);
+            Notification.show("Error: " + errorResult);
+            Notification.show("ExitCode: " + exitCode);
         } catch (Exception e) {
             Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
             Notification.show(e.toString());
