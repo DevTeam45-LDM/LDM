@@ -25,6 +25,7 @@ public class Login extends Composite<VerticalLayout> {
 
     private final TextField urlField;
     private final PasswordField apiKeyField;
+    private final MenuBar menuBar = new MenuBar();
     private final ELabClient<InfoApi> eLabClient = new ELabClient<>(InfoApi.class);
     private final List<LoginEventListener> listeners = new ArrayList<>();
 
@@ -45,9 +46,7 @@ public class Login extends Composite<VerticalLayout> {
         secondRow.getStyle().set("margin-bottom", "20px");
 
         // Create the MenuBar
-        MenuBar menuBar = new MenuBar();
         menuBar.setWidth("min-content");
-
         // Add menu items
         menuBar.addItem("Verbindungstest", event -> {
             try {
@@ -58,6 +57,7 @@ public class Login extends Composite<VerticalLayout> {
         });
         menuBar.addItem("Login", event -> getInfo());
         menuBar.addItem("Logout", event -> deleteLogin());
+        menuBar.getItems().get(2).setEnabled(false);
         menuBar.getStyle().set("margin-bottom", "80px");
 
         getContent().setWidth("100%");
@@ -106,6 +106,8 @@ public class Login extends Composite<VerticalLayout> {
             Info info = eLabClient.getClient(apiKey, url).getInfo();
             String version = (info != null && info.getElabftwVersion() != null && !info.getElabftwVersion().isEmpty()) ? info.getElabftwVersion() : "unbekannt";
             Notification.show("Anmeldung erfolgreich. eLab-Version: " + version);
+            menuBar.getItems().get(1).setEnabled(false);
+            menuBar.getItems().get(2).setEnabled(true);
             fireLoginEvent();
         } catch (Exception e) {
             Notification.show("Fehler bei der Anmeldung: " + e.getMessage());
@@ -115,6 +117,8 @@ public class Login extends Composite<VerticalLayout> {
     private void deleteLogin() {
         urlField.clear();
         apiKeyField.clear();
+        menuBar.getItems().get(1).setEnabled(true);
+        menuBar.getItems().get(2).setEnabled(false);
         fireLoginEvent();
     }
 

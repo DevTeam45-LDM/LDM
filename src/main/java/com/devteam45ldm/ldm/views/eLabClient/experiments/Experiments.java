@@ -14,6 +14,9 @@ import com.vaadin.flow.spring.annotation.UIScope;
 
 import com.devteam45ldm.ldm.controller.HTTPController;
 
+import com.wontlost.ckeditor.Constants;
+import com.wontlost.ckeditor.VaadinCKEditor;
+import com.wontlost.ckeditor.VaadinCKEditorBuilder;
 import io.swagger.client.api.*;
 import io.swagger.client.model.*;
 import org.springframework.http.ResponseEntity;
@@ -56,6 +59,8 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
     private Experiment selectedExperiment;
     private final HashMap<String, TextField> leftComponents = new HashMap<>();
     private final HashMap<String, TextField> rightComponents = new HashMap<>();
+
+    private VaadinCKEditor classicEditor;
 
     /**
      * Constructs the ExperimentTemplates view.
@@ -122,9 +127,16 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
         experimentsMenuBar.addItem("Experiment erstellen", event -> loadCreator());
         experimentsMenuBar.setVisible(false);
 
+         classicEditor = new VaadinCKEditorBuilder().with(builder -> {
+            builder.editorData = "<p>This is a classic editor sample.</p>";
+            builder.editorType = Constants.EditorType.CLASSIC;
+            builder.theme = Constants.ThemeType.DARK;
+         }).createVaadinCKEditor();
+         classicEditor.setVisible(false);
+
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
-        getContent().add(firstRow, secondRow, menuBar, experimentsComboBox, experimentDetailsLayout, experimentsMenuBar, editLayout);
+        getContent().add(firstRow, secondRow, menuBar, experimentsComboBox, experimentDetailsLayout, classicEditor, experimentsMenuBar, editLayout);
     }
 
 
@@ -147,6 +159,9 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
         editField.setVisible(true);
         editMenuBar.setVisible(true);
         experimentsMenuBar.setVisible(false);
+        experimentDetailsLayout.setVisible(false);
+        classicEditor.setVisible(true);
+        experimentsComboBox.clear();
     }
 
     /**
@@ -263,7 +278,7 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
      */
     private List<Experiment> callExperimentsApi(String apiKey, String url) {
         // Fetch experiments
-        List<Experiment> result = apiInstance.getClient(apiKey, url).readExperiments(null, null, null, null, null, null, null, null, null, null, null, null); //read all experiments
+        List<Experiment> result = apiInstance.getClient(apiKey, url).readExperiments(null, null, null, null, null, null, 9999, null, null, 3, null, null); //read all experiments
         logger.info("Fetching experiments from {}", url);
         logger.info("Experiments: {}", result);
         return result;
@@ -492,7 +507,8 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
         experimentsMenuBar.removeAll();
         experimentsMenuBar.addItem("Experiment erstellen", event -> loadCreator());
         experimentsMenuBar.setVisible(true);
-        experimentDetailsLayout.setVisible(false);
+        experimentDetailsLayout.setVisible(true);
+        classicEditor.setVisible(false);
     }
 
     /**
