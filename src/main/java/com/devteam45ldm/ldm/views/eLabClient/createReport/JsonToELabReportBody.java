@@ -1,8 +1,10 @@
-package com.devteam45ldm.ldm.views.createReport;
+package com.devteam45ldm.ldm.views.eLabClient.createReport;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Iterator;
 
 public class JsonToELabReportBody {
     public static String convertJsonToHtml(JSONObject json) throws JSONException {
@@ -12,7 +14,9 @@ public class JsonToELabReportBody {
         // Add metadata
         html.append("<h1>Measurement Metadata</h1>");
         JSONObject measurement = json.getJSONObject("measurement");
-        for (String key : measurement.keySet()) {
+        Iterator<String> keys = measurement.keys();
+        while (keys.hasNext()) {
+            String key = keys.next();
             if (!key.equals("datablock")) {
                 html.append("<p><strong>").append(key).append(":</strong> ").append(measurement.get(key)).append("</p>");
             }
@@ -26,7 +30,9 @@ public class JsonToELabReportBody {
             if (i < 2 || i >= dataSize - 2) {
                 JSONObject dataPoint = data.getJSONObject(i);
                 html.append("<h3>Data Point ").append(i + 1).append("</h3>");
-                for (String key : dataPoint.keySet()) {
+                Iterator<String> dataKeys = dataPoint.keys();
+                while (dataKeys.hasNext()) {
+                    String key = dataKeys.next();
                     html.append("<p><strong>").append(key).append(":</strong> ").append(dataPoint.get(key)).append("</p>");
                 }
             }

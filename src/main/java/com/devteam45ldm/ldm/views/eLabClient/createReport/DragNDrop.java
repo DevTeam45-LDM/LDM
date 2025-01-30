@@ -1,9 +1,12 @@
-package com.devteam45ldm.ldm.views.createReport;
+package com.devteam45ldm.ldm.views.eLabClient.createReport;
 
+import com.devteam45ldm.ldm.views.eLabClient.login.CredentialsAware;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.router.Menu;
@@ -12,19 +15,22 @@ import com.vaadin.flow.router.Route;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 @PageTitle("Bericht erstellen")
-@Route("create-report")
-@Menu(order = 3, icon = "line-awesome/svg/arrow-alt-circle-down.svg")
-public class DragNDrop extends VerticalLayout {
+public class DragNDrop extends VerticalLayout implements CredentialsAware {
 
     private String uploadedFileName;
     private InputStream uploadedInputStream;
     private String uploadedMimeType;
     private long uploadedContentLength;
+    private final TextField titleField = new TextField("Titel");
+    private String apiKey;
+    private String url;
 
     public DragNDrop() {
         // Create a memory buffer to store uploaded files
@@ -72,8 +78,19 @@ public class DragNDrop extends VerticalLayout {
             }
         });
 
-        // Add the upload component and the button to the layout
-        add(upload, createReportButton);
+        add(upload, titleField, createReportButton); // TODO replace with following code
+        setWidthFull(); //TODO replace with following code
+        getContent().setWidth("100%");
+        getContent().getStyle().set("flex-grow", "1");
+        getContent().add(firstRow, secondRow, menuBar, experimentsComboBox, experimentDetailsLayout, classicEditor, experimentsMenuBar, editLayout);
+
+
+    }
+
+    @Override
+    public void setCredentials(String apiKey, String url) {
+        this.apiKey = apiKey;
+        this.url = url;
     }
 
     private void processUploadedFile(String fileName, InputStream inputStream,
@@ -85,11 +102,51 @@ public class DragNDrop extends VerticalLayout {
                         .collect(Collectors.joining("\n"));
                 JSONObject json = XMLToJsonParser.parseXMLToJson(xmlContent);
                 Notification.show("XML file processed successfully: " + json);
+                createExperiment(json.toString());
+
             } catch (Exception e) {
                 Notification.show("Error processing XML file: " + e.getMessage());
             }
         } else {
             Notification.show("Unsupported file format: " + mimeType);
         }
+    }
+
+    private void createExperiment(String body) {
+        String title = titleField.getValue();
+        //ExperimentsBody body = new ExperimentsBody();
+        //apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).postExperiment(body);
+        Integer id = null;
+        try { //TODO use ApiClient
+            // apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).patchExperiment(id,selectedExperiment);
+            String commandTemplate = """
+                curl -v --request POST 'https://sfb270eln.physik.uni-due.de/api/v2/experiments/' \\
+                --header 'Authorization: %s' \\
+                --header 'Content-Type: application/json' \\
+                --data '{
+                    "title": "%s",
+                    "body": "%s"
+                }'
+            """;
+
+            String command = String.format(commandTemplate, apiKey, title, body);
+            ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", command);
+            processBuilder.directory(new File("/home"));
+            Process process = processBuilder.start();
+            InputStream inputStream = process.getInputStream();
+
+            // Read the error stream from the command
+            InputStream errorStream = process.getErrorStream();
+            String errorResult = new BufferedReader(new InputStreamReader(errorStream, StandardCharsets.UTF_8))
+                    .lines()
+                    .collect(Collectors.joining("\n"));
+            int exitCode = process.waitFor();
+            //Notification.show("Error: " + errorResult);
+        } catch (Exception e) {
+            Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
+            Notification.show(e.toString());
+            return;
+        }
+        Notification.show("Experiment erfolgreich erstellt.");
     }
 }
