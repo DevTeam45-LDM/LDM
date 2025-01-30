@@ -5,14 +5,14 @@ import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
-import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
+import com.wontlost.ckeditor.Constants;
+import com.wontlost.ckeditor.VaadinCKEditor;
+import com.wontlost.ckeditor.VaadinCKEditorBuilder;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -32,6 +32,16 @@ public class DragNDrop extends Composite<VerticalLayout> implements CredentialsA
     private final TextField titleField = new TextField("Titel");
     private String apiKey;
     private String url;
+    private Boolean buttonAllowed = false;
+
+    private VaadinCKEditor classicEditor;
+    private final Button createReportButton = new Button("Bericht erstellen", event -> {
+        if (uploadedInputStream != null) {
+            createExperiment();
+        } else {
+            Notification.show("No file uploaded.");
+        }
+    });
 
     public DragNDrop() {
         // Create a memory buffer to store uploaded files
@@ -42,23 +52,39 @@ public class DragNDrop extends Composite<VerticalLayout> implements CredentialsA
 
         // Customize the drag and drop area
         upload.setDropLabel(new Html("<div>Drop files here</div>"));
+        upload.setWidth("100%");
 
         // Set some additional configurations
         upload.setMaxFiles(5);  // Limit to 5 files
         upload.setMaxFileSize(10 * 1024 * 1024);  // 10MB max file size
 
         // Add event listeners for upload events
-        // Add event listeners for upload events
         upload.addSucceededListener(event -> {
-            uploadedFileName = event.getFileName();
-            uploadedMimeType = event.getMIMEType();
-            uploadedContentLength = event.getContentLength();
-            uploadedInputStream = buffer.getInputStream();
-            Notification.show("File uploaded: " + uploadedFileName);
+            String fileName = event.getFileName();
+            String mimeType = event.getMIMEType();
+            long contentLength = event.getContentLength();
+
+            try {
+                uploadedFileName = event.getFileName();
+                uploadedMimeType = event.getMIMEType();
+                uploadedContentLength = event.getContentLength();
+                uploadedInputStream = buffer.getInputStream();
+
+                // Process the file here (e.g., save to disk, database, etc.)
+                processUploadedFile(fileName, uploadedInputStream, mimeType, contentLength);
+                if (buttonAllowed) {
+                    createReportButton.setEnabled(true);
+                }
+
+            } catch (Exception e) {
+                // Handle any upload errors
+                e.printStackTrace();
+            }
         });
 
         upload.addFailedListener(event -> {
             // Handle upload failures
+            createReportButton.setEnabled(false);
             Notification.show("Upload failed: " + event.getReason());
         });
 
@@ -71,15 +97,17 @@ public class DragNDrop extends Composite<VerticalLayout> implements CredentialsA
                 .set("textAlign", "center");
 
         // Create the "Bericht erstellen" button
-        Button createReportButton = new Button("Bericht erstellen", event -> {
-            if (uploadedInputStream != null) {
-                processUploadedFile(uploadedFileName, uploadedInputStream, uploadedMimeType, uploadedContentLength);
-            } else {
-                Notification.show("No file uploaded.");
-            }
-        });
+        createReportButton.setEnabled(false);
 
-        getContent().add(upload, titleField, createReportButton);
+        classicEditor = new VaadinCKEditorBuilder().with(builder -> {
+            builder.editorData = "<p>Experiment</p>";
+            builder.editorType = Constants.EditorType.CLASSIC;
+            builder.theme = Constants.ThemeType.LIGHT;
+            builder.width = "100%";
+            builder.height = "500px";
+        }).createVaadinCKEditor();
+
+        getContent().add(upload, titleField, createReportButton,classicEditor);
         getContent().setWidth("100%");
 
     }
@@ -88,19 +116,25 @@ public class DragNDrop extends Composite<VerticalLayout> implements CredentialsA
     public void setCredentials(String apiKey, String url) {
         this.apiKey = apiKey;
         this.url = url;
+        if(apiKey != null && !apiKey.isEmpty()) {
+            this.buttonAllowed = true;
+        }
     }
 
     private void processUploadedFile(String fileName, InputStream inputStream,
                                      String mimeType, long contentLength) {
+        if (titleField.isEmpty()) {
+            Notification.show("Bitte geben Sie einen Titel ein.");
+            return;
+        }
         if ("application/xml".equals(mimeType) || fileName.endsWith(".xml")) {
             try {
                 String xmlContent = new BufferedReader(new InputStreamReader(inputStream))
                         .lines()
                         .collect(Collectors.joining("\n"));
                 JSONObject json = XMLToJsonParser.parseXMLToJson(xmlContent);
-                Notification.show("XML file processed successfully: " + json);
-                createExperiment(json.toString());
-
+                Notification.show("XML file processed successfully.");
+                classicEditor.setValue(JsonToELabReportBody.convertJsonToHtml(json));
             } catch (Exception e) {
                 Notification.show("Error processing XML file: " + e.getMessage());
             }
@@ -109,11 +143,10 @@ public class DragNDrop extends Composite<VerticalLayout> implements CredentialsA
         }
     }
 
-    private void createExperiment(String body) {
+    private void createExperiment() {
         String title = titleField.getValue();
         //ExperimentsBody body = new ExperimentsBody();
         //apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).postExperiment(body);
-        Integer id = null;
         try { //TODO use ApiClient
             // apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).patchExperiment(id,selectedExperiment);
             String commandTemplate = """
@@ -126,17 +159,10 @@ public class DragNDrop extends Composite<VerticalLayout> implements CredentialsA
                 }'
             """;
 
-            String command = String.format(commandTemplate, apiKey, title, body);
+            String command = String.format(commandTemplate, apiKey, title, classicEditor.getValue());
             ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", command);
             processBuilder.directory(new File("/home"));
             Process process = processBuilder.start();
-            InputStream inputStream = process.getInputStream();
-
-            // Read the error stream from the command
-            InputStream errorStream = process.getErrorStream();
-            String errorResult = new BufferedReader(new InputStreamReader(errorStream, StandardCharsets.UTF_8))
-                    .lines()
-                    .collect(Collectors.joining("\n"));
             int exitCode = process.waitFor();
             //Notification.show("Error: " + errorResult);
         } catch (Exception e) {
