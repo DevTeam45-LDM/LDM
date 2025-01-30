@@ -21,7 +21,9 @@ import io.swagger.client.api.*;
 import io.swagger.client.model.*;
 import org.springframework.http.ResponseEntity;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -127,12 +129,16 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
         experimentsMenuBar.addItem("Experiment erstellen", event -> loadCreator());
         experimentsMenuBar.setVisible(false);
 
-         classicEditor = new VaadinCKEditorBuilder().with(builder -> {
-            builder.editorData = "<p>This is a classic editor sample.</p>";
+        classicEditor = new VaadinCKEditorBuilder().with(builder -> {
+            builder.editorData = "<p>Experiment</p>";
             builder.editorType = Constants.EditorType.CLASSIC;
-            builder.theme = Constants.ThemeType.DARK;
-         }).createVaadinCKEditor();
-         classicEditor.setVisible(false);
+            builder.theme = Constants.ThemeType.LIGHT;
+            builder.width = "100%";
+            builder.height = "500px";
+        }).createVaadinCKEditor();
+        //classicEditor.setEnabled(true);
+        //classicEditor.setVisible(false);
+        classicEditor.setReadOnly(true);
 
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
@@ -148,55 +154,6 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
         this.urlField.setReadOnly(url!=null && !(url.isEmpty()));
     }
 
-    /**
-     * Loads the creator view for creating a new experiment.
-     * Sets up the edit menu bar for creating a new experiment.
-     */
-    private void loadCreator() {
-        editMenuBar.removeAll();
-        editMenuBar.addItem("Erstellen", event -> createExperiment());
-        editMenuBar.addItem("Abbrechen", event -> cancelExperiment());
-        editField.setVisible(true);
-        editMenuBar.setVisible(true);
-        experimentsMenuBar.setVisible(false);
-        experimentDetailsLayout.setVisible(false);
-        classicEditor.setVisible(true);
-        experimentsComboBox.clear();
-    }
-
-    /**
-     * Loads the modifier view for editing the selected experiment.
-     * Sets up the edit menu bar for modifying the selected experiment.
-     */
-    private void loadModifier() {
-        if (selectedExperiment != null) {
-            editMenuBar.removeAll();
-            editMenuBar.addItem("Speichern", event -> saveChanges());
-            editMenuBar.addItem("Abbrechen", event -> cancelExperiment());
-            setFormComponentReadOnly(false);
-            editField.setVisible(false);
-            editMenuBar.setVisible(true);
-            experimentsMenuBar.setVisible(false);
-        } else {
-            Notification.show("Bitte wählen Sie ein Experiment aus.");
-        }
-    }
-
-    /**
-     * Loads the deleter view for deleting the selected experiment.
-     * Sets up the edit menu bar for deleting the selected experiment.
-     */
-    private void loadDeleter() {
-        if (selectedExperiment != null) {
-            editMenuBar.removeAll();
-            editMenuBar.addItem("Löschen", event -> deleteExperiment());
-            editMenuBar.addItem("Abbrechen", event -> cancelExperiment());
-            editMenuBar.setVisible(true);
-            experimentsMenuBar.setVisible(false);
-        } else {
-            Notification.show("Bitte wählen Sie ein Experiment aus.");
-        }
-    }
 
     /**
      * Tests the URL entered by the user.
@@ -322,7 +279,7 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
                 VerticalLayout rightColumn = new VerticalLayout();
 
                 Map<String, Tuple<String, Integer>> leftMapping = new HashMap<>();
-                leftMapping.put("Access Key", new Tuple<>(selectedExperiment.getAccessKey() != null ? selectedExperiment.getAccessKey() : "null", 0));
+                leftMapping.put("Title", new Tuple<>(selectedExperiment.getTitle() != null ? selectedExperiment.getTitle() : "null", 0));
                 leftMapping.put("Body", new Tuple<>(selectedExperiment.getBody() != null ? selectedExperiment.getBody() : "null", 1));
                 leftMapping.put("Body HTML", new Tuple<>(selectedExperiment.getBodyHtml() != null ? selectedExperiment.getBodyHtml() : "null", 2));
                 leftMapping.put("Can Read", new Tuple<>(selectedExperiment.getCanread() != null ? selectedExperiment.getCanread() : "null", 3));
@@ -377,7 +334,7 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
                 rightMapping.put("Timestamped", new Tuple<>(selectedExperiment.getTimestamped() != null ? String.valueOf(selectedExperiment.getTimestamped()) : "null", 20));
                 rightMapping.put("Timestamped By", new Tuple<>(selectedExperiment.getTimestampedby() != null ? String.valueOf(selectedExperiment.getTimestampedby()) : "null", 21));
                 rightMapping.put("Timestamped At", new Tuple<>(selectedExperiment.getTimestampedAt() != null ? selectedExperiment.getTimestampedAt() : "null", 22));
-                rightMapping.put("Title", new Tuple<>(selectedExperiment.getTitle() != null ? selectedExperiment.getTitle() : "null", 23));
+                rightMapping.put("Access Key", new Tuple<>(selectedExperiment.getAccessKey() != null ? selectedExperiment.getAccessKey() : "null", 23));
                 rightMapping.put("Type", new Tuple<>(selectedExperiment.getType() != null ? selectedExperiment.getType() : "null", 24));
                 rightMapping.put("Up Item ID", new Tuple<>(selectedExperiment.getUpItemId() != null ? String.valueOf(selectedExperiment.getUpItemId()) : "null", 25));
                 rightMapping.put("Uploads", new Tuple<>(selectedExperiment.getUploads() != null ? selectedExperiment.getUploads().toString() : "null", 26));
@@ -401,11 +358,10 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
                 columns.setWidthFull();
                 experimentDetailsLayout.add(columns);
 
-                experimentsMenuBar.removeAll();
-                experimentsMenuBar.addItem("Experiment erstellen", event -> loadCreator());
-                experimentsMenuBar.addItem("Experiment bearbeiten", event -> loadModifier());
-                experimentsMenuBar.addItem("Experiment löschen", event -> loadDeleter());
+                showDetailsMenuBar();
 
+                classicEditor.setValue(selectedExperiment.getBody());
+                classicEditor.setReadOnly(true);
             }
         } catch (Exception e) {
             logger.error("Error showing experiment details", e);
@@ -457,12 +413,33 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
     private void saveChanges() {
         Integer id = selectedExperiment.getId();
         updateSelectedExperiment();
+
         try {
-            apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).patchExperiment(id,selectedExperiment);
-        } catch (RestClientException e) {
+            // apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).patchExperiment(id,selectedExperiment);
+            String commandTemplate = """
+                curl --location --request PATCH 'https://sfb270eln.physik.uni-due.de/api/v2/experiments/%d' \\
+                --header 'Authorization: %s' \\
+                --header 'action: update' \\
+                --header 'Content-Type: application/json' \\
+                --data '{
+                    "title": "%s",
+                    "body": "%s"
+                }'
+            """;
+
+            String command = String.format(commandTemplate, id, apiKeyField.getValue(), selectedExperiment.getTitle(), selectedExperiment.getBody());
+            ProcessBuilder processBuilder = new ProcessBuilder(command.split(" "));
+            processBuilder.directory(new File("/home/ldm.txt"));
+            Process process = processBuilder.start();
+            InputStream inputStream = process.getInputStream();
+            int exitCode = process.exitValue();
+
+        } catch (Exception e) {
             Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
+            Notification.show(e.toString());
+            return;
         }
-        setFormComponentReadOnly(true);
+        setModifyComponentsReadOnly(true);
         Notification.show("Änderungen erfolgreich gespeichert.");
         resetEditComponents();
         readExperiments();
@@ -474,6 +451,7 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
      */
     private void updateSelectedExperiment() {
         selectedExperiment.setTitle(leftComponents.get("Title").getValue());
+        selectedExperiment.setBody(classicEditor.getValue());
     }
 
     /**
@@ -490,10 +468,79 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
     }
 
     /**
+     * Loads the creator view for creating a new experiment.
+     * Sets up the edit menu bar for creating a new experiment.
+     */
+    private void loadCreator() {
+        experimentsComboBox.clear();
+        editMenuBar.removeAll();
+        editMenuBar.addItem("Erstellen", event -> createExperiment());
+        editMenuBar.addItem("Abbrechen", event -> cancelCreate());
+        editField.setVisible(true);
+        editMenuBar.setVisible(true);
+        experimentsMenuBar.setVisible(false);
+        experimentDetailsLayout.setVisible(false);
+        classicEditor.setVisible(true);
+        classicEditor.setReadOnly(false);
+        classicEditor.clear();
+    }
+
+    /**
+     * Loads the modifier view for editing the selected experiment.
+     * Sets up the edit menu bar for modifying the selected experiment.
+     */
+    private void loadModifier() {
+        if (selectedExperiment != null) {
+            editMenuBar.removeAll();
+            editMenuBar.addItem("Speichern", event -> saveChanges());
+            editMenuBar.addItem("Abbrechen", event -> cancelModify());
+            setModifyComponentsReadOnly(false);
+            editField.setVisible(false);
+            editMenuBar.setVisible(true);
+            experimentsMenuBar.setVisible(false);
+            classicEditor.setVisible(true);
+        } else {
+            Notification.show("Bitte wählen Sie ein Experiment aus.");
+        }
+    }
+
+    /**
+     * Loads the deleter view for deleting the selected experiment.
+     * Sets up the edit menu bar for deleting the selected experiment.
+     */
+    private void loadDeleter() {
+        if (selectedExperiment != null) {
+            editMenuBar.removeAll();
+            editMenuBar.addItem("Löschen", event -> deleteExperiment());
+            editMenuBar.addItem("Abbrechen", event -> cancelCreate());
+            editMenuBar.setVisible(true);
+            experimentsMenuBar.setVisible(false);
+        } else {
+            Notification.show("Bitte wählen Sie ein Experiment aus.");
+        }
+    }
+
+    private void showDetailsMenuBar(){
+        experimentsMenuBar.removeAll();
+        experimentsMenuBar.addItem("Experiment erstellen", event -> loadCreator());
+        experimentsMenuBar.addItem("Experiment bearbeiten", event -> loadModifier());
+        experimentsMenuBar.addItem("Experiment löschen", event -> loadDeleter());
+        classicEditor.setVisible(true);
+    }
+
+    /**
      * Cancels the current operation.
      * Resets the edit components to their default state.
      */
-    private void cancelExperiment() {
+    private void cancelModify() {
+        setModifyComponentsReadOnly(true);
+        editField.setVisible(false);
+        editMenuBar.setVisible(false);
+        experimentsMenuBar.setVisible(true);
+        showDetailsMenuBar();
+    }
+
+    private void cancelCreate() {
         resetEditComponents();
     }
 
@@ -533,7 +580,8 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
      *
      * @param status the read-only status to set
      */
-    private void setFormComponentReadOnly(Boolean status) {
+    private void setModifyComponentsReadOnly(Boolean status) {
         leftComponents.get("Title").setReadOnly(status);
+        classicEditor.setReadOnly(status);
     }
 }
