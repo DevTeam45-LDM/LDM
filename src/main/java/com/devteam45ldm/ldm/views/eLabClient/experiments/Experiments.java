@@ -21,9 +21,8 @@ import io.swagger.client.api.*;
 import io.swagger.client.model.*;
 import org.springframework.http.ResponseEntity;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -395,8 +394,42 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
      */
     private void createExperiment() {
         String title = editField.getValue();
-        ExperimentsBody body = new ExperimentsBody();
-        apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).postExperiment(body);
+        //ExperimentsBody body = new ExperimentsBody();
+        //apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).postExperiment(body);
+        try { //TODO use ApiClient
+            // apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).patchExperiment(id,selectedExperiment);
+            String commandTemplate = """
+                curl --location --request POST 'https://sfb270eln.physik.uni-due.de/api/v2/experiments/' \\
+                --header 'Authorization: %s' \\
+                --header 'Content-Type: application/json' \\
+                --data '{
+                    "title": "%s"
+                }'
+            """;
+
+            String command = String.format(commandTemplate, apiKeyField.getValue(), title);
+            ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", command);
+            processBuilder.directory(new File("/home"));
+            Process process = processBuilder.start();
+            InputStream inputStream = process.getInputStream();
+            // Read the output from the command
+            String result = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
+                    .lines()
+                    .collect(Collectors.joining("\n"));
+
+            // Read the error stream from the command
+            InputStream errorStream = process.getErrorStream();
+            String errorResult = new BufferedReader(new InputStreamReader(errorStream, StandardCharsets.UTF_8))
+                    .lines()
+                    .collect(Collectors.joining("\n"));
+            int exitCode = process.waitFor();
+
+            Notification.show("Result: " + result);
+        } catch (Exception e) {
+            Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
+            Notification.show(e.toString());
+            return;
+        }
         Notification.show("Experiment erfolgreich erstellt.");
         resetEditComponents();
         readExperiments();
@@ -414,7 +447,7 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
         Integer id = selectedExperiment.getId();
         updateSelectedExperiment();
 
-        try {
+        try { //TODO use ApiClient
             // apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).patchExperiment(id,selectedExperiment);
             String commandTemplate = """
                 curl --location --request PATCH 'https://sfb270eln.physik.uni-due.de/api/v2/experiments/%d' \\
@@ -428,11 +461,11 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
             """;
 
             String command = String.format(commandTemplate, id, apiKeyField.getValue(), selectedExperiment.getTitle(), selectedExperiment.getBody());
-            ProcessBuilder processBuilder = new ProcessBuilder(command.split(" "));
-            processBuilder.directory(new File("/home/ldm.txt"));
+            ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", command);
+            processBuilder.directory(new File("/home"));
             Process process = processBuilder.start();
             InputStream inputStream = process.getInputStream();
-            int exitCode = process.exitValue();
+            int exitCode = process.waitFor();
 
         } catch (Exception e) {
             Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
