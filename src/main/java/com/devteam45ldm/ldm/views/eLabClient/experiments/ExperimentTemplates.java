@@ -18,7 +18,9 @@ import io.swagger.client.api.*;
 import io.swagger.client.model.*;
 import org.springframework.http.ResponseEntity;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -316,7 +318,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
                 leftMapping.put("Modified At", new Tuple<>(selectedExperiment.getModifiedAt() != null ? selectedExperiment.getModifiedAt() : "null", 4));
                 leftMapping.put("Team", new Tuple<>(selectedExperiment.getTeamsId() != null ? String.valueOf(selectedExperiment.getTeamsId()) : "null", 5));
                 leftMapping.put("Status", new Tuple<>(selectedExperiment.getStatus() != null ? String.valueOf(selectedExperiment.getStatus()) : "null", 6));
-                leftMapping.put("Body", new Tuple<>(selectedExperiment.getBody() != null ? selectedExperiment.getBody() : "null", 7));
+                leftMapping.put("Content Type", new Tuple<>(selectedExperiment.getContentType() != null ? String.valueOf(selectedExperiment.getContentType()) : "null", 7));
                 leftMapping.put("Category", new Tuple<>(selectedExperiment.getCategory() != null ? String.valueOf(selectedExperiment.getCategory()) : "null", 8));
                 leftMapping.put("Ordering", new Tuple<>(selectedExperiment.getOrdering() != null ? String.valueOf(selectedExperiment.getOrdering()) : "null", 9));
                 leftMapping.put("Can Read", new Tuple<>(selectedExperiment.getCanread() != null ? selectedExperiment.getCanread() : "null", 10));
@@ -328,7 +330,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
                 leftMapping.put("Exclusive Edit Mode", new Tuple<>(selectedExperiment.getExclusiveEditMode() != null ? selectedExperiment.getExclusiveEditMode().toString() : "null", 16));
 
                 Map<String, Tuple<String, Integer>> rightMapping = new HashMap<>();
-                rightMapping.put("Content Type", new Tuple<>(selectedExperiment.getContentType() != null ? String.valueOf(selectedExperiment.getContentType()) : "null", 0));
+                rightMapping.put("Body", new Tuple<>(selectedExperiment.getBody() != null ? selectedExperiment.getBody() : "null", 0));
                 rightMapping.put("Locked", new Tuple<>(selectedExperiment.getLocked() != null ? String.valueOf(selectedExperiment.getLocked()) : "null", 1));
                 rightMapping.put("Locked By", new Tuple<>(selectedExperiment.getLockedby() != null ? String.valueOf(selectedExperiment.getLockedby()) : "null", 2));
                 rightMapping.put("Locked At", new Tuple<>(selectedExperiment.getLockedAt() != null ? selectedExperiment.getLockedAt() : "null", 3));
@@ -418,10 +420,37 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
     private void saveChanges() {
         Integer id = selectedExperiment.getId();
         updateSelectedExperiment();
+        /*
         try {
             apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).patchExperimentTemplate(id,selectedExperiment);
         } catch (RestClientException e) {
             Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
+        }
+        */
+        try { //TODO use ApiClient
+            // apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).patchExperiment(id,selectedExperiment);
+            String commandTemplate = """
+                curl --location --request PATCH 'https://sfb270eln.physik.uni-due.de/api/v2/experiments_templates/%d' \\
+                --header 'Authorization: %s' \\
+                --header 'action: update' \\
+                --header 'Content-Type: application/json' \\
+                --data '{
+                    "title": "%s",
+                    "body": "%s"
+                }'
+            """;
+
+            String command = String.format(commandTemplate, id, apiKeyField.getValue(), selectedExperiment.getTitle(), selectedExperiment.getBody());
+            ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", command);
+            processBuilder.directory(new File("/home"));
+            Process process = processBuilder.start();
+            InputStream inputStream = process.getInputStream();
+            int exitCode = process.waitFor();
+
+        } catch (Exception e) {
+            Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
+            Notification.show(e.toString());
+            return;
         }
         setFormComponentReadOnly(true);
         Notification.show("Änderungen erfolgreich gespeichert.");
@@ -435,6 +464,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
      */
     private void updateSelectedExperiment() {
         selectedExperiment.setTitle(leftComponents.get("Title").getValue());
+        selectedExperiment.setBody(rightComponents.get("Body").getValue());
     }
 
     /**
@@ -495,6 +525,6 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
      */
     private void setFormComponentReadOnly(Boolean status) {
         leftComponents.get("Title").setReadOnly(status);
-        //rightComponents.get("Is Pinned").setReadOnly(status); // not editable
+        rightComponents.get("Body").setReadOnly(status);
     }
 }

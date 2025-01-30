@@ -20,7 +20,9 @@ import io.swagger.client.model.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 
@@ -274,6 +276,7 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
      */
     private boolean callApiPatch(String tag, Integer id) {
         // Create an instance of the TeamTagsApi
+        /*
         TeamTagsApi apiInstance = elabClient.getClient(apiKeyField.getValue(), urlField.getValue());
 
         // Update a tag for the team with id=5
@@ -282,6 +285,31 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
             return true;
         } catch (RestClientException e) {
             //Notification.show("Error: " + e.getMessage()); //DEBUG
+            return false;
+        }*/
+
+        try { //TODO use ApiClient
+            // apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).patchExperiment(id,selectedExperiment);
+            String commandTemplate = """
+                curl --location --request PATCH 'https://sfb270eln.physik.uni-due.de/api/v2/teams/5/tags/%d' \\
+                      --header 'Authorization: %s' \\
+                      --header 'action: update' \\
+                      --header 'Content-Type: application/json' \\
+                      --data '{
+                          "title": "%s"
+                      }'
+            """;
+
+            String command = String.format(commandTemplate, id, apiKeyField.getValue(), tag);
+            ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", command);
+            processBuilder.directory(new File("/home"));
+            Process process = processBuilder.start();
+            InputStream inputStream = process.getInputStream();
+            int exitCode = process.waitFor();
+            return false; //TODO check exitCode
+        } catch (Exception e) {
+            Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
+            Notification.show(e.toString());
             return false;
         }
     }
@@ -301,7 +329,7 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
         if (result) {
             Notification.show("Änderungen erfolgreich gespeichert.");
         } else {
-            Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
+            Notification.show("Keine Berechtigung Tags zu Löschen: eLab Admin kontaktieren.");
         }
 
         resetEditComponents();

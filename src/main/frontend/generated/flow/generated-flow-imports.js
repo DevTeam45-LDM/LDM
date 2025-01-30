@@ -29,13 +29,13 @@ const loadOnDemand = (key) => {
   if (key === '961ac858476cabe7607613df4c4212afd1d09368f578f0b347f0f2e8adab4dbf') {
     pending.push(import('./chunks/chunk-ec3b540e674523488a9eb1bcba81a1595ea541b95d721a7eef7db6f0a770223b.js'));
   }
-  if (key === 'e9fbeab5177a462a6c00cab486e546b62fc20a32272d27ee127867f8f354bdf7') {
+  if (key === '87b6d2669034128f75863a889035c0c5219a8495e1cb0efab65ac531266d6f9b') {
     pending.push(import('./chunks/chunk-be861dcccf6725f93341bba1b4f65e3534fa03ed337c14bc3fdaf922e8420563.js'));
   }
   if (key === '9d0d2d25a9c60ed931e08a49d156058f94bf7c2a135bdb1d5f1b74cb201f2d04') {
     pending.push(import('./chunks/chunk-b185b919a5e3e7cb6e6cfd22fa401d1437946ecb2c743358cc9c4ca819516d3c.js'));
   }
-  if (key === '87b6d2669034128f75863a889035c0c5219a8495e1cb0efab65ac531266d6f9b') {
+  if (key === 'e9fbeab5177a462a6c00cab486e546b62fc20a32272d27ee127867f8f354bdf7') {
     pending.push(import('./chunks/chunk-be861dcccf6725f93341bba1b4f65e3534fa03ed337c14bc3fdaf922e8420563.js'));
   }
   return Promise.all(pending);
