@@ -1,20 +1,26 @@
-package com.devteam45ldm.ldm.views.filedrop;
+package com.devteam45ldm.ldm.views.createReport;
 
 import com.vaadin.flow.component.Html;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.stream.Collectors;
 
-@PageTitle("File Upload")
-@Route("file-upload")
+@PageTitle("Bericht erstellen")
+@Route("create-report")
 @Menu(order = 3, icon = "line-awesome/svg/arrow-alt-circle-down.svg")
-public class FileDropView extends VerticalLayout {
+public class DragNDrop extends VerticalLayout {
 
-    public FileDropView() {
+    public DragNDrop() {
         // Create a memory buffer to store uploaded files
         MemoryBuffer buffer = new MemoryBuffer();
 
@@ -66,12 +72,18 @@ public class FileDropView extends VerticalLayout {
 
     private void processUploadedFile(String fileName, InputStream inputStream,
                                      String mimeType, long contentLength) {
-        // Implement your file processing logic here
-        System.out.println("File uploaded: " + fileName);
-        System.out.println("MIME Type: " + mimeType);
-        System.out.println("File Size: " + contentLength + " bytes");
-
-        // Example: You might want to save the file, process it, or store its details
-        // This is where you'd add your specific file handling logic
+        if ("application/xml".equals(mimeType) || fileName.endsWith(".xml")) {
+            try {
+                String xmlContent = new BufferedReader(new InputStreamReader(inputStream))
+                        .lines()
+                        .collect(Collectors.joining("\n"));
+                JSONObject json = XMLToJsonParser.parseXMLToJson(xmlContent);
+                Notification.show("XML file processed successfully: " + json);
+            } catch (Exception e) {
+                Notification.show("Error processing XML file: " + e.getMessage());
+            }
+        } else {
+            Notification.show("Unsupported file format: " + mimeType);
+        }
     }
 }
