@@ -1,6 +1,7 @@
 package com.devteam45ldm.ldm.views.createReport;
 
 import com.vaadin.flow.component.Html;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.upload.Upload;
@@ -20,6 +21,11 @@ import java.util.stream.Collectors;
 @Menu(order = 3, icon = "line-awesome/svg/arrow-alt-circle-down.svg")
 public class DragNDrop extends VerticalLayout {
 
+    private String uploadedFileName;
+    private InputStream uploadedInputStream;
+    private String uploadedMimeType;
+    private long uploadedContentLength;
+
     public DragNDrop() {
         // Create a memory buffer to store uploaded files
         MemoryBuffer buffer = new MemoryBuffer();
@@ -35,27 +41,18 @@ public class DragNDrop extends VerticalLayout {
         upload.setMaxFileSize(10 * 1024 * 1024);  // 10MB max file size
 
         // Add event listeners for upload events
+        // Add event listeners for upload events
         upload.addSucceededListener(event -> {
-            String fileName = event.getFileName();
-            String mimeType = event.getMIMEType();
-            long contentLength = event.getContentLength();
-
-            try {
-                // Get the input stream of the uploaded file
-                InputStream inputStream = buffer.getInputStream();
-
-                // Process the file here (e.g., save to disk, database, etc.)
-                processUploadedFile(fileName, inputStream, mimeType, contentLength);
-
-            } catch (Exception e) {
-                // Handle any upload errors
-                e.printStackTrace();
-            }
+            uploadedFileName = event.getFileName();
+            uploadedMimeType = event.getMIMEType();
+            uploadedContentLength = event.getContentLength();
+            uploadedInputStream = buffer.getInputStream();
+            Notification.show("File uploaded: " + uploadedFileName);
         });
 
         upload.addFailedListener(event -> {
             // Handle upload failures
-            System.err.println("Upload failed: " + event.getReason());
+            Notification.show("Upload failed: " + event.getReason());
         });
 
         // Optional: Customize the drop zone styling
@@ -66,8 +63,17 @@ public class DragNDrop extends VerticalLayout {
                 .set("padding", "20px")
                 .set("textAlign", "center");
 
-        // Add the upload component to the layout
-        add(upload);
+        // Create the "Bericht erstellen" button
+        Button createReportButton = new Button("Bericht erstellen", event -> {
+            if (uploadedInputStream != null) {
+                processUploadedFile(uploadedFileName, uploadedInputStream, uploadedMimeType, uploadedContentLength);
+            } else {
+                Notification.show("No file uploaded.");
+            }
+        });
+
+        // Add the upload component and the button to the layout
+        add(upload, createReportButton);
     }
 
     private void processUploadedFile(String fileName, InputStream inputStream,
