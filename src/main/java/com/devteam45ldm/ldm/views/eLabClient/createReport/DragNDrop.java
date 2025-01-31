@@ -1,5 +1,7 @@
 package com.devteam45ldm.ldm.views.eLabClient.createReport;
 
+import com.devteam45ldm.ldm.parser.JsonToELabReportBody;
+import com.devteam45ldm.ldm.parser.XMLToJsonParser;
 import com.devteam45ldm.ldm.views.eLabClient.login.CredentialsAware;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Html;
@@ -19,7 +21,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 @PageTitle("Bericht erstellen")

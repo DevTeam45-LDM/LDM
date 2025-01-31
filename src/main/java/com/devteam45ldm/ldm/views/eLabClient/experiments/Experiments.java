@@ -1,5 +1,6 @@
 package com.devteam45ldm.ldm.views.eLabClient.experiments;
 
+import com.devteam45ldm.ldm.api.eLabClient.ELabController;
 import com.devteam45ldm.ldm.views.eLabClient.login.CredentialsAware;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -31,8 +32,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.devteam45ldm.ldm.views.eLabClient.ELabClient;
-import org.springframework.web.client.RestClientException;
+import com.devteam45ldm.ldm.api.eLabClient.ELabClient;
 import org.yaml.snakeyaml.util.Tuple;
 
 
@@ -53,7 +53,7 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
     private final ComboBox<String> experimentsComboBox;
     private List<Experiment> experiments;
     private final VerticalLayout experimentDetailsLayout;
-    private final ELabClient<ExperimentsApi> apiInstance = new ELabClient<>(ExperimentsApi.class);
+    private final ELabController apiInstance = new ELabController();
     private final TextField editField = new TextField();
     private final MenuBar editMenuBar = new MenuBar();
     private final MenuBar experimentsMenuBar = new MenuBar();
@@ -234,7 +234,7 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
      */
     private List<Experiment> callExperimentsApi(String apiKey, String url) {
         // Fetch experiments
-        List<Experiment> result = apiInstance.getClient(apiKey, url).readExperiments(null, null, null, null, null, null, 9999, null, null, 3, null, null); //read all experiments
+        List<Experiment> result = apiInstance.getExperimentsClient(apiKey, url).readExperiments(null, null, null, null, null, null, 9999, null, null, 3, null, null); //read all experiments
         logger.info("Fetching experiments from {}", url);
         logger.info("Experiments: {}", result);
         return result;
@@ -504,7 +504,7 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
      * Clears the ComboBox selection and resets the edit components.
      */
     private void deleteExperiment() {
-        apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).deleteExperiment(selectedExperiment.getId());
+        apiInstance.getExperimentsClient(apiKeyField.getValue(), urlField.getValue()).deleteExperiment(selectedExperiment.getId());
         Notification.show("Experiment erfolgreich gelöscht.");
         resetEditComponents();
         readExperiments();

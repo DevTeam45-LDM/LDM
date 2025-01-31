@@ -1,4 +1,4 @@
-package com.devteam45ldm.ldm.views.eLabClient.createReport;
+package com.devteam45ldm.ldm.parser;
 
 import org.json.JSONArray;
 import org.json.JSONException;

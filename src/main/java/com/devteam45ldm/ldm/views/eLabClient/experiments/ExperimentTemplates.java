@@ -32,8 +32,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.devteam45ldm.ldm.views.eLabClient.ELabClient;
-import org.springframework.web.client.RestClientException;
+import com.devteam45ldm.ldm.api.eLabClient.ELabClient;
 import org.yaml.snakeyaml.util.Tuple;
 
 

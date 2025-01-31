@@ -1,4 +1,4 @@
-package com.devteam45ldm.ldm.views.eLabClient;
+package com.devteam45ldm.ldm.api.eLabClient;
 
 import io.swagger.client.ApiClient;
 import io.swagger.client.auth.ApiKeyAuth;

@@ -1,6 +1,6 @@
 package com.devteam45ldm.ldm.views.eLabClient.tags;
 
-import com.devteam45ldm.ldm.views.eLabClient.ELabClient;
+import com.devteam45ldm.ldm.api.eLabClient.ELabClient;
 import com.devteam45ldm.ldm.views.eLabClient.login.CredentialsAware;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.grid.Grid;

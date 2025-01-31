@@ -1,7 +1,7 @@
 package com.devteam45ldm.ldm.views.eLabClient.login;
 
 import com.devteam45ldm.ldm.controller.HTTPController;
-import com.devteam45ldm.ldm.views.eLabClient.ELabClient;
+import com.devteam45ldm.ldm.api.eLabClient.ELabClient;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.notification.Notification;
