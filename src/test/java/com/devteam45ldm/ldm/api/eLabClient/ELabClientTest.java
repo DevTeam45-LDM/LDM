@@ -85,4 +85,41 @@ public class ELabClientTest {
         assertNotNull(client);
         assertEquals("https://valid.url/api/v2", client.getBasePath());
     }
+
+    @Test
+    void checkUrl_withMalformedUrl_throwsMalformedURLException() throws Exception {
+        Method method = ELabClient.class.getDeclaredMethod("checkUrl", String.class);
+        method.setAccessible(true);
+        assertThrows(MalformedURLException.class, () -> {
+            method.invoke(null, "http://invalid-url^");
+        });
+    }
+
+    @Test
+    void checkUrl_withInvalidUriSyntax_throwsURISyntaxException() throws Exception {
+        Method method = ELabClient.class.getDeclaredMethod("checkUrl", String.class);
+        method.setAccessible(true);
+        assertThrows(URISyntaxException.class, () -> {
+            method.invoke(null, "http://invalid-url|");
+        });
+    }
+
+    @Test
+    void createClient_withMalformedUrl_throwsMalformedURLException() throws Exception {
+        Method method = ELabClient.class.getDeclaredMethod("createClient", String.class, String.class);
+        method.setAccessible(true);
+        assertThrows(MalformedURLException.class, () -> {
+            method.invoke(null, "validApiKey", "http://invalid-url^");
+        });
+    }
+
+    @Test
+    void createClient_withInvalidUriSyntax_throwsURISyntaxException() throws Exception {
+        Method method = ELabClient.class.getDeclaredMethod("createClient", String.class, String.class);
+        method.setAccessible(true);
+        assertThrows(URISyntaxException.class, () -> {
+            method.invoke(null, "validApiKey", "http://invalid-url|");
+        });
+    }
+
 }
