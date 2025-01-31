@@ -69,8 +69,6 @@ public class ELabClient <T> {
      */
     private static String checkUrl(String url) throws IllegalArgumentException, URISyntaxException, MalformedURLException {
 
-        URL urlTest = new URI(url).toURL();
-
         if (url.contains(";") || url.contains("|") || url.contains("&") || url.contains("$") || url.contains("`") || url.contains("'")) {
             throw new IllegalArgumentException("URL contains potentially dangerous characters: " + url);
         }
@@ -81,6 +79,9 @@ public class ELabClient <T> {
         if (!url.endsWith("/api/v2")) {
             url = url.endsWith("/") ? url + "api/v2" : url + "/api/v2";
         }
+
+        URL urlTest = new URI(url).toURL();
+
         return url;
     }
 
