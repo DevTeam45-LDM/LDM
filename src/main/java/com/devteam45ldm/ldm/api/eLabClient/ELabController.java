@@ -47,6 +47,8 @@ public class ELabController {
     }
 
     public TagsApi getTagsClient(String apiKey, String url) {
+        setApiKey(apiKey);
+        setUrl(url);
         elabClient = new ELabClient<>(TagsApi.class);
         return (TagsApi) elabClient.getClient(apiKey, url);
     }
@@ -56,6 +58,8 @@ public class ELabController {
     }
 
     public ExperimentsApi getExperimentsClient(String apiKey, String url) {
+        setApiKey(apiKey);
+        setUrl(url);
         elabClient = new ELabClient<>(ExperimentsApi.class);
         return (ExperimentsApi) elabClient.getClient(apiKey, url);
     }
@@ -65,6 +69,8 @@ public class ELabController {
     }
 
     public ExperimentsTemplatesApi getExperimentTemplatesClient(String apiKey, String url) {
+        setApiKey(apiKey);
+        setUrl(url);
         elabClient = new ELabClient<>(ExperimentsTemplatesApi.class);
         return (ExperimentsTemplatesApi) elabClient.getClient(apiKey, url);
     }
@@ -74,6 +80,8 @@ public class ELabController {
     }
 
     public UsersApi getUsersClient(String apiKey, String url) {
+        setApiKey(apiKey);
+        setUrl(url);
         elabClient = new ELabClient<>(UsersApi.class);
         return (UsersApi) elabClient.getClient(apiKey, url);
     }
@@ -83,6 +91,8 @@ public class ELabController {
     }
 
     public InfoApi getInfoClient(String apiKey, String url) {
+        setApiKey(apiKey);
+        setUrl(url);
         elabClient = new ELabClient<>(InfoApi.class);
         return (InfoApi) elabClient.getClient(apiKey, url);
     }

@@ -24,7 +24,7 @@ import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
 @PageTitle("Bericht erstellen")
-public class DragNDrop extends Composite<VerticalLayout> implements CredentialsAware {
+public class CreateReport extends Composite<VerticalLayout> implements CredentialsAware {
 
     private String uploadedFileName;
     private InputStream uploadedInputStream;
@@ -44,7 +44,7 @@ public class DragNDrop extends Composite<VerticalLayout> implements CredentialsA
         }
     });
 
-    public DragNDrop() {
+    public CreateReport() {
         // Create a memory buffer to store uploaded files
         MemoryBuffer buffer = new MemoryBuffer();
 
@@ -140,7 +140,7 @@ public class DragNDrop extends Composite<VerticalLayout> implements CredentialsA
                 Notification.show("Error processing XML file: " + e.getMessage());
             }
         } else {
-            Notification.show("Unsupported file format: " + mimeType);
+            Notification.show("Unsupported file type: " + mimeType);
         }
     }
 

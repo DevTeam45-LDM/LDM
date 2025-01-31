@@ -2,7 +2,7 @@ package com.devteam45ldm.ldm.views.eLabClient;
 
 import com.devteam45ldm.ldm.views.eLabClient.experiments.ExperimentTemplates;
 import com.devteam45ldm.ldm.views.eLabClient.experiments.Experiments;
-import com.devteam45ldm.ldm.views.eLabClient.createReport.DragNDrop;
+import com.devteam45ldm.ldm.views.eLabClient.createReport.CreateReport;
 import com.devteam45ldm.ldm.views.eLabClient.login.Login;
 import com.devteam45ldm.ldm.views.eLabClient.login.LoginEvent;
 import com.devteam45ldm.ldm.views.eLabClient.login.LoginEventListener;
@@ -25,7 +25,7 @@ public class ELab extends Composite<VerticalLayout> implements LoginEventListene
     private final Tags tags = new Tags();
     private final ExperimentTemplates experimentTemplates = new ExperimentTemplates();
     private final Experiments experiments = new Experiments();
-    private final DragNDrop dragNDrop = new DragNDrop();
+    private final CreateReport createReport = new CreateReport();
 
     public ELab() {
         TabSheet tabSheet = new TabSheet();
@@ -44,7 +44,7 @@ public class ELab extends Composite<VerticalLayout> implements LoginEventListene
         tabSheet.add("Tags", tags);
         tabSheet.add("Experimentvorlagen", experimentTemplates);
         tabSheet.add("Experimente", experiments);
-        tabSheet.add("Bericht erstellen", dragNDrop);
+        tabSheet.add("Bericht erstellen", createReport);
     }
 
     @Override
@@ -55,6 +55,6 @@ public class ELab extends Composite<VerticalLayout> implements LoginEventListene
         tags.setCredentials(apiKey, url);
         experimentTemplates.setCredentials(apiKey, url);
         experiments.setCredentials(apiKey, url);
-        dragNDrop.setCredentials(apiKey, url);
+        createReport.setCredentials(apiKey, url);
     }
 }
