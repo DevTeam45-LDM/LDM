@@ -17,6 +17,7 @@ import com.wontlost.ckeditor.Constants;
 import com.wontlost.ckeditor.VaadinCKEditor;
 import com.wontlost.ckeditor.VaadinCKEditorBuilder;
 import org.json.JSONObject;
+import org.springframework.web.client.RestClientException;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -148,13 +149,14 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
 
     private void createExperiment() {
         String title = titleField.getValue();
+        Integer id = null;
         try { //TODO use ApiClient
-            apiInstance.getExperimentsClient(apiKey, url). createExperiment(id,selectedExperiment);
-        } catch (Exception e) {
+            id = apiInstance.getExperimentsClient(apiKey, url).createExperimentCURL(apiKey, url, title, classicEditor.getValue());
+        } catch (RestClientException e) {
             Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
             Notification.show(e.toString());
             return;
         }
-        Notification.show("Experiment erfolgreich erstellt.");
+        Notification.show("Experiment " + "[ID: " + id + "]" + " erfolgreich erstellt.");
     }
 }

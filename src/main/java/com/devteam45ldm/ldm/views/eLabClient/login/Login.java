@@ -2,7 +2,6 @@ package com.devteam45ldm.ldm.views.eLabClient.login;
 
 import com.devteam45ldm.ldm.controller.HTTPController;
 import com.devteam45ldm.ldm.api.eLabClient.ELabClient;
-import com.devteam45ldm.ldm.views.eLabClient.experiments.Experiments;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.notification.Notification;
@@ -20,6 +19,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents the login view for the eLabClient.
+ * It provides UI components for entering the URL and API key,
+ * and handles login, logout, and connection testing.
+ */
 @PageTitle("Login")
 @UIScope
 public class Login extends Composite<VerticalLayout> {
@@ -30,6 +34,9 @@ public class Login extends Composite<VerticalLayout> {
     private final ELabClient<InfoApi> eLabClient = new ELabClient<>(InfoApi.class);
     private final List<LoginEventListener> listeners = new ArrayList<>();
 
+    /**
+     * Constructs the Login view and initializes the UI components.
+     */
     public Login() {
         // Erste Zeile: URL und Test-Button
         urlField = new TextField("URL");
@@ -66,6 +73,11 @@ public class Login extends Composite<VerticalLayout> {
         getContent().add(firstRow, secondRow, menuBar);
     }
 
+    /**
+     * Tests the provided URL to check if the eLab is reachable.
+     *
+     * @throws IOException if an I/O error occurs
+     */
     private void testUrl() throws IOException {
         String url = urlField.getValue();
         if (url == null || url.isEmpty()) {
@@ -86,6 +98,9 @@ public class Login extends Composite<VerticalLayout> {
         }
     }
 
+    /**
+     * Retrieves information from the eLab using the provided API key and URL.
+     */
     private void getInfo() {
         String apiKey = apiKeyField.getValue();
         String url = urlField.getValue();
@@ -115,6 +130,9 @@ public class Login extends Composite<VerticalLayout> {
         }
     }
 
+    /**
+     * Clears the login fields and resets the menu bar.
+     */
     private void deleteLogin() {
         urlField.clear();
         apiKeyField.clear();
@@ -123,14 +141,27 @@ public class Login extends Composite<VerticalLayout> {
         fireLoginEvent();
     }
 
+    /**
+     * Adds a login event listener.
+     *
+     * @param listener the listener to add
+     */
     public void addLoginEventListener(LoginEventListener listener) {
         listeners.add(listener);
     }
 
+    /**
+     * Removes a login event listener.
+     *
+     * @param listener the listener to remove
+     */
     public void removeLoginEventListener(LoginEventListener listener) {
         listeners.remove(listener);
     }
 
+    /**
+     * Fires a login event to all registered listeners.
+     */
     private void fireLoginEvent() {
         String url = urlField.getValue();
         String apiKey = apiKeyField.getValue();

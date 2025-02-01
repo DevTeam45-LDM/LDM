@@ -1,6 +1,6 @@
 package com.devteam45ldm.ldm.views.eLabClient.tags;
 
-import com.devteam45ldm.ldm.api.eLabClient.ELabClient;
+import com.devteam45ldm.ldm.api.eLabClient.ELabController;
 import com.devteam45ldm.ldm.views.eLabClient.login.CredentialsAware;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.grid.Grid;
@@ -20,9 +20,7 @@ import io.swagger.client.model.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 
@@ -31,8 +29,6 @@ import java.util.List;
  * It allows users to enter a URL and API key, test the URL, and read tags from the API.
  */
 @PageTitle("Tags")
-//@Route("elab/tags")
-// @Menu(order = 10, icon = "line-awesome/svg/globe-solid.svg")
 @UIScope
 public class Tags extends Composite<VerticalLayout> implements CredentialsAware {
 
@@ -43,7 +39,7 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
     private final MenuBar editMenuBar = new MenuBar();
     private final MenuBar tagsMenuBar;
     private Tag selectedTag;
-    private final ELabClient<TeamTagsApi> elabClient = new ELabClient<>(TeamTagsApi.class);
+    private final ELabController apiInstance = new ELabController();
 
 
     /**
@@ -227,10 +223,10 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
      */
     private List<Tag> callApiGet() {
         // Create an instance of the TeamTagsApi
-        TeamTagsApi apiInstance = elabClient.getClient(apiKeyField.getValue(), urlField.getValue());
+        TeamTagsApi client = apiInstance.getTeamTagsClient(apiKeyField.getValue(), urlField.getValue());
 
         // Get the tags for the team with id=5
-        return apiInstance.readTeamTags(5);
+        return client.readTeamTags(5);
     }
 
     /**
@@ -241,11 +237,11 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
      */
     private boolean callApiPost(String tag) {
         // Create an instance of the TeamTagsApi
-        TeamTagsApi apiInstance = elabClient.getClient(apiKeyField.getValue(), urlField.getValue());
+        TeamTagsApi client = apiInstance.getTeamTagsClient(apiKeyField.getValue(), urlField.getValue());
 
         // Create a tag for the team with id=5
         try {
-            apiInstance.postTeamTag(5, new IdTagsBody().tag(tag));
+            client.postTeamTag(5, new IdTagsBody().tag(tag));
             return true;
         } catch (RestClientException e) {
             return false;
@@ -275,38 +271,10 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
      * @return true if the tag was updated successfully, false otherwise
      */
     private boolean callApiPatch(String tag, Integer id) {
-        // Create an instance of the TeamTagsApi
-        /*
-        TeamTagsApi apiInstance = elabClient.getClient(apiKeyField.getValue(), urlField.getValue());
-
-        // Update a tag for the team with id=5
-        try {
-            apiInstance.patchTeamTag(5, id, new TagsSubidBody().tag(tag).action(TagsSubidBody.ActionEnum.UPDATETAG));
-            return true;
-        } catch (RestClientException e) {
-            //Notification.show("Error: " + e.getMessage()); //DEBUG
-            return false;
-        }*/
-
         try { //TODO use ApiClient
-            // apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).patchExperiment(id,selectedExperiment);
-            String commandTemplate = """
-                curl --location --request PATCH 'https://sfb270eln.physik.uni-due.de/api/v2/teams/5/tags/%d' \\
-                      --header 'Authorization: %s' \\
-                      --header 'action: update' \\
-                      --header 'Content-Type: application/json' \\
-                      --data '{
-                          "title": "%s"
-                      }'
-            """;
-
-            String command = String.format(commandTemplate, id, apiKeyField.getValue(), tag);
-            ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", command);
-            processBuilder.directory(new File("/home"));
-            Process process = processBuilder.start();
-            InputStream inputStream = process.getInputStream();
-            int exitCode = process.waitFor();
-            return false; //TODO check exitCode
+            TeamTagsApi client = apiInstance.getTeamTagsClient(apiKeyField.getValue(), urlField.getValue());
+            client.modifyTagCURL(apiKeyField.getValue(), urlField.getValue(), 5, id, tag);
+            return true;
         } catch (Exception e) {
             Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
             Notification.show(e.toString());
@@ -344,11 +312,11 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
      */
     private boolean callApiDelete(Integer id) {
         // Create an instance of the TeamTagsApi
-        TeamTagsApi apiInstance = elabClient.getClient(apiKeyField.getValue(), urlField.getValue());
+        TeamTagsApi client = apiInstance.getTeamTagsClient(apiKeyField.getValue(), urlField.getValue());
 
         // Create a tag for the team with id=5
         try {
-            apiInstance.deleteTeamTag(5, id);
+            client.deleteTeamTag(5, id);
             return true;
         } catch (RestClientException e) {
             Notification.show("Fehler: " + e.getMessage()); //DEBUG

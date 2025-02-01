@@ -1,10 +1,15 @@
 package io.swagger.client.api;
 
+import com.devteam45ldm.ldm.api.eLabClient.ELabClient;
 import io.swagger.client.ApiClient;
 import io.swagger.client.model.ExperimentTemplate;
 import io.swagger.client.model.ExperimentsTemplatesBody;
 import io.swagger.client.model.ExperimentsTemplatesIdBody;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -316,6 +321,50 @@ public class ExperimentsTemplatesApi {
         ParameterizedTypeReference<List<ExperimentTemplate>> returnType = new ParameterizedTypeReference<List<ExperimentTemplate>>() {};
         return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
+
+    /**
+     * Modify an experiment template using a cURL command.
+     *
+     * @param apiKey The API key for authorization.
+     * @param url The base URL of the API.
+     * @param id The ID of the experiment template to modify.
+     * @param title The new title of the experiment template.
+     * @param body The new body content of the experiment template.
+     * @throws RestClientException if an error occurs while attempting to invoke the API.
+     */
+    public void modifyExperimentTemplateCURL(String apiKey, String url, Integer id, String title, String body) throws RestClientException {
+        ELabClient.checkApiKey(apiKey);
+        try {
+            url = ELabClient.checkUrl(url);
+        } catch (URISyntaxException e) {
+            throw new RestClientException(e.getMessage());
+        } catch (MalformedURLException e) {
+            throw new RestClientException(e.getMessage());
+        }
+
+        try { //TODO use ApiClient
+            String commandTemplate = """
+                curl --location --request PATCH '%sexperiments_templates/%d' \\
+                --header 'Authorization: %s' \\
+                --header 'action: update' \\
+                --header 'Content-Type: application/json' \\
+                --data '{
+                    "title": "%s",
+                    "body": "%s"
+                }'
+            """;
+
+            String command = String.format(commandTemplate, url, id, apiKey, title, body);
+            ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", command);
+            processBuilder.directory(new File("/home"));
+            Process process = processBuilder.start();
+            InputStream inputStream = process.getInputStream();
+            int exitCode = process.waitFor();
+
+        } catch (Exception e) {
+            throw new RestClientException("Undefined error while saving changes: " + e.getMessage());
+        }
+    }
 }
 
 /*
@@ -328,7 +377,7 @@ public class ExperimentsTemplatesApi {
     "title": "testJonas2"
   }'
 
-  !!! header "action" is not needed !!!
+  !!! header "action" and Cookie is not needed !!!
   curl --location --request PATCH 'https://sfb270eln.physik.uni-due.de/api/v2/experiments_templates/81' \
   --header 'Authorization: xx-xxxxxxxxxxxxxxxxxxxx' \
   --header 'action: update' \

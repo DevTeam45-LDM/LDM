@@ -1,16 +1,25 @@
 package io.swagger.client.api;
 
-import com.vaadin.flow.component.notification.Notification;
+import com.devteam45ldm.ldm.api.eLabClient.ELabClient;
 import io.swagger.client.ApiClient;
 
 import io.swagger.client.model.Experiment;
 import io.swagger.client.model.ExperimentsBody;
 import io.swagger.client.model.ExperimentsIdBody;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -378,7 +387,16 @@ public class ExperimentsApi {
      * @param body The body content of the experiment.
      * @throws RestClientException if an error occurs while attempting to invoke the API.
      */
-    private void createExperimentCURL(String apiKey, String url, String title, String body) throws RestClientException {
+    public Integer createExperimentCURL(String apiKey, String url, String title, String body) throws RestClientException {
+        ELabClient.checkApiKey(apiKey);
+        try {
+            url = ELabClient.checkUrl(url);
+        } catch (URISyntaxException e) {
+            throw new RestClientException(e.getMessage());
+        } catch (MalformedURLException e) {
+            throw new RestClientException(e.getMessage());
+        }
+
         try { //TODO use ApiClient
             String commandTemplate = """
                 curl -v --request POST '%sexperiments/' \\
@@ -390,13 +408,83 @@ public class ExperimentsApi {
                 }'
             """;
 
-            String command = String.format(commandTemplate, url, apiKey, body, title);
+            String command = String.format(commandTemplate, apiKey, title);
             ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", command);
             processBuilder.directory(new File("/home"));
             Process process = processBuilder.start();
+            InputStream inputStream = process.getInputStream();
+
+            // Read the error stream from the command
+            InputStream errorStream = process.getErrorStream();
+            String errorResult = new BufferedReader(new InputStreamReader(errorStream, StandardCharsets.UTF_8))
+                    .lines()
+                    .collect(Collectors.joining("\n"));
             int exitCode = process.waitFor();
+
+            return extractId(errorResult);
         } catch (Exception e) {
-            throw new RestClientException("Undefinierter Fehler beim Speichern der Änderungen.");
+            throw new RestClientException("Undefined error while creating an experiment: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Extracts the ID from the input string.
+     *
+     * @param input The input string containing the ID.
+     * @return The extracted ID, or null if not found.
+     */
+    private Integer extractId(String input) {
+        // Define the regex pattern to match the ID after the last /
+        Pattern pattern = Pattern.compile("location: https://.*/(\\d+)");
+        Matcher matcher = pattern.matcher(input);
+
+        if (matcher.find()) {
+            return Integer.valueOf(matcher.group(1));
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Modifies an experiment using a cURL command.
+     *
+     * @param apiKey The API key for authorization.
+     * @param url The base URL of the API.
+     * @param id The ID of the experiment to modify.
+     * @param title The new title of the experiment.
+     * @param body The new body content of the experiment.
+     * @throws RestClientException if an error occurs while attempting to invoke the API.
+     */
+    public void modifyExperimentCURL(String apiKey, String url, Integer id, String title, String body) throws RestClientException {
+        ELabClient.checkApiKey(apiKey);
+        try {
+            url = ELabClient.checkUrl(url);
+        } catch (URISyntaxException e) {
+            throw new RestClientException(e.getMessage());
+        } catch (MalformedURLException e) {
+            throw new RestClientException(e.getMessage());
+        }
+
+        try { //TODO use ApiClient
+            String commandTemplate = """
+                curl -v --request PATCH '%sexperiments/%d' \\
+                --header 'Authorization: %s' \\
+                --header 'Content-Type: application/json' \\
+                --data '{
+                    "body": "%s",
+                    "title": "%s"
+                }'
+            """;
+
+            String command = String.format(commandTemplate, url, id, apiKey, body, title);
+            ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", command);
+            processBuilder.directory(new File("/home"));
+            Process process = processBuilder.start();
+            InputStream inputStream = process.getInputStream();
+            int exitCode = process.waitFor();
+
+        } catch (Exception e) {
+            throw new RestClientException("Undefined error while saving changes: " + e.getMessage());
         }
     }
 }

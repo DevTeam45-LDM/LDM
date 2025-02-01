@@ -67,7 +67,7 @@ public class ELabClient <T> {
      * @throws URISyntaxException if the URL syntax is incorrect
      * @throws MalformedURLException if the URL is malformed
      */
-    private static String checkUrl(String url) throws IllegalArgumentException, URISyntaxException, MalformedURLException {
+    public static String checkUrl(String url) throws IllegalArgumentException, URISyntaxException, MalformedURLException {
 
         if (url.contains(";") || url.contains("|") || url.contains("&") || url.contains("$") || url.contains("`") || url.contains("'")) {
             throw new IllegalArgumentException("URL contains potentially dangerous characters: " + url);
@@ -91,7 +91,7 @@ public class ELabClient <T> {
      * @param apiKey the API key to be checked
      * @throws IllegalArgumentException if the API key contains potentially dangerous characters
      */
-    private static void checkApiKey(String apiKey) throws IllegalArgumentException {
+    public static void checkApiKey(String apiKey) throws IllegalArgumentException {
         if (apiKey.contains(";") || apiKey.contains("|") || apiKey.contains("&") || apiKey.contains("$") || apiKey.contains("`") || apiKey.contains("'")) {
             throw new IllegalArgumentException("API Key contains potentially dangerous characters: " + apiKey);
         }

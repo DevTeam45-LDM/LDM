@@ -18,12 +18,10 @@ import com.devteam45ldm.ldm.controller.HTTPController;
 import com.wontlost.ckeditor.Constants;
 import com.wontlost.ckeditor.VaadinCKEditor;
 import com.wontlost.ckeditor.VaadinCKEditorBuilder;
-import io.swagger.client.api.*;
 import io.swagger.client.model.*;
 import org.springframework.http.ResponseEntity;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,7 +30,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.devteam45ldm.ldm.api.eLabClient.ELabClient;
+import org.springframework.web.client.RestClientException;
 import org.yaml.snakeyaml.util.Tuple;
 
 
@@ -41,8 +39,6 @@ import org.yaml.snakeyaml.util.Tuple;
  * It allows users to enter a URL and API key, test the URL, and read experiments from the API.
  */
 @PageTitle("Experiments")
-//@Route("elab/experiments")
-//@Menu(order = 10, icon = "line-awesome/svg/globe-solid.svg")
 @UIScope
 public class Experiments extends Composite<VerticalLayout> implements CredentialsAware {
 
@@ -61,7 +57,7 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
     private final HashMap<String, TextField> leftComponents = new HashMap<>();
     private final HashMap<String, TextField> rightComponents = new HashMap<>();
 
-    private VaadinCKEditor classicEditor;
+    private final VaadinCKEditor classicEditor;
 
     /**
      * Constructs the ExperimentTemplates view.
@@ -394,61 +390,21 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
      */
     private void createExperiment() {
         String title = editField.getValue();
-        //ExperimentsBody body = new ExperimentsBody();
-        //apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).postExperiment(body);
-        Integer id = null;
+        Integer id;
         try { //TODO use ApiClient
-            // apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).patchExperiment(id,selectedExperiment);
-            String commandTemplate = """
-                curl -v --request POST 'https://sfb270eln.physik.uni-due.de/api/v2/experiments/' \\
-                --header 'Authorization: %s' \\
-                --header 'Content-Type: application/json' \\
-                --data '{
-                    "title": "%s"
-                }'
-            """;
-
-            String command = String.format(commandTemplate, apiKeyField.getValue(), title);
-            ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", command);
-            processBuilder.directory(new File("/home"));
-            Process process = processBuilder.start();
-            InputStream inputStream = process.getInputStream();
-
-            // Read the error stream from the command
-            InputStream errorStream = process.getErrorStream();
-            String errorResult = new BufferedReader(new InputStreamReader(errorStream, StandardCharsets.UTF_8))
-                    .lines()
-                    .collect(Collectors.joining("\n"));
-            int exitCode = process.waitFor();
-
-            id = extractId(errorResult);
-            //Notification.show("Error: " + errorResult);
-        } catch (Exception e) {
+            id = apiInstance.getExperimentsClient().createExperimentCURL(apiKeyField.getValue(), urlField.getValue(), title, classicEditor.getValue());
+        } catch (RestClientException e) {
             Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
             Notification.show(e.toString());
             return;
         }
-        Notification.show("Experiment erfolgreich erstellt.");
+        Notification.show("Experiment " + "[ID: " + id + "]" + " erfolgreich erstellt.");
         resetEditComponents();
         readExperiments();
-        //experiments.stream()
-        //        .filter(experiment -> experiment.getTitle().equals(title))
-        //        .findFirst()
-        //        .ifPresent(experiment -> setExperimentById(experiment.getId()));
         setExperimentById(id);
     }
 
-    private Integer extractId(String input) {
-        // Define the regex pattern to match the ID after the last /
-        Pattern pattern = Pattern.compile("location: https://.*/(\\d+)");
-        Matcher matcher = pattern.matcher(input);
 
-        if (matcher.find()) {
-            return Integer.valueOf(matcher.group(1));
-        } else {
-            return null;
-        }
-    }
 
     /**
      * Saves the changes made to the selected experiment.
@@ -459,26 +415,9 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
         updateSelectedExperiment();
 
         try { //TODO use ApiClient
-            // apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).patchExperiment(id,selectedExperiment);
-            String commandTemplate = """
-                curl --location --request PATCH 'https://sfb270eln.physik.uni-due.de/api/v2/experiments/%d' \\
-                --header 'Authorization: %s' \\
-                --header 'action: update' \\
-                --header 'Content-Type: application/json' \\
-                --data '{
-                    "title": "%s",
-                    "body": "%s"
-                }'
-            """;
+            apiInstance.getExperimentsClient(apiKeyField.getValue(), urlField.getValue()).modifyExperimentCURL(apiKeyField.getValue(), urlField.getValue(), id, selectedExperiment.getTitle(), selectedExperiment.getBody());
 
-            String command = String.format(commandTemplate, id, apiKeyField.getValue(), selectedExperiment.getTitle(), selectedExperiment.getBody());
-            ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", command);
-            processBuilder.directory(new File("/home"));
-            Process process = processBuilder.start();
-            InputStream inputStream = process.getInputStream();
-            int exitCode = process.waitFor();
-
-        } catch (Exception e) {
+        } catch (RestClientException e) {
             Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
             Notification.show(e.toString());
             return;

@@ -111,6 +111,29 @@ public class ELabController {
     }
 
     /**
+     * Gets the TeamTagsApi client using the current API key and URL.
+     *
+     * @return the TeamTagsApi client
+     */
+    public TeamTagsApi getTeamTagsClient() {
+        return getTeamTagsClient(this.apiKey, this.url);
+    }
+
+    /**
+     * Gets the TeamTagsApi client using the specified API key and URL.
+     *
+     * @param apiKey the API key to use
+     * @param url the URL to use
+     * @return the TeamTagsApi client
+     */
+    public TeamTagsApi getTeamTagsClient(String apiKey, String url) {
+        setApiKey(apiKey);
+        setUrl(url);
+        elabClient = new ELabClient<>(TeamTagsApi.class);
+        return (TeamTagsApi) elabClient.getClient(apiKey, url);
+    }
+
+    /**
      * Gets the ExperimentsApi client using the current API key and URL.
      *
      * @return the ExperimentsApi client

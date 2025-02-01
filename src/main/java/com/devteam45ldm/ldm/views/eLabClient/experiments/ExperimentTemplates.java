@@ -18,9 +18,7 @@ import io.swagger.client.api.*;
 import io.swagger.client.model.*;
 import org.springframework.http.ResponseEntity;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.devteam45ldm.ldm.api.eLabClient.ELabClient;
+import org.springframework.web.client.RestClientException;
 import org.yaml.snakeyaml.util.Tuple;
 
 
@@ -41,8 +40,6 @@ import org.yaml.snakeyaml.util.Tuple;
  * It allows users to enter a URL and API key, test the URL, and read experiments from the API.
  */
 @PageTitle("ExperimentTemplates")
-//@Route("elab/experiment-templates")
-//@Menu(order = 10, icon = "line-awesome/svg/globe-solid.svg")
 @UIScope
 public class ExperimentTemplates extends Composite<VerticalLayout> implements CredentialsAware {
 
@@ -419,38 +416,13 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
     private void saveChanges() {
         Integer id = selectedExperiment.getId();
         updateSelectedExperiment();
-        /*
+
         try {
             apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).patchExperimentTemplate(id,selectedExperiment);
         } catch (RestClientException e) {
             Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
         }
-        */
-        try { //TODO use ApiClient
-            // apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).patchExperiment(id,selectedExperiment);
-            String commandTemplate = """
-                curl --location --request PATCH 'https://sfb270eln.physik.uni-due.de/api/v2/experiments_templates/%d' \\
-                --header 'Authorization: %s' \\
-                --header 'action: update' \\
-                --header 'Content-Type: application/json' \\
-                --data '{
-                    "title": "%s",
-                    "body": "%s"
-                }'
-            """;
 
-            String command = String.format(commandTemplate, id, apiKeyField.getValue(), selectedExperiment.getTitle(), selectedExperiment.getBody());
-            ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", command);
-            processBuilder.directory(new File("/home"));
-            Process process = processBuilder.start();
-            InputStream inputStream = process.getInputStream();
-            int exitCode = process.waitFor();
-
-        } catch (Exception e) {
-            Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
-            Notification.show(e.toString());
-            return;
-        }
         setFormComponentReadOnly(true);
         Notification.show("Änderungen erfolgreich gespeichert.");
         resetEditComponents();
