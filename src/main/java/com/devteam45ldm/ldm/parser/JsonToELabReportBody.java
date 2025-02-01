@@ -24,21 +24,31 @@ public class JsonToELabReportBody {
 
         // Add measurement results
         html.append("<h2>Measurement Results</h2>");
-        JSONArray data = measurement.getJSONObject("datablock").getJSONArray("data");
-        int dataSize = data.length();
-        for (int i = 0; i < dataSize; i++) {
-            if (i < 2 || i >= dataSize - 2) {
-                JSONObject dataPoint = data.getJSONObject(i);
-                html.append("<h3>Data Point ").append(i + 1).append("</h3>");
-                Iterator<String> dataKeys = dataPoint.keys();
-                while (dataKeys.hasNext()) {
-                    String key = dataKeys.next();
-                    html.append("<p><strong>").append(key).append(":</strong> ").append(dataPoint.get(key)).append("</p>");
+
+        JSONArray data = null;
+        try {
+            data = measurement.getJSONObject("datablock").getJSONArray("data");
+            int dataSize = data.length();
+            for (int i = 0; i < dataSize; i++) {
+                if (i < 2 || i >= dataSize - 2) {
+                    JSONObject dataPoint = data.getJSONObject(i);
+                    html.append("<h3>Data Point ").append(i + 1).append("</h3>");
+                    Iterator<String> dataKeys = dataPoint.keys();
+                    while (dataKeys.hasNext()) {
+                        String key = dataKeys.next();
+                        html.append("<p><strong>").append(key).append(":</strong> ").append(dataPoint.get(key)).append("</p>");
+                    }
                 }
             }
+        } catch (JSONException e) {
+            html.append("<p>No data available</p>");
         }
 
         html.append("</body></html>");
         return html.toString();
+    }
+
+    public static String convertJsonToHtml(String jsonString) throws JSONException {
+        return convertJsonToHtml(new JSONObject(jsonString));
     }
 }
