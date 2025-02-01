@@ -7,6 +7,14 @@ import org.json.JSONObject;
 import java.util.Iterator;
 
 public class JsonToELabReportBody {
+
+    /**
+     * Converts a JSON object to an HTML string representation.
+     *
+     * @param json the JSON object to convert
+     * @return the HTML string representation of the JSON object
+     * @throws JSONException if the JSON object is malformed
+     */
     public static String convertJsonToHtml(JSONObject json) throws JSONException {
         StringBuilder html = new StringBuilder();
         html.append("<html><body>");
@@ -48,6 +56,13 @@ public class JsonToELabReportBody {
         return html.toString();
     }
 
+    /**
+     * Converts a JSON string to an HTML string representation.
+     *
+     * @param jsonString the JSON string to convert
+     * @return the HTML string representation of the JSON string
+     * @throws JSONException if the JSON string is malformed
+     */
     public static String convertJsonToHtml(String jsonString) throws JSONException {
         return convertJsonToHtml(new JSONObject(jsonString));
     }
