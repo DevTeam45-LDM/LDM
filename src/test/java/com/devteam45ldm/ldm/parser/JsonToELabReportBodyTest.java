@@ -8,6 +8,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class JsonToELabReportBodyTest {
 
+    /**
+     * Tests the convertJsonToHtml method with a valid JSON object.
+     * Verifies that the returned HTML contains the expected measurement metadata and results.
+     *
+     * @throws JSONException if the JSON object is malformed
+     */
     @Test
     void convertJsonToHtml_withValidJson_returnsHtml() throws JSONException {
         JSONObject json = new JSONObject();
@@ -36,6 +42,12 @@ class JsonToELabReportBodyTest {
         assertTrue(html.contains("<p><strong>value:</strong> 20</p>"));
     }
 
+    /**
+     * Tests the convertJsonToHtml method with an empty JSON object.
+     * Verifies that the returned HTML contains the expected structure with no data.
+     *
+     * @throws JSONException if the JSON object is malformed
+     */
     @Test
     void convertJsonToHtml_withEmptyJson_returnsHtmlWithNoData() throws JSONException {
         JSONObject json = new JSONObject();
@@ -48,6 +60,10 @@ class JsonToELabReportBodyTest {
         assertTrue(html.contains("<p>No data available</p>"));
     }
 
+    /**
+     * Tests the convertJsonToHtml method with a JSON object missing the measurement key.
+     * Verifies that a JSONException is thrown.
+     */
     @Test
     void convertJsonToHtml_withMissingMeasurement_throwsJSONException() {
         JSONObject json = new JSONObject();
@@ -57,6 +73,12 @@ class JsonToELabReportBodyTest {
         });
     }
 
+    /**
+     * Tests the convertJsonToHtml method with an invalid JSON object.
+     * Verifies that a JSONException is thrown.
+     *
+     * @throws JSONException if the JSON object is malformed
+     */
     @Test
     void convertJsonToHtml_withInvalidJson_throwsJSONException() throws JSONException {
         JSONObject json = new JSONObject();
@@ -67,6 +89,12 @@ class JsonToELabReportBodyTest {
         });
     }
 
+    /**
+     * Tests the convertJsonToHtml method with a JSON object containing an empty datablock.
+     * Verifies that the returned HTML contains the expected measurement metadata with no data.
+     *
+     * @throws JSONException if the JSON object is malformed
+     */
     @Test
     void convertJsonToHtml_withEmptyDatablock_returnsHtmlWithNoData() throws JSONException {
         JSONObject json = new JSONObject();
@@ -84,6 +112,12 @@ class JsonToELabReportBodyTest {
         assertTrue(html.contains("<h2>Measurement Results</h2>"));
     }
 
+    /**
+     * Tests the convertJsonToHtml method with a JSON object containing a null measurement.
+     * Verifies that a JSONException is thrown.
+     *
+     * @throws JSONException if the JSON object is malformed
+     */
     @Test
     void convertJsonToHtml_withNullMeasurement_throwsJSONException() throws JSONException {
         JSONObject json = new JSONObject();
@@ -94,6 +128,12 @@ class JsonToELabReportBodyTest {
         });
     }
 
+    /**
+     * Tests the convertJsonToHtml method with a JSON object containing a null datablock.
+     * Verifies that a JSONException is thrown.
+     *
+     * @throws JSONException if the JSON object is malformed
+     */
     @Test
     void convertJsonToHtml_withNullDatablock_throwsJSONException() throws JSONException {
         JSONObject json = new JSONObject();
@@ -108,6 +148,12 @@ class JsonToELabReportBodyTest {
         });
     }
 
+    /**
+     * Tests the convertJsonToHtml method with a JSON object containing an empty data array.
+     * Verifies that the returned HTML contains the expected measurement metadata with no data points.
+     *
+     * @throws JSONException if the JSON object is malformed
+     */
     @Test
     void convertJsonToHtml_withEmptyDataArray_returnsHtmlWithNoDataPoints() throws JSONException {
         JSONObject json = new JSONObject();
