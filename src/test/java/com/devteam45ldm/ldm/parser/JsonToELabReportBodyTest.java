@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class JsonToELabReportBodyTest {
 
+    private final Boolean debug = false;
+
     /**
      * Tests the convertJsonToHtml method with a valid JSON object.
      * Verifies that the returned HTML contains the expected measurement metadata and results.
@@ -30,7 +32,15 @@ class JsonToELabReportBodyTest {
         measurement.put("datablock", new JSONObject().put("data", data));
         json.put("measurement", measurement);
 
+        if(debug){
+            System.out.println(json.toString(2));
+        }
+
         String html = JsonToELabReportBody.convertJsonToHtml(json);
+
+        if(debug){
+            System.out.println(html);
+        }
 
         assertTrue(html.contains("<h1>Measurement Metadata</h1>"));
         assertTrue(html.contains("<p><strong>id:</strong> 12345</p>"));
@@ -53,7 +63,15 @@ class JsonToELabReportBodyTest {
         JSONObject json = new JSONObject();
         json.put("measurement", new JSONObject());
 
+        if(debug){
+            System.out.println(json.toString(2));
+        }
+
         String html = JsonToELabReportBody.convertJsonToHtml(json);
+
+        if(debug){
+            System.out.println(html);
+        }
 
         assertTrue(html.contains("<h1>Measurement Metadata</h1>"));
         assertTrue(html.contains("<h2>Measurement Results</h2>"));
@@ -65,12 +83,14 @@ class JsonToELabReportBodyTest {
      * Verifies that a JSONException is thrown.
      */
     @Test
-    void convertJsonToHtml_withMissingMeasurement_throwsJSONException() {
+    void convertJsonToHtml_withMissingMeasurement_throwsJSONException() throws JSONException {
         JSONObject json = new JSONObject();
 
-        assertThrows(JSONException.class, () -> {
-            JsonToELabReportBody.convertJsonToHtml(json);
-        });
+        if(debug){
+            System.out.println(json.toString(2));
+        }
+
+        assertThrows(JSONException.class, () -> JsonToELabReportBody.convertJsonToHtml(json));
     }
 
     /**
@@ -84,9 +104,11 @@ class JsonToELabReportBodyTest {
         JSONObject json = new JSONObject();
         json.put("measurement", "invalid");
 
-        assertThrows(JSONException.class, () -> {
-            JsonToELabReportBody.convertJsonToHtml(json);
-        });
+        if(debug){
+            System.out.println(json.toString(2));
+        }
+
+        assertThrows(JSONException.class, () -> JsonToELabReportBody.convertJsonToHtml(json));
     }
 
     /**
@@ -104,7 +126,15 @@ class JsonToELabReportBodyTest {
         measurement.put("datablock", new JSONObject().put("data", new JSONArray()));
         json.put("measurement", measurement);
 
+        if(debug){
+            System.out.println(json.toString(2));
+        }
+
         String html = JsonToELabReportBody.convertJsonToHtml(json);
+
+        if(debug){
+            System.out.println(html);
+        }
 
         assertTrue(html.contains("<h1>Measurement Metadata</h1>"));
         assertTrue(html.contains("<p><strong>id:</strong> 12345</p>"));
@@ -123,19 +153,21 @@ class JsonToELabReportBodyTest {
         JSONObject json = new JSONObject();
         json.put("measurement", JSONObject.NULL);
 
-        assertThrows(JSONException.class, () -> {
-            JsonToELabReportBody.convertJsonToHtml(json);
-        });
+        if(debug){
+            System.out.println(json.toString(2));
+        }
+
+        assertThrows(JSONException.class, () -> JsonToELabReportBody.convertJsonToHtml(json));
     }
 
     /**
      * Tests the convertJsonToHtml method with a JSON object containing a null datablock.
-     * Verifies that a JSONException is thrown.
+     * Verifies that the returned HTML contains the expected message indicating no data is available.
      *
      * @throws JSONException if the JSON object is malformed
      */
     @Test
-    void convertJsonToHtml_withNullDatablock_throwsJSONException() throws JSONException {
+    void convertJsonToHtml_withNullDatablock_returnsHtmlWithNoData() throws JSONException {
         JSONObject json = new JSONObject();
         JSONObject measurement = new JSONObject();
         measurement.put("id", "12345");
@@ -143,9 +175,18 @@ class JsonToELabReportBodyTest {
         measurement.put("datablock", JSONObject.NULL);
         json.put("measurement", measurement);
 
-        assertThrows(JSONException.class, () -> {
-            JsonToELabReportBody.convertJsonToHtml(json);
-        });
+        if(debug){
+            System.out.println(json.toString(2));
+        }
+
+        String html = JsonToELabReportBody.convertJsonToHtml(json);
+
+        if(debug){
+            System.out.println(html);
+        }
+
+        assertTrue(html.contains("<p>No data available</p>"));
+        assertTrue(html.endsWith("</body></html>"));
     }
 
     /**
@@ -163,7 +204,15 @@ class JsonToELabReportBodyTest {
         measurement.put("datablock", new JSONObject().put("data", new JSONArray()));
         json.put("measurement", measurement);
 
+        if(debug){
+            System.out.println(json.toString(2));
+        }
+
         String html = JsonToELabReportBody.convertJsonToHtml(json);
+
+        if(debug){
+            System.out.println(html);
+        }
 
         assertTrue(html.contains("<h1>Measurement Metadata</h1>"));
         assertTrue(html.contains("<p><strong>id:</strong> 12345</p>"));

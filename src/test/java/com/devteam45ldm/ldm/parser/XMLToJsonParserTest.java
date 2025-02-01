@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class XMLToJsonParserTest {
 
-    private final Boolean debug = true;
+    private final Boolean debug = false;
 
     @Test
     void parseXMLToJson_withValidXml_returnsJson() throws Exception {

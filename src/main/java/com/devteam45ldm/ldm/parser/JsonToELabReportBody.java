@@ -21,13 +21,18 @@ public class JsonToELabReportBody {
 
         // Add metadata
         html.append("<h1>Measurement Metadata</h1>");
-        JSONObject measurement = json.getJSONObject("measurement");
-        Iterator<String> keys = measurement.keys();
-        while (keys.hasNext()) {
-            String key = keys.next();
-            if (!key.equals("datablock")) {
-                html.append("<p><strong>").append(key).append(":</strong> ").append(measurement.get(key)).append("</p>");
+        JSONObject measurement = null;
+        try {
+            measurement = json.getJSONObject("measurement");
+            Iterator<String> keys = measurement.keys();
+            while (keys.hasNext()) {
+                String key = keys.next();
+                if (!key.equals("datablock")) {
+                    html.append("<p><strong>").append(key).append(":</strong> ").append(measurement.get(key)).append("</p>");
+                }
             }
+        } catch (NullPointerException e) {
+            html.append("<p>No metadata available</p>");
         }
 
         // Add measurement results
