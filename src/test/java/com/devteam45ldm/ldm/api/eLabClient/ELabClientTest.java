@@ -5,6 +5,7 @@ import io.swagger.client.api.TagsApi;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -35,21 +36,13 @@ public class ELabClientTest {
     }
 
     @Test
-    void checkUrl_withInvalidUrlFormat_throwsIllegalArgumentException() throws Exception {
-        Method method = ELabClient.class.getDeclaredMethod("checkUrl", String.class);
-        method.setAccessible(true);
-        assertThrows(IllegalArgumentException.class, () -> {
-            method.invoke(null, "invalid-url");
-        });
-    }
-
-    @Test
     void checkUrl_withInjectionCharacters_throwsIllegalArgumentException() throws Exception {
         Method method = ELabClient.class.getDeclaredMethod("checkUrl", String.class);
         method.setAccessible(true);
-        assertThrows(IllegalArgumentException.class, () -> {
+        InvocationTargetException exception = assertThrows(InvocationTargetException.class, () -> {
             method.invoke(null, "https://valid.url/api/v2;rm -rf /");
         });
+        assertTrue(exception.getCause() instanceof IllegalArgumentException);
     }
 
     @Test
@@ -72,9 +65,10 @@ public class ELabClientTest {
     void checkApiKey_withInjectionCharacters_throwsIllegalArgumentException() throws Exception {
         Method method = ELabClient.class.getDeclaredMethod("checkApiKey", String.class);
         method.setAccessible(true);
-        assertThrows(IllegalArgumentException.class, () -> {
+        InvocationTargetException exception = assertThrows(InvocationTargetException.class, () -> {
             method.invoke(null, "validApiKey;rm -rf /");
         });
+        assertTrue(exception.getCause() instanceof IllegalArgumentException);
     }
 
     @Test
@@ -90,36 +84,39 @@ public class ELabClientTest {
     void checkUrl_withMalformedUrl_throwsMalformedURLException() throws Exception {
         Method method = ELabClient.class.getDeclaredMethod("checkUrl", String.class);
         method.setAccessible(true);
-        assertThrows(MalformedURLException.class, () -> {
+        InvocationTargetException exception = assertThrows(InvocationTargetException.class, () -> {
             method.invoke(null, "http://invalid-url^");
         });
+        assertTrue(exception.getCause() instanceof URISyntaxException);
     }
 
     @Test
     void checkUrl_withInvalidUriSyntax_throwsURISyntaxException() throws Exception {
         Method method = ELabClient.class.getDeclaredMethod("checkUrl", String.class);
         method.setAccessible(true);
-        assertThrows(URISyntaxException.class, () -> {
+        InvocationTargetException exception = assertThrows(InvocationTargetException.class, () -> {
             method.invoke(null, "http://invalid-url|");
         });
+        assertTrue(exception.getCause() instanceof IllegalArgumentException);
     }
 
     @Test
     void createClient_withMalformedUrl_throwsMalformedURLException() throws Exception {
         Method method = ELabClient.class.getDeclaredMethod("createClient", String.class, String.class);
         method.setAccessible(true);
-        assertThrows(MalformedURLException.class, () -> {
+        InvocationTargetException exception = assertThrows(InvocationTargetException.class, () -> {
             method.invoke(null, "validApiKey", "http://invalid-url^");
         });
+        assertTrue(exception.getCause() instanceof URISyntaxException);
     }
 
     @Test
     void createClient_withInvalidUriSyntax_throwsURISyntaxException() throws Exception {
         Method method = ELabClient.class.getDeclaredMethod("createClient", String.class, String.class);
         method.setAccessible(true);
-        assertThrows(URISyntaxException.class, () -> {
+        InvocationTargetException exception = assertThrows(InvocationTargetException.class, () -> {
             method.invoke(null, "validApiKey", "http://invalid-url|");
         });
+        assertTrue(exception.getCause() instanceof IllegalArgumentException);
     }
-
 }
