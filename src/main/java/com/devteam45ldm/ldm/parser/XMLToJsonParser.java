@@ -38,8 +38,7 @@ public class XMLToJsonParser {
         NodeList children = element.getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
-            if (child instanceof Element) {
-                Element childElement = (Element) child;
+            if (child instanceof Element childElement) {
                 if (json.has(childElement.getNodeName())) {
                     Object existing = json.get(childElement.getNodeName());
                     if (existing instanceof JSONArray) {
@@ -52,6 +51,11 @@ public class XMLToJsonParser {
                     }
                 } else {
                     json.put(childElement.getNodeName(), elementToJson(childElement));
+                }
+            } else if (child instanceof Text) {
+                String textContent = child.getTextContent().trim();
+                if (!textContent.isEmpty()) {
+                    json.put("content", textContent);
                 }
             }
         }
