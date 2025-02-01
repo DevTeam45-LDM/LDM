@@ -1,11 +1,13 @@
 package io.swagger.client.api;
 
+import com.vaadin.flow.component.notification.Notification;
 import io.swagger.client.ApiClient;
 
 import io.swagger.client.model.Experiment;
 import io.swagger.client.model.ExperimentsBody;
 import io.swagger.client.model.ExperimentsIdBody;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -365,5 +367,36 @@ public class ExperimentsApi {
 
         ParameterizedTypeReference<List<Experiment>> returnType = new ParameterizedTypeReference<List<Experiment>>() {};
         return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    }
+
+    /**
+     * Creates an experiment using a cURL command.
+     *
+     * @param apiKey The API key for authorization.
+     * @param url The base URL of the API.
+     * @param title The title of the experiment.
+     * @param body The body content of the experiment.
+     * @throws RestClientException if an error occurs while attempting to invoke the API.
+     */
+    private void createExperimentCURL(String apiKey, String url, String title, String body) throws RestClientException {
+        try { //TODO use ApiClient
+            String commandTemplate = """
+                curl -v --request POST '%sexperiments/' \\
+                --header 'Authorization: %s' \\
+                --header 'Content-Type: application/json' \\
+                --data '{
+                    "body": "%s",
+                    "title": "%s"
+                }'
+            """;
+
+            String command = String.format(commandTemplate, url, apiKey, body, title);
+            ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", command);
+            processBuilder.directory(new File("/home"));
+            Process process = processBuilder.start();
+            int exitCode = process.waitFor();
+        } catch (Exception e) {
+            throw new RestClientException("Undefinierter Fehler beim Speichern der Änderungen.");
+        }
     }
 }

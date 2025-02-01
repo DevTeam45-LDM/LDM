@@ -1,5 +1,6 @@
 package com.devteam45ldm.ldm.views.eLabClient.createReport;
 
+import com.devteam45ldm.ldm.api.eLabClient.ELabController;
 import com.devteam45ldm.ldm.parser.JsonToELabReportBody;
 import com.devteam45ldm.ldm.parser.XMLToJsonParser;
 import com.devteam45ldm.ldm.views.eLabClient.login.CredentialsAware;
@@ -31,6 +32,7 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
     private String uploadedMimeType;
     private long uploadedContentLength;
     private final TextField titleField = new TextField("Titel");
+    private final ELabController apiInstance = new ELabController();
     private String apiKey;
     private String url;
     private Boolean buttonAllowed = false;
@@ -146,26 +148,8 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
 
     private void createExperiment() {
         String title = titleField.getValue();
-        //ExperimentsBody body = new ExperimentsBody();
-        //apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).postExperiment(body);
         try { //TODO use ApiClient
-            // apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).patchExperiment(id,selectedExperiment);
-            String commandTemplate = """
-                curl -v --request POST 'https://sfb270eln.physik.uni-due.de/api/v2/experiments/' \\
-                --header 'Authorization: %s' \\
-                --header 'Content-Type: application/json' \\
-                --data '{
-                    "body": "%s",
-                    "title": "%s"
-                }'
-            """;
-
-            String command = String.format(commandTemplate, apiKey, classicEditor.getValue(), title);
-            ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", command);
-            processBuilder.directory(new File("/home"));
-            Process process = processBuilder.start();
-            int exitCode = process.waitFor();
-            //Notification.show("Error: " + errorResult);
+            apiInstance.getExperimentsClient(apiKey, url). createExperiment(id,selectedExperiment);
         } catch (Exception e) {
             Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
             Notification.show(e.toString());
