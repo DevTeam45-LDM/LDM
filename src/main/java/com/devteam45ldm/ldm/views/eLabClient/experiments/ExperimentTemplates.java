@@ -1,5 +1,6 @@
 package com.devteam45ldm.ldm.views.eLabClient.experiments;
 
+import com.devteam45ldm.ldm.api.eLabClient.ELabController;
 import com.devteam45ldm.ldm.views.eLabClient.login.CredentialsAware;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -14,7 +15,6 @@ import com.vaadin.flow.spring.annotation.UIScope;
 
 import com.devteam45ldm.ldm.controller.HTTPController;
 
-import io.swagger.client.api.*;
 import io.swagger.client.model.*;
 import org.springframework.http.ResponseEntity;
 
@@ -30,7 +30,6 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.devteam45ldm.ldm.api.eLabClient.ELabClient;
 import org.springframework.web.client.RestClientException;
 import org.yaml.snakeyaml.util.Tuple;
 
@@ -50,7 +49,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
     private final ComboBox<String> experimentsComboBox;
     private List<ExperimentTemplate> experiments;
     private final VerticalLayout experimentDetailsLayout;
-    private final ELabClient<ExperimentsTemplatesApi> apiInstance = new ELabClient<>(ExperimentsTemplatesApi.class);
+    private final ELabController apiInstance = new ELabController();
     private final TextField editField = new TextField();
     private final MenuBar editMenuBar = new MenuBar();
     private final MenuBar experimentsMenuBar = new MenuBar();
@@ -263,7 +262,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
      */
     private List<ExperimentTemplate> callExperimentsApi(String apiKey, String url) {
         // Fetch experiments
-        List<ExperimentTemplate> result = apiInstance.getClient(apiKey, url).readExperimentsTemplates();
+        List<ExperimentTemplate> result = apiInstance.getExperimentTemplatesClient(apiKey, url).readExperimentsTemplates();
         logger.info("Fetching experiments from {}", url);
         logger.info("Experiments: {}", result);
         return result;
@@ -399,7 +398,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
     private void createExperiment() {
         String title = editField.getValue();
         ExperimentsTemplatesBody body = new ExperimentsTemplatesBody().title(title);
-        apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).postExperimentTemplate(body);
+        apiInstance.getExperimentTemplatesClient(apiKeyField.getValue(), urlField.getValue()).postExperimentTemplate(body);
         Notification.show("Vorlage erfolgreich erstellt.");
         resetEditComponents();
         readExperiments();
@@ -418,7 +417,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
         updateSelectedExperiment();
 
         try {
-            apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).patchExperimentTemplate(id,selectedExperiment);
+            apiInstance.getExperimentTemplatesClient(apiKeyField.getValue(), urlField.getValue()).modifyExperimentTemplateCURL(apiKeyField.getValue(), urlField.getValue(), id, selectedExperiment.getTitle(), selectedExperiment.getBody());
         } catch (RestClientException e) {
             Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
         }
@@ -444,7 +443,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
      * Clears the ComboBox selection and resets the edit components.
      */
     private void deleteExperiment() {
-        apiInstance.getClient(apiKeyField.getValue(), urlField.getValue()).deleteExperimentTemplate(selectedExperiment.getId());
+        apiInstance.getExperimentTemplatesClient(apiKeyField.getValue(), urlField.getValue()).deleteExperimentTemplate(selectedExperiment.getId());
         Notification.show("Vorlage erfolgreich gelöscht.");
         resetEditComponents();
         readExperiments();

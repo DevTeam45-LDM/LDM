@@ -393,7 +393,7 @@ public class TeamTagsApi {
 
         try { //TODO use ApiClient
             String commandTemplate = """
-                curl --location --request PATCH '%steams/%d/tags/%d' \\
+                curl --location --request PATCH '%s/teams/%d/tags/%d' \\
                       --header 'Authorization: %s' \\
                       --header 'action: update' \\
                       --header 'Content-Type: application/json' \\

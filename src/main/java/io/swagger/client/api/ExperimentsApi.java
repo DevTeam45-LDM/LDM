@@ -399,7 +399,7 @@ public class ExperimentsApi {
 
         try { //TODO use ApiClient
             String commandTemplate = """
-                curl -v --request POST '%sexperiments/' \\
+                curl -v --request POST '%s/experiments/' \\
                 --header 'Authorization: %s' \\
                 --header 'Content-Type: application/json' \\
                 --data '{
@@ -467,7 +467,7 @@ public class ExperimentsApi {
 
         try { //TODO use ApiClient
             String commandTemplate = """
-                curl -v --request PATCH '%sexperiments/%d' \\
+                curl -v --request PATCH '%s/experiments/%d' \\
                 --header 'Authorization: %s' \\
                 --header 'Content-Type: application/json' \\
                 --data '{
