@@ -20,7 +20,6 @@ import org.json.JSONObject;
 import org.springframework.web.client.RestClientException;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
@@ -71,13 +70,12 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
         upload.addSucceededListener(event -> {
             String fileName = event.getFileName();
             String mimeType = event.getMIMEType();
-            long contentLength = event.getContentLength();
 
             try {
                 uploadedInputStream = buffer.getInputStream();
 
                 // Process the file here (e.g., save to disk, database, etc.)
-                processUploadedFile(fileName, uploadedInputStream, mimeType, contentLength);
+                processUploadedFile(fileName, uploadedInputStream, mimeType);
                 if (buttonAllowed) {
                     createReportButton.setEnabled(true);
                 }
@@ -137,10 +135,9 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
      * @param fileName the name of the uploaded file
      * @param inputStream the input stream of the uploaded file
      * @param mimeType the MIME type of the uploaded file
-     * @param contentLength the content length of the uploaded file
      */
     private void processUploadedFile(String fileName, InputStream inputStream,
-                                     String mimeType, long contentLength) {
+                                     String mimeType) {
         if ("application/xml".equals(mimeType) || fileName.endsWith(".xml")) {
             try {
                 String xmlContent = new BufferedReader(new InputStreamReader(inputStream))
@@ -168,8 +165,10 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
             return;
         }
         try { //TODO use ApiClient
-            id = apiInstance.getExperimentsClient(apiKey, url).createExperimentCURL(apiKey, url, title);
-            apiInstance.getExperimentsClient().modifyExperimentCURL(apiKey, url, id, title, classicEditor.getValue());
+            id = apiInstance.getExperimentsClient().createExperimentCURL(apiKey, url, title);
+            if (!classicEditor.getValue().isEmpty()) {
+                apiInstance.getExperimentsClient().modifyExperimentCURL(apiKey, url, id, title, classicEditor.getValue());
+            }
         } catch (RestClientException e) {
             Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
             Notification.show(e.toString());
