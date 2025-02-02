@@ -13,15 +13,8 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.client.model.Comment;
-import io.swagger.client.model.ExclusiveEditMode;
-import io.swagger.client.model.Link;
-import io.swagger.client.model.Step;
-import io.swagger.client.model.Upload;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +24,7 @@ import java.util.List;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
-public class Entity {
+public class Entity_DEPRECATED {
   @JsonProperty("access_key")
   private String accessKey = null;
 
@@ -191,7 +184,7 @@ public class Entity {
   @JsonProperty("userid")
   private Integer userid = null;
 
-  public Entity accessKey(String accessKey) {
+  public Entity_DEPRECATED accessKey(String accessKey) {
     this.accessKey = accessKey;
     return this;
   }
@@ -209,7 +202,7 @@ public class Entity {
     this.accessKey = accessKey;
   }
 
-  public Entity body(String body) {
+  public Entity_DEPRECATED body(String body) {
     this.body = body;
     return this;
   }
@@ -227,7 +220,7 @@ public class Entity {
     this.body = body;
   }
 
-  public Entity bodyHtml(String bodyHtml) {
+  public Entity_DEPRECATED bodyHtml(String bodyHtml) {
     this.bodyHtml = bodyHtml;
     return this;
   }
@@ -245,7 +238,7 @@ public class Entity {
     this.bodyHtml = bodyHtml;
   }
 
-  public Entity canread(String canread) {
+  public Entity_DEPRECATED canread(String canread) {
     this.canread = canread;
     return this;
   }
@@ -263,7 +256,7 @@ public class Entity {
     this.canread = canread;
   }
 
-  public Entity canwrite(String canwrite) {
+  public Entity_DEPRECATED canwrite(String canwrite) {
     this.canwrite = canwrite;
     return this;
   }
@@ -281,7 +274,7 @@ public class Entity {
     this.canwrite = canwrite;
   }
 
-  public Entity category(Integer category) {
+  public Entity_DEPRECATED category(Integer category) {
     this.category = category;
     return this;
   }
@@ -299,7 +292,7 @@ public class Entity {
     this.category = category;
   }
 
-  public Entity categoryColor(String categoryColor) {
+  public Entity_DEPRECATED categoryColor(String categoryColor) {
     this.categoryColor = categoryColor;
     return this;
   }
@@ -317,7 +310,7 @@ public class Entity {
     this.categoryColor = categoryColor;
   }
 
-  public Entity categoryTitle(String categoryTitle) {
+  public Entity_DEPRECATED categoryTitle(String categoryTitle) {
     this.categoryTitle = categoryTitle;
     return this;
   }
@@ -335,12 +328,12 @@ public class Entity {
     this.categoryTitle = categoryTitle;
   }
 
-  public Entity comments(List<Comment> comments) {
+  public Entity_DEPRECATED comments(List<Comment> comments) {
     this.comments = comments;
     return this;
   }
 
-  public Entity addCommentsItem(Comment commentsItem) {
+  public Entity_DEPRECATED addCommentsItem(Comment commentsItem) {
     if (this.comments == null) {
       this.comments = new ArrayList<Comment>();
     }
@@ -361,7 +354,7 @@ public class Entity {
     this.comments = comments;
   }
 
-  public Entity contentType(Integer contentType) {
+  public Entity_DEPRECATED contentType(Integer contentType) {
     this.contentType = contentType;
     return this;
   }
@@ -379,7 +372,7 @@ public class Entity {
     this.contentType = contentType;
   }
 
-  public Entity createdAt(String createdAt) {
+  public Entity_DEPRECATED createdAt(String createdAt) {
     this.createdAt = createdAt;
     return this;
   }
@@ -397,7 +390,7 @@ public class Entity {
     this.createdAt = createdAt;
   }
 
-  public Entity customId(Integer customId) {
+  public Entity_DEPRECATED customId(Integer customId) {
     this.customId = customId;
     return this;
   }
@@ -415,7 +408,7 @@ public class Entity {
     this.customId = customId;
   }
 
-  public Entity date(String date) {
+  public Entity_DEPRECATED date(String date) {
     this.date = date;
     return this;
   }
@@ -433,7 +426,7 @@ public class Entity {
     this.date = date;
   }
 
-  public Entity elabid(String elabid) {
+  public Entity_DEPRECATED elabid(String elabid) {
     this.elabid = elabid;
     return this;
   }
@@ -451,7 +444,7 @@ public class Entity {
     this.elabid = elabid;
   }
 
-  public Entity exclusiveEditMode(ExclusiveEditMode exclusiveEditMode) {
+  public Entity_DEPRECATED exclusiveEditMode(ExclusiveEditMode exclusiveEditMode) {
     this.exclusiveEditMode = exclusiveEditMode;
     return this;
   }
@@ -469,12 +462,12 @@ public class Entity {
     this.exclusiveEditMode = exclusiveEditMode;
   }
 
-  public Entity experimentsLinks(List<Link> experimentsLinks) {
+  public Entity_DEPRECATED experimentsLinks(List<Link> experimentsLinks) {
     this.experimentsLinks = experimentsLinks;
     return this;
   }
 
-  public Entity addExperimentsLinksItem(Link experimentsLinksItem) {
+  public Entity_DEPRECATED addExperimentsLinksItem(Link experimentsLinksItem) {
     if (this.experimentsLinks == null) {
       this.experimentsLinks = new ArrayList<Link>();
     }
@@ -495,7 +488,7 @@ public class Entity {
     this.experimentsLinks = experimentsLinks;
   }
 
-  public Entity firstname(String firstname) {
+  public Entity_DEPRECATED firstname(String firstname) {
     this.firstname = firstname;
     return this;
   }
@@ -513,7 +506,7 @@ public class Entity {
     this.firstname = firstname;
   }
 
-  public Entity fullname(String fullname) {
+  public Entity_DEPRECATED fullname(String fullname) {
     this.fullname = fullname;
     return this;
   }
@@ -531,7 +524,7 @@ public class Entity {
     this.fullname = fullname;
   }
 
-  public Entity hasAttachement(Integer hasAttachement) {
+  public Entity_DEPRECATED hasAttachement(Integer hasAttachement) {
     this.hasAttachement = hasAttachement;
     return this;
   }
@@ -549,7 +542,7 @@ public class Entity {
     this.hasAttachement = hasAttachement;
   }
 
-  public Entity hasComment(Integer hasComment) {
+  public Entity_DEPRECATED hasComment(Integer hasComment) {
     this.hasComment = hasComment;
     return this;
   }
@@ -567,7 +560,7 @@ public class Entity {
     this.hasComment = hasComment;
   }
 
-  public Entity id(Integer id) {
+  public Entity_DEPRECATED id(Integer id) {
     this.id = id;
     return this;
   }
@@ -585,12 +578,12 @@ public class Entity {
     this.id = id;
   }
 
-  public Entity itemsLinks(List<Link> itemsLinks) {
+  public Entity_DEPRECATED itemsLinks(List<Link> itemsLinks) {
     this.itemsLinks = itemsLinks;
     return this;
   }
 
-  public Entity addItemsLinksItem(Link itemsLinksItem) {
+  public Entity_DEPRECATED addItemsLinksItem(Link itemsLinksItem) {
     if (this.itemsLinks == null) {
       this.itemsLinks = new ArrayList<Link>();
     }
@@ -611,7 +604,7 @@ public class Entity {
     this.itemsLinks = itemsLinks;
   }
 
-  public Entity lastchangeby(Integer lastchangeby) {
+  public Entity_DEPRECATED lastchangeby(Integer lastchangeby) {
     this.lastchangeby = lastchangeby;
     return this;
   }
@@ -629,7 +622,7 @@ public class Entity {
     this.lastchangeby = lastchangeby;
   }
 
-  public Entity lastname(String lastname) {
+  public Entity_DEPRECATED lastname(String lastname) {
     this.lastname = lastname;
     return this;
   }
@@ -647,7 +640,7 @@ public class Entity {
     this.lastname = lastname;
   }
 
-  public Entity locked(Integer locked) {
+  public Entity_DEPRECATED locked(Integer locked) {
     this.locked = locked;
     return this;
   }
@@ -665,7 +658,7 @@ public class Entity {
     this.locked = locked;
   }
 
-  public Entity lockedby(Integer lockedby) {
+  public Entity_DEPRECATED lockedby(Integer lockedby) {
     this.lockedby = lockedby;
     return this;
   }
@@ -683,7 +676,7 @@ public class Entity {
     this.lockedby = lockedby;
   }
 
-  public Entity lockedAt(String lockedAt) {
+  public Entity_DEPRECATED lockedAt(String lockedAt) {
     this.lockedAt = lockedAt;
     return this;
   }
@@ -701,7 +694,7 @@ public class Entity {
     this.lockedAt = lockedAt;
   }
 
-  public Entity metadata(String metadata) {
+  public Entity_DEPRECATED metadata(String metadata) {
     this.metadata = metadata;
     return this;
   }
@@ -719,7 +712,7 @@ public class Entity {
     this.metadata = metadata;
   }
 
-  public Entity modifiedAt(String modifiedAt) {
+  public Entity_DEPRECATED modifiedAt(String modifiedAt) {
     this.modifiedAt = modifiedAt;
     return this;
   }
@@ -737,7 +730,7 @@ public class Entity {
     this.modifiedAt = modifiedAt;
   }
 
-  public Entity nextStep(String nextStep) {
+  public Entity_DEPRECATED nextStep(String nextStep) {
     this.nextStep = nextStep;
     return this;
   }
@@ -755,7 +748,7 @@ public class Entity {
     this.nextStep = nextStep;
   }
 
-  public Entity orcid(String orcid) {
+  public Entity_DEPRECATED orcid(String orcid) {
     this.orcid = orcid;
     return this;
   }
@@ -773,7 +766,7 @@ public class Entity {
     this.orcid = orcid;
   }
 
-  public Entity page(String page) {
+  public Entity_DEPRECATED page(String page) {
     this.page = page;
     return this;
   }
@@ -791,7 +784,7 @@ public class Entity {
     this.page = page;
   }
 
-  public Entity rating(Integer rating) {
+  public Entity_DEPRECATED rating(Integer rating) {
     this.rating = rating;
     return this;
   }
@@ -809,7 +802,7 @@ public class Entity {
     this.rating = rating;
   }
 
-  public Entity recentComment(String recentComment) {
+  public Entity_DEPRECATED recentComment(String recentComment) {
     this.recentComment = recentComment;
     return this;
   }
@@ -827,12 +820,12 @@ public class Entity {
     this.recentComment = recentComment;
   }
 
-  public Entity relatedExperimentsLinks(List<Link> relatedExperimentsLinks) {
+  public Entity_DEPRECATED relatedExperimentsLinks(List<Link> relatedExperimentsLinks) {
     this.relatedExperimentsLinks = relatedExperimentsLinks;
     return this;
   }
 
-  public Entity addRelatedExperimentsLinksItem(Link relatedExperimentsLinksItem) {
+  public Entity_DEPRECATED addRelatedExperimentsLinksItem(Link relatedExperimentsLinksItem) {
     if (this.relatedExperimentsLinks == null) {
       this.relatedExperimentsLinks = new ArrayList<Link>();
     }
@@ -853,12 +846,12 @@ public class Entity {
     this.relatedExperimentsLinks = relatedExperimentsLinks;
   }
 
-  public Entity relatedItemsLinks(List<Link> relatedItemsLinks) {
+  public Entity_DEPRECATED relatedItemsLinks(List<Link> relatedItemsLinks) {
     this.relatedItemsLinks = relatedItemsLinks;
     return this;
   }
 
-  public Entity addRelatedItemsLinksItem(Link relatedItemsLinksItem) {
+  public Entity_DEPRECATED addRelatedItemsLinksItem(Link relatedItemsLinksItem) {
     if (this.relatedItemsLinks == null) {
       this.relatedItemsLinks = new ArrayList<Link>();
     }
@@ -879,7 +872,7 @@ public class Entity {
     this.relatedItemsLinks = relatedItemsLinks;
   }
 
-  public Entity sharelink(String sharelink) {
+  public Entity_DEPRECATED sharelink(String sharelink) {
     this.sharelink = sharelink;
     return this;
   }
@@ -897,7 +890,7 @@ public class Entity {
     this.sharelink = sharelink;
   }
 
-  public Entity state(Integer state) {
+  public Entity_DEPRECATED state(Integer state) {
     this.state = state;
     return this;
   }
@@ -915,7 +908,7 @@ public class Entity {
     this.state = state;
   }
 
-  public Entity status(Integer status) {
+  public Entity_DEPRECATED status(Integer status) {
     this.status = status;
     return this;
   }
@@ -933,7 +926,7 @@ public class Entity {
     this.status = status;
   }
 
-  public Entity statusColor(String statusColor) {
+  public Entity_DEPRECATED statusColor(String statusColor) {
     this.statusColor = statusColor;
     return this;
   }
@@ -951,7 +944,7 @@ public class Entity {
     this.statusColor = statusColor;
   }
 
-  public Entity statusTitle(String statusTitle) {
+  public Entity_DEPRECATED statusTitle(String statusTitle) {
     this.statusTitle = statusTitle;
     return this;
   }
@@ -969,12 +962,12 @@ public class Entity {
     this.statusTitle = statusTitle;
   }
 
-  public Entity steps(List<Step> steps) {
+  public Entity_DEPRECATED steps(List<Step> steps) {
     this.steps = steps;
     return this;
   }
 
-  public Entity addStepsItem(Step stepsItem) {
+  public Entity_DEPRECATED addStepsItem(Step stepsItem) {
     if (this.steps == null) {
       this.steps = new ArrayList<Step>();
     }
@@ -995,7 +988,7 @@ public class Entity {
     this.steps = steps;
   }
 
-  public Entity tags(String tags) {
+  public Entity_DEPRECATED tags(String tags) {
     this.tags = tags;
     return this;
   }
@@ -1013,7 +1006,7 @@ public class Entity {
     this.tags = tags;
   }
 
-  public Entity tagsId(String tagsId) {
+  public Entity_DEPRECATED tagsId(String tagsId) {
     this.tagsId = tagsId;
     return this;
   }
@@ -1031,7 +1024,7 @@ public class Entity {
     this.tagsId = tagsId;
   }
 
-  public Entity team(Integer team) {
+  public Entity_DEPRECATED team(Integer team) {
     this.team = team;
     return this;
   }
@@ -1049,7 +1042,7 @@ public class Entity {
     this.team = team;
   }
 
-  public Entity timestamped(Integer timestamped) {
+  public Entity_DEPRECATED timestamped(Integer timestamped) {
     this.timestamped = timestamped;
     return this;
   }
@@ -1067,7 +1060,7 @@ public class Entity {
     this.timestamped = timestamped;
   }
 
-  public Entity timestampedby(Integer timestampedby) {
+  public Entity_DEPRECATED timestampedby(Integer timestampedby) {
     this.timestampedby = timestampedby;
     return this;
   }
@@ -1085,7 +1078,7 @@ public class Entity {
     this.timestampedby = timestampedby;
   }
 
-  public Entity timestampedAt(String timestampedAt) {
+  public Entity_DEPRECATED timestampedAt(String timestampedAt) {
     this.timestampedAt = timestampedAt;
     return this;
   }
@@ -1103,7 +1096,7 @@ public class Entity {
     this.timestampedAt = timestampedAt;
   }
 
-  public Entity title(String title) {
+  public Entity_DEPRECATED title(String title) {
     this.title = title;
     return this;
   }
@@ -1121,7 +1114,7 @@ public class Entity {
     this.title = title;
   }
 
-  public Entity type(String type) {
+  public Entity_DEPRECATED type(String type) {
     this.type = type;
     return this;
   }
@@ -1139,7 +1132,7 @@ public class Entity {
     this.type = type;
   }
 
-  public Entity upItemId(Integer upItemId) {
+  public Entity_DEPRECATED upItemId(Integer upItemId) {
     this.upItemId = upItemId;
     return this;
   }
@@ -1157,12 +1150,12 @@ public class Entity {
     this.upItemId = upItemId;
   }
 
-  public Entity uploads(List<Upload> uploads) {
+  public Entity_DEPRECATED uploads(List<Upload> uploads) {
     this.uploads = uploads;
     return this;
   }
 
-  public Entity addUploadsItem(Upload uploadsItem) {
+  public Entity_DEPRECATED addUploadsItem(Upload uploadsItem) {
     if (this.uploads == null) {
       this.uploads = new ArrayList<Upload>();
     }
@@ -1183,7 +1176,7 @@ public class Entity {
     this.uploads = uploads;
   }
 
-  public Entity userid(Integer userid) {
+  public Entity_DEPRECATED userid(Integer userid) {
     this.userid = userid;
     return this;
   }
@@ -1210,7 +1203,7 @@ public class Entity {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Entity entity = (Entity) o;
+    Entity_DEPRECATED entity = (Entity_DEPRECATED) o;
     return Objects.equals(this.accessKey, entity.accessKey) &&
         Objects.equals(this.body, entity.body) &&
         Objects.equals(this.bodyHtml, entity.bodyHtml) &&

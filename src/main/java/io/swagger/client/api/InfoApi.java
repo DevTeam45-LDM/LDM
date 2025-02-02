@@ -2,25 +2,19 @@ package io.swagger.client.api;
 
 import io.swagger.client.ApiClient;
 
-import io.swagger.client.model.InlineResponse200;
+import io.swagger.client.model.Info;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
@@ -53,7 +47,7 @@ public class InfoApi {
      * @return InlineResponse200
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public InlineResponse200 getInfo() throws RestClientException {
+    public Info getInfo() throws RestClientException {
         return getInfoWithHttpInfo().getBody();
     }
 
@@ -64,7 +58,7 @@ public class InfoApi {
      * @return ResponseEntity&lt;InlineResponse200&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<InlineResponse200> getInfoWithHttpInfo() throws RestClientException {
+    public ResponseEntity<Info> getInfoWithHttpInfo() throws RestClientException {
         Object postBody = null;
         String path = UriComponentsBuilder.fromPath("/info").build().toUriString();
         
@@ -81,7 +75,7 @@ public class InfoApi {
 
         String[] authNames = new String[] { "token" };
 
-        ParameterizedTypeReference<InlineResponse200> returnType = new ParameterizedTypeReference<InlineResponse200>() {};
+        ParameterizedTypeReference<Info> returnType = new ParameterizedTypeReference<Info>() {};
         return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
 }

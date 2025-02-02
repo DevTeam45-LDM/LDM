@@ -1,5 +1,6 @@
 package io.swagger.client.api;
 
+import com.devteam45ldm.ldm.api.eLabClient.ELabClient;
 import io.swagger.client.ApiClient;
 
 import io.swagger.client.model.IdTagsBody;
@@ -8,6 +9,10 @@ import io.swagger.client.model.InlineResponse2004;
 import io.swagger.client.model.Tag;
 import io.swagger.client.model.TagsSubidBody;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -363,6 +368,48 @@ public class TeamTagsApi {
             return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
         } catch (RestClientException e) {
             throw e;
+        }
+    }
+
+    /**
+     * Modify a tag using a cURL command.
+     *
+     * @param apiKey The API key for authorization. (required)
+     * @param url The base URL of the API. (required)
+     * @param team The ID of the team. (required)
+     * @param id The ID of the tag. (required)
+     * @param title The new title for the tag. (required)
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public void modifyTagCURL(String apiKey, String url, Integer team, Integer id, String title) throws RestClientException {
+        ELabClient.checkApiKey(apiKey);
+        try {
+            url = ELabClient.checkUrl(url);
+        } catch (URISyntaxException e) {
+            throw new RestClientException(e.getMessage());
+        } catch (MalformedURLException e) {
+            throw new RestClientException(e.getMessage());
+        }
+
+        try { //TODO use ApiClient
+            String commandTemplate = """
+                curl --location --request PATCH '%s/teams/%d/tags/%d' \\
+                      --header 'Authorization: %s' \\
+                      --header 'action: update' \\
+                      --header 'Content-Type: application/json' \\
+                      --data '{
+                          "title": "%s"
+                      }'
+            """;
+
+            String command = String.format(commandTemplate, url, team, id, apiKey, title);
+            ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", command);
+            processBuilder.directory(new File("/home"));
+            Process process = processBuilder.start();
+            InputStream inputStream = process.getInputStream();
+            int exitCode = process.waitFor();
+        } catch (Exception e) {
+            throw new RestClientException(e.getMessage());
         }
     }
 }

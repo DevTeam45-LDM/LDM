@@ -12,45 +12,1364 @@
 
 package io.swagger.client.model;
 
-import java.util.Objects;
-import java.util.Arrays;
-import io.swagger.client.model.Comment;
-import io.swagger.client.model.Entity;
-import io.swagger.client.model.ExclusiveEditMode;
-import io.swagger.client.model.Link;
-import io.swagger.client.model.Step;
-import io.swagger.client.model.Upload;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 /**
  * Experiment
  */
-
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
+public class Experiment {
 
-public class Experiment extends Entity implements ExperimentsIdBody1 {
+  @JsonProperty("access_key")
+  private String accessKey = null;
+
+  @JsonProperty("body")
+  private String body = null;
+
+  @JsonProperty("body_html")
+  private String bodyHtml = null;
+
+  @JsonProperty("canread")
+  private String canread = null;
+
+  @JsonProperty("canwrite")
+  private String canwrite = null;
+
+  @JsonProperty("category")
+  private Integer category = null;
+
+  @JsonProperty("category_color")
+  private String categoryColor = null;
+
+  @JsonProperty("category_title")
+  private String categoryTitle = null;
+
+  @JsonProperty("comments")
+  private List<Comment> comments = null;
+
+  @JsonProperty("content_type")
+  private Integer contentType = null;
+
+  @JsonProperty("created_at")
+  private String createdAt = null;
+
+  @JsonProperty("custom_id")
+  private Integer customId = null;
+
+  @JsonProperty("date")
+  private String date = null;
+
+  @JsonProperty("elabid")
+  private String elabid = null;
+
+  @JsonProperty("events_start")
+  private String eventsStart = null;
+
+  @JsonProperty("events_start_itemid")
+  private String eventsStartItemId = null;
+
+  @JsonProperty("exclusive_edit_mode")
+  private ExclusiveEditMode exclusiveEditMode = null;
+
+  @JsonProperty("experiments_links")
+  private List<Link> experimentsLinks = null;
+
+  @JsonProperty("firstname")
+  private String firstname = null;
+
+  @JsonProperty("fullname")
+  private String fullname = null;
+
+  @JsonProperty("has_attachement")
+  private Integer hasAttachement = null;
+
+  @JsonProperty("has_comment")
+  private Integer hasComment = null;
+
+  @JsonProperty("id")
+  private Integer id = null;
+
+  @JsonProperty("items_links")
+  private List<Link> itemsLinks = null;
+
+  @JsonProperty("lastchangeby")
+  private Integer lastchangeby = null;
+
+  @JsonProperty("lastname")
+  private String lastname = null;
+
+  @JsonProperty("locked")
+  private Integer locked = null;
+
+  @JsonProperty("lockedby")
+  private Integer lockedby = null;
+
+  @JsonProperty("locked_at")
+  private String lockedAt = null;
+
+  @JsonProperty("metadata")
+  private String metadata = null;
+
+  @JsonProperty("modified_at")
+  private String modifiedAt = null;
+
+  @JsonProperty("next_step")
+  private String nextStep = null;
+
+  @JsonProperty("orcid")
+  private String orcid = null;
+
+  @JsonProperty("page")
+  private String page = null;
+
+  @JsonProperty("rating")
+  private Integer rating = null;
+
+  @JsonProperty("recent_comment")
+  private String recentComment = null;
+
+  @JsonProperty("related_experiments_links")
+  private List<Link> relatedExperimentsLinks = null;
+
+  @JsonProperty("related_items_links")
+  private List<Link> relatedItemsLinks = null;
+
+  @JsonProperty("sharelink")
+  private String sharelink = null;
+
+  @JsonProperty("state")
+  private Integer state = null;
+
+  @JsonProperty("status")
+  private Integer status = null;
+
+  @JsonProperty("status_color")
+  private String statusColor = null;
+
+  @JsonProperty("status_title")
+  private String statusTitle = null;
+
+  @JsonProperty("steps")
+  private List<Step> steps = null;
+
+  @JsonProperty("tags")
+  private String tags = null;
+
+  @JsonProperty("tags_id")
+  private String tagsId = null;
+
+  @JsonProperty("team")
+  private Integer team = null;
+
+  @JsonProperty("team_name")
+  private String teamName = null;
+
+  @JsonProperty("timestamped")
+  private Integer timestamped = null;
+
+  @JsonProperty("timestampedby")
+  private Integer timestampedby = null;
+
+  @JsonProperty("timestamped_at")
+  private String timestampedAt = null;
+
+  @JsonProperty("title")
+  private String title = null;
+
+  @JsonProperty("type")
+  private String type = null;
+
+  @JsonProperty("up_item_id")
+  private Integer upItemId = null;
+
+  @JsonProperty("uploads")
+  private List<Upload> uploads = null;
+
+  @JsonProperty("userid")
+  private Integer userid = null;
+
+  public Experiment accessKey(String accessKey) {
+    this.accessKey = accessKey;
+    return this;
+  }
+
+  /**
+   * Get accessKey
+   * @return accessKey
+   **/
+  @Schema(description = "")
+  public String getAccessKey() {
+    return accessKey;
+  }
+
+  public void setAccessKey(String accessKey) {
+    this.accessKey = accessKey;
+  }
+
+  public Experiment body(String body) {
+    this.body = body;
+    return this;
+  }
+
+  /**
+   * Get body
+   * @return body
+   **/
+  @Schema(description = "")
+  public String getBody() {
+    return body;
+  }
+
+  public void setBody(String body) {
+    this.body = body;
+  }
+
+  public Experiment bodyHtml(String bodyHtml) {
+    this.bodyHtml = bodyHtml;
+    return this;
+  }
+
+  /**
+   * Get bodyHtml
+   * @return bodyHtml
+   **/
+  @Schema(description = "")
+  public String getBodyHtml() {
+    return bodyHtml;
+  }
+
+  public void setBodyHtml(String bodyHtml) {
+    this.bodyHtml = bodyHtml;
+  }
+
+  public Experiment canread(String canread) {
+    this.canread = canread;
+    return this;
+  }
+
+  /**
+   * JSON string for read permissions.
+   * @return canread
+   **/
+  @Schema(description = "JSON string for read permissions.")
+  public String getCanread() {
+    return canread;
+  }
+
+  public void setCanread(String canread) {
+    this.canread = canread;
+  }
+
+  public Experiment canwrite(String canwrite) {
+    this.canwrite = canwrite;
+    return this;
+  }
+
+  /**
+   * JSON string for write permissions.
+   * @return canwrite
+   **/
+  @Schema(description = "JSON string for write permissions.")
+  public String getCanwrite() {
+    return canwrite;
+  }
+
+  public void setCanwrite(String canwrite) {
+    this.canwrite = canwrite;
+  }
+
+  public Experiment category(Integer category) {
+    this.category = category;
+    return this;
+  }
+
+  /**
+   * Cannot be negative nor empty string. Can be reset with \&quot;0\&quot; and null.
+   * @return category
+   **/
+  @Schema(description = "Cannot be negative nor empty string. Can be reset with \"0\" and null.")
+  public Integer getCategory() {
+    return category;
+  }
+
+  public void setCategory(Integer category) {
+    this.category = category;
+  }
+
+  public Experiment categoryColor(String categoryColor) {
+    this.categoryColor = categoryColor;
+    return this;
+  }
+
+  /**
+   * Get categoryColor
+   * @return categoryColor
+   **/
+  @Schema(description = "")
+  public String getCategoryColor() {
+    return categoryColor;
+  }
+
+  public void setCategoryColor(String categoryColor) {
+    this.categoryColor = categoryColor;
+  }
+
+  public Experiment categoryTitle(String categoryTitle) {
+    this.categoryTitle = categoryTitle;
+    return this;
+  }
+
+  /**
+   * Get categoryTitle
+   * @return categoryTitle
+   **/
+  @Schema(description = "")
+  public String getCategoryTitle() {
+    return categoryTitle;
+  }
+
+  public void setCategoryTitle(String categoryTitle) {
+    this.categoryTitle = categoryTitle;
+  }
+
+  public Experiment comments(List<Comment> comments) {
+    this.comments = comments;
+    return this;
+  }
+
+  public Experiment addCommentsItem(Comment commentsItem) {
+    if (this.comments == null) {
+      this.comments = new ArrayList<Comment>();
+    }
+    this.comments.add(commentsItem);
+    return this;
+  }
+
+  /**
+   * Get comments
+   * @return comments
+   **/
+  @Schema(description = "")
+  public List<Comment> getComments() {
+    return comments;
+  }
+
+  public void setComments(List<Comment> comments) {
+    this.comments = comments;
+  }
+
+  public Experiment contentType(Integer contentType) {
+    this.contentType = contentType;
+    return this;
+  }
+
+  /**
+   * How the body is stored. 1 for HTML, 2 for Markdown. If you plan on creating an entity with markdown, make sure to set it to 2.
+   * @return contentType
+   **/
+  @Schema(description = "How the body is stored. 1 for HTML, 2 for Markdown. If you plan on creating an entity with markdown, make sure to set it to 2.")
+  public Integer getContentType() {
+    return contentType;
+  }
+
+  public void setContentType(Integer contentType) {
+    this.contentType = contentType;
+  }
+
+  public Experiment createdAt(String createdAt) {
+    this.createdAt = createdAt;
+    return this;
+  }
+
+  /**
+   * Get createdAt
+   * @return createdAt
+   **/
+  @Schema(description = "")
+  public String getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(String createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public Experiment customId(Integer customId) {
+    this.customId = customId;
+    return this;
+  }
+
+  /**
+   * Cannot be negative. Can be reset with \&quot;0\&quot;, null or empty string.
+   * @return customId
+   **/
+  @Schema(description = "Cannot be negative. Can be reset with \"0\", null or empty string.")
+  public Integer getCustomId() {
+    return customId;
+  }
+
+  public void setCustomId(Integer customId) {
+    this.customId = customId;
+  }
+
+  public Experiment date(String date) {
+    this.date = date;
+    return this;
+  }
+
+  /**
+   * Get date
+   * @return date
+   **/
+  @Schema(description = "")
+  public String getDate() {
+    return date;
+  }
+
+  public void setDate(String date) {
+    this.date = date;
+  }
+
+  public Experiment elabid(String elabid) {
+    this.elabid = elabid;
+    return this;
+  }
+
+  public String getEventsStart() {
+    return eventsStart;
+  }
+
+  public void setEventsStart(String eventsStart) {
+    this.eventsStart = eventsStart;
+  }
+
+  public Experiment eventsStart(String eventsStart) {
+    this.eventsStart = eventsStart;
+    return this;
+  }
+
+  public String getEventsStartItemId() {
+    return eventsStartItemId;
+  }
+
+  public void setEventsStartItemId(String eventsStartItemId) {
+    this.eventsStartItemId = eventsStartItemId;
+  }
+
+  public Experiment eventsStartItemId(String eventsStartItemId) {
+    this.eventsStartItemId = eventsStartItemId;
+    return this;
+  }
+
+
+  /**
+   * Get elabid
+   * @return elabid
+   **/
+  @Schema(description = "")
+  public String getElabid() {
+    return elabid;
+  }
+
+  public void setElabid(String elabid) {
+    this.elabid = elabid;
+  }
+
+  public Experiment exclusiveEditMode(ExclusiveEditMode exclusiveEditMode) {
+    this.exclusiveEditMode = exclusiveEditMode;
+    return this;
+  }
+
+  /**
+   * Get exclusiveEditMode
+   * @return exclusiveEditMode
+   **/
+  @Schema(description = "")
+  public ExclusiveEditMode getExclusiveEditMode() {
+    return exclusiveEditMode;
+  }
+
+  public void setExclusiveEditMode(ExclusiveEditMode exclusiveEditMode) {
+    this.exclusiveEditMode = exclusiveEditMode;
+  }
+
+  public Experiment experimentsLinks(List<Link> experimentsLinks) {
+    this.experimentsLinks = experimentsLinks;
+    return this;
+  }
+
+  public Experiment addExperimentsLinksItem(Link experimentsLinksItem) {
+    if (this.experimentsLinks == null) {
+      this.experimentsLinks = new ArrayList<Link>();
+    }
+    this.experimentsLinks.add(experimentsLinksItem);
+    return this;
+  }
+
+  /**
+   * Get experimentsLinks
+   * @return experimentsLinks
+   **/
+  @Schema(description = "")
+  public List<Link> getExperimentsLinks() {
+    return experimentsLinks;
+  }
+
+  public void setExperimentsLinks(List<Link> experimentsLinks) {
+    this.experimentsLinks = experimentsLinks;
+  }
+
+  public Experiment firstname(String firstname) {
+    this.firstname = firstname;
+    return this;
+  }
+
+  /**
+   * Get firstname
+   * @return firstname
+   **/
+  @Schema(description = "")
+  public String getFirstname() {
+    return firstname;
+  }
+
+  public void setFirstname(String firstname) {
+    this.firstname = firstname;
+  }
+
+  public Experiment fullname(String fullname) {
+    this.fullname = fullname;
+    return this;
+  }
+
+  /**
+   * Get fullname
+   * @return fullname
+   **/
+  @Schema(description = "")
+  public String getFullname() {
+    return fullname;
+  }
+
+  public void setFullname(String fullname) {
+    this.fullname = fullname;
+  }
+
+  public Experiment hasAttachement(Integer hasAttachement) {
+    this.hasAttachement = hasAttachement;
+    return this;
+  }
+
+  /**
+   * Get hasAttachement
+   * @return hasAttachement
+   **/
+  @Schema(description = "")
+  public Integer getHasAttachement() {
+    return hasAttachement;
+  }
+
+  public void setHasAttachement(Integer hasAttachement) {
+    this.hasAttachement = hasAttachement;
+  }
+
+  public Experiment hasComment(Integer hasComment) {
+    this.hasComment = hasComment;
+    return this;
+  }
+
+  /**
+   * Get hasComment
+   * @return hasComment
+   **/
+  @Schema(description = "")
+  public Integer getHasComment() {
+    return hasComment;
+  }
+
+  public void setHasComment(Integer hasComment) {
+    this.hasComment = hasComment;
+  }
+
+  public Experiment id(Integer id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Get id
+   * @return id
+   **/
+  @Schema(description = "")
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public Experiment itemsLinks(List<Link> itemsLinks) {
+    this.itemsLinks = itemsLinks;
+    return this;
+  }
+
+  public Experiment addItemsLinksItem(Link itemsLinksItem) {
+    if (this.itemsLinks == null) {
+      this.itemsLinks = new ArrayList<Link>();
+    }
+    this.itemsLinks.add(itemsLinksItem);
+    return this;
+  }
+
+  /**
+   * Get itemsLinks
+   * @return itemsLinks
+   **/
+  @Schema(description = "")
+  public List<Link> getItemsLinks() {
+    return itemsLinks;
+  }
+
+  public void setItemsLinks(List<Link> itemsLinks) {
+    this.itemsLinks = itemsLinks;
+  }
+
+  public Experiment lastchangeby(Integer lastchangeby) {
+    this.lastchangeby = lastchangeby;
+    return this;
+  }
+
+  /**
+   * Get lastchangeby
+   * @return lastchangeby
+   **/
+  @Schema(description = "")
+  public Integer getLastchangeby() {
+    return lastchangeby;
+  }
+
+  public void setLastchangeby(Integer lastchangeby) {
+    this.lastchangeby = lastchangeby;
+  }
+
+  public Experiment lastname(String lastname) {
+    this.lastname = lastname;
+    return this;
+  }
+
+  /**
+   * Get lastname
+   * @return lastname
+   **/
+  @Schema(description = "")
+  public String getLastname() {
+    return lastname;
+  }
+
+  public void setLastname(String lastname) {
+    this.lastname = lastname;
+  }
+
+  public Experiment locked(Integer locked) {
+    this.locked = locked;
+    return this;
+  }
+
+  /**
+   * Get locked
+   * @return locked
+   **/
+  @Schema(description = "")
+  public Integer getLocked() {
+    return locked;
+  }
+
+  public void setLocked(Integer locked) {
+    this.locked = locked;
+  }
+
+  public Experiment lockedby(Integer lockedby) {
+    this.lockedby = lockedby;
+    return this;
+  }
+
+  /**
+   * Get lockedby
+   * @return lockedby
+   **/
+  @Schema(description = "")
+  public Integer getLockedby() {
+    return lockedby;
+  }
+
+  public void setLockedby(Integer lockedby) {
+    this.lockedby = lockedby;
+  }
+
+  public Experiment lockedAt(String lockedAt) {
+    this.lockedAt = lockedAt;
+    return this;
+  }
+
+  /**
+   * Get lockedAt
+   * @return lockedAt
+   **/
+  @Schema(description = "")
+  public String getLockedAt() {
+    return lockedAt;
+  }
+
+  public void setLockedAt(String lockedAt) {
+    this.lockedAt = lockedAt;
+  }
+
+  public Experiment metadata(String metadata) {
+    this.metadata = metadata;
+    return this;
+  }
+
+  /**
+   * Get metadata
+   * @return metadata
+   **/
+  @Schema(description = "")
+  public String getMetadata() {
+    return metadata;
+  }
+
+  public void setMetadata(String metadata) {
+    this.metadata = metadata;
+  }
+
+  public Experiment modifiedAt(String modifiedAt) {
+    this.modifiedAt = modifiedAt;
+    return this;
+  }
+
+  /**
+   * Get modifiedAt
+   * @return modifiedAt
+   **/
+  @Schema(description = "")
+  public String getModifiedAt() {
+    return modifiedAt;
+  }
+
+  public void setModifiedAt(String modifiedAt) {
+    this.modifiedAt = modifiedAt;
+  }
+
+  public Experiment nextStep(String nextStep) {
+    this.nextStep = nextStep;
+    return this;
+  }
+
+  /**
+   * Get nextStep
+   * @return nextStep
+   **/
+  @Schema(description = "")
+  public String getNextStep() {
+    return nextStep;
+  }
+
+  public void setNextStep(String nextStep) {
+    this.nextStep = nextStep;
+  }
+
+  public Experiment orcid(String orcid) {
+    this.orcid = orcid;
+    return this;
+  }
+
+  /**
+   * Get orcid
+   * @return orcid
+   **/
+  @Schema(description = "")
+  public String getOrcid() {
+    return orcid;
+  }
+
+  public void setOrcid(String orcid) {
+    this.orcid = orcid;
+  }
+
+  public Experiment page(String page) {
+    this.page = page;
+    return this;
+  }
+
+  /**
+   * Get page
+   * @return page
+   **/
+  @Schema(description = "")
+  public String getPage() {
+    return page;
+  }
+
+  public void setPage(String page) {
+    this.page = page;
+  }
+
+  public Experiment rating(Integer rating) {
+    this.rating = rating;
+    return this;
+  }
+
+  /**
+   * Get rating
+   * @return rating
+   **/
+  @Schema(description = "")
+  public Integer getRating() {
+    return rating;
+  }
+
+  public void setRating(Integer rating) {
+    this.rating = rating;
+  }
+
+  public Experiment recentComment(String recentComment) {
+    this.recentComment = recentComment;
+    return this;
+  }
+
+  /**
+   * Get recentComment
+   * @return recentComment
+   **/
+  @Schema(description = "")
+  public String getRecentComment() {
+    return recentComment;
+  }
+
+  public void setRecentComment(String recentComment) {
+    this.recentComment = recentComment;
+  }
+
+  public Experiment relatedExperimentsLinks(List<Link> relatedExperimentsLinks) {
+    this.relatedExperimentsLinks = relatedExperimentsLinks;
+    return this;
+  }
+
+  public Experiment addRelatedExperimentsLinksItem(Link relatedExperimentsLinksItem) {
+    if (this.relatedExperimentsLinks == null) {
+      this.relatedExperimentsLinks = new ArrayList<Link>();
+    }
+    this.relatedExperimentsLinks.add(relatedExperimentsLinksItem);
+    return this;
+  }
+
+  /**
+   * Get relatedExperimentsLinks
+   * @return relatedExperimentsLinks
+   **/
+  @Schema(description = "")
+  public List<Link> getRelatedExperimentsLinks() {
+    return relatedExperimentsLinks;
+  }
+
+  public void setRelatedExperimentsLinks(List<Link> relatedExperimentsLinks) {
+    this.relatedExperimentsLinks = relatedExperimentsLinks;
+  }
+
+  public Experiment relatedItemsLinks(List<Link> relatedItemsLinks) {
+    this.relatedItemsLinks = relatedItemsLinks;
+    return this;
+  }
+
+  public Experiment addRelatedItemsLinksItem(Link relatedItemsLinksItem) {
+    if (this.relatedItemsLinks == null) {
+      this.relatedItemsLinks = new ArrayList<Link>();
+    }
+    this.relatedItemsLinks.add(relatedItemsLinksItem);
+    return this;
+  }
+
+  /**
+   * Get relatedItemsLinks
+   * @return relatedItemsLinks
+   **/
+  @Schema(description = "")
+  public List<Link> getRelatedItemsLinks() {
+    return relatedItemsLinks;
+  }
+
+  public void setRelatedItemsLinks(List<Link> relatedItemsLinks) {
+    this.relatedItemsLinks = relatedItemsLinks;
+  }
+
+  public Experiment sharelink(String sharelink) {
+    this.sharelink = sharelink;
+    return this;
+  }
+
+  /**
+   * Get sharelink
+   * @return sharelink
+   **/
+  @Schema(description = "")
+  public String getSharelink() {
+    return sharelink;
+  }
+
+  public void setSharelink(String sharelink) {
+    this.sharelink = sharelink;
+  }
+
+  public Experiment state(Integer state) {
+    this.state = state;
+    return this;
+  }
+
+  /**
+   * Get state
+   * @return state
+   **/
+  @Schema(description = "")
+  public Integer getState() {
+    return state;
+  }
+
+  public void setState(Integer state) {
+    this.state = state;
+  }
+
+  public Experiment status(Integer status) {
+    this.status = status;
+    return this;
+  }
+
+  /**
+   * Cannot be negative nor empty string. Can be reset with \&quot;0\&quot; and null.
+   * @return status
+   **/
+  @Schema(description = "Cannot be negative nor empty string. Can be reset with \"0\" and null.")
+  public Integer getStatus() {
+    return status;
+  }
+
+  public void setStatus(Integer status) {
+    this.status = status;
+  }
+
+  public Experiment statusColor(String statusColor) {
+    this.statusColor = statusColor;
+    return this;
+  }
+
+  /**
+   * Get statusColor
+   * @return statusColor
+   **/
+  @Schema(description = "")
+  public String getStatusColor() {
+    return statusColor;
+  }
+
+  public void setStatusColor(String statusColor) {
+    this.statusColor = statusColor;
+  }
+
+  public Experiment statusTitle(String statusTitle) {
+    this.statusTitle = statusTitle;
+    return this;
+  }
+
+  /**
+   * Get statusTitle
+   * @return statusTitle
+   **/
+  @Schema(description = "")
+  public String getStatusTitle() {
+    return statusTitle;
+  }
+
+  public void setStatusTitle(String statusTitle) {
+    this.statusTitle = statusTitle;
+  }
+
+  public Experiment steps(List<Step> steps) {
+    this.steps = steps;
+    return this;
+  }
+
+  public Experiment addStepsItem(Step stepsItem) {
+    if (this.steps == null) {
+      this.steps = new ArrayList<Step>();
+    }
+    this.steps.add(stepsItem);
+    return this;
+  }
+
+  /**
+   * Get steps
+   * @return steps
+   **/
+  @Schema(description = "")
+  public List<Step> getSteps() {
+    return steps;
+  }
+
+  public void setSteps(List<Step> steps) {
+    this.steps = steps;
+  }
+
+  public Experiment tags(String tags) {
+    this.tags = tags;
+    return this;
+  }
+
+  /**
+   * Get tags
+   * @return tags
+   **/
+  @Schema(description = "")
+  public String getTags() {
+    return tags;
+  }
+
+  public void setTags(String tags) {
+    this.tags = tags;
+  }
+
+  public Experiment tagsId(String tagsId) {
+    this.tagsId = tagsId;
+    return this;
+  }
+
+  /**
+   * Get tagsId
+   * @return tagsId
+   **/
+  @Schema(description = "")
+  public String getTagsId() {
+    return tagsId;
+  }
+
+  public void setTagsId(String tagsId) {
+    this.tagsId = tagsId;
+  }
+
+  public Experiment team(Integer team) {
+    this.team = team;
+    return this;
+  }
+
+  /**
+   * Get team
+   * @return team
+   **/
+  @Schema(description = "")
+  public Integer getTeam() {
+    return team;
+  }
+
+  public void setTeam(Integer team) {
+    this.team = team;
+  }
+
+  public Experiment timestamped(Integer timestamped) {
+    this.timestamped = timestamped;
+    return this;
+  }
+
+  public String getTeamName() {
+    return teamName;
+  }
+
+  public void setTeamName(String teamName) {
+    this.teamName = teamName;
+  }
+
+  public Experiment teamName(String teamName) {
+    this.teamName = teamName;
+    return this;
+  }
+
+  /**
+   * Get timestamped
+   * @return timestamped
+   **/
+  @Schema(description = "")
+  public Integer getTimestamped() {
+    return timestamped;
+  }
+
+  public void setTimestamped(Integer timestamped) {
+    this.timestamped = timestamped;
+  }
+
+  public Experiment timestampedby(Integer timestampedby) {
+    this.timestampedby = timestampedby;
+    return this;
+  }
+
+  /**
+   * Get timestampedby
+   * @return timestampedby
+   **/
+  @Schema(description = "")
+  public Integer getTimestampedby() {
+    return timestampedby;
+  }
+
+  public void setTimestampedby(Integer timestampedby) {
+    this.timestampedby = timestampedby;
+  }
+
+  public Experiment timestampedAt(String timestampedAt) {
+    this.timestampedAt = timestampedAt;
+    return this;
+  }
+
+  /**
+   * Get timestampedAt
+   * @return timestampedAt
+   **/
+  @Schema(description = "")
+  public String getTimestampedAt() {
+    return timestampedAt;
+  }
+
+  public void setTimestampedAt(String timestampedAt) {
+    this.timestampedAt = timestampedAt;
+  }
+
+  public Experiment title(String title) {
+    this.title = title;
+    return this;
+  }
+
+  /**
+   * Get title
+   * @return title
+   **/
+  @Schema(description = "")
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public Experiment type(String type) {
+    this.type = type;
+    return this;
+  }
+
+  /**
+   * Get type
+   * @return type
+   **/
+  @Schema(description = "")
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public Experiment upItemId(Integer upItemId) {
+    this.upItemId = upItemId;
+    return this;
+  }
+
+  /**
+   * Get upItemId
+   * @return upItemId
+   **/
+  @Schema(description = "")
+  public Integer getUpItemId() {
+    return upItemId;
+  }
+
+  public void setUpItemId(Integer upItemId) {
+    this.upItemId = upItemId;
+  }
+
+  public Experiment uploads(List<Upload> uploads) {
+    this.uploads = uploads;
+    return this;
+  }
+
+  public Experiment addUploadsItem(Upload uploadsItem) {
+    if (this.uploads == null) {
+      this.uploads = new ArrayList<Upload>();
+    }
+    this.uploads.add(uploadsItem);
+    return this;
+  }
+
+  /**
+   * Get uploads
+   * @return uploads
+   **/
+  @Schema(description = "")
+  public List<Upload> getUploads() {
+    return uploads;
+  }
+
+  public void setUploads(List<Upload> uploads) {
+    this.uploads = uploads;
+  }
+
+  public Experiment userid(Integer userid) {
+    this.userid = userid;
+    return this;
+  }
+
+  /**
+   * Get userid
+   * @return userid
+   **/
+  @Schema(description = "")
+  public Integer getUserid() {
+    return userid;
+  }
+
+  public void setUserid(Integer userid) {
+    this.userid = userid;
+  }
+
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    return super.equals(o);
+    Experiment experiment = (Experiment) o;
+    return Objects.equals(this.accessKey, experiment.accessKey) &&
+            Objects.equals(this.body, experiment.body) &&
+            Objects.equals(this.bodyHtml, experiment.bodyHtml) &&
+            Objects.equals(this.canread, experiment.canread) &&
+            Objects.equals(this.canwrite, experiment.canwrite) &&
+            Objects.equals(this.category, experiment.category) &&
+            Objects.equals(this.categoryColor, experiment.categoryColor) &&
+            Objects.equals(this.categoryTitle, experiment.categoryTitle) &&
+            Objects.equals(this.comments, experiment.comments) &&
+            Objects.equals(this.contentType, experiment.contentType) &&
+            Objects.equals(this.createdAt, experiment.createdAt) &&
+            Objects.equals(this.customId, experiment.customId) &&
+            Objects.equals(this.date, experiment.date) &&
+            Objects.equals(this.elabid, experiment.elabid) &&
+            Objects.equals(this.exclusiveEditMode, experiment.exclusiveEditMode) &&
+            Objects.equals(this.experimentsLinks, experiment.experimentsLinks) &&
+            Objects.equals(this.firstname, experiment.firstname) &&
+            Objects.equals(this.fullname, experiment.fullname) &&
+            Objects.equals(this.hasAttachement, experiment.hasAttachement) &&
+            Objects.equals(this.hasComment, experiment.hasComment) &&
+            Objects.equals(this.id, experiment.id) &&
+            Objects.equals(this.itemsLinks, experiment.itemsLinks) &&
+            Objects.equals(this.lastchangeby, experiment.lastchangeby) &&
+            Objects.equals(this.lastname, experiment.lastname) &&
+            Objects.equals(this.locked, experiment.locked) &&
+            Objects.equals(this.lockedby, experiment.lockedby) &&
+            Objects.equals(this.lockedAt, experiment.lockedAt) &&
+            Objects.equals(this.metadata, experiment.metadata) &&
+            Objects.equals(this.modifiedAt, experiment.modifiedAt) &&
+            Objects.equals(this.nextStep, experiment.nextStep) &&
+            Objects.equals(this.orcid, experiment.orcid) &&
+            Objects.equals(this.page, experiment.page) &&
+            Objects.equals(this.rating, experiment.rating) &&
+            Objects.equals(this.recentComment, experiment.recentComment) &&
+            Objects.equals(this.relatedExperimentsLinks, experiment.relatedExperimentsLinks) &&
+            Objects.equals(this.relatedItemsLinks, experiment.relatedItemsLinks) &&
+            Objects.equals(this.sharelink, experiment.sharelink) &&
+            Objects.equals(this.state, experiment.state) &&
+            Objects.equals(this.status, experiment.status) &&
+            Objects.equals(this.statusColor, experiment.statusColor) &&
+            Objects.equals(this.statusTitle, experiment.statusTitle) &&
+            Objects.equals(this.steps, experiment.steps) &&
+            Objects.equals(this.tags, experiment.tags) &&
+            Objects.equals(this.tagsId, experiment.tagsId) &&
+            Objects.equals(this.team, experiment.team) &&
+            Objects.equals(this.timestamped, experiment.timestamped) &&
+            Objects.equals(this.timestampedby, experiment.timestampedby) &&
+            Objects.equals(this.timestampedAt, experiment.timestampedAt) &&
+            Objects.equals(this.title, experiment.title) &&
+            Objects.equals(this.type, experiment.type) &&
+            Objects.equals(this.upItemId, experiment.upItemId) &&
+            Objects.equals(this.uploads, experiment.uploads) &&
+            Objects.equals(this.userid, experiment.userid);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode());
+    return Objects.hash(accessKey, body, bodyHtml, canread, canwrite, category, categoryColor, categoryTitle, comments, contentType, createdAt, customId, date, elabid, exclusiveEditMode, experimentsLinks, firstname, fullname, hasAttachement, hasComment, id, itemsLinks, lastchangeby, lastname, locked, lockedby, lockedAt, metadata, modifiedAt, nextStep, orcid, page, rating, recentComment, relatedExperimentsLinks, relatedItemsLinks, sharelink, state, status, statusColor, statusTitle, steps, tags, tagsId, team, timestamped, timestampedby, timestampedAt, title, type, upItemId, uploads, userid);
   }
-
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Experiment {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    sb.append("    accessKey: ").append(toIndentedString(accessKey)).append("\n");
+    sb.append("    body: ").append(toIndentedString(body)).append("\n");
+    sb.append("    bodyHtml: ").append(toIndentedString(bodyHtml)).append("\n");
+    sb.append("    canread: ").append(toIndentedString(canread)).append("\n");
+    sb.append("    canwrite: ").append(toIndentedString(canwrite)).append("\n");
+    sb.append("    category: ").append(toIndentedString(category)).append("\n");
+    sb.append("    categoryColor: ").append(toIndentedString(categoryColor)).append("\n");
+    sb.append("    categoryTitle: ").append(toIndentedString(categoryTitle)).append("\n");
+    sb.append("    comments: ").append(toIndentedString(comments)).append("\n");
+    sb.append("    contentType: ").append(toIndentedString(contentType)).append("\n");
+    sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
+    sb.append("    customId: ").append(toIndentedString(customId)).append("\n");
+    sb.append("    date: ").append(toIndentedString(date)).append("\n");
+    sb.append("    elabid: ").append(toIndentedString(elabid)).append("\n");
+    sb.append("    exclusiveEditMode: ").append(toIndentedString(exclusiveEditMode)).append("\n");
+    sb.append("    experimentsLinks: ").append(toIndentedString(experimentsLinks)).append("\n");
+    sb.append("    firstname: ").append(toIndentedString(firstname)).append("\n");
+    sb.append("    fullname: ").append(toIndentedString(fullname)).append("\n");
+    sb.append("    hasAttachement: ").append(toIndentedString(hasAttachement)).append("\n");
+    sb.append("    hasComment: ").append(toIndentedString(hasComment)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    itemsLinks: ").append(toIndentedString(itemsLinks)).append("\n");
+    sb.append("    lastchangeby: ").append(toIndentedString(lastchangeby)).append("\n");
+    sb.append("    lastname: ").append(toIndentedString(lastname)).append("\n");
+    sb.append("    locked: ").append(toIndentedString(locked)).append("\n");
+    sb.append("    lockedby: ").append(toIndentedString(lockedby)).append("\n");
+    sb.append("    lockedAt: ").append(toIndentedString(lockedAt)).append("\n");
+    sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
+    sb.append("    modifiedAt: ").append(toIndentedString(modifiedAt)).append("\n");
+    sb.append("    nextStep: ").append(toIndentedString(nextStep)).append("\n");
+    sb.append("    orcid: ").append(toIndentedString(orcid)).append("\n");
+    sb.append("    page: ").append(toIndentedString(page)).append("\n");
+    sb.append("    rating: ").append(toIndentedString(rating)).append("\n");
+    sb.append("    recentComment: ").append(toIndentedString(recentComment)).append("\n");
+    sb.append("    relatedExperimentsLinks: ").append(toIndentedString(relatedExperimentsLinks)).append("\n");
+    sb.append("    relatedItemsLinks: ").append(toIndentedString(relatedItemsLinks)).append("\n");
+    sb.append("    sharelink: ").append(toIndentedString(sharelink)).append("\n");
+    sb.append("    state: ").append(toIndentedString(state)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    statusColor: ").append(toIndentedString(statusColor)).append("\n");
+    sb.append("    statusTitle: ").append(toIndentedString(statusTitle)).append("\n");
+    sb.append("    steps: ").append(toIndentedString(steps)).append("\n");
+    sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
+    sb.append("    tagsId: ").append(toIndentedString(tagsId)).append("\n");
+    sb.append("    team: ").append(toIndentedString(team)).append("\n");
+    sb.append("    timestamped: ").append(toIndentedString(timestamped)).append("\n");
+    sb.append("    timestampedby: ").append(toIndentedString(timestampedby)).append("\n");
+    sb.append("    timestampedAt: ").append(toIndentedString(timestampedAt)).append("\n");
+    sb.append("    title: ").append(toIndentedString(title)).append("\n");
+    sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    upItemId: ").append(toIndentedString(upItemId)).append("\n");
+    sb.append("    uploads: ").append(toIndentedString(uploads)).append("\n");
+    sb.append("    userid: ").append(toIndentedString(userid)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -65,5 +1384,4 @@ public class Experiment extends Entity implements ExperimentsIdBody1 {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
 }

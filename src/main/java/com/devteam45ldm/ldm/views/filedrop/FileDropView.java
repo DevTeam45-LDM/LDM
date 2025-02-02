@@ -22,7 +22,7 @@ public class FileDropView extends VerticalLayout {
         Upload upload = new Upload(buffer);
 
         // Customize the drag and drop area
-        upload.setDropLabel(new Html("<div>Drag and drop files here</div>"));
+        upload.setDropLabel(new Html("<div>Drop files here</div>"));
 
         // Set some additional configurations
         upload.setMaxFiles(5);  // Limit to 5 files

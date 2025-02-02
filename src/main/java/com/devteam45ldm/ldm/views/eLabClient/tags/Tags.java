@@ -1,5 +1,7 @@
-package com.devteam45ldm.ldm.views.ApiTest.Tags;
+package com.devteam45ldm.ldm.views.eLabClient.tags;
 
+import com.devteam45ldm.ldm.api.eLabClient.ELabController;
+import com.devteam45ldm.ldm.views.eLabClient.login.CredentialsAware;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.menubar.MenuBar;
@@ -13,9 +15,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 
 import com.devteam45ldm.ldm.controller.HTTPController;
 
-import io.swagger.client.*;
 import io.swagger.client.api.*;
-import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
@@ -25,27 +25,25 @@ import java.util.List;
 
 
 /**
- * The eLabApiTest class represents a Vaadin view for testing the eLab API.
+ * The Tags class represents a Vaadin view for testing the eLab API.
  * It allows users to enter a URL and API key, test the URL, and read tags from the API.
  */
 @PageTitle("Tags")
-//@Route("api-test/tags")
-// @Menu(order = 10, icon = "line-awesome/svg/globe-solid.svg")
 @UIScope
-public class Tags extends Composite<VerticalLayout> {
+public class Tags extends Composite<VerticalLayout> implements CredentialsAware {
 
     private final TextField urlField;
     private final PasswordField apiKeyField;
     private final Grid<Tag> responseGrid;
     private final TextField editField = new TextField();
     private final MenuBar editMenuBar = new MenuBar();
-    private TeamTagsApi apiClient;
     private final MenuBar tagsMenuBar;
     private Tag selectedTag;
+    private final ELabController apiInstance = new ELabController();
 
 
     /**
-     * Constructs the eLabApiTest view.
+     * Constructs the Tags view.
      * Initializes the UI components and layout.
      */
     public Tags() {
@@ -107,6 +105,14 @@ public class Tags extends Composite<VerticalLayout> {
         getContent().add(firstRow, secondRow, menuBar, responseGrid, tagsMenuBar, editLayout);
     }
 
+    @Override
+    public void setCredentials(String apiKey, String url) {
+        this.apiKeyField.setValue(apiKey);
+        this.apiKeyField.setReadOnly(apiKey!=null && !(apiKey.isEmpty()));
+        this.urlField.setValue(url);
+        this.urlField.setReadOnly(url!=null && !(url.isEmpty()));
+    }
+
     /**
      * Tests the URL entered by the user.
      * Checks if the URL is reachable and shows a notification with the result.
@@ -127,9 +133,9 @@ public class Tags extends Composite<VerticalLayout> {
         HTTPController httpController = new HTTPController();
         ResponseEntity<String> checkURL = httpController.checkURL(url);
         if (checkURL.getStatusCode().is2xxSuccessful() || checkURL.getStatusCode().is3xxRedirection() || checkURL.getStatusCode().value() == 401) {
-            Notification.show("API ist erreichtbar.");
+            Notification.show("eLab ist erreichbar.");
         } else {
-            Notification.show("API ist nicht erreichbar: " + checkURL);
+            Notification.show("eLab ist nicht erreichbar: " + checkURL);
         }
     }
 
@@ -142,15 +148,15 @@ public class Tags extends Composite<VerticalLayout> {
         String url = urlField.getValue();
 
         if ((apiKey == null || apiKey.isEmpty()) && (url == null || url.isEmpty())) {
-            Notification.show("Bitte geben Sie einen API-Schlüssel und eine URL ein.");
+            Notification.show("Bitte einen API-Schlüssel und eine URL eingeben.");
             return;
         }
         if (apiKey == null || apiKey.isEmpty()) {
-            Notification.show("Bitte geben Sie einen API-Schlüssel ein.");
+            Notification.show("Bitte einen API-Schlüssel eingeben.");
             return;
         }
         if (url == null || url.isEmpty()) {
-            Notification.show("Bitte geben Sie eine URL ein.");
+            Notification.show("Bitte eine URL eingeben.");
             return;
         }
 
@@ -160,11 +166,14 @@ public class Tags extends Composite<VerticalLayout> {
             responseGrid.setVisible(true);
             tagsMenuBar.setVisible(true);
         } catch (Exception e) {
-            Notification.show("Error: " + e.getMessage());
+            Notification.show("Fehler: " + e.getMessage());
         }
     }
 
 
+    /**
+     * Loads the tag creation UI components.
+     */
     private void loadCreator() {
         editMenuBar.removeAll();
         editMenuBar.addItem("Erstellen", event -> createTag());
@@ -174,6 +183,9 @@ public class Tags extends Composite<VerticalLayout> {
         tagsMenuBar.setVisible(false);
     }
 
+    /**
+     * Loads the tag modification UI components.
+     */
     private void loadModifier() {
         if(selectedTag != null) {
             editMenuBar.removeAll();
@@ -184,10 +196,13 @@ public class Tags extends Composite<VerticalLayout> {
             tagsMenuBar.setVisible(false);
         }
         else {
-            Notification.show("Bitte wählen Sie einen Tag aus.");
+            Notification.show("Bitte wähle einen Tag aus.");
         }
     }
 
+    /**
+     * Loads the tag deletion UI components.
+     */
     private void loadDeleter() {
         if(selectedTag != null) {
             editMenuBar.removeAll();
@@ -197,41 +212,9 @@ public class Tags extends Composite<VerticalLayout> {
             tagsMenuBar.setVisible(false);
         }
         else {
-            Notification.show("Bitte wählen Sie einen Tag aus.");
+            Notification.show("Bitte wähle einen Tag aus.");
         }
     }
-
-    private TeamTagsApi createClient(String apiKey , String url) {
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            url = "https://" + url;
-        }
-        if (!url.endsWith("/api/v2")) {
-            url = url.endsWith("/") ? url + "api/v2" : url + "/api/v2";
-        }
-
-        // Set up the API client
-        ApiClient client = new ApiClient();
-        client.setBasePath(url);
-        client.setDebugging(true);
-
-        // Configure API key authorization: token
-        ApiKeyAuth token = (ApiKeyAuth) client.getAuthentication("token");
-        token.setApiKey(apiKey);
-        return new TeamTagsApi(client);
-    }
-
-    private TeamTagsApi getClient(){
-        String apiKey = apiKeyField.getValue();
-        String url = urlField.getValue();
-        if(apiClient == null){
-            apiClient = createClient(apiKey, url);
-        }
-        else if(!apiClient.getApiClient().getBasePath().equals(urlField.getValue()) || !((ApiKeyAuth) apiClient.getApiClient().getAuthentication("token")).getApiKey().equals(apiKeyField.getValue())){
-            apiClient = createClient(apiKey, url);
-        }
-        return apiClient;
-    }
-
 
     /**
      * Calls the external API to retrieve tags.
@@ -240,25 +223,34 @@ public class Tags extends Composite<VerticalLayout> {
      */
     private List<Tag> callApiGet() {
         // Create an instance of the TeamTagsApi
-        TeamTagsApi apiInstance = getClient();
+        TeamTagsApi client = apiInstance.getTeamTagsClient(apiKeyField.getValue(), urlField.getValue());
 
         // Get the tags for the team with id=5
-        return apiInstance.readTeamTags(5);
+        return client.readTeamTags(5);
     }
 
+    /**
+     * Calls the external API to create a new tag.
+     *
+     * @param tag the tag to create
+     * @return true if the tag was created successfully, false otherwise
+     */
     private boolean callApiPost(String tag) {
         // Create an instance of the TeamTagsApi
-        TeamTagsApi apiInstance = getClient();
+        TeamTagsApi client = apiInstance.getTeamTagsClient(apiKeyField.getValue(), urlField.getValue());
 
         // Create a tag for the team with id=5
         try {
-            apiInstance.postTeamTag(5, new IdTagsBody().tag(tag));
+            client.postTeamTag(5, new IdTagsBody().tag(tag));
             return true;
         } catch (RestClientException e) {
             return false;
         }
     }
 
+    /**
+     * Creates a new tag using the value from the edit field.
+     */
     private void createTag(){
         boolean result = callApiPost(editField.getValue());
         if (result) {
@@ -271,53 +263,70 @@ public class Tags extends Composite<VerticalLayout> {
         readTags();
     }
 
+    /**
+     * Calls the external API to update an existing tag.
+     *
+     * @param tag the new tag value
+     * @param id the ID of the tag to update
+     * @return true if the tag was updated successfully, false otherwise
+     */
     private boolean callApiPatch(String tag, Integer id) {
-        // Create an instance of the TeamTagsApi
-        TeamTagsApi apiInstance = getClient();
-
-        // Update a tag for the team with id=5
-        try {
-            apiInstance.patchTeamTag(5, id, new TagsSubidBody().tag(tag).action(TagsSubidBody.ActionEnum.UPDATETAG));
+        try { //TODO use ApiClient
+            TeamTagsApi client = apiInstance.getTeamTagsClient(apiKeyField.getValue(), urlField.getValue());
+            client.modifyTagCURL(apiKeyField.getValue(), urlField.getValue(), 5, id, tag);
             return true;
-        } catch (RestClientException e) {
-            Notification.show("Error: " + e.getMessage()); //DEBUG
+        } catch (Exception e) {
+            Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
+            Notification.show(e.toString());
             return false;
         }
     }
 
-    /**
-     Der Fehler wird ursprünglich von HttpComponentsClientHttpRequestFactory geworfen und in der Methode createResourceAccessException von RestTemplate aufgefangen.
-     Dort wird der Fehler in eine RessourceAccessException umgewandelt und aufgrund der fehlenden Fehlerbehandlung propagiert.
-     Die Methode patchTeamTagWithHttpInfo von TeamTagsApi macht dann daraus eine RestClientException.
-     Daher, wie auch der mitmproxy zeigt, wird keine PATCH-Anfrage an den Server gesendet.
-     */
+/*
+    Der Fehler wird ursprünglich von HttpComponentsClientHttpRequestFactory geworfen und in der Methode createResourceAccessException von RestTemplate aufgefangen.
+    Dort wird der Fehler in eine RessourceAccessException umgewandelt und aufgrund der fehlenden Fehlerbehandlung propagiert.
+    Die Methode patchTeamTagWithHttpInfo von TeamTagsApi macht dann daraus eine RestClientException.
+    Daher, wie auch der mitmproxy zeigt, wird keine PATCH-Anfrage an den Server gesendet.
+*/
 
+    /**
+     * Saves changes to the selected tag using the value from the edit field.
+     */
     private void saveChanges() {
         boolean result = callApiPatch(editField.getValue(), selectedTag.getId());
         if (result) {
             Notification.show("Änderungen erfolgreich gespeichert.");
         } else {
-            Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
+            Notification.show("Keine Berechtigung Tags zu Löschen: eLab Admin kontaktieren.");
         }
 
         resetEditComponents();
         readTags();
     }
 
+    /**
+     * Calls the external API to delete an existing tag.
+     *
+     * @param id the ID of the tag to delete
+     * @return true if the tag was deleted successfully, false otherwise
+     */
     private boolean callApiDelete(Integer id) {
         // Create an instance of the TeamTagsApi
-        TeamTagsApi apiInstance = getClient();
+        TeamTagsApi client = apiInstance.getTeamTagsClient(apiKeyField.getValue(), urlField.getValue());
 
         // Create a tag for the team with id=5
         try {
-            apiInstance.deleteTeamTag(5, id);
+            client.deleteTeamTag(5, id);
             return true;
         } catch (RestClientException e) {
-            Notification.show("Error: " + e.getMessage()); //DEBUG
+            Notification.show("Fehler: " + e.getMessage()); //DEBUG
             return false;
         }
     }
 
+    /**
+     * Deletes the selected tag.
+     */
     private void deleteTag() {
         boolean result = callApiDelete(selectedTag.getId());
         if (result) {
@@ -330,10 +339,16 @@ public class Tags extends Composite<VerticalLayout> {
         readTags();
     }
 
+    /**
+     * Cancels the current tag operation and resets the UI components.
+     */
     private void cancelTag() {
         resetEditComponents();
     }
 
+    /**
+     * Resets the edit components to their default state.
+     */
     private void resetEditComponents() {
         responseGrid.deselectAll();
         editField.setVisible(false);

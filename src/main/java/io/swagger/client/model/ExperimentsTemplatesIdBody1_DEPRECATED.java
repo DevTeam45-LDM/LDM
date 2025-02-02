@@ -24,6 +24,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonSubTypes({
   @JsonSubTypes.Type(value = ExperimentTemplate.class, name = "experiment_template")
 })
-public interface ExperimentsTemplatesIdBody1 {
+public interface ExperimentsTemplatesIdBody1_DEPRECATED {
 
 }
