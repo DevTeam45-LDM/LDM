@@ -1,7 +1,6 @@
 package io.swagger.client.api;
 
 import com.devteam45ldm.ldm.api.eLabClient.ELabClient;
-import com.vaadin.flow.component.notification.Notification;
 import io.swagger.client.ApiClient;
 import io.swagger.client.model.ExperimentTemplate;
 import io.swagger.client.model.ExperimentsTemplatesBody;
@@ -356,7 +355,6 @@ public class ExperimentsTemplatesApi {
             """;
 
             String command = String.format(commandTemplate, url, id, apiKey, title, body);
-            Notification.show(command);
             ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", command);
             processBuilder.directory(new File("/home"));
             Process process = processBuilder.start();

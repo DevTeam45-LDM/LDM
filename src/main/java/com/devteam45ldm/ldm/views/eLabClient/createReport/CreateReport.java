@@ -25,20 +25,21 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
+/**
+ * The CreateReport class represents a view for creating reports in the eLabClient.
+ * It allows users to upload XML files, process them, and create experiments.
+ */
 @PageTitle("Bericht erstellen")
 public class CreateReport extends Composite<VerticalLayout> implements CredentialsAware {
 
-    private String uploadedFileName;
     private InputStream uploadedInputStream;
-    private String uploadedMimeType;
-    private long uploadedContentLength;
     private final TextField titleField = new TextField("Titel");
     private final ELabController apiInstance = new ELabController();
     private String apiKey;
     private String url;
     private Boolean buttonAllowed = false;
 
-    private VaadinCKEditor classicEditor;
+    private final VaadinCKEditor classicEditor;
     private final Button createReportButton = new Button("Bericht erstellen", event -> {
         if (uploadedInputStream != null) {
             createExperiment();
@@ -47,6 +48,10 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
         }
     });
 
+    /**
+     * Constructor for CreateReport.
+     * Initializes the UI components and sets up event listeners.
+     */
     public CreateReport() {
         // Create a memory buffer to store uploaded files
         MemoryBuffer buffer = new MemoryBuffer();
@@ -69,9 +74,6 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
             long contentLength = event.getContentLength();
 
             try {
-                uploadedFileName = event.getFileName();
-                uploadedMimeType = event.getMIMEType();
-                uploadedContentLength = event.getContentLength();
                 uploadedInputStream = buffer.getInputStream();
 
                 // Process the file here (e.g., save to disk, database, etc.)
@@ -116,6 +118,11 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
 
     }
 
+    /**
+     * Sets the credentials for the API.
+     * @param apiKey the API key
+     * @param url the URL of the API
+     */
     @Override
     public void setCredentials(String apiKey, String url) {
         this.apiKey = apiKey;
@@ -125,12 +132,15 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
         }
     }
 
+    /**
+     * Processes the uploaded file.
+     * @param fileName the name of the uploaded file
+     * @param inputStream the input stream of the uploaded file
+     * @param mimeType the MIME type of the uploaded file
+     * @param contentLength the content length of the uploaded file
+     */
     private void processUploadedFile(String fileName, InputStream inputStream,
                                      String mimeType, long contentLength) {
-        if (titleField.isEmpty()) {
-            Notification.show("Bitte geben Sie einen Titel ein.");
-            return;
-        }
         if ("application/xml".equals(mimeType) || fileName.endsWith(".xml")) {
             try {
                 String xmlContent = new BufferedReader(new InputStreamReader(inputStream))
@@ -147,11 +157,19 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
         }
     }
 
+    /**
+     * Creates an experiment using the API.
+     */
     private void createExperiment() {
         String title = titleField.getValue();
-        Integer id = null;
+        Integer id;
+        if (titleField.isEmpty()) {
+            Notification.show("Bitte geben Sie einen Titel ein.");
+            return;
+        }
         try { //TODO use ApiClient
-            id = apiInstance.getExperimentsClient(apiKey, url).createExperimentCURL(apiKey, url, title, classicEditor.getValue());
+            id = apiInstance.getExperimentsClient(apiKey, url).createExperimentCURL(apiKey, url, title);
+            apiInstance.getExperimentsClient().modifyExperimentCURL(apiKey, url, id, title, classicEditor.getValue());
         } catch (RestClientException e) {
             Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
             Notification.show(e.toString());

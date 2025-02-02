@@ -387,7 +387,7 @@ public class ExperimentsApi {
      * @param body The body content of the experiment.
      * @throws RestClientException if an error occurs while attempting to invoke the API.
      */
-    public Integer createExperimentCURL(String apiKey, String url, String title, String body) throws RestClientException {
+    public Integer createExperimentCURL(String apiKey, String url, String title) throws RestClientException {
         ELabClient.checkApiKey(apiKey);
         try {
             url = ELabClient.checkUrl(url);
@@ -403,12 +403,11 @@ public class ExperimentsApi {
                 --header 'Authorization: %s' \\
                 --header 'Content-Type: application/json' \\
                 --data '{
-                    "body": "%s",
                     "title": "%s"
                 }'
             """;
 
-            String command = String.format(commandTemplate, apiKey, title);
+            String command = String.format(commandTemplate, url, apiKey, title);
             ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", command);
             processBuilder.directory(new File("/home"));
             Process process = processBuilder.start();

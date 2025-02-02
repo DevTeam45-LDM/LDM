@@ -392,7 +392,10 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
         String title = editField.getValue();
         Integer id;
         try { //TODO use ApiClient
-            id = apiInstance.getExperimentsClient().createExperimentCURL(apiKeyField.getValue(), urlField.getValue(), title, classicEditor.getValue());
+            id = apiInstance.getExperimentsClient().createExperimentCURL(apiKeyField.getValue(), urlField.getValue(), title);
+            if (!classicEditor.getValue().isEmpty()) {
+                apiInstance.getExperimentsClient().modifyExperimentCURL(apiKeyField.getValue(), urlField.getValue(), id, title, classicEditor.getValue());
+            }
         } catch (RestClientException e) {
             Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
             Notification.show(e.toString());
