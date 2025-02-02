@@ -165,9 +165,9 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
             return;
         }
         try { //TODO use ApiClient
-            id = apiInstance.getExperimentsClient().createExperimentCURL(apiKey, url, title);
+            id = apiInstance.getExperimentsClient(apiKey, url).createExperimentCURL(apiKey, url, title);
             if (!classicEditor.getValue().isEmpty()) {
-                apiInstance.getExperimentsClient().modifyExperimentCURL(apiKey, url, id, title, classicEditor.getValue());
+                apiInstance.getExperimentsClient(apiKey, url).modifyExperimentCURL(apiKey, url, id, title, classicEditor.getValue());
             }
         } catch (RestClientException e) {
             Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");

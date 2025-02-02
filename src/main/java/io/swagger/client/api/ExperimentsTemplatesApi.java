@@ -157,6 +157,13 @@ public class ExperimentsTemplatesApi {
         return patchExperimentTemplateWithHttpInfo(id, body).getBody();
     }
 
+    /*
+    Der Fehler wird ursprünglich von HttpComponentsClientHttpRequestFactory geworfen und in der Methode createResourceAccessException von RestTemplate aufgefangen.
+    Dort wird der Fehler in eine RessourceAccessException umgewandelt und aufgrund der fehlenden Fehlerbehandlung propagiert.
+    Die Methode patchTeamTagWithHttpInfo von TeamTagsApi macht dann daraus eine RestClientException.
+    Daher, wie auch der mitmproxy zeigt, wird keine PATCH-Anfrage an den Server gesendet.
+    */
+
     /**
      * Modify an experiment template
      * 

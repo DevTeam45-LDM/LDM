@@ -1,6 +1,7 @@
 package io.swagger.client.api;
 
 import com.devteam45ldm.ldm.api.eLabClient.ELabClient;
+import com.vaadin.flow.component.notification.Notification;
 import io.swagger.client.ApiClient;
 
 import io.swagger.client.model.Experiment;
@@ -177,6 +178,13 @@ public class ExperimentsApi {
     public Experiment patchExperiment(Integer id, Experiment body) throws RestClientException {
         return patchExperimentWithHttpInfo(id, body).getBody();
     }
+
+    /*
+    Der Fehler wird ursprünglich von HttpComponentsClientHttpRequestFactory geworfen und in der Methode createResourceAccessException von RestTemplate aufgefangen.
+    Dort wird der Fehler in eine RessourceAccessException umgewandelt und aufgrund der fehlenden Fehlerbehandlung propagiert.
+    Die Methode patchTeamTagWithHttpInfo von TeamTagsApi macht dann daraus eine RestClientException.
+    Daher, wie auch der mitmproxy zeigt, wird keine PATCH-Anfrage an den Server gesendet.
+    */
 
     /**
      * Modify an experiment
@@ -468,6 +476,7 @@ public class ExperimentsApi {
             String commandTemplate = """
                 curl -v --request PATCH '%s/experiments/%d' \\
                 --header 'Authorization: %s' \\
+                --header 'action: update' \\
                 --header 'Content-Type: application/json' \\
                 --data '{
                     "body": "%s",
