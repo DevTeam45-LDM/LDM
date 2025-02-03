@@ -9,6 +9,7 @@ import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.MultiSelectComboBox;
+import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.notification.Notification;
@@ -50,22 +51,26 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
     private String apiKey;
     private String url;
     private Boolean buttonAllowed = false;
-
     private final VaadinCKEditor classicEditor;
 
 
     // Todo
-    private final Login login = new Login();
-    private ArrayList<HasValue<?, ?>> inputFields;
+//    private final Login login = new Login();
+//    private ArrayList<HasValue<?, ?>> inputFields;
     private Tag selectedTag;
     private final MenuBar editMenuBar = new MenuBar();
     private final TextField editField = new TextField();
     private final MenuBar tagsMenuBar;
-    private final Grid<Tag> responseGrid;
-    private final Button tagComboButton = new Button("Tag select", event ->
-    {
-        readTags();
-    });
+    private final MenuItem item1;
+    private final MenuItem item2;
+    private final MultiSelectComboBox<Tag> responseGrid;
+    private final MenuBar tagsBar;
+//    private final Button tagCancleButton = new Button("Cancle",event ->
+//            noneDisplay());
+//    private final Button tagComboButton = new Button("Tag select", event ->
+//    {
+//        readTags();
+//    });
 
     private final Button createReportButton = new Button("Bericht erstellen", event -> {
         if (uploadedInputStream != null) {
@@ -147,6 +152,12 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
 //            //string url inputFields.getFirst();
 //            //String pass inputFields.getLast();
 //        };
+
+        tagsBar = new MenuBar();
+        item1 = tagsBar.addItem("Tag select",event -> readTags());
+        item2 = tagsBar.addItem("cancel",event -> noneDisplay());
+        item2.setEnabled(false);
+
         tagsMenuBar = new MenuBar();
         tagsMenuBar.addItem("Tag erstellen", event -> loadCreator());
         tagsMenuBar.addItem("Tag bearbeiten", event -> loadModifier());
@@ -156,23 +167,28 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
         editField.setVisible(false);
         editMenuBar.setVisible(false);
 
-        responseGrid = new Grid<>(Tag.class);
-        responseGrid.setColumns("id", "tag", "itemCount", "isFavorite");
-        responseGrid.setWidth("100%");
+        responseGrid = new MultiSelectComboBox<>();
+        responseGrid.setAutoExpand(MultiSelectComboBox.AutoExpandMode.BOTH);
         responseGrid.getStyle().set("flex-grow", "0");
         responseGrid.getStyle().set("margin-bottom", "20px");
         responseGrid.setVisible(false);
-
         responseGrid.addSelectionListener(event -> selectedTag = event.getFirstSelectedItem().orElse(null));
 
         // Todo did it
-        getContent().add(upload, titleField, tagComboButton, responseGrid, tagsMenuBar, createReportButton, classicEditor);
+        getContent().add(upload, titleField, tagsBar, responseGrid, tagsMenuBar, createReportButton, classicEditor);
         getContent().setWidth("100%");
 
     }
 
-    // Todo  록그인한 url apikey 를 가져오던지 로그인 한 것을 확인하던지로 가자.
+    // Todo  로그인한 url apikey 를 가져오던지 로그인 한 것을 확인하던지로 가자.
 
+    public void noneDisplay() {
+        responseGrid.setVisible(false);
+        editMenuBar.setVisible(false);
+        tagsMenuBar.setVisible(false);
+//        item1.getElement().setEnabled(true);
+        item2.getElement().setEnabled(false);
+    }
     /**
      * Reads tags from the API using the provided API key and URL.
      * Sets the retrieved tags to the grid.
@@ -182,8 +198,11 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
         try {
             List<Tag> apiResponse = callApiGet();
             responseGrid.setItems(apiResponse);
+            // get only tags
+            responseGrid.setItemLabelGenerator(Tag::getTag);
             responseGrid.setVisible(true);
             tagsMenuBar.setVisible(true);
+            item2.getElement().setEnabled(true);
         } catch (Exception e) {
             Notification.show("Fehler: " + e.getMessage());
         }
