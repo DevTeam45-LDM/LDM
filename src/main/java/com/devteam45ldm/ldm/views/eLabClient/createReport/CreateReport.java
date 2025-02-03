@@ -7,8 +7,11 @@ import com.devteam45ldm.ldm.views.eLabClient.login.CredentialsAware;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
@@ -33,10 +36,12 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
 
     private InputStream uploadedInputStream;
     private final TextField titleField = new TextField("Titel");
+    private final Button previewButton;
     private final ELabController apiInstance = new ELabController();
     private String apiKey;
     private String url;
     private Boolean buttonAllowed = false;
+    private JSONObject jsonObject;
 
     private final VaadinCKEditor classicEditor;
     private final Button createReportButton = new Button("Bericht erstellen", event -> {
@@ -100,6 +105,12 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
                 .set("padding", "20px")
                 .set("textAlign", "center");
 
+        // TODO
+        // Create the "Preview" button
+       previewButton = new Button("Preview", event -> {
+            previewExperiment();
+        });
+
         // Create the "Bericht erstellen" button
         createReportButton.setEnabled(false);
 
@@ -111,9 +122,40 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
             builder.height = "500px";
         }).createVaadinCKEditor();
 
-        getContent().add(upload, titleField, createReportButton,classicEditor);
+        getContent().add(upload, previewButton,titleField, createReportButton,classicEditor);
         getContent().setWidth("100%");
 
+    }
+
+    // TODO
+    public void previewExperiment() {
+        Dialog previewDialog = new Dialog();
+        previewDialog.setWidth("80%");
+        previewDialog.setHeight("80%");
+
+        ProgressBar progressBar = new ProgressBar();
+        progressBar.setIndeterminate(true);
+
+        Div previewContent = new Div();
+        previewContent.setWidth("100%");
+        previewContent.setHeight("100%");
+        previewContent.setText(jsonObject.toString());
+
+        Button closeButton = new Button("Close", event -> previewDialog.close());
+        closeButton.getElement().getStyle().set("position", "absolute");
+        closeButton.getElement().getStyle().set("top", "10px");
+        closeButton.getElement().getStyle().set("right", "10px");
+
+        VerticalLayout dialogLayout = new VerticalLayout(previewContent, closeButton);
+        previewDialog.add(dialogLayout);
+        previewDialog.open();
+
+        // Load content asynchronously
+        getUI().ifPresent(ui -> ui.access(() -> {
+            previewContent.getElement().setProperty("innerHTML", classicEditor.getValue());
+            dialogLayout.remove(progressBar);
+            dialogLayout.add(previewContent, closeButton);
+        }));
     }
 
     /**
@@ -144,6 +186,7 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
                         .lines()
                         .collect(Collectors.joining("\n"));
                 JSONObject json = XMLToJsonParser.parseXMLToJson(xmlContent);
+                jsonObject = json;
                 Notification.show("XML file processed successfully.");
                 classicEditor.setValue(JsonToELabReportBody.convertJsonToHtml(json));
             } catch (Exception e) {
