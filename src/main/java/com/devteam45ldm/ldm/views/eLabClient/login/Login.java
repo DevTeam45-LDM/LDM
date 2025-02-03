@@ -3,6 +3,7 @@ package com.devteam45ldm.ldm.views.eLabClient.login;
 import com.devteam45ldm.ldm.controller.HTTPController;
 import com.devteam45ldm.ldm.api.eLabClient.ELabClient;
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -33,6 +34,10 @@ public class Login extends Composite<VerticalLayout> {
     private final MenuBar menuBar = new MenuBar();
     private final ELabClient<InfoApi> eLabClient = new ELabClient<>(InfoApi.class);
     private final List<LoginEventListener> listeners = new ArrayList<>();
+
+    // TOdo
+    private boolean signup = false;
+    private ArrayList<HasValue<?, ?>> inputFields;
 
     /**
      * Constructs the Login view and initializes the UI components.
@@ -67,6 +72,9 @@ public class Login extends Composite<VerticalLayout> {
         menuBar.addItem("Logout", event -> deleteLogin());
         menuBar.getItems().get(2).setEnabled(false);
         menuBar.getStyle().set("margin-bottom", "80px");
+
+        // Todo
+//        isSignup();
 
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
@@ -125,6 +133,7 @@ public class Login extends Composite<VerticalLayout> {
             menuBar.getItems().get(1).setEnabled(false);
             menuBar.getItems().get(2).setEnabled(true);
             fireLoginEvent();
+            signup = true;
         } catch (Exception e) {
             Notification.show("Fehler bei der Anmeldung: " + e.getMessage());
         }
@@ -134,6 +143,7 @@ public class Login extends Composite<VerticalLayout> {
      * Clears the login fields and resets the menu bar.
      */
     private void deleteLogin() {
+        signup = false;
         urlField.clear();
         apiKeyField.clear();
         menuBar.getItems().get(1).setEnabled(true);
@@ -170,4 +180,23 @@ public class Login extends Composite<VerticalLayout> {
             listener.onLogin(event);
         }
     }
+
+//    // Todo
+//    public TextField geturlField() {
+//        return urlField;
+//    }
+//
+//    public PasswordField getapiKeyField() {
+//        return apiKeyField;
+//    }
+//
+//    public ArrayList<HasValue<?, ?>> isSignup() {
+//        if (signup == true) {
+//            inputFields = new ArrayList<>();
+//            inputFields.add(geturlField());
+//            inputFields.add(getapiKeyField());
+//            return inputFields;
+//        }
+//        return null;
+//    }
 }

@@ -143,7 +143,7 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
      * Reads tags from the API using the provided API key and URL.
      * Sets the retrieved tags to the grid.
      */
-    private void readTags() {
+    public void readTags() {
         String apiKey = apiKeyField.getValue();
         String url = urlField.getValue();
 
