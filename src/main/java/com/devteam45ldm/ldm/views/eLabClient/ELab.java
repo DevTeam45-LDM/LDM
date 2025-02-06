@@ -31,6 +31,7 @@ public class ELab extends Composite<VerticalLayout> implements LoginEventListene
     private final Experiments experiments;
     private final CreateReport createReport;
 
+
     @Autowired
     public ELab(Login login, Tags tags, ExperimentTemplates experimentTemplates, Experiments experiments, CreateReport createReport) {
         this.login = login;
