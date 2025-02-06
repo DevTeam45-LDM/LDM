@@ -1,9 +1,12 @@
 package io.swagger.client.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.Objects;
 
+@Component
 public class Measurement {
 
     @JsonProperty("measureinfo")

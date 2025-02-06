@@ -20,6 +20,11 @@ import com.wontlost.ckeditor.Constants;
 import com.wontlost.ckeditor.VaadinCKEditor;
 import com.wontlost.ckeditor.VaadinCKEditorBuilder;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 
 import java.io.BufferedReader;
@@ -27,10 +32,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
+
 /**
  * The CreateReport class represents a view for creating reports in the eLabClient.
  * It allows users to upload XML files, process them, and create experiments.
  */
+@Component
 @PageTitle("Bericht erstellen")
 public class CreateReport extends Composite<VerticalLayout> implements CredentialsAware {
 
@@ -42,6 +49,7 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
     private String url;
     private Boolean buttonAllowed = false;
     private JSONObject jsonObject;
+    private FileService fileService = new FileService();
 
     private final VaadinCKEditor classicEditor;
     private final Button createReportButton = new Button("Bericht erstellen", event -> {
@@ -172,14 +180,69 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
         }
     }
 
+
+    /**
+     * Represents a file document in MongoDB.
+     */
+    @Document(collection = "files")
+    public class FileDocument {
+        @Id
+        private String id;
+        private String fileName;
+        private String content;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getFileName() {
+            return fileName;
+        }
+
+        public void setFileName(String fileName) {
+            this.fileName = fileName;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+    }
+
+    /**
+     * Service class for managing file documents in MongoDB.
+     */
+    @Service
+    public class FileService {
+
+        @Autowired
+        private FileRepository fileRepository;
+
+        public String saveFile(String fileName, String content) {
+            FileDocument fileDocument = new FileDocument();
+            fileDocument.setFileName(fileName);
+            fileDocument.setContent(content);
+            fileDocument = fileRepository.save(fileDocument);
+            return fileDocument.getId();
+        }
+    }
+
+
     /**
      * Processes the uploaded file.
      * @param fileName the name of the uploaded file
      * @param inputStream the input stream of the uploaded file
      * @param mimeType the MIME type of the uploaded file
      */
-    private void processUploadedFile(String fileName, InputStream inputStream,
-                                     String mimeType) {
+    @Autowired
+    private void processUploadedFile(String fileName, InputStream inputStream, String mimeType) {
         if ("application/xml".equals(mimeType) || fileName.endsWith(".xml")) {
             try {
                 String xmlContent = new BufferedReader(new InputStreamReader(inputStream))
@@ -188,7 +251,16 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
                 JSONObject json = XMLToJsonParser.parseXMLToJson(xmlContent);
                 jsonObject = json;
                 Notification.show("XML file processed successfully.");
-                classicEditor.setValue(JsonToELabReportBody.convertJsonToHtml(json));
+
+                // Save the JSON file to MongoDB
+                String jsonContent = json.toString();
+                String fileId = fileService.saveFile(fileName.replace(".xml", ".json"), jsonContent);
+
+                // Generate a link to the uploaded file
+                String fileLink = "<a href='/files/" + fileId + "'>" + fileName + "</a>";
+                String editorContent = JsonToELabReportBody.convertJsonToHtml(json) + "<br>" + fileLink;
+                classicEditor.setValue(editorContent);
+
             } catch (Exception e) {
                 Notification.show("Error processing XML file: " + e.getMessage());
             }

@@ -18,6 +18,7 @@ import com.devteam45ldm.ldm.controller.HTTPController;
 import io.swagger.client.api.*;
 import io.swagger.client.model.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 
 import java.io.IOException;
@@ -30,6 +31,7 @@ import java.util.List;
  */
 @PageTitle("Tags")
 @UIScope
+@Component
 public class Tags extends Composite<VerticalLayout> implements CredentialsAware {
 
     private final TextField urlField;

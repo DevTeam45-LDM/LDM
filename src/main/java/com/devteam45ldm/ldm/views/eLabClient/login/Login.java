@@ -14,6 +14,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 import io.swagger.client.api.InfoApi;
 import io.swagger.client.model.Info;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import java.util.List;
  */
 @PageTitle("Login")
 @UIScope
+@Component
 public class Login extends Composite<VerticalLayout> {
 
     private final TextField urlField;

@@ -14,20 +14,31 @@ import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
+@Component
 @PageTitle("eLab")
 @Route("elab")
 @Menu(order = 1, icon = "line-awesome/svg/flask-solid.svg")
 @UIScope
 public class ELab extends Composite<VerticalLayout> implements LoginEventListener {
 
-    private final Login login = new Login();
-    private final Tags tags = new Tags();
-    private final ExperimentTemplates experimentTemplates = new ExperimentTemplates();
-    private final Experiments experiments = new Experiments();
-    private final CreateReport createReport = new CreateReport();
+    private final Login login;
+    private final Tags tags;
+    private final ExperimentTemplates experimentTemplates;
+    private final Experiments experiments;
+    private final CreateReport createReport;
 
-    public ELab() {
+    @Autowired
+    public ELab(Login login, Tags tags, ExperimentTemplates experimentTemplates, Experiments experiments, CreateReport createReport) {
+        this.login = login;
+        this.tags = tags;
+        this.experimentTemplates = experimentTemplates;
+        this.experiments = experiments;
+        this.createReport = createReport;
+
         TabSheet tabSheet = new TabSheet();
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");

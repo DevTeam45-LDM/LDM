@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.yaml.snakeyaml.util.Tuple;
 
@@ -40,6 +41,7 @@ import org.yaml.snakeyaml.util.Tuple;
  */
 @PageTitle("ExperimentTemplates")
 @UIScope
+@Component
 public class ExperimentTemplates extends Composite<VerticalLayout> implements CredentialsAware {
 
     private static final Logger logger = LoggerFactory.getLogger(ExperimentTemplates.class);
