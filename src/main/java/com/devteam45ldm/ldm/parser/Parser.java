@@ -1,5 +1,6 @@
 package com.devteam45ldm.ldm.parser;
 
+import com.devteam45ldm.ldm.parser.Json2Json;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -35,6 +36,4 @@ public class Parser {
     public Parser(ImportTemplate importTemplate) {
         this.importTemplate = importTemplate;
     }
-
-    public
 }
