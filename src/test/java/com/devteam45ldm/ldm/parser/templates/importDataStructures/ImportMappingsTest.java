@@ -84,7 +84,7 @@ class ImportMappingsTest {
     void data_getAndSet() {
         ImportMappings importMappings = new ImportMappings();
         ArrayList<String> data = new ArrayList<>();
-        data.add("data");
+        data.add("new_data");
         importMappings.setData(data);
         assertEquals("new_data", importMappings.getData().getFirst());
         assertEquals("[new_data]", importMappings.getData().toString());
@@ -207,10 +207,10 @@ class ImportMappingsTest {
         importMappings.setData(data);
         String expected = """
                 {
-                    metadata: metadata
+                    metadata: [metadata]
                     metadata_separator: null
                     metadata_pattern: null
-                    data: data
+                    data: [data]
                     data_separator: null
                     data_pattern: null
                 }""";
