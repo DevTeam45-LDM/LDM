@@ -1,7 +1,7 @@
 package com.devteam45ldm.ldm.views.eLabClient.createReport;
 
 import com.devteam45ldm.ldm.api.eLabClient.ELabController;
-import com.devteam45ldm.ldm.parser.types.JsonToELabReportBody;
+import com.devteam45ldm.ldm.parser.types.Json2ELab;
 import com.devteam45ldm.ldm.parser.types.Xml2Json;
 import com.devteam45ldm.ldm.views.eLabClient.login.CredentialsAware;
 import com.vaadin.flow.component.Composite;
@@ -145,7 +145,7 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
                         .collect(Collectors.joining("\n"));
                 JSONObject json = Xml2Json.parseXMLToJson(xmlContent);
                 Notification.show("XML file processed successfully.");
-                classicEditor.setValue(JsonToELabReportBody.convertJsonToHtml(json));
+                classicEditor.setValue(Json2ELab.convertJsonToHtml(json));
             } catch (Exception e) {
                 Notification.show("Error processing XML file: " + e.getMessage());
             }

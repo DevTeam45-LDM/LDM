@@ -1,11 +1,13 @@
 package com.devteam45ldm.ldm.parser;
 
+import com.devteam45ldm.ldm.parser.templates.importDataStructures.Import;
 import com.devteam45ldm.ldm.parser.types.Csv2Json;
 import com.devteam45ldm.ldm.parser.types.Custom2Json;
 import com.devteam45ldm.ldm.parser.types.Json2Json;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate;
 import com.devteam45ldm.ldm.parser.types.Xml2Json;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.json.JSONException;
 
 public class ParserController {
     public enum ParserType {
@@ -38,5 +40,20 @@ public class ParserController {
 
     public ParserController(ImportTemplate importTemplate) {
         this.importTemplate = importTemplate;
+    }
+
+    public Import convert(String data, ParserType parserType) throws JSONException {
+        switch (parserType) {
+            case JSON2JSON:
+                return Json2Json.parse(data, importTemplate);
+            case XML2JSON:
+                return new Xml2Json(importTemplate).convert(data).toJson();
+            case CSV2JSON:
+                return new Csv2Json(importTemplate).convert(data);
+            case CUSTOM2JSON:
+                return new Custom2Json(importTemplate).convert(data);
+            default:
+                throw new IllegalArgumentException("Invalid parser type");
+        }
     }
 }

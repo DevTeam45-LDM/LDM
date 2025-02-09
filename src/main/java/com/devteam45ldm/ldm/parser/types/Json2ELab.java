@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 import java.util.Iterator;
 
-public class JsonToELabReportBody {
+public class Json2ELab {
 
     /**
      * Converts a JSON object to an HTML string representation.

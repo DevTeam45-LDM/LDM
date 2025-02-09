@@ -10,17 +10,7 @@ import org.json.JSONObject;
  * The Json2Json class is responsible for converting a JSON string
  * into an Import object based on the provided ImportTemplate.
  */
-public class Json2Json {
-    private final ImportTemplate importTemplate;
-
-    /**
-     * Constructs a Json2Json parser with the specified ImportTemplate.
-     *
-     * @param importTemplate the template that defines the metadata and data paths
-     */
-    public Json2Json(ImportTemplate importTemplate) {
-        this.importTemplate = importTemplate;
-    }
+public abstract class Json2Json implements Parser {
 
     /**
      * Converts the given JSON string into an Import object.
@@ -29,7 +19,7 @@ public class Json2Json {
      * @return the resulting Import object
      * @throws JSONException if there is an error parsing the JSON
      */
-    public Import convert(String json) throws JSONException {
+    public static Import parse(String json, ImportTemplate importTemplate) throws JSONException {
         JSONObject jsonObject = new JSONObject(json);
         ImportMappings mappings = importTemplate.getData();
 
@@ -54,7 +44,7 @@ public class Json2Json {
      * @return the extracted value as a string
      * @throws JSONException if there is an error parsing the JSON
      */
-    private String extractJsonValue(JSONObject jsonObject, String path) throws JSONException {
+    private static String extractJsonValue(JSONObject jsonObject, String path) throws JSONException {
         String[] keys = path.split("\\.");
         JSONObject currentObject = jsonObject;
         for (int i = 0; i < keys.length - 1; i++) {

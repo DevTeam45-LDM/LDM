@@ -30,8 +30,7 @@ class Json2JsonTest {
                 .metadata(new Metadata())
                 .data(mappings);
 
-        Json2Json parser = new Json2Json(importTemplate);
-        Import result = parser.convert(json);
+        Import result = Json2Json.parse(json, importTemplate);
 
         JSONObject expectedMetadata = new JSONObject("{\"maschine\":\"test\",\"hersteller\":\"vw\"}");
         JSONObject expectedData = new JSONObject("{\"wert1\":\"1test\",\"wert2\":2,\"wert3\":\"3test\",\"wert4\":4,\"wert5\":5,\"wert6\":\"6test\"}");
@@ -57,8 +56,7 @@ class Json2JsonTest {
                 .metadata(new Metadata())
                 .data(mappings);
 
-        Json2Json parser = new Json2Json(importTemplate);
-        Import result = parser.convert(json);
+        Import result = Json2Json.parse(json, importTemplate);
 
         JSONObject expectedMetadata = new JSONObject("{\"baujahr\":2020,\"modell\":\"golf\"}");
         JSONObject expectedData = new JSONObject("{\"wert1\":\"1test\",\"wert2\":2,\"wert3\":\"3test\",\"wert4\":4,\"wert5\":5,\"wert6\":\"6test\"}");
@@ -84,8 +82,7 @@ class Json2JsonTest {
                 .metadata(new Metadata())
                 .data(mappings);
 
-        Json2Json parser = new Json2Json(importTemplate);
-        Import result = parser.convert(json);
+        Import result = Json2Json.parse(json, importTemplate);
 
         JSONObject expectedMetadata = new JSONObject("{\"farbe\":\"rot\",\"ps\":150}");
         JSONObject expectedData = new JSONObject("{\"wert1\":\"1test\",\"wert2\":2,\"wert3\":\"3test\",\"wert4\":4,\"wert5\":5,\"wert6\":\"6test\"}");
