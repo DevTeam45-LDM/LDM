@@ -141,9 +141,9 @@ class MetadataTest {
      */
     @Test
     void equals_differentObject_returnsFalse() {
-        Metadata metadata1 = new Metadata();
+        Metadata metadata1 = new Metadata().createdBy("user");
         Metadata metadata2 = new Metadata();
-        assertTrue(metadata1.equals(metadata2));
+        assertFalse(metadata1.equals(metadata2));
     }
 
     /**
