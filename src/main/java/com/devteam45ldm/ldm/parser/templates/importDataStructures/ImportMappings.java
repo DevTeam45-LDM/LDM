@@ -1,5 +1,6 @@
 package com.devteam45ldm.ldm.parser.templates.importDataStructures;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
@@ -8,6 +9,7 @@ import java.util.regex.Pattern;
 /**
  * Represents the actual mappings of the import data e.g. the first level of parsing instructions.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ImportMappings {
     @JsonProperty("metadata")
     private String metadata = null;

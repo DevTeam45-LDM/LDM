@@ -1,6 +1,5 @@
 package com.devteam45ldm.ldm.parser.templates;
 
-import com.devteam45ldm.ldm.parser.ParserController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -111,20 +110,20 @@ class MetadataTest {
      * Tests if getParser() returns the correct parser type.
      */
     @Test
-    void getParser_returnsCorrectParser() {
+    void getDatatype_returnsCorrectDatatype() {
         Metadata metadata = new Metadata();
-        metadata.setParser(ParserController.ParserType.JSON2JSON);
-        assertEquals(ParserController.ParserType.JSON2JSON, metadata.getParser());
+        metadata.setDatatype("json");
+        assertEquals("json", metadata.getDatatype());
     }
 
     /**
      * Tests if setParser() sets the correct parser type.
      */
     @Test
-    void setParser_setsCorrectParser() {
+    void setDatatype_setsCorrectDatatype() {
         Metadata metadata = new Metadata();
-        metadata.setParser(ParserController.ParserType.XML2JSON);
-        assertEquals(ParserController.ParserType.XML2JSON, metadata.getParser());
+        metadata.setDatatype("xml");
+        assertEquals("xml", metadata.getDatatype());
     }
 
     /**
@@ -166,7 +165,7 @@ class MetadataTest {
         metadata.setCreatedAt("2023-10-01");
         metadata.setLastModifiedBy("editor");
         metadata.setLastModifiedAt("2023-12-01");
-        metadata.setParser(ParserController.ParserType.JSON2JSON);
+        metadata.setDatatype("csv");
         String expected = """
                 {
                     version: 1
@@ -174,7 +173,7 @@ class MetadataTest {
                     created_at: 2023-10-01
                     last_modified_by: editor
                     last_modified_at: 2023-12-01
-                    parser: JSON2JSON
+                    parser: csv
                 }""";
         assertEquals(expected, metadata.toString());
     }
@@ -184,7 +183,7 @@ class MetadataTest {
      */
     @Test
     void fromJsonString_createsMetadataObject() throws Exception {
-        String json = "{ \"version\": 1, \"created_by\": \"user\", \"created_at\": \"2023-10-01\", \"last_modified_by\": \"editor\", \"last_modified_at\": \"2023-12-01\", \"parser\": \"json_2_json\" }";
+        String json = "{ \"version\": 1, \"created_by\": \"user\", \"created_at\": \"2023-10-01\", \"last_modified_by\": \"editor\", \"last_modified_at\": \"2023-12-01\", \"datatype\": \"json\" }";
         ObjectMapper objectMapper = new ObjectMapper();
         Metadata metadata = objectMapper.readValue(json, Metadata.class);
 
@@ -193,7 +192,7 @@ class MetadataTest {
         assertEquals("2023-10-01", metadata.getCreatedAt());
         assertEquals("editor", metadata.getLastModifiedBy());
         assertEquals("2023-12-01", metadata.getLastModifiedAt());
-        assertEquals(ParserController.ParserType.JSON2JSON, metadata.getParser());
+        assertEquals("json", metadata.getDatatype());
     }
 
     /**
@@ -210,7 +209,7 @@ class MetadataTest {
         assertNull(metadata.getCreatedAt());
         assertNull(metadata.getLastModifiedBy());
         assertNull(metadata.getLastModifiedAt());
-        assertNull(metadata.getParser());
+        assertNull(metadata.getDatatype());
     }
 
     /**

@@ -1,6 +1,5 @@
 package com.devteam45ldm.ldm.parser.templates;
 
-import com.devteam45ldm.ldm.parser.ParserController;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -26,8 +25,8 @@ public class Metadata {
     @JsonProperty("last_modified_at")
     private String lastModifiedAt = null;
 
-    @JsonProperty("parser")
-    private ParserController.ParserType parser = null;
+    @JsonProperty("datatype")
+    private String datatype = null;
 
 
     /**
@@ -176,31 +175,31 @@ public class Metadata {
     }
 
     /**
-     * Gets the parser type of the metadata.
+     * Gets the datatype of the import file.
      *
      * @return the parser type of the metadata
      */
-    public ParserController.ParserType getParser() {
-        return parser;
+    public String getDatatype() {
+        return datatype;
     }
 
     /**
-     * Sets the parser type of the metadata.
+     * Sets the datatype type of the import file.
      *
-     * @param parser the parser type to set
+     * @param datatype the parser type to set
      */
-    public void setParser(ParserController.ParserType parser) {
-        this.parser = parser;
+    public void setDatatype(String datatype) {
+        this.datatype = datatype;
     }
 
     /**
-     * Sets the parser type of the metadata and returns the updated Metadata object.
+     * Sets the datatype of the import file and returns the updated Metadata object.
      *
-     * @param parser the parser type to set
+     * @param datatype the parser type to set
      * @return the updated Metadata object
      */
-    public Metadata parser(ParserController.ParserType parser) {
-        this.parser = parser;
+    public Metadata datatype(String datatype) {
+        this.datatype = datatype;
         return this;
     }
 
@@ -213,7 +212,7 @@ public class Metadata {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Metadata metadata)) return false;
-        return Objects.equals(getVersion(), metadata.getVersion()) && Objects.equals(getCreatedBy(), metadata.getCreatedBy()) && Objects.equals(getCreatedAt(), metadata.getCreatedAt()) && Objects.equals(getLastModifiedBy(), metadata.getLastModifiedBy()) && Objects.equals(getLastModifiedAt(), metadata.getLastModifiedAt()) && getParser() == metadata.getParser();
+        return Objects.equals(getVersion(), metadata.getVersion()) && Objects.equals(getCreatedBy(), metadata.getCreatedBy()) && Objects.equals(getCreatedAt(), metadata.getCreatedAt()) && Objects.equals(getLastModifiedBy(), metadata.getLastModifiedBy()) && Objects.equals(getLastModifiedAt(), metadata.getLastModifiedAt()) && getDatatype() == metadata.getDatatype();
     }
 
     /**
@@ -223,7 +222,7 @@ public class Metadata {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(version, createdBy, createdAt, lastModifiedBy, lastModifiedAt, parser);
+        return Objects.hash(version, createdBy, createdAt, lastModifiedBy, lastModifiedAt, datatype);
     }
 
     /**
@@ -238,7 +237,7 @@ public class Metadata {
                 "    created_at: " + toIndentedString(createdAt) + "\n" +
                 "    last_modified_by: " + toIndentedString(lastModifiedBy) + "\n" +
                 "    last_modified_at: " + toIndentedString(lastModifiedAt) + "\n" +
-                "    parser: " + toIndentedString(parser) + "\n" +
+                "    parser: " + toIndentedString(datatype) + "\n" +
                 "}";
     }
 
