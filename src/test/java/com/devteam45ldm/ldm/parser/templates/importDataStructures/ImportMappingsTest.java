@@ -227,8 +227,10 @@ class ImportMappingsTest {
         ImportMappings importMappings;
         importMappings = objectMapper.readValue(json, ImportMappings.class);
 
-        assertEquals("metadata_value", importMappings.getMetadata());
-        assertEquals("data_value", importMappings.getData());
+        assertEquals("[metadata_value]", importMappings.getMetadata().toString());
+        assertEquals("[data_value]", importMappings.getData().toString());
+        assertEquals("metadata_value", importMappings.getMetadata().getFirst());
+        assertEquals("data_value", importMappings.getData().getFirst());
     }
 
     /**
@@ -241,7 +243,8 @@ class ImportMappingsTest {
         ImportMappings importMappings;
         importMappings = objectMapper.readValue(json, ImportMappings.class);
 
-        assertEquals("metadata_value", importMappings.getMetadata());
+        assertEquals("metadata_value", importMappings.getMetadata().getFirst());
+        assertEquals("[metadata_value]", importMappings.getMetadata().toString());
         assertNull(importMappings.getData());
     }
 
