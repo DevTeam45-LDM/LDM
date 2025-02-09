@@ -15,7 +15,7 @@ class Xml2JsonTest {
     @Test
     void parseXMLToJson_withValidXml_returnsJson() throws Exception {
         String xml = "<root><child attr=\"value\">text</child></root>";
-        JSONObject json = Xml2Json.parseXMLToJson(xml);
+        JSONObject json = Xml2Json.parse(xml);
         if(debug){
             System.out.println(json.toString(2));
         }
@@ -26,7 +26,7 @@ class Xml2JsonTest {
     @Test
     void parseXMLToJson_withEmptyXml_returnsEmptyJson() throws Exception {
         String xml = "<root></root>";
-        JSONObject json = Xml2Json.parseXMLToJson(xml);
+        JSONObject json = Xml2Json.parse(xml);
         if(debug){
             System.out.println(json.toString(2));
         }
@@ -36,7 +36,7 @@ class Xml2JsonTest {
     @Test
     void parseXMLToJson_withAttributesOnly_returnsJsonWithAttributes() throws Exception {
         String xml = "<root attr1=\"value1\" attr2=\"value2\"></root>";
-        JSONObject json = Xml2Json.parseXMLToJson(xml);
+        JSONObject json = Xml2Json.parse(xml);
         if(debug){
             System.out.println(json.toString(2));
         }
@@ -47,7 +47,7 @@ class Xml2JsonTest {
     @Test
     void parseXMLToJson_withNestedElements_returnsJsonWithNestedStructure() throws Exception {
         String xml = "<root><child><subchild>text</subchild></child></root>";
-        JSONObject json = Xml2Json.parseXMLToJson(xml);
+        JSONObject json = Xml2Json.parse(xml);
         if(debug){
             System.out.println(json.toString(2));
         }
@@ -57,7 +57,7 @@ class Xml2JsonTest {
     @Test
     void parseXMLToJson_withRepeatedElements_returnsJsonWithArray() throws Exception {
         String xml = "<root><child>text1</child><child>text2</child></root>";
-        JSONObject json = Xml2Json.parseXMLToJson(xml);
+        JSONObject json = Xml2Json.parse(xml);
         if(debug){
             System.out.println(json.toString(2));
         }
@@ -70,7 +70,7 @@ class Xml2JsonTest {
     void parseXMLToJson_withInvalidXml_throwsException() {
         String xml = "<root><child></root>";
         assertThrows(SAXException.class, () -> {
-            Xml2Json.parseXMLToJson(xml);
+            Xml2Json.parse(xml);
         });
     }
 }

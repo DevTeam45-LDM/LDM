@@ -143,7 +143,7 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
                 String xmlContent = new BufferedReader(new InputStreamReader(inputStream))
                         .lines()
                         .collect(Collectors.joining("\n"));
-                JSONObject json = Xml2Json.parseXMLToJson(xmlContent);
+                JSONObject json = Xml2Json.parse(xmlContent);
                 Notification.show("XML file processed successfully.");
                 classicEditor.setValue(Json2ELab.convertJsonToHtml(json));
             } catch (Exception e) {

@@ -46,12 +46,12 @@ public class ParserController {
         switch (parserType) {
             case JSON2JSON:
                 return Json2Json.parse(data, importTemplate);
-            case XML2JSON:
-                return new Xml2Json(importTemplate).convert(data).toJson();
-            case CSV2JSON:
-                return new Csv2Json(importTemplate).convert(data);
-            case CUSTOM2JSON:
-                return new Custom2Json(importTemplate).convert(data);
+            //case XML2JSON: //TODO: Implement XML2JSON
+            //    return new Xml2Json().convert(data).toJson();
+            //case CSV2JSON: //TODO: Implement CSV2JSON
+            //    return new Csv2Json(importTemplate).convert(data);
+            //case CUSTOM2JSON: //TODO: Implement CUSTOM2JSON
+            //    return new Custom2Json(importTemplate).convert(data);
             default:
                 throw new IllegalArgumentException("Invalid parser type");
         }
