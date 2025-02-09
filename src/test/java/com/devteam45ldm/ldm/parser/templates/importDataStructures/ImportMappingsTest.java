@@ -224,7 +224,8 @@ class ImportMappingsTest {
     void fromJsonString_createsImportMappingsObject() throws Exception {
         String json = "{ \"metadata\": \"metadata_value\", \"data\": \"data_value\" }";
         ObjectMapper objectMapper = new ObjectMapper();
-        ImportMappings importMappings = objectMapper.readValue(json, ImportMappings.class);
+        ImportMappings importMappings;
+        importMappings = objectMapper.readValue(json, ImportMappings.class);
 
         assertEquals("metadata_value", importMappings.getMetadata());
         assertEquals("data_value", importMappings.getData());
@@ -237,7 +238,8 @@ class ImportMappingsTest {
     void fromJsonString_missingFields_createsImportMappingsObjectWithNulls() throws Exception {
         String json = "{ \"metadata\": \"metadata_value\" }";
         ObjectMapper objectMapper = new ObjectMapper();
-        ImportMappings importMappings = objectMapper.readValue(json, ImportMappings.class);
+        ImportMappings importMappings;
+        importMappings = objectMapper.readValue(json, ImportMappings.class);
 
         assertEquals("metadata_value", importMappings.getMetadata());
         assertNull(importMappings.getData());
