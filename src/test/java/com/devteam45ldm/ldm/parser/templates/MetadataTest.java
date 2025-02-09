@@ -167,14 +167,15 @@ class MetadataTest {
         metadata.setLastModifiedBy("editor");
         metadata.setLastModifiedAt("2023-12-01");
         metadata.setParser(Parser.ParserType.JSON2JSON);
-        String expected = "{\n" +
-                "    version: 1\n" +
-                "    created_by: user\n" +
-                "    created_at: 2023-10-01\n" +
-                "    last_modified_by: editor\n" +
-                "    last_modified_at: 2023-12-01\n" +
-                "    parser: JSON2JSON\n" +
-                "}";
+        String expected = """
+                {
+                    version: 1
+                    created_by: user
+                    created_at: 2023-10-01
+                    last_modified_by: editor
+                    last_modified_at: 2023-12-01
+                    parser: JSON2JSON
+                }""";
         assertEquals(expected, metadata.toString());
     }
 

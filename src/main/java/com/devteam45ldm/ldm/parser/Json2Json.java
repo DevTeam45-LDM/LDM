@@ -11,7 +11,7 @@ import org.json.JSONObject;
  * into an Import object based on the provided ImportTemplate.
  */
 public class Json2Json {
-    private ImportTemplate importTemplate;
+    private final ImportTemplate importTemplate;
 
     /**
      * Constructs a Json2Json parser with the specified ImportTemplate.

@@ -1,6 +1,5 @@
 package com.devteam45ldm.ldm.parser;
 
-import com.devteam45ldm.ldm.parser.Json2Json;
 import com.devteam45ldm.ldm.parser.templates.Metadata;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.Import;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportMappings;

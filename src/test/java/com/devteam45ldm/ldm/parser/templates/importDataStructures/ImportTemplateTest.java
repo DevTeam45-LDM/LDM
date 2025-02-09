@@ -133,24 +133,25 @@ class ImportTemplateTest {
         ImportMappings importMappings = new ImportMappings();
         importTemplate.setMetadata(metadata);
         importTemplate.setData(importMappings);
-        String expected = "{\n" +
-                "    metadata: {\n" +
-                "        version: null\n" +
-                "        created_by: null\n" +
-                "        created_at: null\n" +
-                "        last_modified_by: null\n" +
-                "        last_modified_at: null\n" +
-                "        parser: null\n" +
-                "    },\n" +
-                "    data: {\n" +
-                "        metadata: null\n" +
-                "        metadata_separator: null\n" +
-                "        metadata_pattern: null\n" +
-                "        data: null\n" +
-                "        data_separator: null\n" +
-                "        data_pattern: null\n" +
-                "    }\n" +
-                "}";
+        String expected = """
+                {
+                    metadata: {
+                        version: null
+                        created_by: null
+                        created_at: null
+                        last_modified_by: null
+                        last_modified_at: null
+                        parser: null
+                    },
+                    data: {
+                        metadata: null
+                        metadata_separator: null
+                        metadata_pattern: null
+                        data: null
+                        data_separator: null
+                        data_pattern: null
+                    }
+                }""";
         assertEquals(expected, importTemplate.toString());
     }
 

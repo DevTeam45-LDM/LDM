@@ -245,14 +245,15 @@ class ImportMappingsTest {
         ImportMappings importMappings = new ImportMappings();
         importMappings.setMetadata("metadata");
         importMappings.setData("data");
-        String expected = "{\n" +
-                "    metadata: metadata\n" +
-                "    metadata_separator: null\n" +
-                "    metadata_pattern: null\n" +
-                "    data: data\n" +
-                "    data_separator: null\n" +
-                "    data_pattern: null\n" +
-                "}";
+        String expected = """
+                {
+                    metadata: metadata
+                    metadata_separator: null
+                    metadata_pattern: null
+                    data: data
+                    data_separator: null
+                    data_pattern: null
+                }""";
         assertEquals(expected, importMappings.toString());
     }
 

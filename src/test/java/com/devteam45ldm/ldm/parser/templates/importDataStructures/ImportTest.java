@@ -118,15 +118,16 @@ class ImportTest {
         Import anImport = new Import();
         anImport.setMetadata("metadata");
         anImport.setData("data");
-        String expected = "{\n" +
-                "    metadata: metadata\n" +
-                "    data: data\n" +
-                "}";
+        String expected = """
+                {
+                    metadata: metadata
+                    data: data
+                }""";
         assertEquals(expected, anImport.toString());
     }
 
     /**
-     * Tests if a Import object is correctly created from a JSON string.
+     * Tests if an Import object is correctly created from a JSON string.
      */
     @Test
     void fromJsonString_createsImportObject() throws Exception {
@@ -139,7 +140,7 @@ class ImportTest {
     }
 
     /**
-     * Tests if a Import object with null fields is correctly created from a JSON string with missing fields.
+     * Tests if an Import object with null fields is correctly created from a JSON string with missing fields.
      */
     @Test
     void fromJsonString_missingFields_createsImportObjectWithNulls() throws Exception {
