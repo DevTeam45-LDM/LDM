@@ -147,6 +147,30 @@ public class ImportMappings {
     }
 
     /**
+     * Sets the data.
+     *
+     * @param data the data to set
+     */
+    public void setData(String data) {
+        ArrayList<String> dataArray = new ArrayList<>();
+        dataArray.add(data);
+        this.data = dataArray;
+    }
+
+    /**
+     * Sets the data and returns the current ImportMappings object.
+     *
+     * @param data the data to set
+     * @return the current ImportMappings object
+     */
+    public ImportMappings data(String data) {
+        ArrayList<String> dataArray = new ArrayList<>();
+        dataArray.add(data);
+        this.data = dataArray;
+        return this;
+    }
+
+    /**
      * Gets the data separator.
      *
      * @return the data separator
