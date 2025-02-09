@@ -70,7 +70,7 @@ class Json2JsonTest {
 
         ImportedData result = Json2Json.parse(json, importTemplate);
 
-        JSONObject expectedMetadata = new JSONObject("{\"details\":{\"baujahr\":2020,\"modell\":\"golf\"}}");
+        JSONObject expectedMetadata = new JSONObject("{\"kopfdaten\":{\"details\":{\"baujahr\":2020,\"modell\":\"golf\"}}}");
         JSONObject expectedData = new JSONObject("{\"messwerte\":{\"wert1\":\"1test\",\"wert2\":2,\"wert3\":\"3test\",\"wert4\":4,\"wert5\":5,\"wert6\":\"6test\"}}");
 
         assertEquals(expectedMetadata.toString(), new JSONObject(result.getMetadata()).toString());
@@ -101,7 +101,7 @@ class Json2JsonTest {
 
         ImportedData result = Json2Json.parse(json, importTemplate);
 
-        JSONObject expectedMetadata = new JSONObject("{\"spezifikationen\":{\"farbe\":\"rot\",\"ps\":150}}");
+        JSONObject expectedMetadata = new JSONObject("{\"kopfdaten\":{\"details\":{\"spezifikationen\":{\"farbe\":\"rot\",\"ps\":150}}}}");
         JSONObject expectedData = new JSONObject("{\"messwerte\":{\"wert1\":\"1test\",\"wert2\":2,\"wert3\":\"3test\",\"wert4\":4,\"wert5\":5,\"wert6\":\"6test\"}}");
 
         assertEquals(expectedMetadata.toString(), new JSONObject(result.getMetadata()).toString());
@@ -132,7 +132,7 @@ class Json2JsonTest {
 
         ImportedData result = Json2Json.parse(json, importTemplate);
 
-        JSONObject expectedMetadata = new JSONObject("{\"details\":{ \"baujahr\": 2020, \"modell\": \"golf\"}}");
+        JSONObject expectedMetadata = new JSONObject("{\"kopfdaten\":{\"details\":{ \"baujahr\": 2020, \"modell\": \"golf\"}}}");
         JSONObject expectedData = new JSONObject("{\"spezifikationen\":{ \"farbe\": \"rot\", \"ps\": 150 }}");
 
         assertEquals(expectedMetadata.toString(), new JSONObject(result.getMetadata()).toString());
@@ -164,7 +164,7 @@ class Json2JsonTest {
 
         ImportedData result = Json2Json.parse(json, importTemplate);
 
-        JSONObject expectedMetadata = new JSONObject("{ \"baujahr\": 2020, \"modell\": \"golf\", \"spezifikationen\": { \"farbe\": \"rot\", \"ps\": 150 } }");
+        JSONObject expectedMetadata = new JSONObject("{\"kopfdaten\":{\"details\":{ \"baujahr\": 2020, \"modell\": \"golf\", \"spezifikationen\": { \"farbe\": \"rot\", \"ps\": 150 }}}}");
         JSONObject expectedData = new JSONObject("{ \"wert1\": \"1test\", \"wert2\": 2, \"wert3\": \"3test\", \"wert4\": 4, \"wert5\": 5, \"wert6\": \"6test\" }");
 
         assertEquals(expectedMetadata.toString(), new JSONObject(result.getMetadata()).toString());

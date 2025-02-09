@@ -54,31 +54,48 @@ public abstract class Json2Json implements Parser {
     }
 
     /**
-     * Extracts a JSON object based on a dot-separated path.
-            *
-            * @param jsonObject the source JSON object
+     * Extracts a JSON object based on a dot-separated path recursively.
+     *
+     * @param jsonObject the source JSON object
      * @param path       the JSON path (e.g., "kopfdaten.details")
      * @return the extracted JSONObject or an empty object if the path is not found
      * @throws JSONException if there is an error parsing the JSON
      */
     private static JSONObject extractByPath(JSONObject jsonObject, String path) throws JSONException {
-        JSONObject current = jsonObject;
         String[] keys = path.split("\\.");
+        return extractByPathRecursive(jsonObject, keys, 0);
+    }
+
+    /**
+     * Recursively extracts a JSON object based on a dot-separated path.
+     *
+     * @param jsonObject the source JSON object
+     * @param keys       the array of keys representing the path
+     * @param index      the current index in the keys array
+     * @return the extracted JSONObject or an empty object if the path is not found
+     * @throws JSONException if there is an error parsing the JSON
+     */
+    private static JSONObject extractByPathRecursive(JSONObject jsonObject, String[] keys, int index) throws JSONException {
+        if (index >= keys.length) {
+            return new JSONObject();
+        }
+
+        String key = keys[index];
+        if (!jsonObject.has(key)) {
+            return new JSONObject();
+        }
+
         JSONObject result = new JSONObject();
-        for (int i = 0; i < keys.length; i++) {
-            String key = keys[i];
-            if (current.has(key)) {
-                if (i == keys.length - 1) {
-                    result.put(key, current.get(key));
-                } else if (current.get(key) instanceof JSONObject) {
-                    current = current.getJSONObject(key);
-                } else {
-                    return new JSONObject();
-                }
-            } else {
-                return new JSONObject();
+        if (index == keys.length - 1) {
+            result.put(key, jsonObject.get(key));
+        } else {
+            JSONObject subObject = jsonObject.getJSONObject(key);
+            JSONObject extractedSubObject = extractByPathRecursive(subObject, keys, index + 1);
+            if (extractedSubObject.length() > 0) {
+                result.put(key, extractedSubObject);
             }
         }
+
         return result;
     }
 
