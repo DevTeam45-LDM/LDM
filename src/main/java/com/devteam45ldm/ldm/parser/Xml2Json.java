@@ -12,7 +12,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import java.io.IOException;
 
-public class XMLToJsonParser {
+public class Xml2Json {
 
     public static JSONObject parseXMLToJson(String xml) throws ParserConfigurationException, IOException, SAXException, JSONException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

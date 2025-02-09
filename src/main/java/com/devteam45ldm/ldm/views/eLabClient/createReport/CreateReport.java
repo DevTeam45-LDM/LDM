@@ -2,7 +2,7 @@ package com.devteam45ldm.ldm.views.eLabClient.createReport;
 
 import com.devteam45ldm.ldm.api.eLabClient.ELabController;
 import com.devteam45ldm.ldm.parser.JsonToELabReportBody;
-import com.devteam45ldm.ldm.parser.XMLToJsonParser;
+import com.devteam45ldm.ldm.parser.Xml2Json;
 import com.devteam45ldm.ldm.views.eLabClient.login.CredentialsAware;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Html;
@@ -143,7 +143,7 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
                 String xmlContent = new BufferedReader(new InputStreamReader(inputStream))
                         .lines()
                         .collect(Collectors.joining("\n"));
-                JSONObject json = XMLToJsonParser.parseXMLToJson(xmlContent);
+                JSONObject json = Xml2Json.parseXMLToJson(xmlContent);
                 Notification.show("XML file processed successfully.");
                 classicEditor.setValue(JsonToELabReportBody.convertJsonToHtml(json));
             } catch (Exception e) {
