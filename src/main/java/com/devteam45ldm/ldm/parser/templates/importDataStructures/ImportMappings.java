@@ -2,6 +2,7 @@ package com.devteam45ldm.ldm.parser.templates.importDataStructures;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -44,8 +45,21 @@ public class ImportMappings {
      *
      * @param metadata the metadata to set
      */
+    @JsonSetter("metadata")
     public void setMetadata(ArrayList<String> metadata) {
         this.metadata = metadata;
+    }
+
+    /**
+     * Sets the metadata.
+     *
+     * @param metadata the metadata to set
+     */
+    @JsonSetter("metadata")
+    public void setMetadata(String metadata) {
+        ArrayList<String> metadataArray = new ArrayList<>();
+        metadataArray.add(metadata);
+        this.metadata = metadataArray;
     }
 
     /**
@@ -56,6 +70,19 @@ public class ImportMappings {
      */
     public ImportMappings metadata(ArrayList<String> metadata) {
         this.metadata = metadata;
+        return this;
+    }
+
+    /**
+     * Sets the metadata and returns the current ImportMappings object.
+     *
+     * @param metadata the metadata to set
+     * @return the current ImportMappings object
+     */
+    public ImportMappings metadata(String metadata) {
+        ArrayList<String> metadataArray = new ArrayList<>();
+        metadataArray.add(metadata);
+        this.metadata = metadataArray;
         return this;
     }
 
@@ -131,8 +158,21 @@ public class ImportMappings {
      *
      * @param data the data to set
      */
+    @JsonSetter("data")
     public void setData(ArrayList<String> data) {
         this.data = data;
+    }
+
+    /**
+     * Sets the data.
+     *
+     * @param data the data to set
+     */
+    @JsonSetter("data")
+    public void setData(String data) {
+        ArrayList<String> dataArray = new ArrayList<>();
+        dataArray.add(data);
+        this.data = dataArray;
     }
 
     /**
@@ -144,17 +184,6 @@ public class ImportMappings {
     public ImportMappings data(ArrayList<String> data) {
         this.data = data;
         return this;
-    }
-
-    /**
-     * Sets the data.
-     *
-     * @param data the data to set
-     */
-    public void setData(String data) {
-        ArrayList<String> dataArray = new ArrayList<>();
-        dataArray.add(data);
-        this.data = dataArray;
     }
 
     /**
