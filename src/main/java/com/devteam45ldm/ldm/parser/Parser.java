@@ -1,7 +1,10 @@
 package com.devteam45ldm.ldm.parser;
 
-import com.devteam45ldm.ldm.parser.Json2Json;
+import com.devteam45ldm.ldm.parser.types.Csv2Json;
+import com.devteam45ldm.ldm.parser.types.Custom2Json;
+import com.devteam45ldm.ldm.parser.types.Json2Json;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate;
+import com.devteam45ldm.ldm.parser.types.Xml2Json;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Parser {

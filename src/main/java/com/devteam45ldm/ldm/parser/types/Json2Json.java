@@ -1,4 +1,4 @@
-package com.devteam45ldm.ldm.parser;
+package com.devteam45ldm.ldm.parser.types;
 
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.Import;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportMappings;

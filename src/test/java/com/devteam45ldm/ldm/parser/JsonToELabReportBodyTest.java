@@ -1,5 +1,6 @@
 package com.devteam45ldm.ldm.parser;
 
+import com.devteam45ldm.ldm.parser.types.JsonToELabReportBody;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;

@@ -1,5 +1,6 @@
 package com.devteam45ldm.ldm.parser;
 
+import com.devteam45ldm.ldm.parser.types.Xml2Json;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;

@@ -1,8 +1,8 @@
 package com.devteam45ldm.ldm.views.eLabClient.createReport;
 
 import com.devteam45ldm.ldm.api.eLabClient.ELabController;
-import com.devteam45ldm.ldm.parser.JsonToELabReportBody;
-import com.devteam45ldm.ldm.parser.Xml2Json;
+import com.devteam45ldm.ldm.parser.types.JsonToELabReportBody;
+import com.devteam45ldm.ldm.parser.types.Xml2Json;
 import com.devteam45ldm.ldm.views.eLabClient.login.CredentialsAware;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Html;

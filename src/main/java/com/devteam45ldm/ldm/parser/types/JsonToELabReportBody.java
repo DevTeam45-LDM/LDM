@@ -1,4 +1,4 @@
-package com.devteam45ldm.ldm.parser;
+package com.devteam45ldm.ldm.parser.types;
 
 import org.json.JSONArray;
 import org.json.JSONException;

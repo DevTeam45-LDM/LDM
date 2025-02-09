@@ -1,16 +1,16 @@
-package com.devteam45ldm.ldm.parser;
+package com.devteam45ldm.ldm.parser.types;
 
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate;
 
-public class Custom2Json {
+public class Csv2Json {
     private ImportTemplate importTemplate;
 
-    public Custom2Json(ImportTemplate importTemplate) {
+    public Csv2Json(ImportTemplate importTemplate) {
         this.importTemplate = importTemplate;
     }
 
-    public String convert(String custom) {
-        // Implement custom format to JSON conversion logic
+    public String convert(String csv) {
+        // Implement CSV to JSON conversion logic
         return importTemplate.toJson();
     }
 }
