@@ -119,7 +119,7 @@ public abstract class Json2Json implements Parser {
 
 
     /**
-     * Merges two JSON objects, prioritizing values from the source.
+     * Merges two JSON objects, regenerating the original structure.
      *
      * @param target the target JSON object where data is merged into
      * @param source the source JSON object to merge from
@@ -127,7 +127,18 @@ public abstract class Json2Json implements Parser {
     private static void mergeJson(JSONObject target, JSONObject source) throws JSONException {
         for (Iterator<String> it = source.keys(); it.hasNext(); ) {
             String key = it.next();
-            target.put(key, source.get(key));
+            Object value = source.get(key);
+
+            if (target.has(key)) {
+                Object targetValue = target.get(key);
+                if (targetValue instanceof JSONObject && value instanceof JSONObject) {
+                    mergeJson((JSONObject) targetValue, (JSONObject) value);
+                } else {
+                    target.put(key, value);
+                }
+            } else {
+                target.put(key, value);
+            }
         }
     }
 }
