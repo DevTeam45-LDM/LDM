@@ -1,6 +1,6 @@
 package com.devteam45ldm.ldm.parser.templates;
 
-import com.devteam45ldm.ldm.parser.Parser;
+import com.devteam45ldm.ldm.parser.ParserController;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -27,7 +27,7 @@ public class Metadata {
     private String lastModifiedAt = null;
 
     @JsonProperty("parser")
-    private Parser.ParserType parser = null;
+    private ParserController.ParserType parser = null;
 
 
     /**
@@ -180,7 +180,7 @@ public class Metadata {
      *
      * @return the parser type of the metadata
      */
-    public Parser.ParserType getParser() {
+    public ParserController.ParserType getParser() {
         return parser;
     }
 
@@ -189,7 +189,7 @@ public class Metadata {
      *
      * @param parser the parser type to set
      */
-    public void setParser(Parser.ParserType parser) {
+    public void setParser(ParserController.ParserType parser) {
         this.parser = parser;
     }
 
@@ -199,7 +199,7 @@ public class Metadata {
      * @param parser the parser type to set
      * @return the updated Metadata object
      */
-    public Metadata parser(Parser.ParserType parser) {
+    public Metadata parser(ParserController.ParserType parser) {
         this.parser = parser;
         return this;
     }

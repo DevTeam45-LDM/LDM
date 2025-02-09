@@ -2,11 +2,11 @@ package com.devteam45ldm.ldm.parser;
 
 import com.devteam45ldm.ldm.parser.templates.exportDataStructures.ExportTemplate;
 
-public class ExportTemplateManager {
+public class ExportTemplateController {
 
     private ExportTemplate exportTemplate;
 
-    public ExportTemplateManager() {
+    public ExportTemplateController() {
         this.exportTemplate = new ExportTemplate();
     }
 

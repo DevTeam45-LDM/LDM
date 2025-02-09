@@ -1,6 +1,6 @@
 package com.devteam45ldm.ldm.parser.templates;
 
-import com.devteam45ldm.ldm.parser.Parser;
+import com.devteam45ldm.ldm.parser.ParserController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -113,8 +113,8 @@ class MetadataTest {
     @Test
     void getParser_returnsCorrectParser() {
         Metadata metadata = new Metadata();
-        metadata.setParser(Parser.ParserType.JSON2JSON);
-        assertEquals(Parser.ParserType.JSON2JSON, metadata.getParser());
+        metadata.setParser(ParserController.ParserType.JSON2JSON);
+        assertEquals(ParserController.ParserType.JSON2JSON, metadata.getParser());
     }
 
     /**
@@ -123,8 +123,8 @@ class MetadataTest {
     @Test
     void setParser_setsCorrectParser() {
         Metadata metadata = new Metadata();
-        metadata.setParser(Parser.ParserType.XML2JSON);
-        assertEquals(Parser.ParserType.XML2JSON, metadata.getParser());
+        metadata.setParser(ParserController.ParserType.XML2JSON);
+        assertEquals(ParserController.ParserType.XML2JSON, metadata.getParser());
     }
 
     /**
@@ -166,7 +166,7 @@ class MetadataTest {
         metadata.setCreatedAt("2023-10-01");
         metadata.setLastModifiedBy("editor");
         metadata.setLastModifiedAt("2023-12-01");
-        metadata.setParser(Parser.ParserType.JSON2JSON);
+        metadata.setParser(ParserController.ParserType.JSON2JSON);
         String expected = """
                 {
                     version: 1
@@ -193,7 +193,7 @@ class MetadataTest {
         assertEquals("2023-10-01", metadata.getCreatedAt());
         assertEquals("editor", metadata.getLastModifiedBy());
         assertEquals("2023-12-01", metadata.getLastModifiedAt());
-        assertEquals(Parser.ParserType.JSON2JSON, metadata.getParser());
+        assertEquals(ParserController.ParserType.JSON2JSON, metadata.getParser());
     }
 
     /**

@@ -2,10 +2,10 @@ package com.devteam45ldm.ldm.parser;
 
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate;
 
-public class ImportTemplateManager implements TemplateManager {
+public class ImportTemplateController implements TemplateManager {
     private ImportTemplate importTemplate;
 
-    public ImportTemplateManager() {
+    public ImportTemplateController() {
     }
 
 

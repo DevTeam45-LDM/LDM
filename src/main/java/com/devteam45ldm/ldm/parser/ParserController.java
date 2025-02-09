@@ -7,7 +7,7 @@ import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate
 import com.devteam45ldm.ldm.parser.types.Xml2Json;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Parser {
+public class ParserController {
     public enum ParserType {
         @JsonProperty("json_2_json")
         JSON2JSON("json_2_json", Json2Json.class),
@@ -36,7 +36,7 @@ public class Parser {
     }
     private final ImportTemplate importTemplate;
 
-    public Parser(ImportTemplate importTemplate) {
+    public ParserController(ImportTemplate importTemplate) {
         this.importTemplate = importTemplate;
     }
 }
