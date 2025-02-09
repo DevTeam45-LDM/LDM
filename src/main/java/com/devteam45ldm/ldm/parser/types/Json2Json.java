@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * The Json2Json class is responsible for converting a JSON string
@@ -28,8 +29,8 @@ public abstract class Json2Json implements Parser {
         ArrayList<String> metadataPath = mappings.getMetadata();
         ArrayList<String> dataPath = mappings.getData();
 
-        String metadata = extractJsonValue(jsonObject, metadataPath);
-        String data = extractJsonValue(jsonObject, dataPath);
+        String metadata = extractImmediateChildJsonValue(jsonObject, metadataPath);
+        String data = extractImmediateChildJsonValue(jsonObject, dataPath);
 
         ImportedData anImportedData = new ImportedData();
         anImportedData.setMetadata(metadata);
@@ -39,19 +40,40 @@ public abstract class Json2Json implements Parser {
     }
 
     /**
-     * Extracts the value from the JSON object based on the specified path.
+     * Extracts the immediate child value from the JSON object based on the specified path.
      *
      * @param jsonObject the JSON object to extract the value from
-     * @param path the dot-separated path to the value
+     * @param path the path to the value
      * @return the extracted value as a string
      * @throws JSONException if there is an error parsing the JSON
      */
-    private static String extractJsonValue(JSONObject jsonObject, ArrayList<String> path) throws JSONException {
-        String[] keys = path.split("\\.");
+    private static String extractImmediateChildJsonValue(JSONObject jsonObject, ArrayList<String> path) throws JSONException {
         JSONObject currentObject = jsonObject;
-        for (int i = 0; i < keys.length - 1; i++) {
-            currentObject = currentObject.getJSONObject(keys[i]);
+        for (String key : path) {
+            if (currentObject.has(key)) {
+                currentObject = currentObject.getJSONObject(key);
+            } else {
+                return "{}";
+            }
         }
-        return currentObject.get(keys[keys.length - 1]).toString();
+        return getImmediateChildJson(currentObject).toString();
+    }
+
+    /**
+     * Gets the immediate child JSON object without further nested objects.
+     *
+     * @param jsonObject the JSON object to extract the immediate children from
+     * @return the immediate child JSON object
+     */
+    private static JSONObject getImmediateChildJson(JSONObject jsonObject) throws JSONException {
+        JSONObject result = new JSONObject();
+        for (Iterator it = jsonObject.keys(); it.hasNext(); ) {
+            String key = it.next().toString();
+            Object value = jsonObject.get(key);
+            if (!(value instanceof JSONObject)) {
+                result.put(key, value);
+            }
+        }
+        return result;
     }
 }
