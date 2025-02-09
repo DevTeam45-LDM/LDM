@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
 
+/**
+ * Represents the metadata information of templates.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Metadata {
     @JsonProperty("version")

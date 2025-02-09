@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
 
+/**
+ * Represents the result structure of the first parsing level.
+ */
 public class Import {
     @JsonProperty("metadata")
     private String metadata = null;

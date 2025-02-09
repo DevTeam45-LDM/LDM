@@ -6,6 +6,9 @@ import org.json.JSONObject;
 
 import java.util.Objects;
 
+/**
+ * Represents the first parsing level instructions and is a user defined semantic model of the import data.
+ */
 public class ImportTemplate {
 
     @JsonProperty("metadata")
