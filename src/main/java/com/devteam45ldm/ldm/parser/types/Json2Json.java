@@ -55,8 +55,8 @@ public abstract class Json2Json implements Parser {
 
     /**
      * Extracts a JSON object based on a dot-separated path.
-     *
-     * @param jsonObject the source JSON object
+            *
+            * @param jsonObject the source JSON object
      * @param path       the JSON path (e.g., "kopfdaten.details")
      * @return the extracted JSONObject or an empty object if the path is not found
      * @throws JSONException if there is an error parsing the JSON
@@ -64,14 +64,22 @@ public abstract class Json2Json implements Parser {
     private static JSONObject extractByPath(JSONObject jsonObject, String path) throws JSONException {
         JSONObject current = jsonObject;
         String[] keys = path.split("\\.");
-        for (String key : keys) {
-            if (current.has(key) && current.get(key) instanceof JSONObject) {
-                current = current.getJSONObject(key);
+        JSONObject result = new JSONObject();
+        for (int i = 0; i < keys.length; i++) {
+            String key = keys[i];
+            if (current.has(key)) {
+                if (i == keys.length - 1) {
+                    result.put(key, current.get(key));
+                } else if (current.get(key) instanceof JSONObject) {
+                    current = current.getJSONObject(key);
+                } else {
+                    return new JSONObject();
+                }
             } else {
                 return new JSONObject();
             }
         }
-        return current;
+        return result;
     }
 
     /**
