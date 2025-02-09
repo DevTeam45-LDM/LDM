@@ -6,6 +6,8 @@ import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 /**
  * The Json2Json class is responsible for converting a JSON string
  * into an Import object based on the provided ImportTemplate.
@@ -23,8 +25,8 @@ public abstract class Json2Json implements Parser {
         JSONObject jsonObject = new JSONObject(json);
         ImportMappings mappings = importTemplate.getData();
 
-        String metadataPath = mappings.getMetadata();
-        String dataPath = mappings.getData();
+        ArrayList<String> metadataPath = mappings.getMetadata();
+        ArrayList<String> dataPath = mappings.getData();
 
         String metadata = extractJsonValue(jsonObject, metadataPath);
         String data = extractJsonValue(jsonObject, dataPath);
@@ -44,7 +46,7 @@ public abstract class Json2Json implements Parser {
      * @return the extracted value as a string
      * @throws JSONException if there is an error parsing the JSON
      */
-    private static String extractJsonValue(JSONObject jsonObject, String path) throws JSONException {
+    private static String extractJsonValue(JSONObject jsonObject, ArrayList<String> path) throws JSONException {
         String[] keys = path.split("\\.");
         JSONObject currentObject = jsonObject;
         for (int i = 0; i < keys.length - 1; i++) {

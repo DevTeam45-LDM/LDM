@@ -3,6 +3,7 @@ package com.devteam45ldm.ldm.parser.templates.importDataStructures;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -12,7 +13,7 @@ import java.util.regex.Pattern;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ImportMappings {
     @JsonProperty("metadata")
-    private String metadata = null;
+    private ArrayList<String> metadata = null;
 
     @JsonProperty("metadata_separator")
     private String metadataSeparator = null;
@@ -21,7 +22,7 @@ public class ImportMappings {
     private Pattern metadataPattern = null;
 
     @JsonProperty("data")
-    private String data = null;
+    private ArrayList<String> data = null;
 
     @JsonProperty("data_separator")
     private String dataSeparator = null;
@@ -34,7 +35,7 @@ public class ImportMappings {
      *
      * @return the metadata
      */
-    public String getMetadata() {
+    public ArrayList<String> getMetadata() {
         return metadata;
     }
 
@@ -43,7 +44,7 @@ public class ImportMappings {
      *
      * @param metadata the metadata to set
      */
-    public void setMetadata(String metadata) {
+    public void setMetadata(ArrayList<String> metadata) {
         this.metadata = metadata;
     }
 
@@ -53,7 +54,7 @@ public class ImportMappings {
      * @param metadata the metadata to set
      * @return the current ImportMappings object
      */
-    public ImportMappings metadata(String metadata) {
+    public ImportMappings metadata(ArrayList<String> metadata) {
         this.metadata = metadata;
         return this;
     }
@@ -121,7 +122,7 @@ public class ImportMappings {
      *
      * @return the data
      */
-    public String getData() {
+    public ArrayList<String> getData() {
         return data;
     }
 
@@ -130,7 +131,7 @@ public class ImportMappings {
      *
      * @param data the data to set
      */
-    public void setData(String data) {
+    public void setData(ArrayList<String> data) {
         this.data = data;
     }
 
@@ -140,7 +141,7 @@ public class ImportMappings {
      * @param data the data to set
      * @return the current ImportMappings object
      */
-    public ImportMappings data(String data) {
+    public ImportMappings data(ArrayList<String> data) {
         this.data = data;
         return this;
     }
