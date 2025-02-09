@@ -1,6 +1,5 @@
-package com.devteam45ldm.ldm.parser;
+package com.devteam45ldm.ldm.parser.types;
 
-import com.devteam45ldm.ldm.parser.types.Json2ELab;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;

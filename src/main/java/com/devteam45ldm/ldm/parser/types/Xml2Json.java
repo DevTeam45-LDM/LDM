@@ -12,6 +12,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import java.io.IOException;
 
+//TODO: Implement this class analogous to Json2Json class
 public abstract class Xml2Json implements Parser {
 
     public static JSONObject parse(String xml) throws ParserConfigurationException, IOException, SAXException, JSONException {

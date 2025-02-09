@@ -1,6 +1,5 @@
-package com.devteam45ldm.ldm.parser;
+package com.devteam45ldm.ldm.parser.types;
 
-import com.devteam45ldm.ldm.parser.types.Xml2Json;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -8,6 +7,7 @@ import org.xml.sax.SAXException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//TODO: Implement this test suite and adapt to the new Xml2Json implementation
 class Xml2JsonTest {
 
     private final Boolean debug = false;

@@ -1,10 +1,9 @@
-package com.devteam45ldm.ldm.parser;
+package com.devteam45ldm.ldm.parser.types;
 
 import com.devteam45ldm.ldm.parser.templates.Metadata;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportedData;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportMappings;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate;
-import com.devteam45ldm.ldm.parser.types.Json2Json;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;

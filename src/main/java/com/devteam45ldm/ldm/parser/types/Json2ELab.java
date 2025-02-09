@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import java.util.Iterator;
 
+//TODO: Implement this class from the beginning using ExportTemplate and Experiments class from Swagger or ExportedData class from exportDataStructures package
 public class Json2ELab {
 
     /**

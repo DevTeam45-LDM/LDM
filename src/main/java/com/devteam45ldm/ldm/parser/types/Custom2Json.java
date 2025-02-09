@@ -2,6 +2,7 @@ package com.devteam45ldm.ldm.parser.types;
 
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate;
 
+//TODO: Implement this class
 public class Custom2Json {
     private ImportTemplate importTemplate;
 
