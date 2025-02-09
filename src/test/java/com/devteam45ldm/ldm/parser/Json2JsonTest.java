@@ -133,7 +133,7 @@ class Json2JsonTest {
         ImportedData result = Json2Json.parse(json, importTemplate);
 
         JSONObject expectedMetadata = new JSONObject("{\"kopfdaten\":{\"details\":{ \"baujahr\": 2020, \"modell\": \"golf\"}}}");
-        JSONObject expectedData = new JSONObject("{\"spezifikationen\":{ \"farbe\": \"rot\", \"ps\": 150 }}");
+        JSONObject expectedData = new JSONObject("{\"kopfdaten\":{\"details\":{\"spezifikationen\":{ \"farbe\": \"rot\", \"ps\": 150 }}}}");
 
         assertEquals(expectedMetadata.toString(), new JSONObject(result.getMetadata()).toString());
         assertEquals(expectedData.toString(), new JSONObject(result.getData()).toString());

@@ -85,19 +85,38 @@ public abstract class Json2Json implements Parser {
             return new JSONObject();
         }
 
+        Object value = jsonObject.get(key);
         JSONObject result = new JSONObject();
+
         if (index == keys.length - 1) {
-            result.put(key, jsonObject.get(key));
+            // Letzte Ebene erreicht -> nur primitive Werte und Arrays behalten
+            if (value instanceof JSONObject subObject) {
+                JSONObject filteredSubObject = new JSONObject();
+
+                for (Iterator it = subObject.keys(); it.hasNext(); ) {
+                    String subKey = (String) it.next();
+                    Object subValue = subObject.get(subKey);
+                    if (!(subValue instanceof JSONObject)) {
+                        filteredSubObject.put(subKey, subValue);
+                    }
+                }
+                result.put(key, filteredSubObject);
+            } else {
+                result.put(key, value);
+            }
         } else {
-            JSONObject subObject = jsonObject.getJSONObject(key);
-            JSONObject extractedSubObject = extractByPathRecursive(subObject, keys, index + 1);
-            if (extractedSubObject.length() > 0) {
-                result.put(key, extractedSubObject);
+            // Rekursion fortsetzen
+            if (value instanceof JSONObject) {
+                JSONObject extractedSubObject = extractByPathRecursive((JSONObject) value, keys, index + 1);
+                if (extractedSubObject.length() > 0) {
+                    result.put(key, extractedSubObject);
+                }
             }
         }
 
         return result;
     }
+
 
     /**
      * Merges two JSON objects, prioritizing values from the source.
