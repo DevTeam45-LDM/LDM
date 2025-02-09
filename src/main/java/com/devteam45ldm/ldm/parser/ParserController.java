@@ -1,6 +1,6 @@
 package com.devteam45ldm.ldm.parser;
 
-import com.devteam45ldm.ldm.parser.templates.importDataStructures.Import;
+import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportedData;
 import com.devteam45ldm.ldm.parser.types.Csv2Json;
 import com.devteam45ldm.ldm.parser.types.Custom2Json;
 import com.devteam45ldm.ldm.parser.types.Json2Json;
@@ -42,7 +42,7 @@ public class ParserController {
         this.importTemplate = importTemplate;
     }
 
-    public Import convert(String data, ParserType parserType) throws JSONException {
+    public ImportedData convert(String data, ParserType parserType) throws JSONException {
         switch (parserType) {
             case JSON2JSON:
                 return Json2Json.parse(data, importTemplate);

@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Tests the ImportTemplate class.
  */
-class ImportTemplateTest {
+class ImportedDataTemplateTest {
 
     /**
      * Tests if getMetadata returns the correct Metadata object.

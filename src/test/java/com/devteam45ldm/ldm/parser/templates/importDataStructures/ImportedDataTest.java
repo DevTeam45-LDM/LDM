@@ -4,16 +4,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class ImportTest {
+class ImportedDataTest {
 
     /**
      * Tests if getMetadata() returns the correct metadata.
      */
     @Test
     void getMetadata_returnsCorrectMetadata() {
-        Import anImport = new Import();
-        anImport.setMetadata("metadata");
-        assertEquals("metadata", anImport.getMetadata());
+        ImportedData anImportedData = new ImportedData();
+        anImportedData.setMetadata("metadata");
+        assertEquals("metadata", anImportedData.getMetadata());
     }
 
     /**
@@ -21,9 +21,9 @@ class ImportTest {
      */
     @Test
     void setMetadata_setsCorrectMetadata() {
-        Import anImport = new Import();
-        anImport.setMetadata("new_metadata");
-        assertEquals("new_metadata", anImport.getMetadata());
+        ImportedData anImportedData = new ImportedData();
+        anImportedData.setMetadata("new_metadata");
+        assertEquals("new_metadata", anImportedData.getMetadata());
     }
 
     /**
@@ -31,9 +31,9 @@ class ImportTest {
      */
     @Test
     void metadata_setsAndReturnsCorrectMetadata() {
-        Import anImport = new Import();
-        assertEquals(anImport, anImport.metadata("metadata"));
-        assertEquals("metadata", anImport.getMetadata());
+        ImportedData anImportedData = new ImportedData();
+        assertEquals(anImportedData, anImportedData.metadata("metadata"));
+        assertEquals("metadata", anImportedData.getMetadata());
     }
 
     /**
@@ -41,9 +41,9 @@ class ImportTest {
      */
     @Test
     void getData_returnsCorrectData() {
-        Import anImport = new Import();
-        anImport.setData("data");
-        assertEquals("data", anImport.getData());
+        ImportedData anImportedData = new ImportedData();
+        anImportedData.setData("data");
+        assertEquals("data", anImportedData.getData());
     }
 
     /**
@@ -51,9 +51,9 @@ class ImportTest {
      */
     @Test
     void setData_setsCorrectData() {
-        Import anImport = new Import();
-        anImport.setData("new_data");
-        assertEquals("new_data", anImport.getData());
+        ImportedData anImportedData = new ImportedData();
+        anImportedData.setData("new_data");
+        assertEquals("new_data", anImportedData.getData());
     }
 
     /**
@@ -61,9 +61,9 @@ class ImportTest {
      */
     @Test
     void data_setsAndReturnsCorrectData() {
-        Import anImport = new Import();
-        assertEquals(anImport, anImport.data("data"));
-        assertEquals("data", anImport.getData());
+        ImportedData anImportedData = new ImportedData();
+        assertEquals(anImportedData, anImportedData.data("data"));
+        assertEquals("data", anImportedData.getData());
     }
 
     /**
@@ -71,8 +71,8 @@ class ImportTest {
      */
     @Test
     void equals_sameObject_returnsTrue() {
-        Import anImport = new Import();
-        assertTrue(anImport.equals(anImport));
+        ImportedData anImportedData = new ImportedData();
+        assertTrue(anImportedData.equals(anImportedData));
     }
 
     /**
@@ -80,9 +80,9 @@ class ImportTest {
      */
     @Test
     void equals_differentObject_returnsFalse() {
-        Import anImport1 = new Import().data("data");
-        Import anImport2 = new Import();
-        assertFalse(anImport1.equals(anImport2));
+        ImportedData anImportedData1 = new ImportedData().data("data");
+        ImportedData anImportedData2 = new ImportedData();
+        assertFalse(anImportedData1.equals(anImportedData2));
     }
 
     /**
@@ -90,15 +90,15 @@ class ImportTest {
      */
     @Test
     void equals_sameValues_returnsTrue() {
-        Import anImport1 = new Import();
-        anImport1.setMetadata("metadata");
-        anImport1.setData("data");
+        ImportedData anImportedData1 = new ImportedData();
+        anImportedData1.setMetadata("metadata");
+        anImportedData1.setData("data");
 
-        Import anImport2 = new Import();
-        anImport2.setMetadata("metadata");
-        anImport2.setData("data");
+        ImportedData anImportedData2 = new ImportedData();
+        anImportedData2.setMetadata("metadata");
+        anImportedData2.setData("data");
 
-        assertTrue(anImport1.equals(anImport2));
+        assertTrue(anImportedData1.equals(anImportedData2));
     }
 
     /**
@@ -106,8 +106,8 @@ class ImportTest {
      */
     @Test
     void hashCode_sameObject_returnsSameHashCode() {
-        Import anImport = new Import();
-        assertEquals(anImport.hashCode(), anImport.hashCode());
+        ImportedData anImportedData = new ImportedData();
+        assertEquals(anImportedData.hashCode(), anImportedData.hashCode());
     }
 
     /**
@@ -115,15 +115,15 @@ class ImportTest {
      */
     @Test
     void toString_returnsCorrectStringRepresentation() {
-        Import anImport = new Import();
-        anImport.setMetadata("metadata");
-        anImport.setData("data");
+        ImportedData anImportedData = new ImportedData();
+        anImportedData.setMetadata("metadata");
+        anImportedData.setData("data");
         String expected = """
                 {
                     metadata: metadata
                     data: data
                 }""";
-        assertEquals(expected, anImport.toString());
+        assertEquals(expected, anImportedData.toString());
     }
 
     /**
@@ -133,10 +133,10 @@ class ImportTest {
     void fromJsonString_createsImportObject() throws Exception {
         String json = "{ \"metadata\": \"metadata_value\", \"data\": \"data_value\" }";
         ObjectMapper objectMapper = new ObjectMapper();
-        Import anImport = objectMapper.readValue(json, Import.class);
+        ImportedData anImportedData = objectMapper.readValue(json, ImportedData.class);
 
-        assertEquals("metadata_value", anImport.getMetadata());
-        assertEquals("data_value", anImport.getData());
+        assertEquals("metadata_value", anImportedData.getMetadata());
+        assertEquals("data_value", anImportedData.getData());
     }
 
     /**
@@ -146,10 +146,10 @@ class ImportTest {
     void fromJsonString_missingFields_createsImportObjectWithNulls() throws Exception {
         String json = "{ \"metadata\": \"metadata_value\" }";
         ObjectMapper objectMapper = new ObjectMapper();
-        Import anImport = objectMapper.readValue(json, Import.class);
+        ImportedData anImportedData = objectMapper.readValue(json, ImportedData.class);
 
-        assertEquals("metadata_value", anImport.getMetadata());
-        assertNull(anImport.getData());
+        assertEquals("metadata_value", anImportedData.getMetadata());
+        assertNull(anImportedData.getData());
     }
 
     /**
@@ -159,6 +159,6 @@ class ImportTest {
     void fromJsonString_invalidJson_throwsException() {
         String json = "{ \"metadata\": \"metadata_value\", ";
         ObjectMapper objectMapper = new ObjectMapper();
-        assertThrows(Exception.class, () -> objectMapper.readValue(json, Import.class));
+        assertThrows(Exception.class, () -> objectMapper.readValue(json, ImportedData.class));
     }
 }

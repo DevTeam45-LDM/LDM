@@ -1,7 +1,7 @@
 package com.devteam45ldm.ldm.parser;
 
 import com.devteam45ldm.ldm.parser.templates.Metadata;
-import com.devteam45ldm.ldm.parser.templates.importDataStructures.Import;
+import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportedData;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportMappings;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate;
 import com.devteam45ldm.ldm.parser.types.Json2Json;
@@ -30,7 +30,7 @@ class Json2JsonTest {
                 .metadata(new Metadata())
                 .data(mappings);
 
-        Import result = Json2Json.parse(json, importTemplate);
+        ImportedData result = Json2Json.parse(json, importTemplate);
 
         JSONObject expectedMetadata = new JSONObject("{\"maschine\":\"test\",\"hersteller\":\"vw\"}");
         JSONObject expectedData = new JSONObject("{\"wert1\":\"1test\",\"wert2\":2,\"wert3\":\"3test\",\"wert4\":4,\"wert5\":5,\"wert6\":\"6test\"}");
@@ -56,7 +56,7 @@ class Json2JsonTest {
                 .metadata(new Metadata())
                 .data(mappings);
 
-        Import result = Json2Json.parse(json, importTemplate);
+        ImportedData result = Json2Json.parse(json, importTemplate);
 
         JSONObject expectedMetadata = new JSONObject("{\"baujahr\":2020,\"modell\":\"golf\"}");
         JSONObject expectedData = new JSONObject("{\"wert1\":\"1test\",\"wert2\":2,\"wert3\":\"3test\",\"wert4\":4,\"wert5\":5,\"wert6\":\"6test\"}");
@@ -82,7 +82,7 @@ class Json2JsonTest {
                 .metadata(new Metadata())
                 .data(mappings);
 
-        Import result = Json2Json.parse(json, importTemplate);
+        ImportedData result = Json2Json.parse(json, importTemplate);
 
         JSONObject expectedMetadata = new JSONObject("{\"farbe\":\"rot\",\"ps\":150}");
         JSONObject expectedData = new JSONObject("{\"wert1\":\"1test\",\"wert2\":2,\"wert3\":\"3test\",\"wert4\":4,\"wert5\":5,\"wert6\":\"6test\"}");

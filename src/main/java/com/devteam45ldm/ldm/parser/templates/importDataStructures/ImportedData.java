@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Represents the result structure of the first parsing level.
  */
-public class Import {
+public class ImportedData {
     @JsonProperty("metadata")
     private String metadata = null;
 
@@ -38,7 +38,7 @@ public class Import {
      * @param metadata the metadata to set
      * @return the current Import object
      */
-    public Import metadata(String metadata) {
+    public ImportedData metadata(String metadata) {
         this.metadata = metadata;
         return this;
     }
@@ -67,7 +67,7 @@ public class Import {
      * @param data the data to set
      * @return the current Import object
      */
-    public Import data(String data) {
+    public ImportedData data(String data) {
         this.data = data;
         return this;
     }
@@ -80,8 +80,8 @@ public class Import {
      */
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Import anImport)) return false;
-        return Objects.equals(getMetadata(), anImport.getMetadata()) && Objects.equals(getData(), anImport.getData());
+        if (!(o instanceof ImportedData anImportedData)) return false;
+        return Objects.equals(getMetadata(), anImportedData.getMetadata()) && Objects.equals(getData(), anImportedData.getData());
     }
 
     /**

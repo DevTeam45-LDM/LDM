@@ -1,6 +1,6 @@
 package com.devteam45ldm.ldm.parser.types;
 
-import com.devteam45ldm.ldm.parser.templates.importDataStructures.Import;
+import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportedData;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportMappings;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate;
 import org.json.JSONException;
@@ -19,7 +19,7 @@ public abstract class Json2Json implements Parser {
      * @return the resulting Import object
      * @throws JSONException if there is an error parsing the JSON
      */
-    public static Import parse(String json, ImportTemplate importTemplate) throws JSONException {
+    public static ImportedData parse(String json, ImportTemplate importTemplate) throws JSONException {
         JSONObject jsonObject = new JSONObject(json);
         ImportMappings mappings = importTemplate.getData();
 
@@ -29,11 +29,11 @@ public abstract class Json2Json implements Parser {
         String metadata = extractJsonValue(jsonObject, metadataPath);
         String data = extractJsonValue(jsonObject, dataPath);
 
-        Import anImport = new Import();
-        anImport.setMetadata(metadata);
-        anImport.setData(data);
+        ImportedData anImportedData = new ImportedData();
+        anImportedData.setMetadata(metadata);
+        anImportedData.setData(data);
 
-        return anImport;
+        return anImportedData;
     }
 
     /**
