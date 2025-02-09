@@ -185,9 +185,9 @@ public class Metadata {
     }
 
     /**
-     * Gets the parser type of the metadata.
+     * Sets the parser type of the metadata.
      *
-     * @return the parser type of the metadata
+     * @param parser the parser type to set
      */
     public void setParser(Parser.ParserType parser) {
         this.parser = parser;
@@ -232,16 +232,14 @@ public class Metadata {
      * @return the string representation of this metadata
      */
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{\n");
-        sb.append("    version: ").append(toIndentedString(version)).append("\n");
-        sb.append("    created_by: ").append(toIndentedString(createdBy)).append("\n");
-        sb.append("    created_at: ").append(toIndentedString(createdAt)).append("\n");
-        sb.append("    last_modified_by: ").append(toIndentedString(lastModifiedBy)).append("\n");
-        sb.append("    last_modified_at: ").append(toIndentedString(lastModifiedAt)).append("\n");
-        sb.append("    parser: ").append(toIndentedString(parser)).append("\n");
-        sb.append("}");
-        return sb.toString();
+        return "{\n" +
+                "    version: " + toIndentedString(version) + "\n" +
+                "    created_by: " + toIndentedString(createdBy) + "\n" +
+                "    created_at: " + toIndentedString(createdAt) + "\n" +
+                "    last_modified_by: " + toIndentedString(lastModifiedBy) + "\n" +
+                "    last_modified_at: " + toIndentedString(lastModifiedAt) + "\n" +
+                "    parser: " + toIndentedString(parser) + "\n" +
+                "}";
     }
 
     /**

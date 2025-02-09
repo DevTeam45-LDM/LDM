@@ -229,16 +229,14 @@ public class ImportMappings {
      * @return the string representation
      */
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{\n");
-        sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
-        sb.append("    metadata_separator: ").append(toIndentedString(metadataSeparator)).append("\n");
-        sb.append("    metadata_pattern: ").append(toIndentedString(metadataPattern)).append("\n");
-        sb.append("    data: ").append(toIndentedString(data)).append("\n");
-        sb.append("    data_separator: ").append(toIndentedString(dataSeparator)).append("\n");
-        sb.append("    data_pattern: ").append(toIndentedString(dataPattern)).append("\n");
-        sb.append("}");
-        return sb.toString();
+        return "{\n" +
+                "    metadata: " + toIndentedString(metadata) + "\n" +
+                "    metadata_separator: " + toIndentedString(metadataSeparator) + "\n" +
+                "    metadata_pattern: " + toIndentedString(metadataPattern) + "\n" +
+                "    data: " + toIndentedString(data) + "\n" +
+                "    data_separator: " + toIndentedString(dataSeparator) + "\n" +
+                "    data_pattern: " + toIndentedString(dataPattern) + "\n" +
+                "}";
     }
 
     /**

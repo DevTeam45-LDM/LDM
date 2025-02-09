@@ -100,12 +100,10 @@ public class Import {
      * @return the string representation
      */
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{\n");
-        sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
-        sb.append("    data: ").append(toIndentedString(data)).append("\n");
-        sb.append("}");
-        return sb.toString();
+        return "{\n" +
+                "    metadata: " + toIndentedString(metadata) + "\n" +
+                "    data: " + toIndentedString(data) + "\n" +
+                "}";
     }
 
     /**
