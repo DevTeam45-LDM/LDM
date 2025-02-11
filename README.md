@@ -77,6 +77,11 @@ ENTRYPOINT ["/bin/bash", "-c", "/usr/local/bin/install_trust_certs.sh && java -D
 ```
 docker run --rm -it -d -p 8088:8088 -p 127.0.0.1:8081:8081 mitmproxy/mitmproxy mitmweb --web-host 0.0.0.0
 ```
+If you want to reuse the certs, try volume mounting:
+```
+docker run --rm -it -d -p 8088:8088 -p 127.0.0.1:8081:8081 -v /path/to/local/directory:/home/mitmproxy mitmproxy/mitmproxy mitmweb --web-host 0.0.0.0
+```
+
 4. copy the certificate from the Docker container ```/home/mitmproxy/.mitmproxy/mitmproxy-ca-cert.cer``` to the project folder ldm ```config/core/mitmproxy-ca-cert.cer```.
 5. command 
 ```
