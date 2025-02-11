@@ -17,8 +17,8 @@ public class ParserController {
         switch (importTemplate.getMetadata().getDatatype()) {
             case "json":
                 return Json2Json.parse(data, importTemplate);
-            //case XML2JSON: //TODO: Implement XML2JSON
-            //    return new Xml2Json().convert(data).toJson();
+            case "xml": //TODO: Implement XML2JSON
+                return Xml2Json.parse(data, importTemplate);
             //case CSV2JSON: //TODO: Implement CSV2JSON
             //    return new Csv2Json(importTemplate).convert(data);
             default:

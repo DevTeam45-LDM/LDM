@@ -93,7 +93,7 @@ public abstract class Json2Json implements Parser {
             if (value instanceof JSONObject subObject) {
                 JSONObject filteredSubObject = new JSONObject();
 
-                for (Iterator it = subObject.keys(); it.hasNext(); ) {
+                for (Iterator it = subObject.keys(); it.hasNext();) {
                     String subKey = (String) it.next();
                     Object subValue = subObject.get(subKey);
                     if (!(subValue instanceof JSONObject)) {
