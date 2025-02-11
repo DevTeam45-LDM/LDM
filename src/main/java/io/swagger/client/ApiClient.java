@@ -8,7 +8,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
@@ -39,7 +38,6 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -554,24 +552,18 @@ public class ApiClient {
                 requestBody = RequestBody.create(jsonBody, okhttp3.MediaType.parse(contentType.toString()));
             }
 
-            switch (method) {
-                case HttpMethod.GET:
-                    requestBuilder.get();
-                    break;
-                case HttpMethod.POST:
-                    requestBuilder.post(requestBody);
-                    break;
-                case HttpMethod.PUT:
-                    requestBuilder.put(requestBody);
-                    break;
-                case HttpMethod.DELETE:
-                    requestBuilder.delete(requestBody);
-                    break;
-                case HttpMethod.PATCH:
-                    requestBuilder.patch(requestBody);
-                    break;
-                default:
-                    throw new RestClientException("Unsupported HTTP method: " + method);
+            if (HttpMethod.GET.equals(method)) {
+                requestBuilder.get();
+            } else if (HttpMethod.POST.equals(method)) {
+                requestBuilder.post(requestBody);
+            } else if (HttpMethod.PUT.equals(method)) {
+                requestBuilder.put(requestBody);
+            } else if (HttpMethod.DELETE.equals(method)) {
+                requestBuilder.delete(requestBody);
+            } else if (HttpMethod.PATCH.equals(method)) {
+                requestBuilder.patch(requestBody);
+            } else {
+                throw new RestClientException("Unsupported HTTP method: " + method);
             }
 
             // Execute request
