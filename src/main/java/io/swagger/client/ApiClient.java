@@ -1,5 +1,6 @@
 package io.swagger.client;
 
+import okhttp3.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +83,9 @@ public class ApiClient {
     private Map<String, Authentication> authentications;
     
     private DateFormat dateFormat;
+
+    private OkHttpClient client = new OkHttpClient();
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     public ApiClient() {
         this.restTemplate = buildRestTemplate();
@@ -521,6 +525,67 @@ public class ApiClient {
         } else {
             // The error handler built into the RestTemplate should handle 400 and 500 series errors.
             throw new RestClientException("API returned " + responseEntity.getStatusCode() + " and it wasn't handled by the RestTemplate error handler");
+        }
+    }
+
+    public <T> ResponseEntity<T> invokeAPIOKHTTPClient(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
+        try {
+            // Build URL with query parameters
+            HttpUrl.Builder urlBuilder = HttpUrl.parse(path).newBuilder();
+            for (Map.Entry<String, List<String>> entry : queryParams.entrySet()) {
+                for (String value : entry.getValue()) {
+                    urlBuilder.addQueryParameter(entry.getKey(), value);
+                }
+            }
+            HttpUrl url = urlBuilder.build();
+
+            // Build request
+            Request.Builder requestBuilder = new Request.Builder().url(url);
+            for (Map.Entry<String, List<String>> entry : headerParams.entrySet()) {
+                for (String value : entry.getValue()) {
+                    requestBuilder.addHeader(entry.getKey(), value);
+                }
+            }
+
+            // Set request method and body
+            RequestBody requestBody = null;
+            if (body != null) {
+                String jsonBody = objectMapper.writeValueAsString(body);
+                requestBody = RequestBody.create(jsonBody, okhttp3.MediaType.parse(contentType.toString()));
+            }
+
+            switch (method) {
+                case HttpMethod.GET:
+                    requestBuilder.get();
+                    break;
+                case HttpMethod.POST:
+                    requestBuilder.post(requestBody);
+                    break;
+                case HttpMethod.PUT:
+                    requestBuilder.put(requestBody);
+                    break;
+                case HttpMethod.DELETE:
+                    requestBuilder.delete(requestBody);
+                    break;
+                case HttpMethod.PATCH:
+                    requestBuilder.patch(requestBody);
+                    break;
+                default:
+                    throw new RestClientException("Unsupported HTTP method: " + method);
+            }
+
+            // Execute request
+            Response response = client.newCall(requestBuilder.build()).execute();
+
+            // Handle response
+            if (response.isSuccessful()) {
+                T responseBody = objectMapper.readValue(response.body().string(), objectMapper.constructType(returnType.getType()));
+                return new ResponseEntity<>(responseBody, org.springframework.http.HttpStatus.valueOf(response.code()));
+            } else {
+                throw new RestClientException("API returned " + response.code() + ": " + response.message());
+            }
+        } catch (IOException e) {
+            throw new RestClientException("Error invoking API: " + e.getMessage(), e);
         }
     }
     
