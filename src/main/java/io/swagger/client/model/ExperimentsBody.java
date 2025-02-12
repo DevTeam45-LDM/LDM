@@ -1,9 +1,6 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringJoiner;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,8 +13,8 @@ public class ExperimentsBody {
   @JsonProperty("body")
   private String body;
 
-  @JsonProperty("tags")
-  private ArrayList<String> tags = null;
+  @JsonProperty("tags_id")
+  private String tagsId = null;
 
   @JsonProperty("metadata")
   private String metadata;
@@ -50,26 +47,18 @@ public class ExperimentsBody {
     this.body = body;
   }
 
-  public ExperimentsBody tags(ArrayList<String> tags) {
-    this.tags = tags;
-    return this;
-  }
-
-  public ExperimentsBody tags(String tagsItem) {
-    if (this.tags == null) {
-      this.tags = new ArrayList<>();
-    }
-    this.tags.add(tagsItem);
+  public ExperimentsBody tagsId(String tagsId) {
+    this.tagsId = tagsId;
     return this;
   }
 
   @Schema(description = "An array of tags to assign to the created entry.")
-  public List<String> getTags() {
-    return tags;
+  public String getTagsId() {
+    return tagsId;
   }
 
-  public void setTags(ArrayList<String> tags) {
-    this.tags = tags;
+  public void setTagsId(String tagsId) {
+    this.tagsId = tagsId;
   }
 
   public ExperimentsBody metadata(String metadata) {
@@ -86,21 +75,6 @@ public class ExperimentsBody {
     this.metadata = metadata;
   }
 
-  public Experiment toExperiment(){
-    String tagsString = null;
-    if (this.tags != null && !this.tags.isEmpty()) {
-      StringJoiner joiner = new StringJoiner(",");
-      for (String tag : this.tags) {
-        joiner.add(tag);
-      }
-      tagsString = joiner.toString();
-    }
-    return  new Experiment().title(this.title)
-            .body(this.body)
-            .tags(tagsString)
-            .metadata(this.metadata);
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -112,13 +86,13 @@ public class ExperimentsBody {
     ExperimentsBody experimentsBody = (ExperimentsBody) o;
     return Objects.equals(this.title, experimentsBody.title) &&
             Objects.equals(this.body, experimentsBody.body) &&
-            Objects.equals(this.tags, experimentsBody.tags) &&
+            Objects.equals(this.tagsId, experimentsBody.tagsId) &&
             Objects.equals(this.metadata, experimentsBody.metadata);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(title, body, tags, metadata);
+    return Objects.hash(title, body, tagsId, metadata);
   }
 
   @Override
@@ -132,7 +106,7 @@ public class ExperimentsBody {
       sb.append("    body: ").append(toIndentedString(body)).append("\n");
     //}
     //if(this.tags != null && !tags.isEmpty()) {
-      sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
+      sb.append("    tags_id: ").append(toIndentedString(tagsId)).append("\n");
     //}
     //if(this.metadata != null && !metadata.isEmpty()){
       sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
