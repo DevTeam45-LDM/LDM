@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class Json2JsonTest {
+class  Json2JsonTest {
 
     /**
      * Tests the Json2Json parser with a simple JSON structure.

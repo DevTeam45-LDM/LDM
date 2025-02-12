@@ -1,122 +1,177 @@
 package com.devteam45ldm.ldm.parser.types;
 
-import com.devteam45ldm.ldm.parser.templates.Metadata;
-import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportMappings;
-import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate;
-import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportedData;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-//TODO: Implement this test suite and adapt to the new Xml2Json implementation
 class Xml2JsonTest {
+
     private final Boolean debug = false;
 
     @Test
-    void parseXMLToJson_withValidXml_returnsJson() throws Exception {
-        String xml = "<root><child attr=\"value\">text</child></root>";
-        String metadataPath = "root.child.attr";
-        String dataPath = "root.child.content";
-
-        ArrayList<String> metadataPaths = new ArrayList<>();
-        metadataPaths.add(metadataPath);
-        ArrayList<String> dataPaths = new ArrayList<>();
-        dataPaths.add(dataPath);
-
-        ImportMappings mappings = new ImportMappings()
-                .metadata(metadataPaths)
-                .data(dataPaths);
-
-        ImportTemplate importTemplate = new ImportTemplate()
-                .metadata(new Metadata())
-                .data(mappings);
-
-        ImportedData result = Xml2Json.parse(xml, importTemplate);
+    void parseXMLToJson_simpleElement_returnsCorrectJson() throws Exception {
+        String xml = "<root><child>testString</child></root>";
+        JSONObject json = Xml2Json.parse(xml);
 
         if(debug) {
-            System.out.println("Result: " + result.toString());
+            System.out.println(json.toString(2));
         }
 
-        JSONObject metadata = new JSONObject(result.getMetadata());
-        assertEquals("value", metadata.getString("attr"));
-
-        JSONObject data = new JSONObject(result.getData());
-        assertEquals("text", data.getString("content"));
+        JSONObject root = json.getJSONObject("root");
+        JSONObject child = root.getJSONObject("child");
+        assertEquals("testString", child.getString("value"));
     }
 
     @Test
-    void parseXMLToJson_withNestedElements_returnsJsonWithNestedStructure() throws Exception {
-        String xml = "<root><child><subchild>text</subchild></child></root>";
-        String path = "root.child.subchild";
-
-        ArrayList<String> paths = new ArrayList<>();
-        paths.add(path);
-
-        ImportMappings mappings = new ImportMappings()
-                .data(paths);
-
-        ImportTemplate importTemplate = new ImportTemplate()
-                .metadata(new Metadata())
-                .data(mappings);
-
-        ImportedData result = Xml2Json.parse(xml, importTemplate);
+    void parseXMLToJson_withAttribute_returnsCorrectJson() throws Exception {
+        String xml = "<root><child testAttr=\"valueMJ\">testString</child></root>";
+        JSONObject json = Xml2Json.parse(xml);
 
         if(debug) {
-            System.out.println("Result: " + result.toString());
+            System.out.println(json.toString(2));
         }
 
-        JSONObject data = new JSONObject(result.getData());
-        assertEquals("text", data.getJSONObject("subchild").getString("content"));
+        JSONObject root = json.getJSONObject("root");
+        JSONObject child = root.getJSONObject("child");
+        assertEquals("valueMJ", child.getString("testAttr"));
+        assertEquals("testString", child.getString("value"));
     }
 
     @Test
-    void parseXMLToJson_withRepeatedElements_returnsJsonWithArray() throws Exception {
-        String xml = "<root><child>text1</child><child>text2</child></root>";
-        String path = "root.child";
-
-        ArrayList<String> paths = new ArrayList<>();
-        paths.add(path);
-
-        ImportMappings mappings = new ImportMappings()
-                .data(paths);
-
-        ImportTemplate importTemplate = new ImportTemplate()
-                .metadata(new Metadata())
-                .data(mappings);
-
-        ImportedData result = Xml2Json.parse(xml, importTemplate);
+    void parseXMLToJson_multipleAttributes_returnsCorrectJson() throws Exception {
+        String xml = "<root><child id=\"1\" type=\"test\">content</child></root>";
+        JSONObject json = Xml2Json.parse(xml);
 
         if(debug) {
-            System.out.println("Result: " + result.toString());
+            System.out.println(json.toString(2));
         }
 
-        JSONObject data = new JSONObject(result.getData());
-        JSONArray children = data.getJSONArray("child");
-        assertEquals("text1", children.getJSONObject(0).getString("content"));
-        assertEquals("text2", children.getJSONObject(1).getString("content"));
+        JSONObject child = json.getJSONObject("root").getJSONObject("child");
+        assertEquals("1", child.getString("id"));
+        assertEquals("test", child.getString("type"));
+        assertEquals("content", child.getString("value"));
     }
 
     @Test
-    void parseXMLToJson_withInvalidXml_throwsException() {
+    void parseXMLToJson_repeatedElements_returnsJsonArray() throws Exception {
+        String xml = "<root><child>value1</child><child>value2</child></root>";
+        JSONObject json = Xml2Json.parse(xml);
+
+        if(debug) {
+            System.out.println(json.toString(2));
+        }
+
+        JSONObject root = json.getJSONObject("root");
+        JSONArray children = root.getJSONArray("child");
+        assertEquals(2, children.length());
+        assertEquals("value1", children.getJSONObject(0).getString("value"));
+        assertEquals("value2", children.getJSONObject(1).getString("value"));
+    }
+
+    @Test
+    void parseXMLToJson_nestedElements_returnsNestedJson() throws Exception {
+        String xml = "<root><parent><child>value</child></parent></root>";
+        JSONObject json = Xml2Json.parse(xml);
+
+        if(debug) {
+            System.out.println(json.toString(2));
+        }
+
+        JSONObject root = json.getJSONObject("root");
+        JSONObject parent = root.getJSONObject("parent");
+        JSONObject child = parent.getJSONObject("child");
+        assertEquals("value", child.getString("value"));
+    }
+
+    @Test
+    void parseXMLToJson_emptyElement_returnsEmptyObject() throws Exception {
+        String xml = "<root><child></child></root>";
+        JSONObject json = Xml2Json.parse(xml);
+
+        if(debug) {
+            System.out.println(json.toString(2));
+        }
+
+        JSONObject root = json.getJSONObject("root");
+        assertTrue(root.has("child"));
+        JSONObject child = root.getJSONObject("child");
+        assertEquals(0, child.length());
+    }
+
+    @Test
+    void parseXMLToJson_emptyWithAttribute_returnsOnlyAttribute() throws Exception {
+        String xml = "<root><child id=\"1\"></child></root>";
+        JSONObject json = Xml2Json.parse(xml);
+
+        if(debug) {
+            System.out.println(json.toString(2));
+        }
+
+        JSONObject root = json.getJSONObject("root");
+        JSONObject child = root.getJSONObject("child");
+        assertEquals("1", child.getString("id"));
+        assertEquals(1, child.length());
+    }
+
+    @Test
+    void parseXMLToJson_invalidXml_throwsSAXException() {
         String xml = "<root><child></root>";
-        String path = "root.child";
+        assertThrows(SAXException.class, () -> Xml2Json.parse(xml));
+    }
 
-        ArrayList<String> paths = new ArrayList<>();
-        paths.add(path);
+    @Test
+    void parseXMLToJson_mixedContent_handlesCorrectly() throws Exception {
+        String xml = "<root><child>Start<nested>value</nested>End</child></root>";
+        JSONObject json = Xml2Json.parse(xml);
 
-        ImportMappings mappings = new ImportMappings()
-                .data(paths);
+        if(debug) {
+            System.out.println(json.toString(2));
+        }
 
-        ImportTemplate importTemplate = new ImportTemplate()
-                .metadata(new Metadata())
-                .data(mappings);
+        JSONObject root = json.getJSONObject("root");
+        JSONObject child = root.getJSONObject("child");
+        JSONObject nested = child.getJSONObject("nested");
+        assertEquals("value", nested.getString("value"));
+        assertEquals("StartEnd", child.getString("value"));
+    }
 
-        assertThrows(JSONException.class, () -> Xml2Json.parse(xml, importTemplate));
+    @Test
+    void parseXMLToJson_complexStructure_handlesCorrectly() throws Exception {
+        String xml =
+                "<data>" +
+                        "<person id=\"1\">" +
+                        "<name>John</name>" +
+                        "<contacts>" +
+                        "<email type=\"work\">john@work.com</email>" +
+                        "<email type=\"home\">john@home.com</email>" +
+                        "</contacts>" +
+                        "</person>" +
+                        "</data>";
+
+        JSONObject json = Xml2Json.parse(xml);
+
+        if(debug) {
+            System.out.println(json.toString(2));
+        }
+
+        JSONObject data = json.getJSONObject("data");
+        JSONObject person = data.getJSONObject("person");
+        assertEquals("1", person.getString("id"));
+        assertEquals("John", person.getJSONObject("name").getString("value"));
+
+        JSONObject contacts = person.getJSONObject("contacts");
+        JSONArray emails = contacts.getJSONArray("email");
+        assertEquals(2, emails.length());
+
+        JSONObject workEmail = emails.getJSONObject(0);
+        assertEquals("work", workEmail.getString("type"));
+        assertEquals("john@work.com", workEmail.getString("value"));
+
+        JSONObject homeEmail = emails.getJSONObject(1);
+        assertEquals("home", homeEmail.getString("type"));
+        assertEquals("john@home.com", homeEmail.getString("value"));
     }
 }

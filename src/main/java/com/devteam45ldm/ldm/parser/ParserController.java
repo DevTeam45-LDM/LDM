@@ -10,17 +10,24 @@ import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate
 import com.devteam45ldm.ldm.parser.types.Xml2Json;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.json.JSONException;
+import org.json.JSONObject;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 public class ParserController {
 
-    public static ImportedData importParser(String data, ImportTemplate importTemplate) throws JSONException {
+    public static ImportedData importParser(String data, ImportTemplate importTemplate) throws SAXException, ParserConfigurationException, IOException, JSONException {
         switch (importTemplate.getMetadata().getDatatype()) {
             case "json":
                 return Json2Json.parse(data, importTemplate);
             case "xml": //TODO: Implement XML2JSON
-                return Xml2Json.parse(data, importTemplate);
-            //case CSV2JSON: //TODO: Implement CSV2JSON
-            //    return new Csv2Json(importTemplate).convert(data);
+                JSONObject xml2Json = Xml2Json.parse(data);
+                return Json2Json.parse(xml2Json.toString(), importTemplate);
+            case "csv": //TODO: Implement CSV2JSON
+                JSONObject csv2Json = Csv2Json.parse(data);
+                return Json2Json.parse(csv2Json.toString(), importTemplate);
             default:
                 return null; //TODO: Use custom parser;
         }
