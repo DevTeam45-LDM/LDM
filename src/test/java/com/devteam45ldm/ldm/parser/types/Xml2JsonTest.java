@@ -46,7 +46,19 @@ class Xml2JsonTest {
         JSONObject root = json.getJSONObject("root");
         JSONObject child = root.getJSONObject("child");
         assertEquals("valueMJ", child.getString("testAttr"));
-        assertEquals("testString", child.getString("value"));
+        assertEquals("testString", child.getString("__child"));
+
+        String expected = """
+        {
+          "root": {
+            "child": {
+              "__child": "testString",
+              "testAttr": "valueMJ"
+            }
+          }
+        }
+        """;
+        assertEquals(expected, json.toString(2));
     }
 
     @Test
@@ -61,7 +73,20 @@ class Xml2JsonTest {
         JSONObject child = json.getJSONObject("root").getJSONObject("child");
         assertEquals("1", child.getString("id"));
         assertEquals("test", child.getString("type"));
-        assertEquals("content", child.getString("value"));
+        assertEquals("content", child.getString("__child"));
+
+        String expected = """
+        {
+          "root": {
+            "child": {
+              "id": "1",
+              "type": "test",
+              "__child": "content"
+            }
+          }
+        }
+        """;
+        assertEquals(expected, json.toString(2));
     }
 
     @Test
