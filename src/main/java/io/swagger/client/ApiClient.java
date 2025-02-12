@@ -1,5 +1,6 @@
 package io.swagger.client;
 
+import com.vaadin.flow.component.notification.Notification;
 import okhttp3.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -491,7 +492,7 @@ public class ApiClient {
         if(HttpMethod.PATCH.equals(method)) { //Drive-by fix for PATCH requests
             invokeAPIOKHTTPClient(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames, returnType);
         }
-        if(HttpMethod.POST.equals(method)) { //Drive-by fix for PATCH requests
+        if(HttpMethod.POST.equals(method)) { //Drive-by fix for POST requests
             invokeAPIOKHTTPClient(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames, returnType);
         }
 
@@ -531,14 +532,33 @@ public class ApiClient {
 
     public <T> ResponseEntity<T> invokeAPIOKHTTPClient(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         try {
-            // Build URL with query parameters
-            HttpUrl.Builder urlBuilder = HttpUrl.parse(path).newBuilder();
+            // Log the URL
+            Notification.show("Invoking API with URL: " + path);
+
+            // Validate and build URL with query parameters
+            HttpUrl url = HttpUrl.parse(getBasePath() + path);
+            if (url == null) {
+                throw new RestClientException("Invalid URL: " + path);
+            }
+            HttpUrl.Builder urlBuilder = url.newBuilder();
             for (Map.Entry<String, List<String>> entry : queryParams.entrySet()) {
                 for (String value : entry.getValue()) {
                     urlBuilder.addQueryParameter(entry.getKey(), value);
                 }
             }
-            HttpUrl url = urlBuilder.build();
+            url = urlBuilder.build();
+
+            // Log the final URL
+            Notification.show("Final URL: " + url);
+
+            // Add authentication headers
+            Authentication auth = getAuthentication("token");
+            if (auth instanceof ApiKeyAuth) {
+                ApiKeyAuth apiKeyAuth = (ApiKeyAuth) auth;
+                headerParams.add("Authorization", apiKeyAuth.getApiKey());
+            } else {
+                throw new RestClientException("Authentication is not of type ApiKeyAuth");
+            }
 
             // Build request
             Request.Builder requestBuilder = new Request.Builder().url(url);
