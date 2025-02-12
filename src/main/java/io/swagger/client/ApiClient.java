@@ -6,14 +6,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.InvalidMediaTypeException;
+import org.springframework.http.*;
 import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.RequestEntity.BodyBuilder;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -543,7 +538,7 @@ public class ApiClient {
                 throw new RestClientException("Invalid URL: " + path);
             }
             HttpUrl.Builder urlBuilder = url.newBuilder();
-            for (Map.Entry<String, List<String>> entry : queryParams.entrySet()) {
+            for (Entry<String, List<String>> entry : queryParams.entrySet()) {
                 for (String value : entry.getValue()) {
                     urlBuilder.addQueryParameter(entry.getKey(), value);
                 }
@@ -558,14 +553,14 @@ public class ApiClient {
             if (auth instanceof ApiKeyAuth) {
                 ApiKeyAuth apiKeyAuth = (ApiKeyAuth) auth;
                 headerParams.add("Authorization", apiKeyAuth.getApiKey());
-                headerParams.set("Content-Type", "application/json");
+                headerParams.add("Content-Type", "application/json");
             } else {
                 throw new RestClientException("Authentication is not of type ApiKeyAuth");
             }
 
             // Build request
             Request.Builder requestBuilder = new Request.Builder().url(url);
-            for (Map.Entry<String, List<String>> entry : headerParams.entrySet()) {
+            for (Entry<String, List<String>> entry : headerParams.entrySet()) {
                 for (String value : entry.getValue()) {
                     requestBuilder.addHeader(entry.getKey(), value);
                 }
@@ -573,6 +568,7 @@ public class ApiClient {
 
             // Set request method and body
             RequestBody requestBody = null;
+            okhttp3.MediaType mediaType = okhttp3.MediaType.Companion.parse("application/json");
             if (body != null) {
                 String jsonBody = objectMapper.writeValueAsString(body);
                 requestBody = RequestBody.create(jsonBody, null);
@@ -600,7 +596,7 @@ public class ApiClient {
             // Handle response
             if (response.isSuccessful()) {
                 T responseBody = objectMapper.readValue(response.body().string(), objectMapper.constructType(returnType.getType()));
-                return new ResponseEntity<>(responseBody, org.springframework.http.HttpStatus.valueOf(response.code()));
+                return new ResponseEntity<>(responseBody, HttpStatus.valueOf(response.code()));
             } else {
                 throw new RestClientException("API returned " + response.code() + ": " + response.message());
             }
