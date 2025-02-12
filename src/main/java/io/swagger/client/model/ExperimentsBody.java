@@ -13,9 +13,6 @@ public class ExperimentsBody {
   @JsonProperty("body")
   private String body;
 
-  @JsonProperty("tags_id")
-  private String tagsId = null;
-
   @JsonProperty("metadata")
   private String metadata;
 
@@ -47,20 +44,6 @@ public class ExperimentsBody {
     this.body = body;
   }
 
-  public ExperimentsBody tagsId(String tagsId) {
-    this.tagsId = tagsId;
-    return this;
-  }
-
-  @Schema(description = "An array of tags to assign to the created entry.")
-  public String getTagsId() {
-    return tagsId;
-  }
-
-  public void setTagsId(String tagsId) {
-    this.tagsId = tagsId;
-  }
-
   public ExperimentsBody metadata(String metadata) {
     this.metadata = metadata;
     return this;
@@ -86,13 +69,12 @@ public class ExperimentsBody {
     ExperimentsBody experimentsBody = (ExperimentsBody) o;
     return Objects.equals(this.title, experimentsBody.title) &&
             Objects.equals(this.body, experimentsBody.body) &&
-            Objects.equals(this.tagsId, experimentsBody.tagsId) &&
             Objects.equals(this.metadata, experimentsBody.metadata);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(title, body, tagsId, metadata);
+    return Objects.hash(title, body, metadata);
   }
 
   @Override
@@ -104,9 +86,6 @@ public class ExperimentsBody {
     //}
     //if(this.body != null && !body.isEmpty()) {
       sb.append("    body: ").append(toIndentedString(body)).append("\n");
-    //}
-    //if(this.tags != null && !tags.isEmpty()) {
-      sb.append("    tags_id: ").append(toIndentedString(tagsId)).append("\n");
     //}
     //if(this.metadata != null && !metadata.isEmpty()){
       sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");

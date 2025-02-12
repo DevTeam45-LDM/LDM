@@ -23,13 +23,10 @@ import java.util.Objects;
  * Experiment
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
-public class Experiment {
+public class Experiment extends ExperimentsBody{
 
   @JsonProperty("access_key")
   private String accessKey = null;
-
-  @JsonProperty("body")
-  private String body = null;
 
   @JsonProperty("body_html")
   private String bodyHtml = null;
@@ -111,9 +108,6 @@ public class Experiment {
 
   @JsonProperty("locked_at")
   private String lockedAt = null;
-
-  @JsonProperty("metadata")
-  private String metadata = null;
 
   @JsonProperty("modified_at")
   private String modifiedAt = null;
@@ -209,24 +203,6 @@ public class Experiment {
 
   public void setAccessKey(String accessKey) {
     this.accessKey = accessKey;
-  }
-
-  public Experiment body(String body) {
-    this.body = body;
-    return this;
-  }
-
-  /**
-   * Get body
-   * @return body
-   **/
-  @Schema(description = "")
-  public String getBody() {
-    return body;
-  }
-
-  public void setBody(String body) {
-    this.body = body;
   }
 
   public Experiment bodyHtml(String bodyHtml) {
@@ -730,24 +706,6 @@ public class Experiment {
     this.lockedAt = lockedAt;
   }
 
-  public Experiment metadata(String metadata) {
-    this.metadata = metadata;
-    return this;
-  }
-
-  /**
-   * Get metadata
-   * @return metadata
-   **/
-  @Schema(description = "")
-  public String getMetadata() {
-    return metadata;
-  }
-
-  public void setMetadata(String metadata) {
-    this.metadata = metadata;
-  }
-
   public Experiment modifiedAt(String modifiedAt) {
     this.modifiedAt = modifiedAt;
     return this;
@@ -1042,16 +1000,12 @@ public class Experiment {
     this.tags = tags;
   }
 
-  public Experiment tagsId(String tagsId) {
+  public ExperimentsBody tagsId(String tagsId) {
     this.tagsId = tagsId;
     return this;
   }
 
-  /**
-   * Get tagsId
-   * @return tagsId
-   **/
-  @Schema(description = "")
+  @Schema(description = "An array of tags to assign to the created entry.")
   public String getTagsId() {
     return tagsId;
   }
@@ -1243,14 +1197,6 @@ public class Experiment {
     this.userid = userid;
   }
 
-  public Experiment createFilteredExperiment() {
-    return new Experiment()
-            .title(this.getTitle())
-            .body(this.getBody())
-            .tags(this.getTags());
-  }
-
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -1261,7 +1207,7 @@ public class Experiment {
     }
     Experiment experiment = (Experiment) o;
     return Objects.equals(this.accessKey, experiment.accessKey) &&
-            Objects.equals(this.body, experiment.body) &&
+            Objects.equals(this.getBody(), experiment.getBody()) &&
             Objects.equals(this.bodyHtml, experiment.bodyHtml) &&
             Objects.equals(this.canread, experiment.canread) &&
             Objects.equals(this.canwrite, experiment.canwrite) &&
@@ -1287,7 +1233,7 @@ public class Experiment {
             Objects.equals(this.locked, experiment.locked) &&
             Objects.equals(this.lockedby, experiment.lockedby) &&
             Objects.equals(this.lockedAt, experiment.lockedAt) &&
-            Objects.equals(this.metadata, experiment.metadata) &&
+            Objects.equals(this.getMetadata(), experiment.getMetadata()) &&
             Objects.equals(this.modifiedAt, experiment.modifiedAt) &&
             Objects.equals(this.nextStep, experiment.nextStep) &&
             Objects.equals(this.orcid, experiment.orcid) &&
@@ -1317,7 +1263,7 @@ public class Experiment {
 
   @Override
   public int hashCode() {
-    return Objects.hash(accessKey, body, bodyHtml, canread, canwrite, category, categoryColor, categoryTitle, comments, contentType, createdAt, customId, date, elabid, exclusiveEditMode, experimentsLinks, firstname, fullname, hasAttachement, hasComment, id, itemsLinks, lastchangeby, lastname, locked, lockedby, lockedAt, metadata, modifiedAt, nextStep, orcid, page, rating, recentComment, relatedExperimentsLinks, relatedItemsLinks, sharelink, state, status, statusColor, statusTitle, steps, tags, tagsId, team, timestamped, timestampedby, timestampedAt, title, type, upItemId, uploads, userid);
+    return Objects.hash(super.hashCode(), accessKey, bodyHtml, canread, canwrite, category, categoryColor, categoryTitle, comments, contentType, createdAt, customId, date, elabid, exclusiveEditMode, experimentsLinks, firstname, fullname, hasAttachement, hasComment, id, itemsLinks, lastchangeby, lastname, locked, lockedby, lockedAt, modifiedAt, nextStep, orcid, page, rating, recentComment, relatedExperimentsLinks, relatedItemsLinks, sharelink, state, status, statusColor, statusTitle, steps, tags, tagsId, team, timestamped, timestampedby, timestampedAt, title, type, upItemId, uploads, userid);
   }
 
   @Override
@@ -1325,7 +1271,7 @@ public class Experiment {
     StringBuilder sb = new StringBuilder();
     sb.append("{\n");
     sb.append("    accessKey: ").append(toIndentedString(accessKey)).append("\n");
-    sb.append("    body: ").append(toIndentedString(body)).append("\n");
+    sb.append("    body: ").append(toIndentedString(getBody())).append("\n");
     sb.append("    bodyHtml: ").append(toIndentedString(bodyHtml)).append("\n");
     sb.append("    canread: ").append(toIndentedString(canread)).append("\n");
     sb.append("    canwrite: ").append(toIndentedString(canwrite)).append("\n");
@@ -1351,7 +1297,7 @@ public class Experiment {
     sb.append("    locked: ").append(toIndentedString(locked)).append("\n");
     sb.append("    lockedby: ").append(toIndentedString(lockedby)).append("\n");
     sb.append("    lockedAt: ").append(toIndentedString(lockedAt)).append("\n");
-    sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
+    sb.append("    metadata: ").append(toIndentedString(getMetadata())).append("\n");
     sb.append("    modifiedAt: ").append(toIndentedString(modifiedAt)).append("\n");
     sb.append("    nextStep: ").append(toIndentedString(nextStep)).append("\n");
     sb.append("    orcid: ").append(toIndentedString(orcid)).append("\n");

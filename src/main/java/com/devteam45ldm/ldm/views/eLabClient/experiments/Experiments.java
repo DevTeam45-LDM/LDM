@@ -391,7 +391,7 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
     private void createExperimentCURL() {
         String title = editField.getValue();
         Integer id;
-        try { //TODO use ApiClient
+        try {
             id = apiInstance.getExperimentsClient().createExperimentCURL(apiKeyField.getValue(), urlField.getValue(), title);
             if (!classicEditor.getValue().isEmpty()) {
                 apiInstance.getExperimentsClient().modifyExperimentCURL(apiKeyField.getValue(), urlField.getValue(), id, title, classicEditor.getValue());
@@ -418,7 +418,7 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
             Objects.requireNonNull(response.getHeaders().get("Location")).forEach(location -> {
                 String[] parts = location.split("/");
                 int id = Integer.parseInt(parts[parts.length - 1]);
-                apiInstance.getExperimentsClient().patchExperiment(id, experimentBody.toExperiment());
+                apiInstance.getExperimentsClient().patchExperiment(id, experimentBody);
                 Notification.show("Experiment " + "[ID: " + id + "]" + " erfolgreich erstellt.");
                 resetEditComponents();
                 readExperiments();
@@ -437,11 +437,18 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
      */
     private void saveChanges() {
         Integer id = selectedExperiment.getId();
-        updateSelectedExperiment();
+        String title = editField.getValue();
+        ExperimentsBody experimentBody = new ExperimentsBody();
+        experimentBody.setTitle(title);
+        experimentBody.setBody(classicEditor.getValue());
 
-        try { //TODO use ApiClient
-            apiInstance.getExperimentsClient(apiKeyField.getValue(), urlField.getValue()).modifyExperimentCURL(apiKeyField.getValue(), urlField.getValue(), id, selectedExperiment.getTitle(), selectedExperiment.getBody());
-
+        try {
+            //apiInstance.getExperimentsClient(apiKeyField.getValue(), urlField.getValue()).modifyExperimentCURL(apiKeyField.getValue(), urlField.getValue(), id, selectedExperiment.getTitle(), selectedExperiment.getBody());
+            apiInstance.getExperimentsClient().patchExperiment(id, experimentBody);
+            Notification.show("Experiment " + "[ID: " + id + "]" + " erfolgreich erstellt.");
+            resetEditComponents();
+            readExperiments();
+            setExperimentById(id);
         } catch (RestClientException e) {
             Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
             Notification.show(e.toString());
