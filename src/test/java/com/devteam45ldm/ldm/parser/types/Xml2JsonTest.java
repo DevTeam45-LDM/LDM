@@ -23,6 +23,15 @@ class Xml2JsonTest {
         JSONObject root = json.getJSONObject("root");
         String childValue = root.getString("child");
         assertEquals("testString", childValue);
+
+        String expected = """
+        {
+          "root": {
+            "child": "testString"
+          }
+        }
+        """;
+        assertEquals(expected, json.toString(2));
     }
 
     @Test
