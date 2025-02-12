@@ -1,6 +1,5 @@
 package com.devteam45ldm.ldm.parser.types;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.*;
@@ -57,38 +56,39 @@ public abstract class Xml2Json {
      *
      * @throws JSONException if there is an error creating the JSON structure
      */
-    private static JSONObject elementToJson(Element element) throws JSONException {
+    private static Object elementToJson(Element element) throws JSONException {
         JSONObject json = new JSONObject();
 
         NamedNodeMap attributes = element.getAttributes();
+        boolean hasAttributes = attributes.getLength() > 0;
+
         for (int i = 0; i < attributes.getLength(); i++) {
             Attr attr = (Attr) attributes.item(i);
             json.put(attr.getName(), attr.getValue());
         }
 
         NodeList children = element.getChildNodes();
+        boolean hasElementChildren = false;
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
             if (child instanceof Element childElement) {
+                hasElementChildren = true;
                 if (json.has(childElement.getNodeName())) {
                     Object existing = json.get(childElement.getNodeName());
-                    if (existing instanceof JSONArray) {
-                        ((JSONArray) existing).put(elementToJson(childElement));
-                    } else {
-                        JSONArray array = new JSONArray();
-                        array.put(existing);
-                        array.put(elementToJson(childElement));
-                        json.put(childElement.getNodeName(), array);
+                    if (existing instanceof JSONObject existingJson) {
+                        json.put(childElement.getNodeName(), existingJson);
                     }
                 } else {
                     json.put(childElement.getNodeName(), elementToJson(childElement));
                 }
-            } else if (child instanceof Text) {
-                String textContent = child.getTextContent().trim();
-                if (!textContent.isEmpty()) {
-                    json.put("content", textContent);
-                }
             }
+        }
+
+        String textContent = element.getTextContent().trim();
+        if (!hasElementChildren && !hasAttributes) {
+            return textContent.isEmpty() ? JSONObject.NULL : textContent;
+        } else if (!textContent.isEmpty()) {
+            json.put("__" + element.getNodeName(), textContent);
         }
 
         return json;

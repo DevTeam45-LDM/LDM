@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class Xml2JsonTest {
 
-    private final Boolean debug = false;
+    private final Boolean debug = true;
 
     @Test
     void parseXMLToJson_simpleElement_returnsCorrectJson() throws Exception {
@@ -21,8 +21,8 @@ class Xml2JsonTest {
         }
 
         JSONObject root = json.getJSONObject("root");
-        JSONObject child = root.getJSONObject("child");
-        assertEquals("testString", child.getString("value"));
+        String childValue = root.getString("child");
+        assertEquals("testString", childValue);
     }
 
     @Test
