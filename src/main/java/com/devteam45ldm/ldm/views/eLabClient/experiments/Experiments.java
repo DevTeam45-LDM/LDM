@@ -388,7 +388,7 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
      * Creates a new experiment using the provided title.
      * Resets the edit components and refreshes the experiments list.
      */
-    private void createExperiment() {
+    private void createExperimentOld() {
         String title = editField.getValue();
         Integer id;
         try { //TODO use ApiClient
@@ -405,6 +405,27 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
         resetEditComponents();
         readExperiments();
         setExperimentById(id);
+    }
+
+    private void createExperiment() {
+        String title = editField.getValue();
+        ExperimentsBody experiment = new ExperimentsBody();
+        experiment.setTitle(title);
+        experiment.setBody(classicEditor.getValue());
+
+        try {
+            ResponseEntity<Void> response = apiInstance.getExperimentsClient().postExperimentWithHttpInfo(experiment);
+            Objects.requireNonNull(response.getHeaders().get("Location")).forEach(location -> {
+                String[] parts = location.split("/");
+                int id = Integer.parseInt(parts[parts.length - 1]);
+                Notification.show("Experiment " + "[ID: " + id + "]" + " erfolgreich erstellt.");
+                resetEditComponents();
+                readExperiments();
+                setExperimentById(id);
+            });
+        } catch (Exception e) {
+            Notification.show("Error creating experiment: " + e.getMessage());
+        }
     }
 
 

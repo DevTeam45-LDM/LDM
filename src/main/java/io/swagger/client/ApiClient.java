@@ -488,6 +488,13 @@ public class ApiClient {
      * @return ResponseEntity&lt;T&gt; The response of the chosen type
      */
     public <T> ResponseEntity<T> invokeAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
+        if(HttpMethod.PATCH.equals(method)) { //Drive-by fix for PATCH requests
+            invokeAPIOKHTTPClient(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames, returnType);
+        }
+        if(HttpMethod.POST.equals(method)) { //Drive-by fix for PATCH requests
+            invokeAPIOKHTTPClient(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames, returnType);
+        }
+
         updateParamsForAuth(authNames, queryParams, headerParams);
 
         final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(path);
@@ -508,15 +515,11 @@ public class ApiClient {
 
         RequestEntity<Object> requestEntity = requestBuilder.body(selectBody(body, formParams, contentType));
 
-        if(HttpMethod.PATCH.equals(method)) { //DEBUG
-            throw new RestClientException(requestBuilder.build().toString() + " !-! " + body + " !-! " + formParams + " !-! " + contentType);
-        } //until here, no exception thrown during patch request
+        //if(HttpMethod.PATCH.equals(method)) { //DEBUG
+        //    throw new RestClientException(requestBuilder.build().toString() + " !-! " + body + " !-! " + formParams + " !-! " + contentType);
+        //} //until here, no exception thrown during patch request
 
         ResponseEntity<T> responseEntity = restTemplate.exchange(requestEntity, returnType);
-
-        //if(HttpMethod.PATCH.equals(method)) { //DEBUG
-        //    throw new RestClientException(responseEntity.getStatusCode().toString() + " !-! " + responseEntity.toString() + " !-! " + requestBuilder.build().toString() + " !-! " + body + " !-! " + formParams + " !-! " + contentType);
-        //}
 
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
             return responseEntity;

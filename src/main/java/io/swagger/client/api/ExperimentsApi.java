@@ -222,7 +222,7 @@ public class ExperimentsApi {
         String[] authNames = new String[] { "token" };
 
         ParameterizedTypeReference<Experiment> returnType = new ParameterizedTypeReference<Experiment>() {};
-        return apiClient.invokeAPI(path, HttpMethod.PATCH, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPIOKHTTPClient(path, HttpMethod.PATCH, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * Create an experiment
