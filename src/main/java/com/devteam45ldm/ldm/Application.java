@@ -5,6 +5,7 @@ import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * The entry point of the Spring Boot application.
@@ -15,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @PWA(name = "LaborDatenManager", shortName = "LDM")
 @Theme(value = "ldm")
+@ComponentScan(basePackages = "com.devteam45ldm.ldm.views.eLabClient.createReport")
 public class Application implements AppShellConfigurator {
 
     public static void main(String[] args) {
