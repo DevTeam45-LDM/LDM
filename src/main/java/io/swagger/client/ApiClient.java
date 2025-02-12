@@ -572,7 +572,7 @@ public class ApiClient {
             RequestBody requestBody = null;
             if (body != null) {
                 String jsonBody = objectMapper.writeValueAsString(body);
-                requestBody = RequestBody.create(jsonBody, okhttp3.MediaType.parse(contentType.toString()));
+                requestBody = RequestBody.create(jsonBody, okhttp3.MediaType.parse("application/json"));
             }
 
             if (HttpMethod.GET.equals(method)) {
