@@ -538,7 +538,7 @@ public class ApiClient {
                 throw new RestClientException("Invalid URL: " + path);
             }
             HttpUrl.Builder urlBuilder = url.newBuilder();
-            for (Entry<String, List<String>> entry : queryParams.entrySet()) {
+            for (Map.Entry<String, List<String>> entry : queryParams.entrySet()) {
                 for (String value : entry.getValue()) {
                     urlBuilder.addQueryParameter(entry.getKey(), value);
                 }
@@ -553,14 +553,13 @@ public class ApiClient {
             if (auth instanceof ApiKeyAuth) {
                 ApiKeyAuth apiKeyAuth = (ApiKeyAuth) auth;
                 headerParams.add("Authorization", apiKeyAuth.getApiKey());
-                headerParams.add("Content-Type", "application/json");
             } else {
                 throw new RestClientException("Authentication is not of type ApiKeyAuth");
             }
 
             // Build request
             Request.Builder requestBuilder = new Request.Builder().url(url);
-            for (Entry<String, List<String>> entry : headerParams.entrySet()) {
+            for (Map.Entry<String, List<String>> entry : headerParams.entrySet()) {
                 for (String value : entry.getValue()) {
                     requestBuilder.addHeader(entry.getKey(), value);
                 }
@@ -568,13 +567,11 @@ public class ApiClient {
 
             // Set request method and body
             RequestBody requestBody = null;
-            okhttp3.MediaType mediaType = okhttp3.MediaType.Companion.parse("application/json");
             if (body != null) {
                 String jsonBody = objectMapper.writeValueAsString(body);
                 requestBody = RequestBody.create(jsonBody, null);
+                requestBuilder.addHeader("Content-Type", "application/json");
             }
-
-            Notification.show(requestBody.contentType().toString());
 
             if (HttpMethod.GET.equals(method)) {
                 requestBuilder.get();
@@ -595,8 +592,13 @@ public class ApiClient {
 
             // Handle response
             if (response.isSuccessful()) {
-                T responseBody = objectMapper.readValue(response.body().string(), objectMapper.constructType(returnType.getType()));
-                return new ResponseEntity<>(responseBody, HttpStatus.valueOf(response.code()));
+                String responseBodyString = response.body().string();
+                if (responseBodyString.isEmpty()) {
+                    return new ResponseEntity<>(HttpStatus.valueOf(response.code()));
+                } else {
+                    T responseBody = objectMapper.readValue(responseBodyString, objectMapper.constructType(returnType.getType()));
+                    return new ResponseEntity<>(responseBody, HttpStatus.valueOf(response.code()));
+                }
             } else {
                 throw new RestClientException("API returned " + response.code() + ": " + response.message());
             }
