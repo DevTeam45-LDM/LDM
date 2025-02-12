@@ -13,7 +13,7 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 
 //TODO: Implement this class analogous to Json2Json class
-public abstract class Xml2Json implements Parser {
+public abstract class Xml2Json {
 
     /**
      * Parses XML string into a JSON object, preserving the hierarchical structure.

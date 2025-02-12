@@ -50,17 +50,6 @@ public class ImportMappings {
         this.metadata = metadata;
     }
 
-    /**
-     * Sets the metadata.
-     *
-     * @param metadata the metadata to set
-     */
-    @JsonSetter("metadata")
-    public void setMetadata(String metadata) {
-        ArrayList<String> metadataArray = new ArrayList<>();
-        metadataArray.add(metadata);
-        this.metadata = metadataArray;
-    }
 
     /**
      * Sets the metadata and returns the current ImportMappings object.
@@ -163,17 +152,6 @@ public class ImportMappings {
         this.data = data;
     }
 
-    /**
-     * Sets the data.
-     *
-     * @param data the data to set
-     */
-    @JsonSetter("data")
-    public void setData(String data) {
-        ArrayList<String> dataArray = new ArrayList<>();
-        dataArray.add(data);
-        this.data = dataArray;
-    }
 
     /**
      * Sets the data and returns the current ImportMappings object.

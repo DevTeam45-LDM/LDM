@@ -1,5 +1,6 @@
 package com.devteam45ldm.ldm.parser.templates;
 
+import com.devteam45ldm.ldm.parser.ParserController;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -27,6 +28,9 @@ public class Metadata {
 
     @JsonProperty("datatype")
     private String datatype = null;
+
+    @JsonProperty("parser-type")
+    private ParserController.ParserType parserType = null;
 
 
     /**
@@ -177,7 +181,7 @@ public class Metadata {
     /**
      * Gets the datatype of the import file.
      *
-     * @return the parser type of the metadata
+     * @return the file type of the metadata
      */
     public String getDatatype() {
         return datatype;
@@ -186,7 +190,7 @@ public class Metadata {
     /**
      * Sets the datatype type of the import file.
      *
-     * @param datatype the parser type to set
+     * @param datatype the file type to set
      */
     public void setDatatype(String datatype) {
         this.datatype = datatype;
@@ -195,13 +199,43 @@ public class Metadata {
     /**
      * Sets the datatype of the import file and returns the updated Metadata object.
      *
-     * @param datatype the parser type to set
+     * @param datatype the file type to set
      * @return the updated Metadata object
      */
     public Metadata datatype(String datatype) {
         this.datatype = datatype;
         return this;
     }
+
+    /**
+     * Gets the parserType of the import file.
+     *
+     * @return the parser type of the metadata
+     */
+    public ParserController.ParserType getParserType() {
+        return parserType;
+    }
+
+    /**
+     * Sets the parserType type of the import file.
+     *
+     * @param parserType the parser type to set
+     */
+    public void setParserType(ParserController.ParserType parserType) {
+        this.parserType = parserType;
+    }
+
+    /**
+     * Sets the parserType of the import file and returns the updated Metadata object.
+     *
+     * @param parserType the parser type to set
+     * @return the updated Metadata object
+     */
+    public Metadata parser(ParserController.ParserType parserType) {
+        this.parserType = parserType;
+        return this;
+    }
+
 
     /**
      * Checks if this metadata is equal to another object.

@@ -34,7 +34,7 @@ class  Json2JsonTest {
 
         ImportTemplate importTemplate = new ImportTemplate()
                 .metadata(new Metadata())
-                .data(mappings);
+                .mappings(mappings);
 
         ImportedData result = Json2Json.parse(json, importTemplate);
 
@@ -65,7 +65,7 @@ class  Json2JsonTest {
 
         ImportTemplate importTemplate = new ImportTemplate()
                 .metadata(new Metadata())
-                .data(mappings);
+                .mappings(mappings);
 
         ImportedData result = Json2Json.parse(json, importTemplate);
 
@@ -96,7 +96,7 @@ class  Json2JsonTest {
 
         ImportTemplate importTemplate = new ImportTemplate()
                 .metadata(new Metadata())
-                .data(mappings);
+                .mappings(mappings);
 
         ImportedData result = Json2Json.parse(json, importTemplate);
 
@@ -127,7 +127,7 @@ class  Json2JsonTest {
 
         ImportTemplate importTemplate = new ImportTemplate()
                 .metadata(new Metadata())
-                .data(mappings);
+                .mappings(mappings);
 
         ImportedData result = Json2Json.parse(json, importTemplate);
 
@@ -159,7 +159,7 @@ class  Json2JsonTest {
 
         ImportTemplate importTemplate = new ImportTemplate()
                 .metadata(new Metadata())
-                .data(mappings);
+                .mappings(mappings);
 
         ImportedData result = Json2Json.parse(json, importTemplate);
 

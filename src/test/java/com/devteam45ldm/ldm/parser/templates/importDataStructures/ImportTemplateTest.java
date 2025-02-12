@@ -4,6 +4,9 @@ import com.devteam45ldm.ldm.parser.templates.Metadata;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
+
+import java.util.regex.Pattern;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -48,33 +51,33 @@ class ImportTemplateTest {
      * Tests if getData returns the correct ImportMappings object.
      */
     @Test
-    void getData_returnsCorrectData() {
+    void getMappings_returnsCorrectMappings() {
         ImportTemplate importTemplate = new ImportTemplate();
         ImportMappings importMappings = new ImportMappings();
-        importTemplate.setData(importMappings);
-        assertEquals(importMappings, importTemplate.getData());
+        importTemplate.setMappings(importMappings);
+        assertEquals(importMappings, importTemplate.getMappings());
     }
 
     /**
      * Tests if setData sets the correct ImportMappings object.
      */
     @Test
-    void setData_setsCorrectData() {
+    void setMappings_setsCorrectMappings() {
         ImportTemplate importTemplate = new ImportTemplate();
         ImportMappings importMappings = new ImportMappings();
-        importTemplate.setData(importMappings);
-        assertEquals(importMappings, importTemplate.getData());
+        importTemplate.setMappings(importMappings);
+        assertEquals(importMappings, importTemplate.getMappings());
     }
 
     /**
      * Tests if data method sets and returns the correct ImportMappings object.
      */
     @Test
-    void data_setsAndReturnsCorrectData() {
+    void data_setsAndReturnsCorrectMappings() {
         ImportTemplate importTemplate = new ImportTemplate();
         ImportMappings importMappings = new ImportMappings();
-        assertEquals(importTemplate, importTemplate.data(importMappings));
-        assertEquals(importMappings, importTemplate.getData());
+        assertEquals(importTemplate, importTemplate.mappings(importMappings));
+        assertEquals(importMappings, importTemplate.getMappings());
     }
 
     /**
@@ -91,7 +94,7 @@ class ImportTemplateTest {
      */
     @Test
     void equals_differentObject_returnsFalse() {
-        ImportTemplate importTemplate1 = new ImportTemplate().data(new ImportMappings());
+        ImportTemplate importTemplate1 = new ImportTemplate().mappings(new ImportMappings());
         ImportTemplate importTemplate2 = new ImportTemplate();
         assertFalse(importTemplate1.equals(importTemplate2));
     }
@@ -105,11 +108,11 @@ class ImportTemplateTest {
         Metadata metadata = new Metadata();
         ImportMappings importMappings = new ImportMappings();
         importTemplate1.setMetadata(metadata);
-        importTemplate1.setData(importMappings);
+        importTemplate1.setMappings(importMappings);
 
         ImportTemplate importTemplate2 = new ImportTemplate();
         importTemplate2.setMetadata(metadata);
-        importTemplate2.setData(importMappings);
+        importTemplate2.setMappings(importMappings);
 
         assertTrue(importTemplate1.equals(importTemplate2));
     }
@@ -132,7 +135,7 @@ class ImportTemplateTest {
         Metadata metadata = new Metadata();
         ImportMappings importMappings = new ImportMappings();
         importTemplate.setMetadata(metadata);
-        importTemplate.setData(importMappings);
+        importTemplate.setMappings(importMappings);
         String expected = """
                 {
                     metadata: {
@@ -143,7 +146,7 @@ class ImportTemplateTest {
                         last_modified_at: null
                         parser: null
                     },
-                    data: {
+                    mappings: {
                         metadata: null
                         metadata_separator: null
                         metadata_pattern: null
@@ -164,7 +167,7 @@ class ImportTemplateTest {
         Metadata metadata = new Metadata();
         ImportMappings importMappings = new ImportMappings();
         importTemplate.setMetadata(metadata);
-        importTemplate.setData(importMappings);
+        importTemplate.setMappings(importMappings);
         String expected = JSONObject.quote(importTemplate.toString());
         assertEquals(expected, importTemplate.toJson());
     }
@@ -174,15 +177,15 @@ class ImportTemplateTest {
      */
     @Test
     void fromJsonString_createsImportTemplateObject() throws Exception {
-        String json = "{ \"metadata\": { \"version\": null, \"created_by\": null, \"created_at\": null, \"last_modified_by\": null, \"last_modified_at\": null, \"parser\": null }, \"data\": { \"metadata\": null, \"metadata_separator\": null, \"metadata_pattern\": null, \"data\": null, \"data_separator\": null, \"data_pattern\": null } }";
+        String json = "{ \"metadata\": { \"version\": null, \"created_by\": null, \"created_at\": null, \"last_modified_by\": null, \"last_modified_at\": null, \"parser\": null }, \"mappings\": { \"metadata\": null, \"metadata_separator\": null, \"metadata_pattern\": null, \"data\": null, \"data_separator\": null, \"data_pattern\": null } }";
         ObjectMapper objectMapper = new ObjectMapper();
         ImportTemplate importTemplate = objectMapper.readValue(json, ImportTemplate.class);
 
         Metadata expectedMetadata = new Metadata();
-        ImportMappings expectedData = new ImportMappings();
+        ImportMappings expectedMappings = new ImportMappings();
 
         assertEquals(expectedMetadata, importTemplate.getMetadata());
-        assertEquals(expectedData, importTemplate.getData());
+        assertTrue(expectedMappings.equals(importTemplate.getMappings()));
     }
 
     /**
@@ -197,7 +200,7 @@ class ImportTemplateTest {
         Metadata expectedMetadata = new Metadata();
 
         assertEquals(expectedMetadata, importTemplate.getMetadata());
-        assertNull(importTemplate.getData());
+        assertNull(importTemplate.getMappings());
     }
 
     /**

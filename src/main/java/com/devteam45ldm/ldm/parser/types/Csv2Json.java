@@ -1,5 +1,7 @@
 package com.devteam45ldm.ldm.parser.types;
 
+import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate;
+import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportedData;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,8 +12,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO: Implement this class
-public abstract class Csv2Json implements Parser {
+public class Csv2Json {
 
     /**
      * Converts a CSV string into a JSON object.
@@ -22,7 +23,22 @@ public abstract class Csv2Json implements Parser {
      * @throws JSONException if there is an error creating the JSON structure
      * @throws IOException if there is an error reading the CSV string
      */
-    public static JSONObject parse(String csv) throws JSONException, IOException {
+    public static ImportedData parse(String csv, ImportTemplate importTemplate) throws JSONException {
+        boolean data = false;
+        String delimiter;
+
+        if (importTemplate.getMappings().getMetadataSeparator() != null && !importTemplate.getMappings().getMetadataSeparator().isEmpty()) {
+            delimiter = importTemplate.getMappings().getMetadataSeparator();
+        }
+        else if (importTemplate.getMappings().getDataSeparator() != null && !importTemplate.getMappings().getDataSeparator().isEmpty()) {
+            data = true;
+            delimiter = importTemplate.getMappings().getDataSeparator();
+        }
+        else{
+            throw new JSONException("No separator found in mappings");
+        }
+
+
         try {
             BufferedReader reader = new BufferedReader(new StringReader(csv));
             String headerLine = reader.readLine();
@@ -31,7 +47,7 @@ public abstract class Csv2Json implements Parser {
             }
 
             // Parse headers
-            String[] headers = headerLine.split(",");
+            String[] headers = headerLine.split(delimiter);
             for (int i = 0; i < headers.length; i++) {
                 headers[i] = headers[i].trim();
             }
@@ -44,7 +60,7 @@ public abstract class Csv2Json implements Parser {
             List<String[]> rows = new ArrayList<>();
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] values = line.split(",");
+                String[] values = line.split(delimiter);
                 // Trim each value
                 for (int i = 0; i < values.length; i++) {
                     values[i] = values[i].trim();
@@ -63,8 +79,14 @@ public abstract class Csv2Json implements Parser {
                 }
                 jsonArray.put(rowObj);
             }
+
             // Convert array to object directly
-            return new JSONObject(jsonArray.toString());
+            if(data){
+                return new ImportedData().data(jsonArray.toString());
+            }
+            else{
+                return new ImportedData().metadata(jsonArray.toString());
+            }
         } catch (Exception e) {
             throw new JSONException("Error parsing CSV: " + e.getMessage());
         }

@@ -51,7 +51,7 @@ public class ImportTemplate {
      *
      * @return the import mappings
      */
-    public ImportMappings getData() {
+    public ImportMappings getMappings() {
         return importMappings;
     }
 
@@ -60,7 +60,7 @@ public class ImportTemplate {
      *
      * @param importMappings the import mappings to set
      */
-    public void setData(ImportMappings importMappings) {
+    public void setMappings(ImportMappings importMappings) {
         this.importMappings = importMappings;
     }
 
@@ -70,7 +70,7 @@ public class ImportTemplate {
      * @param importMappings the import mappings to set
      * @return the current ImportTemplate object
      */
-    public ImportTemplate data(ImportMappings importMappings) {
+    public ImportTemplate mappings(ImportMappings importMappings) {
         this.importMappings = importMappings;
         return this;
     }
@@ -105,7 +105,7 @@ public class ImportTemplate {
     public String toString() {
         return "{\n" +
                 "    metadata: " + toIndentedString(metadata) + ",\n" +
-                "    data: " + toIndentedString(importMappings) + "\n" +
+                "    mappings: " + toIndentedString(importMappings) + "\n" +
                 "}";
     }
 

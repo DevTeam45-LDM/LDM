@@ -222,7 +222,7 @@ class ImportMappingsTest {
      */
     @Test
     void fromJsonString_createsImportMappingsObject() throws Exception {
-        String json = "{ \"metadata\": \"metadata_value\", \"data\": \"data_value\" }";
+        String json = "{ \"metadata\": [\"metadata_value\"], \"data\": [\"data_value\"] }";
         ObjectMapper objectMapper = new ObjectMapper();
         ImportMappings importMappings;
         importMappings = objectMapper.readValue(json, ImportMappings.class);
@@ -238,7 +238,7 @@ class ImportMappingsTest {
      */
     @Test
     void fromJsonString_missingFields_createsImportMappingsObjectWithNulls() throws Exception {
-        String json = "{ \"metadata\": \"metadata_value\" }";
+        String json = "{ \"metadata\": [\"metadata_value\"] }";
         ObjectMapper objectMapper = new ObjectMapper();
         ImportMappings importMappings;
         importMappings = objectMapper.readValue(json, ImportMappings.class);
@@ -253,7 +253,7 @@ class ImportMappingsTest {
      */
     @Test
     void fromJsonString_invalidJson_throwsException() {
-        String json = "{ \"metadata\": \"metadata_value\", ";
+        String json = "{ \"metadata\": [\"metadata_value\"], ";
         ObjectMapper objectMapper = new ObjectMapper();
         assertThrows(Exception.class, () -> objectMapper.readValue(json, ImportMappings.class));
     }

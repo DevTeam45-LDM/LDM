@@ -13,7 +13,7 @@ import java.util.Iterator;
  * The Json2Json class is responsible for converting a JSON string
  * into an Import object based on the provided ImportTemplate.
  */
-public abstract class Json2Json implements Parser {
+public class Json2Json {
 
     /**
      * Converts the given JSON string into an ImportedData object based on the ImportTemplate.
@@ -24,7 +24,7 @@ public abstract class Json2Json implements Parser {
      */
     public static ImportedData parse(String json, ImportTemplate importTemplate) throws JSONException {
         JSONObject jsonObject = new JSONObject(json);
-        ImportMappings mappings = importTemplate.getData();
+        ImportMappings mappings = importTemplate.getMappings();
 
         JSONObject metadata = extractNestedJson(jsonObject, mappings.getMetadata());
         JSONObject data = extractNestedJson(jsonObject, mappings.getData());
@@ -89,7 +89,7 @@ public abstract class Json2Json implements Parser {
         JSONObject result = new JSONObject();
 
         if (index == keys.length - 1) {
-            // Letzte Ebene erreicht -> nur primitive Werte und Arrays behalten
+            // deepest level reached -> keep only primitiv values
             if (value instanceof JSONObject subObject) {
                 JSONObject filteredSubObject = new JSONObject();
 
