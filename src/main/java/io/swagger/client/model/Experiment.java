@@ -12,6 +12,7 @@
 
 package io.swagger.client.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -23,6 +24,7 @@ import java.util.Objects;
  * Experiment
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Experiment extends ExperimentsBody{
 
   @JsonProperty("access_key")
