@@ -1243,6 +1243,13 @@ public class Experiment {
     this.userid = userid;
   }
 
+  public Experiment createFilteredExperiment() {
+    return new Experiment()
+            .title(this.getTitle())
+            .body(this.getBody())
+            .tags(this.getTags());
+  }
+
 
   @Override
   public boolean equals(Object o) {
@@ -1316,7 +1323,7 @@ public class Experiment {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Experiment {\n");
+    sb.append("{\n");
     sb.append("    accessKey: ").append(toIndentedString(accessKey)).append("\n");
     sb.append("    body: ").append(toIndentedString(body)).append("\n");
     sb.append("    bodyHtml: ").append(toIndentedString(bodyHtml)).append("\n");

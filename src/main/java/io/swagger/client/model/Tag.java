@@ -130,7 +130,7 @@ public class Tag {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Tag {\n");
+    sb.append("{\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    tag: ").append(toIndentedString(tag)).append("\n");
     sb.append("    itemCount: ").append(toIndentedString(itemCount)).append("\n");

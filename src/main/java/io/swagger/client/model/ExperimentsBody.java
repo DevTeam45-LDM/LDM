@@ -3,6 +3,8 @@ package io.swagger.client.model;
 import java.util.Objects;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -15,13 +17,10 @@ public class ExperimentsBody {
   private String body;
 
   @JsonProperty("tags")
-  private List<String> tags = null;
+  private ArrayList<String> tags = null;
 
   @JsonProperty("metadata")
   private String metadata;
-
-  @JsonProperty("template")
-  private String template;
 
   public ExperimentsBody title(String title) {
     this.title = title;
@@ -51,14 +50,14 @@ public class ExperimentsBody {
     this.body = body;
   }
 
-  public ExperimentsBody tags(List<String> tags) {
+  public ExperimentsBody tags(ArrayList<String> tags) {
     this.tags = tags;
     return this;
   }
 
-  public ExperimentsBody addTagsItem(String tagsItem) {
+  public ExperimentsBody tags(String tagsItem) {
     if (this.tags == null) {
-      this.tags = new ArrayList<String>();
+      this.tags = new ArrayList<>();
     }
     this.tags.add(tagsItem);
     return this;
@@ -69,7 +68,7 @@ public class ExperimentsBody {
     return tags;
   }
 
-  public void setTags(List<String> tags) {
+  public void setTags(ArrayList<String> tags) {
     this.tags = tags;
   }
 
@@ -87,18 +86,19 @@ public class ExperimentsBody {
     this.metadata = metadata;
   }
 
-  public ExperimentsBody template(String template) {
-    this.template = template;
-    return this;
-  }
-
-  @Schema(description = "The template used for the experiment.")
-  public String getTemplate() {
-    return template;
-  }
-
-  public void setTemplate(String template) {
-    this.template = template;
+  public Experiment toExperiment(){
+    String tagsString = null;
+    if (this.tags != null && !this.tags.isEmpty()) {
+      StringJoiner joiner = new StringJoiner(",");
+      for (String tag : this.tags) {
+        joiner.add(tag);
+      }
+      tagsString = joiner.toString();
+    }
+    return  new Experiment().title(this.title)
+            .body(this.body)
+            .tags(tagsString)
+            .metadata(this.metadata);
   }
 
   @Override
@@ -113,24 +113,30 @@ public class ExperimentsBody {
     return Objects.equals(this.title, experimentsBody.title) &&
             Objects.equals(this.body, experimentsBody.body) &&
             Objects.equals(this.tags, experimentsBody.tags) &&
-            Objects.equals(this.metadata, experimentsBody.metadata) &&
-            Objects.equals(this.template, experimentsBody.template);
+            Objects.equals(this.metadata, experimentsBody.metadata);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(title, body, tags, metadata, template);
+    return Objects.hash(title, body, tags, metadata);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("{\n");
-    sb.append("    title: ").append(toIndentedString(title)).append("\n");
-    sb.append("    body: ").append(toIndentedString(body)).append("\n");
-    sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
-    sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
-    sb.append("    template: ").append(toIndentedString(template)).append("\n");
+    //if(this.title != null && !title.isEmpty()){
+      sb.append("    title: ").append(toIndentedString(title)).append("\n");
+    //}
+    //if(this.body != null && !body.isEmpty()) {
+      sb.append("    body: ").append(toIndentedString(body)).append("\n");
+    //}
+    //if(this.tags != null && !tags.isEmpty()) {
+      sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
+    //}
+    //if(this.metadata != null && !metadata.isEmpty()){
+      sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
+    //}
     sb.append("}");
     return sb.toString();
   }

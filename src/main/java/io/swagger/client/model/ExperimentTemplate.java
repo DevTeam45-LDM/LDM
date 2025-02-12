@@ -693,8 +693,7 @@ public class ExperimentTemplate {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ExperimentTemplate {\n");
-
+    sb.append("{\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    body: ").append(toIndentedString(body)).append("\n");

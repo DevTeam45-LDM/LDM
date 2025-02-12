@@ -548,15 +548,6 @@ public class ApiClient {
             // Log the final URL
             Notification.show("Final URL: " + url);
 
-            // Add authentication headers
-            Authentication auth = getAuthentication("token");
-            if (auth instanceof ApiKeyAuth) {
-                ApiKeyAuth apiKeyAuth = (ApiKeyAuth) auth;
-                headerParams.add("Authorization", apiKeyAuth.getApiKey());
-            } else {
-                throw new RestClientException("Authentication is not of type ApiKeyAuth");
-            }
-
             // Build request
             Request.Builder requestBuilder = new Request.Builder().url(url);
             for (Map.Entry<String, List<String>> entry : headerParams.entrySet()) {
@@ -565,12 +556,22 @@ public class ApiClient {
                 }
             }
 
+            // authentication headers
+            Authentication auth = getAuthentication("token");
+            ApiKeyAuth apiKeyAuth = null;
+            if (auth instanceof ApiKeyAuth) {
+                apiKeyAuth = (ApiKeyAuth) auth;
+            } else {
+                throw new RestClientException("Authentication is not of type ApiKeyAuth");
+            }
+
             // Set request method and body
             RequestBody requestBody = null;
             if (body != null) {
                 String jsonBody = objectMapper.writeValueAsString(body);
                 requestBody = RequestBody.create(jsonBody, null);
                 requestBuilder.addHeader("Content-Type", "application/json");
+                requestBuilder.addHeader("Authorization", apiKeyAuth.getApiKey());
             }
 
             if (HttpMethod.GET.equals(method)) {
