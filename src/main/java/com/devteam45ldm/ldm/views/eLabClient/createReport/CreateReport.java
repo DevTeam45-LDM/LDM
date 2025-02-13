@@ -236,9 +236,6 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
             postRequest.setHeader("Authorization", apiKey);
             postRequest.setHeader("Accept", "application/json"); // Ensure JSON response
 
-            //DEBUG
-            Notification.show("File size before upload: " + inputStream.available());
-
             // Create a multipart request body
             HttpEntity multipartEntity = MultipartEntityBuilder.create()
                     .addBinaryBody("file", inputStream, ContentType.create(mimeType), fileName)
@@ -249,38 +246,21 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
             // Execute request
             try (CloseableHttpResponse response = httpClient.execute(postRequest)) {
                 int responseCode = response.getCode();
-                String responseBody = EntityUtils.toString(response.getEntity());
-
-                //DEBUG
-                Notification.show("Response Code: " + responseCode + " -  Response Body:" + responseBody);
-                Notification.show(Arrays.toString(response.getHeaders()));
-
-                // Debug Headers
-                StringBuilder headersInfo = new StringBuilder();
-                for (Header header : response.getHeaders()) {
-                    headersInfo.append(header.getName()).append(": ").append(header.getValue()).append("\n");
-                }
-                Notification.show("Response Code: " + responseCode + "\nHeaders: \n" + headersInfo);
-
-
-
                 if (responseCode == 201) {  // HTTP 201 Created
-
                     Header locationHeader = response.getFirstHeader("Location");
                     if (locationHeader != null) {
                         String fileUrl = locationHeader.getValue();
-                        Notification.show("Upload successful File: " + fileName);
-                        UI.getCurrent().getPage().open(fileUrl, "_blank");
+                        Notification.show("Upload successful: " + fileName);
+                        UI.getCurrent().getPage().open(fileUrl, "_blank");  // Open uploaded file
                     } else {
-                        Notification.show("Upload successful, but no file URL returned.");
+                        Notification.show("Upload successful, but there is no file URL.");
                     }
-
                 } else {
-                    Notification.show("Fehler beim Hochladen der Datei. Antwortcode: " + responseCode + " - " + responseBody);
+                    Notification.show("Error uploading file. Responsecode: " + responseCode);
                 }
             }
         } catch (Exception e) {
-            Notification.show("Fehler beim Hochladen der Datei: " + e.getMessage());
+            Notification.show("Error uploading file: " + e.getMessage());
         }
     }
 
