@@ -16,12 +16,15 @@ import com.vaadin.flow.router.PageTitle;
 import com.wontlost.ckeditor.Constants;
 import com.wontlost.ckeditor.VaadinCKEditor;
 import com.wontlost.ckeditor.VaadinCKEditorBuilder;
+import io.swagger.client.model.ExperimentsBody;
 import org.json.JSONObject;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -39,7 +42,7 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
     private Boolean buttonAllowed = false;
 
     private final VaadinCKEditor classicEditor;
-    private final Button createReportButton = new Button("Bericht erstellen", event -> {
+    private final Button createReportButton = new Button("Create experiment", event -> {
         if (uploadedInputStream != null) {
             createExperiment();
         } else {
@@ -158,22 +161,24 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
      * Creates an experiment using the API.
      */
     private void createExperiment() {
-        String title = titleField.getValue();
-        Integer id;
+        ExperimentsBody experimentBody = new ExperimentsBody();
+        experimentBody.setTitle(titleField.getValue());
+        experimentBody.setBody(classicEditor.getValue());
+        final Integer[] id = new Integer[1];
         if (titleField.isEmpty()) {
-            Notification.show("Bitte geben Sie einen Titel ein.");
+            Notification.show("Please enter a title.");
             return;
         }
-        try { //TODO use ApiClient
-            id = apiInstance.getExperimentsClient(apiKey, url).createExperimentCURL(apiKey, url, title);
-            if (!classicEditor.getValue().isEmpty()) {
-                apiInstance.getExperimentsClient(apiKey, url).modifyExperimentCURL(apiKey, url, id, title, classicEditor.getValue());
-            }
-        } catch (RestClientException e) {
-            Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
-            Notification.show(e.toString());
-            return;
+        try {
+            ResponseEntity<Void> response = apiInstance.getExperimentsClient(apiKey, url).postExperimentWithHttpInfo(experimentBody);
+            Objects.requireNonNull(response.getHeaders().get("Location")).forEach(location -> {
+                String[] parts = location.split("/");
+                id[0] = Integer.parseInt(parts[parts.length - 1]);
+                apiInstance.getExperimentsClient().patchExperiment(id[0], experimentBody);
+            });
+        } catch (Exception e) {
+            Notification.show("Error creating experiment: " + e.getMessage());
         }
-        Notification.show("Experiment " + "[ID: " + id + "]" + " erfolgreich erstellt.");
+        Notification.show("Created experiment " + "[ID: " + id[0] + "]" + "  successfully.");
     }
 }

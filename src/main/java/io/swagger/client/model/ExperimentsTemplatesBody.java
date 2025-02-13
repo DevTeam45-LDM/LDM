@@ -28,6 +28,9 @@ public class ExperimentsTemplatesBody {
   @JsonProperty("title")
   private String title = "Untitled";
 
+  @JsonProperty("body")
+  private String body = null;
+
   public ExperimentsTemplatesBody title(String title) {
     this.title = title;
     return this;
@@ -46,6 +49,20 @@ public class ExperimentsTemplatesBody {
     this.title = title;
   }
 
+  public ExperimentsTemplatesBody body(String body) {
+    this.body = body;
+    return this;
+  }
+
+  @Schema(description = "")
+  public String getBody() {
+    return body;
+  }
+
+  public void setBody(String body) {
+    this.body = body;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -56,21 +73,23 @@ public class ExperimentsTemplatesBody {
       return false;
     }
     ExperimentsTemplatesBody experimentsTemplatesBody = (ExperimentsTemplatesBody) o;
-    return Objects.equals(this.title, experimentsTemplatesBody.title);
+    return Objects.equals(this.title, experimentsTemplatesBody.title) &&
+            Objects.equals(this.body, experimentsTemplatesBody.body);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(title);
+    return Objects.hash(title, body);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ExperimentsTemplatesBody {\n");
+    sb.append("{\n");
     
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
+    sb.append("    body: ").append(toIndentedString(body)).append("\n");
     sb.append("}");
     return sb.toString();
   }

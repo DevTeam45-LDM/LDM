@@ -20,15 +20,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ExperimentTemplate {
+public class ExperimentTemplate extends ExperimentsTemplatesBody {
   @JsonProperty("id")
   private Integer id = null;
-
-  @JsonProperty("title")
-  private String title = null;
-
-  @JsonProperty("body")
-  private String body = null;
 
   @JsonProperty("category")
   private Integer category = null;
@@ -141,34 +135,6 @@ public class ExperimentTemplate {
 
   public void setId(Integer id) {
     this.id = id;
-  }
-
-  public ExperimentTemplate title(String title) {
-    this.title = title;
-    return this;
-  }
-
-  @Schema(description = "")
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public ExperimentTemplate body(String body) {
-    this.body = body;
-    return this;
-  }
-
-  @Schema(description = "")
-  public String getBody() {
-    return body;
-  }
-
-  public void setBody(String body) {
-    this.body = body;
   }
 
   public ExperimentTemplate category(Integer category) {
@@ -644,8 +610,8 @@ public class ExperimentTemplate {
     }
     ExperimentTemplate experimentTemplate = (ExperimentTemplate) o;
     return Objects.equals(this.id, experimentTemplate.id) &&
-            Objects.equals(this.title, experimentTemplate.title) &&
-            Objects.equals(this.body, experimentTemplate.body) &&
+            Objects.equals(this.getTitle(), experimentTemplate.getTitle()) &&
+            Objects.equals(this.getBody(), experimentTemplate.getBody()) &&
             Objects.equals(this.category, experimentTemplate.category) &&
             Objects.equals(this.categoryTitle, experimentTemplate.categoryTitle) &&
             Objects.equals(this.categoryColor, experimentTemplate.categoryColor) &&
@@ -686,7 +652,7 @@ public class ExperimentTemplate {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, body, category, categoryTitle, categoryColor, userid, canread, canwrite, locked, lockedby, lockedAt, fullname, metadata, teamsId, isPinned, status, statusTitle, statusColor, tags, tagsId, createdAt, modifiedAt, ordering, canReadTarget, canWriteTarget, contentType, state, nextStep, firstname, lastname, orcId, teamName, upItemId, hasAttachment, exclusiveEditMode);
+    return Objects.hash(id, getTitle(), getBody(), category, categoryTitle, categoryColor, userid, canread, canwrite, locked, lockedby, lockedAt, fullname, metadata, teamsId, isPinned, status, statusTitle, statusColor, tags, tagsId, createdAt, modifiedAt, ordering, canReadTarget, canWriteTarget, contentType, state, nextStep, firstname, lastname, orcId, teamName, upItemId, hasAttachment, exclusiveEditMode);
   }
 
 
@@ -695,8 +661,8 @@ public class ExperimentTemplate {
     StringBuilder sb = new StringBuilder();
     sb.append("{\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    title: ").append(toIndentedString(title)).append("\n");
-    sb.append("    body: ").append(toIndentedString(body)).append("\n");
+    sb.append("    title: ").append(toIndentedString(getTitle())).append("\n");
+    sb.append("    body: ").append(toIndentedString(getBody())).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    categoryTitle: ").append(toIndentedString(categoryTitle)).append("\n");
     sb.append("    categoryColor: ").append(toIndentedString(categoryColor)).append("\n");
