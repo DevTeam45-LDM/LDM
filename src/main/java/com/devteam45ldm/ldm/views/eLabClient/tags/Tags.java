@@ -144,7 +144,7 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
         try {
             Info info = apiInstance.getInfoClient(apiKey, url).getInfo();
             String version = (info != null && info.getElabftwVersion() != null && !info.getElabftwVersion().isEmpty()) ? info.getElabftwVersion() : "unbekannt";
-            Notification.show("Login successfully. eLab-version: " + version);
+            Notification.show("Connection test successfully. eLab-version: " + version);
         } catch (Exception e) {
             Notification.show("Error during login: " + e.getMessage());
         }
