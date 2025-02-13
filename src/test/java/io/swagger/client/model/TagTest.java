@@ -59,7 +59,7 @@ public class TagTest {
     @Test
     void toStringContainsAllProperties() {
         Tag tag = new Tag().id(1).tag("example").itemCount(10).isFavorite(1);
-        String expected = "class Tag {\n" +
+        String expected = "{\n" +
                           "    id: 1\n" +
                           "    tag: example\n" +
                           "    itemCount: 10\n" +

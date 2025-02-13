@@ -72,7 +72,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
         firstRow.setSpacing(true);
 
         // Zweite Zeile: API-Key und Read Tags Button
-        apiKeyField = new PasswordField("API Schlüssel");
+        apiKeyField = new PasswordField("API Key");
 
         HorizontalLayout secondRow = new HorizontalLayout(apiKeyField);
         secondRow.setWidthFull();
@@ -84,16 +84,16 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
         menuBar.setWidth("min-content");
 
         // Add menu items
-        menuBar.addItem("Verbindungstest", event -> {
+        menuBar.addItem("Connection Test", event -> {
             try {
                 testUrl();
             } catch (IOException e) {
                 logger.error("Error testing URL", e);
-                Notification.show("Fehler: " + e.getMessage());
+                Notification.show("Error: " + e.getMessage());
             }
         });
 
-        menuBar.addItem("Vorlagen lesen", event -> readExperiments());
+        menuBar.addItem("Read Templates", event -> readExperiments());
         menuBar.getStyle().set("margin-bottom", "50px");
 
         experimentDetailsLayout = new VerticalLayout();
@@ -102,7 +102,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
         experimentDetailsLayout.setVisible(false);
 
         // Initialize ComboBox for experiments
-        experimentsComboBox = new ComboBox<>("Vorlagen");
+        experimentsComboBox = new ComboBox<>("Templates");
         experimentsComboBox.setWidthFull();
         experimentsComboBox.getStyle().set("margin-bottom", "50px");
         experimentsComboBox.setAllowCustomValue(false);
@@ -121,7 +121,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
         editLayout.setWidthFull();
         editLayout.setSpacing(true);
 
-        experimentsMenuBar.addItem("Vorlage erstellen", event -> loadCreator());
+        experimentsMenuBar.addItem("Create Template", event -> loadCreator());
         experimentsMenuBar.setVisible(false);
 
         getContent().setWidth("100%");
@@ -143,8 +143,8 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
      */
     private void loadCreator() {
         editMenuBar.removeAll();
-        editMenuBar.addItem("Erstellen", event -> createExperiment());
-        editMenuBar.addItem("Abbrechen", event -> cancelExperiment());
+        editMenuBar.addItem("Create", event -> createExperiment());
+        editMenuBar.addItem("Cancel", event -> cancelExperiment());
         editField.setVisible(true);
         editMenuBar.setVisible(true);
         experimentsMenuBar.setVisible(false);
@@ -157,14 +157,14 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
     private void loadModifier() {
         if (selectedExperiment != null) {
             editMenuBar.removeAll();
-            editMenuBar.addItem("Speichern", event -> saveChanges());
-            editMenuBar.addItem("Abbrechen", event -> cancelExperiment());
+            editMenuBar.addItem("Save", event -> saveChanges());
+            editMenuBar.addItem("Cancel", event -> cancelExperiment());
             setFormComponentReadOnly(false);
             editField.setVisible(false);
             editMenuBar.setVisible(true);
             experimentsMenuBar.setVisible(false);
         } else {
-            Notification.show("Bitte wählen Sie ein Experiment aus.");
+            Notification.show("Please select an experiment.");
         }
     }
 
@@ -175,12 +175,12 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
     private void loadDeleter() {
         if (selectedExperiment != null) {
             editMenuBar.removeAll();
-            editMenuBar.addItem("Löschen", event -> deleteExperiment());
-            editMenuBar.addItem("Abbrechen", event -> cancelExperiment());
+            editMenuBar.addItem("Delete", event -> deleteExperiment());
+            editMenuBar.addItem("Cancel", event -> cancelExperiment());
             editMenuBar.setVisible(true);
             experimentsMenuBar.setVisible(false);
         } else {
-            Notification.show("Bitte wählen Sie ein Experiment aus.");
+            Notification.show("Please select an experiment.");
         }
     }
 
@@ -193,7 +193,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
     private void testUrl() throws IOException {
         String url = urlField.getValue();
         if (url == null || url.isEmpty()) {
-            Notification.show("Bitte URL eingeben.");
+            Notification.show("Please enter URL.");
             return;
         }
 
@@ -204,10 +204,10 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
         HTTPController httpController = new HTTPController();
         ResponseEntity<String> checkURL = httpController.checkURL(url);
         if (checkURL.getStatusCode().is2xxSuccessful() || checkURL.getStatusCode().is3xxRedirection() || checkURL.getStatusCode().value() == 401) {
-            Notification.show("eLab ist erreichbar.");
+            Notification.show("eLab is reachable.");
             logger.info("API is reachable.");
         } else {
-            Notification.show("eLab ist nicht erreichbar: " + checkURL);
+            Notification.show("eLab is unreachable: " + checkURL);
             logger.warn("API is not reachable: {}", checkURL);
         }
     }
@@ -220,11 +220,11 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
         String apiKey = apiKeyField.getValue();
         String url = urlField.getValue();
         if (apiKey == null || apiKey.isEmpty()) {
-            Notification.show("Bitte API Schlüssel eingeben.");
+            Notification.show("Please enter an API key.");
             return;
         }
         if (url == null || url.isEmpty()) {
-            Notification.show("Bitte URL eingeben.");
+            Notification.show("Please enter a URL.");
             return;
         }
 
@@ -245,13 +245,13 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
                     .collect(Collectors.toList());
 
             experimentsComboBox.setItems(experimentTitles);
-            experimentsComboBox.setLabel("Vorlagen (" + experiments.size() + ")");
+            experimentsComboBox.setLabel("Templates (" + experiments.size() + ")");
             logger.info("Templates fetched successfully.");
-            Notification.show("Vorlagen erfolgreich geladen.");
+            Notification.show("Templates fetched successfully.");
             experimentsMenuBar.setVisible(true);
         } catch (Exception e) {
             logger.error("Error fetching templates", e);
-            Notification.show("Fehler: " + e.getMessage());
+            Notification.show("Error: " + e.getMessage());
         }
     }
 
@@ -369,7 +369,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
             }
         } catch (Exception e) {
             logger.error("Error showing experiment details", e);
-            Notification.show("Fehler: " + e.getMessage());
+            Notification.show("Error: " + e.getMessage());
         }
 
         experimentDetailsLayout.setVisible(true);
@@ -401,7 +401,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
         String title = editField.getValue();
         ExperimentsTemplatesBody body = new ExperimentsTemplatesBody().title(title);
         apiInstance.getExperimentTemplatesClient(apiKeyField.getValue(), urlField.getValue()).postExperimentTemplate(body);
-        Notification.show("Vorlage erfolgreich erstellt.");
+        Notification.show("Template created successfully.");
         resetEditComponents();
         readExperiments();
         experiments.stream()
@@ -417,15 +417,18 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
     private void saveChanges() {
         Integer id = selectedExperiment.getId();
         updateSelectedExperiment();
+        ExperimentsTemplatesBody experimentsTemplatesBody = new ExperimentsTemplatesBody()
+                .title(selectedExperiment.getTitle())
+                .body(selectedExperiment.getBody());
 
         try {
-            apiInstance.getExperimentTemplatesClient(apiKeyField.getValue(), urlField.getValue()).modifyExperimentTemplateCURL(apiKeyField.getValue(), urlField.getValue(), id, selectedExperiment.getTitle(), selectedExperiment.getBody());
+            apiInstance.getExperimentTemplatesClient(apiKeyField.getValue(), urlField.getValue()).patchExperimentTemplate(id, experimentsTemplatesBody);
         } catch (RestClientException e) {
-            Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
+            Notification.show("Unknown error occurred. Please try again.");
         }
 
         setFormComponentReadOnly(true);
-        Notification.show("Änderungen erfolgreich gespeichert.");
+        Notification.show("Changes saved successfully.");
         resetEditComponents();
         readExperiments();
         setExperimentById(id);
@@ -446,7 +449,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
      */
     private void deleteExperiment() {
         apiInstance.getExperimentTemplatesClient(apiKeyField.getValue(), urlField.getValue()).deleteExperimentTemplate(selectedExperiment.getId());
-        Notification.show("Vorlage erfolgreich gelöscht.");
+        Notification.show("Template deleted successfully.");
         resetEditComponents();
         readExperiments();
         experimentsComboBox.clear();
@@ -468,7 +471,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
         editField.setVisible(false);
         editMenuBar.setVisible(false);
         experimentsMenuBar.removeAll();
-        experimentsMenuBar.addItem("Vorlage erstellen", event -> loadCreator());
+        experimentsMenuBar.addItem("Create Template", event -> loadCreator());
         experimentsMenuBar.setVisible(true);
         experimentDetailsLayout.setVisible(false);
     }

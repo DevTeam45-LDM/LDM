@@ -15,24 +15,18 @@ package io.swagger.client.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
- * Tag
+ * Represents a tag with an ID and item count.
+ * Inherits from TagsBody.
  */
-
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
-
-public class Tag {
+public class Tag extends TagsBody {
   @JsonProperty("id")
   private Integer id;
 
-  @JsonProperty("tag")
-  private String tag;
-
   @JsonProperty("item_count")
   private Integer itemCount;
-
-  @JsonProperty("is_favorite")
-  private Integer isFavorite;
 
   public Tag id(Integer id) {
     this.id = id;
@@ -52,28 +46,20 @@ public class Tag {
     this.id = id;
   }
 
-  public Tag tag(String tag) {
-    this.tag = tag;
-    return this;
-  }
-
-   /**
-   * Get tag
-   * @return tag
-  **/
-  @Schema(description = "")
-  public String getTag() {
-    return tag;
-  }
-
-  public void setTag(String tag) {
-    this.tag = tag;
-  }
-
     public Tag itemCount(Integer itemCount) {
         this.itemCount = itemCount;
         return this;
     }
+
+  public Tag tag(String tag) {
+    setTag(tag);
+    return this;
+  }
+
+  public Tag isFavorite(Integer isFavorite) {
+    setIsFavorite(isFavorite);
+    return this;
+  }
 
      /**
      * Get itemCount
@@ -88,24 +74,6 @@ public class Tag {
     this.itemCount = itemCount;
   }
 
-  public Tag isFavorite(Integer isFavorite) {
-    this.isFavorite = isFavorite;
-    return this;
-  }
-
-   /**
-   * Get isFavorite
-   * @return isFavorite
-  **/
-  @Schema(description = "")
-  public Integer getIsFavorite() {
-    return isFavorite;
-  }
-
-  public void setIsFavorite(Integer isFavorite) {
-    this.isFavorite = isFavorite;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -116,25 +84,25 @@ public class Tag {
     }
     Tag tag = (Tag) o;
     return Objects.equals(this.id, tag.id) &&
-            Objects.equals(this.tag, tag.tag) &&
+            Objects.equals(this.getTag(), tag.getTag()) &&
             Objects.equals(this.itemCount, tag.itemCount) &&
-            Objects.equals(this.isFavorite, tag.isFavorite);
+            Objects.equals(this.getIsFavorite(), tag.getIsFavorite());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, tag, itemCount, isFavorite);
+    return Objects.hash(id, getTag(), itemCount, getIsFavorite());
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Tag {\n");
+    sb.append("{\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    tag: ").append(toIndentedString(tag)).append("\n");
+    sb.append("    tag: ").append(toIndentedString(getTag())).append("\n");
     sb.append("    itemCount: ").append(toIndentedString(itemCount)).append("\n");
-    sb.append("    isFavorite: ").append(toIndentedString(isFavorite)).append("\n");
+    sb.append("    isFavorite: ").append(toIndentedString(getIsFavorite())).append("\n");
     sb.append("}");
     return sb.toString();
   }

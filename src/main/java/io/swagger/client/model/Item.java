@@ -23,7 +23,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
-public class Item extends Entity_DEPRECATED implements ItemsIdBody1 {
+public class Item {
   @JsonProperty("is_bookable")
   private Integer isBookable = null;
 

@@ -111,7 +111,7 @@ public class ExperimentTemplateTest {
         experimentTemplate.setTitle("Test Title");
 
         String expectedString = """
-                class ExperimentTemplate {
+                {
                     id: 1
                     title: Test Title
                     body: null
