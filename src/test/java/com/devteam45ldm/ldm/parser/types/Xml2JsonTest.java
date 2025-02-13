@@ -29,8 +29,7 @@ class Xml2JsonTest {
           "root": {
             "child": "testString"
           }
-        }
-        """;
+        }""";
         assertEquals(expected, json.toString(2));
     }
 
@@ -56,8 +55,7 @@ class Xml2JsonTest {
               "testAttr": "valueMJ"
             }
           }
-        }
-        """;
+        }""";
         assertEquals(expected, json.toString(2));
     }
 
@@ -84,8 +82,7 @@ class Xml2JsonTest {
               "__child": "content"
             }
           }
-        }
-        """;
+        }""";
         assertEquals(expected, json.toString(2));
     }
 
@@ -101,8 +98,8 @@ class Xml2JsonTest {
         JSONObject root = json.getJSONObject("root");
         JSONArray children = root.getJSONArray("child");
         assertEquals(2, children.length());
-        assertEquals("value1", children.getJSONObject(0).getString("value"));
-        assertEquals("value2", children.getJSONObject(1).getString("value"));
+        assertEquals("value1", children.getString(0));
+        assertEquals("value2", children.getString(1));
 
         String expected = """
         {
@@ -112,8 +109,7 @@ class Xml2JsonTest {
               "value2"
             ]
           }
-        }
-        """;
+        }""";
         assertEquals(expected, json.toString(2));
 
     }
@@ -145,8 +141,7 @@ class Xml2JsonTest {
               "value2"
             ]
           }
-        }
-        """;
+        }""";
         assertEquals(expected, json.toString(2));
 
     }

@@ -1,18 +1,24 @@
 package com.devteam45ldm.ldm.parser.types;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.*;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.StringReader;
-import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 //TODO: Implement this class analogous to Json2Json class
-public abstract class Xml2Json {
+public class Xml2Json {
 
     /**
      * Parses XML string into a JSON object, preserving the hierarchical structure.
@@ -69,22 +75,54 @@ public abstract class Xml2Json {
 
         NodeList children = element.getChildNodes();
         boolean hasElementChildren = false;
+
+        //Create a map to track repeate elements
+        Map<String, List<Object>> repeatedElements =  new HashMap<>();
+
+        // Add elements to JSON, converting to arrays if needed
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
             if (child instanceof Element childElement) {
                 hasElementChildren = true;
-                if (json.has(childElement.getNodeName())) {
-                    Object existing = json.get(childElement.getNodeName());
-                    if (existing instanceof JSONObject existingJson) {
-                        json.put(childElement.getNodeName(), existingJson);
-                    }
+                String nodeName = childElement.getNodeName();
+
+                // Check if child has attributes
+                boolean childHasAttributes = childElement.getAttributes().getLength() > 0;
+                Object childJson;
+                if (childHasAttributes) {
+                    childJson = elementToJson(childElement);
                 } else {
-                    json.put(childElement.getNodeName(), elementToJson(childElement));
+                    // If no attributes, use text content directly
+                    String textContent = childElement.getTextContent().trim();
+                    childJson = textContent.isEmpty() ? JSONObject.NULL : textContent;
                 }
+
+                // Track repeated elements
+                repeatedElements.computeIfAbsent(nodeName, k -> new ArrayList<>()).add(childJson);
             }
         }
 
-        String textContent = element.getTextContent().trim();
+        for (Map.Entry<String, List<Object>> entry : repeatedElements.entrySet()) {
+            String nodeName = entry.getKey();
+            List<Object> elements = entry.getValue();
+
+            if (elements.size() == 1) {
+                json.put(nodeName, elements.getFirst());
+            } else {
+                JSONArray array = new JSONArray();
+                elements.forEach(array::put);
+                json.put(nodeName, array);
+            }
+        }
+
+        // Handle text content
+        String textContent = "";
+        for (Node node = element.getFirstChild(); node != null; node = node.getNextSibling()) {
+            if (node.getNodeType() == Node.TEXT_NODE) {
+                textContent += node.getTextContent().trim();
+            }
+        }
+
         if (!hasElementChildren && !hasAttributes) {
             return textContent.isEmpty() ? JSONObject.NULL : textContent;
         } else if (!textContent.isEmpty()) {
