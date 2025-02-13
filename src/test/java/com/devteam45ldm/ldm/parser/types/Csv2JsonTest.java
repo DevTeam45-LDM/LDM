@@ -1,116 +1,128 @@
 package com.devteam45ldm.ldm.parser.types;
 
+import com.devteam45ldm.ldm.parser.templates.Metadata;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportMappings;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportedData;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class Csv2JsonTest {
 
-    /**
-     * Tests parsing a simple CSV with header and one data row
-     */
+    private final boolean debug = true;
+
     @Test
-    void parse_simpleCSV_returnsCorrectJson() throws Exception {
-        String csv = "name,age\nJohn,30";
-        ImportMappings mappings = new ImportMappings().dataSeparator(",");
-        ImportTemplate template = new ImportTemplate().mappings(mappings);
+    void parse_validCsvWithMetadataSeparator_returnsCorrectJson() throws Exception {
+        String csv = "name,age,city\nJohn,30,New York\nJane,25,Los Angeles";
+
+        ImportTemplate template = new ImportTemplate()
+                .metadata(new Metadata())
+                .mappings(new ImportMappings().metadataSeparator(","));  // Changed from .data to .mappings
+
         ImportedData result = Csv2Json.parse(csv, template);
 
-        JSONArray jsonArray = new JSONArray(result.getData());
+        if (debug) {
+            System.out.println(result.toString());
+        }
+
+        JSONArray jsonArray = new JSONArray(result.getMetadata());
+        assertEquals(2, jsonArray.length());
 
         JSONObject firstRow = jsonArray.getJSONObject(0);
         assertEquals("John", firstRow.getString("name"));
         assertEquals("30", firstRow.getString("age"));
-    }
+        assertEquals("New York", firstRow.getString("city"));
 
-    /**
-     * Tests parsing CSV with multiple rows
-     */
-    @Test
-    void parse_multipleRows_returnsCorrectJson() throws Exception {
-        String csv = "name,age\nJohn,30\nJane,25";
-
-        ImportMappings mappings = new ImportMappings().dataSeparator(",");
-        ImportTemplate template = new ImportTemplate().mappings(mappings);
-        ImportedData result = Csv2Json.parse(csv, template);
-
-        JSONArray jsonArray = new JSONArray(result.getData());
-        JSONObject firstRow = jsonArray.getJSONObject(0);
         JSONObject secondRow = jsonArray.getJSONObject(1);
-
-        assertEquals("John", firstRow.getString("name"));
-        assertEquals("30", firstRow.getString("age"));
         assertEquals("Jane", secondRow.getString("name"));
         assertEquals("25", secondRow.getString("age"));
+        assertEquals("Los Angeles", secondRow.getString("city"));
     }
 
-    /**
-     * Tests parsing empty CSV
-     */
     @Test
-    void parse_emptyCSV_throwsException() {
-        String csv = "";
-        assertThrows(Exception.class, () -> Csv2Json.parse(csv, new ImportTemplate()));
+    void parse_validCsvWithDataSeparator_returnsCorrectJson() throws Exception {
+        String csv = "name;age;city\nJohn;30;New York\nJane;25;Los Angeles";
+
+        ImportTemplate template = new ImportTemplate()
+                .metadata(new Metadata())
+                .mappings(new ImportMappings().dataSeparator(";"));
+
+        ImportedData result = Csv2Json.parse(csv, template);
+
+        if (debug) {
+            System.out.println(result.toString());
+        }
+
+        JSONArray jsonArray = new JSONArray(result.getData());
+        assertEquals(2, jsonArray.length());
+
+        JSONObject firstRow = jsonArray.getJSONObject(0);
+        assertEquals("John", firstRow.getString("name"));
+        assertEquals("30", firstRow.getString("age"));
+        assertEquals("New York", firstRow.getString("city"));
+
+        JSONObject secondRow = jsonArray.getJSONObject(1);
+        assertEquals("Jane", secondRow.getString("name"));
+        assertEquals("25", secondRow.getString("age"));
+        assertEquals("Los Angeles", secondRow.getString("city"));
     }
 
-//    /**
-//     * Tests parsing CSV with missing values
-//     */
-//    @Test
-//    void parse_missingValues_handlesGracefully() throws Exception {
-//        String csv = "name,age,city\nJohn,,New York";
-//        JSONObject result = Csv2Json.parse(csv);
-//
-//        JSONObject row = result.getJSONObject("0");
-//        assertEquals("John", row.getString("name"));
-//        assertEquals("", row.getString("age"));
-//        assertEquals("New York", row.getString("city"));
-//    }
-//
-//    /**
-//     * Tests parsing CSV with spaces in headers and values
-//     */
-//    @Test
-//    void parse_spacesInContent_trimsProperly() throws Exception {
-//        String csv = " name , age , city \n John , 30 , New York ";
-//        JSONObject result = Csv2Json.parse(csv);
-//
-//        JSONObject row = result.getJSONObject("0");
-//        assertEquals("John", row.getString("name"));
-//        assertEquals("30", row.getString("age"));
-//        assertEquals("New York", row.getString("city"));
-//    }
-//
-//    /**
-//     * Tests parsing the White Stripes albums CSV example
-//     */
-//    @Test
-//    void parse_whiteStripesAlbums_returnsCorrectJson() throws Exception {
-//        String csv = """
-//                album,year,US_peak_chart_post
-//                The White Stripes,1999,-
-//                De Stijl,2000,-
-//                White Blood Cells,2001,61""";
-//
-//        JSONObject result = Csv2Json.parse(csv);
-//
-//        JSONObject firstAlbum = result.getJSONObject("0");
-//        assertEquals("The White Stripes", firstAlbum.getString("album"));
-//        assertEquals("1999", firstAlbum.getString("year"));
-//        assertEquals("-", firstAlbum.getString("US_peak_chart_post"));
-//
-//        JSONObject secondAlbum = result.getJSONObject("1");
-//        assertEquals("De Stijl", secondAlbum.getString("album"));
-//        assertEquals("2000", secondAlbum.getString("year"));
-//        assertEquals("-", secondAlbum.getString("US_peak_chart_post"));
-//
-//        JSONObject thirdAlbum = result.getJSONObject("2");
-//        assertEquals("White Blood Cells", thirdAlbum.getString("album"));
-//        assertEquals("2001", thirdAlbum.getString("year"));
-//        assertEquals("61", thirdAlbum.getString("US_peak_chart_post"));
-//    }
+    @Test
+    void parse_emptyCSV_throwsException() throws Exception {
+        String csv = "";
+        ImportTemplate template = new ImportTemplate()
+                .metadata(new Metadata())
+                .mappings(new ImportMappings().dataSeparator(","));
+        assertThrows(JSONException.class, () -> Csv2Json.parse(csv, template));
+    }
+
+    @Test
+    void parse_csvWithOnlyHeaders_returnsEmptyArray() throws Exception {
+        String csv = "name,age,city";
+        ImportTemplate template = new ImportTemplate()
+                .metadata(new Metadata())
+                .mappings(new ImportMappings().dataSeparator(","));
+
+        ImportedData result = Csv2Json.parse(csv, template);
+
+        if (debug) {
+            System.out.println(result.toString());
+        }
+
+        JSONArray jsonArray = new JSONArray(result.getData());
+        assertEquals(0, jsonArray.length());
+    }
+
+    @Test
+    void parse_csvWithMissingSeparator_throwsException() throws Exception{
+        String csv = "name,age,city\nJohn,30,New York";
+        ImportTemplate template = new ImportTemplate()
+                .metadata(new Metadata())
+                .mappings(new ImportMappings());
+        assertThrows(JSONException.class, () -> Csv2Json.parse(csv, template));
+    }
+
+    @Test
+    void parse_csvWithFewerValuesThanHeaders_handlesGracefully() throws Exception {
+        String csv = "name,age,city\nJohn,30";
+        ImportTemplate template = new ImportTemplate()
+                .metadata(new Metadata())
+                .mappings(new ImportMappings().dataSeparator(","));
+
+
+        ImportedData result = Csv2Json.parse(csv, template);
+        if (debug) {
+            System.out.println(result.toString());
+        }
+        JSONArray jsonArray = new JSONArray(result.getData());
+
+        JSONObject row = jsonArray.getJSONObject(0);
+        assertEquals("John", row.getString("name"));
+        assertEquals("30", row.getString("age"));
+        assertFalse(row.has("city"));
+    }
 }
