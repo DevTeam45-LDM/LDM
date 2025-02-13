@@ -526,6 +526,23 @@ public class ApiClient {
         }
     }
 
+    /**
+     * Invoke API by sending HTTP request using OkHttpClient with the given options.
+     *
+     * @param <T> the return type to use
+     * @param path The sub-path of the HTTP URL
+     * @param method The request method (GET, POST, PUT, DELETE, PATCH)
+     * @param queryParams The query parameters to include in the URL
+     * @param body The request body object
+     * @param headerParams The header parameters to include in the request
+     * @param formParams The form parameters to include in the request
+     * @param accept The request's Accept header
+     * @param contentType The request's Content-Type header
+     * @param authNames The authentications to apply
+     * @param returnType The return type into which to deserialize the response
+     * @return ResponseEntity<T> The response of the chosen type
+     * @throws RestClientException if an error occurs while invoking the API
+     */
     public <T> ResponseEntity<T> invokeAPIOKHTTPClient(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         try {
             // Log the URL
