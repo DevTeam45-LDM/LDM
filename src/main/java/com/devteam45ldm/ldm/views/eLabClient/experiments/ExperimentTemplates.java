@@ -91,7 +91,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
             }
         });
 
-        menuBar.addItem("Read Template", event -> readExperiments());
+        menuBar.addItem("Read Templates", event -> readExperiments());
         menuBar.getStyle().set("margin-bottom", "50px");
 
         experimentDetailsLayout = new VerticalLayout();
@@ -420,7 +420,7 @@ public class ExperimentTemplates extends Composite<VerticalLayout> implements Cr
                 .body(selectedExperiment.getBody());
 
         try {
-            apiInstance.getExperimentTemplatesClient(apiKeyField.getValue(), urlField.getValue()).postExperimentTemplateById(id, experimentsTemplatesBody);
+            apiInstance.getExperimentTemplatesClient(apiKeyField.getValue(), urlField.getValue()).patchExperimentTemplate(id, experimentsTemplatesBody);
         } catch (RestClientException e) {
             Notification.show("Unknown error occurred. Please try again.");
         }

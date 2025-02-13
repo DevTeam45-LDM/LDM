@@ -67,14 +67,14 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
         menuBar.setWidth("min-content");
 
         // Add menu items
-        menuBar.addItem("Verbindungstest", event -> {
+        menuBar.addItem("Connection Test", event -> {
             try {
                 testUrl();
             } catch (IOException e) {
                 Notification.show("Error: " + e.getMessage());
             }
         });
-        menuBar.addItem("Tags lesen", event -> readTags());
+        menuBar.addItem("Read Tags", event -> readTags());
         menuBar.getStyle().set("margin-bottom", "80px");
 
         // Grid for displaying tags
@@ -95,9 +95,9 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
         editLayout.setSpacing(true);
 
         tagsMenuBar = new MenuBar();
-        tagsMenuBar.addItem("Tag erstellen", event -> loadCreator());
-        tagsMenuBar.addItem("Tag bearbeiten", event -> loadModifier());
-        tagsMenuBar.addItem("Tag löschen", event -> loadDeleter());
+        tagsMenuBar.addItem("Create", event -> loadCreator());
+        tagsMenuBar.addItem("Modify", event -> loadModifier());
+        tagsMenuBar.addItem("Delete", event -> loadDeleter());
         tagsMenuBar.setVisible(false);
 
         getContent().setWidth("100%");
@@ -122,7 +122,7 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
     private void testUrl() throws IOException {
         String url = urlField.getValue();
         if (url == null || url.isEmpty()) {
-            Notification.show("Bitte geben Sie eine URL ein.");
+            Notification.show("Please enter a URL.");
             return;
         }
 
@@ -133,9 +133,8 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
         HTTPController httpController = new HTTPController();
         ResponseEntity<String> checkURL = httpController.checkURL(url);
         if (checkURL.getStatusCode().is2xxSuccessful() || checkURL.getStatusCode().is3xxRedirection() || checkURL.getStatusCode().value() == 401) {
-            Notification.show("eLab ist erreichbar.");
-        } else {
-            Notification.show("eLab ist nicht erreichbar: " + checkURL);
+            Notification.show("eLab is reachable.");
+            Notification.show("eLab is unreachable: " + checkURL);
         }
     }
 
@@ -148,15 +147,15 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
         String url = urlField.getValue();
 
         if ((apiKey == null || apiKey.isEmpty()) && (url == null || url.isEmpty())) {
-            Notification.show("Bitte einen API-Schlüssel und eine URL eingeben.");
+            Notification.show("Please enter an API key and a URL.");
             return;
         }
         if (apiKey == null || apiKey.isEmpty()) {
-            Notification.show("Bitte einen API-Schlüssel eingeben.");
+            Notification.show("Please enter an API key.");
             return;
         }
         if (url == null || url.isEmpty()) {
-            Notification.show("Bitte eine URL eingeben.");
+            Notification.show("Please enter a URL.");
             return;
         }
 
@@ -166,7 +165,7 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
             responseGrid.setVisible(true);
             tagsMenuBar.setVisible(true);
         } catch (Exception e) {
-            Notification.show("Fehler: " + e.getMessage());
+            Notification.show("Error: " + e.getMessage());
         }
     }
 
@@ -176,8 +175,8 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
      */
     private void loadCreator() {
         editMenuBar.removeAll();
-        editMenuBar.addItem("Erstellen", event -> createTag());
-        editMenuBar.addItem("Abbrechen", event -> cancelTag());
+        editMenuBar.addItem("Create", event -> createTag());
+        editMenuBar.addItem("Cancel", event -> cancelTag());
         editField.setVisible(true);
         editMenuBar.setVisible(true);
         tagsMenuBar.setVisible(false);
@@ -189,14 +188,14 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
     private void loadModifier() {
         if(selectedTag != null) {
             editMenuBar.removeAll();
-            editMenuBar.addItem("Speichern", event -> saveChanges());
-            editMenuBar.addItem("Abbrechen", event -> cancelTag());
+            editMenuBar.addItem("Save", event -> saveChanges());
+            editMenuBar.addItem("Cancel", event -> cancelTag());
             editField.setVisible(true);
             editMenuBar.setVisible(true);
             tagsMenuBar.setVisible(false);
         }
         else {
-            Notification.show("Bitte wähle einen Tag aus.");
+            Notification.show("Please select a tag.");
         }
     }
 
@@ -206,13 +205,13 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
     private void loadDeleter() {
         if(selectedTag != null) {
             editMenuBar.removeAll();
-            editMenuBar.addItem("Löschen", event -> deleteTag());
-            editMenuBar.addItem("Abbrechen", event -> cancelTag());
+            editMenuBar.addItem("Delete", event -> deleteTag());
+            editMenuBar.addItem("Cancel", event -> cancelTag());
             editMenuBar.setVisible(true);
             tagsMenuBar.setVisible(false);
         }
         else {
-            Notification.show("Bitte wähle einen Tag aus.");
+            Notification.show("Please select a tag.");
         }
     }
 
@@ -241,7 +240,7 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
 
         // Create a tag for the team with id=5
         try {
-            client.postTeamTag(5, new IdTagsBody().tag(tag));
+            client.postTeamTag(5, new TagsBody().tag(tag));
             return true;
         } catch (RestClientException e) {
             return false;
@@ -254,9 +253,9 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
     private void createTag(){
         boolean result = callApiPost(editField.getValue());
         if (result) {
-            Notification.show("Tag erfolgreich erstellt.");
+            Notification.show("Tag created successfully.");
         } else {
-            Notification.show("Fehler beim Erstellen des Tags.");
+            Notification.show("Error: Could not create tag.");
         }
 
         resetEditComponents();
@@ -270,15 +269,13 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
      * @param id the ID of the tag to update
      * @return true if the tag was updated successfully, false otherwise
      */
-    private boolean callApiPatch(String tag, Integer id) {
-        try { //TODO use ApiClient
+    private void callApiPatch(String tag, Integer id) {
+        try {
             TeamTagsApi client = apiInstance.getTeamTagsClient(apiKeyField.getValue(), urlField.getValue());
-            client.modifyTagCURL(apiKeyField.getValue(), urlField.getValue(), 5, id, tag);
-            return true;
+            client.patchTags(id, new Tag().tag(tag));
+            Notification.show("Changes saved successfully.");
         } catch (Exception e) {
-            Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
-            Notification.show(e.toString());
-            return false;
+            Notification.show("Error: " + e.getMessage() + " " + e.getClass());
         }
     }
 
@@ -293,13 +290,7 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
      * Saves changes to the selected tag using the value from the edit field.
      */
     private void saveChanges() {
-        boolean result = callApiPatch(editField.getValue(), selectedTag.getId());
-        if (result) {
-            Notification.show("Änderungen erfolgreich gespeichert.");
-        } else {
-            Notification.show("Keine Berechtigung Tags zu Löschen: eLab Admin kontaktieren.");
-        }
-
+        callApiPatch(editField.getValue(), selectedTag.getId());
         resetEditComponents();
         readTags();
     }
@@ -319,7 +310,7 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
             client.deleteTeamTag(5, id);
             return true;
         } catch (RestClientException e) {
-            Notification.show("Fehler: " + e.getMessage()); //DEBUG
+            Notification.show("Error: " + e.getMessage()); //DEBUG
             return false;
         }
     }
@@ -330,9 +321,9 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
     private void deleteTag() {
         boolean result = callApiDelete(selectedTag.getId());
         if (result) {
-            Notification.show("Tag erfolgreich gelöscht.");
+            Notification.show("Tag successfully deleted.");
         } else {
-            Notification.show("Keine Berechtigung Tags zu Löschen: eLab Admin kontaktieren.");
+            Notification.show("No permission to delete tags: Contact eLab Admin.");
         }
 
         resetEditComponents();

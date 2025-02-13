@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 public class CreateReport extends Composite<VerticalLayout> implements CredentialsAware {
 
     private InputStream uploadedInputStream;
-    private final TextField titleField = new TextField("Titel");
+    private final TextField titleField = new TextField("Title");
     private final ELabController apiInstance = new ELabController();
     private String apiKey;
     private String url;

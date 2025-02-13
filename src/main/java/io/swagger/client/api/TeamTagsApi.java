@@ -3,11 +3,7 @@ package io.swagger.client.api;
 import com.devteam45ldm.ldm.api.eLabClient.ELabClient;
 import io.swagger.client.ApiClient;
 
-import io.swagger.client.model.IdTagsBody;
-import io.swagger.client.model.IdTagsBody1;
-import io.swagger.client.model.InlineResponse2004;
-import io.swagger.client.model.Tag;
-import io.swagger.client.model.TagsSubidBody;
+import io.swagger.client.model.*;
 
 import java.io.File;
 import java.io.InputStream;
@@ -117,7 +113,7 @@ public class TeamTagsApi {
      * @return List&lt;Tag&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public List<Tag> patchTags(Integer id, IdTagsBody1 body) throws RestClientException {
+    public List<Tag> patchTags(Integer id, TagsBody body) throws RestClientException {
         return patchTagsWithHttpInfo(id, body).getBody();
     }
 
@@ -130,7 +126,7 @@ public class TeamTagsApi {
      * @return ResponseEntity&lt;List&lt;Tag&gt;&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<List<Tag>> patchTagsWithHttpInfo(Integer id, IdTagsBody1 body) throws RestClientException {
+    public ResponseEntity<List<Tag>> patchTagsWithHttpInfo(Integer id, TagsBody body) throws RestClientException {
         Object postBody = body;
         // verify the required parameter 'id' is set
         if (id == null) {
@@ -169,7 +165,7 @@ public class TeamTagsApi {
      * @return Tag
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Tag patchTeamTag(Integer id, Integer subid, TagsSubidBody body) throws RestClientException {
+    public Tag patchTeamTag(Integer id, Integer subid, TagsBody body) throws RestClientException {
         return patchTeamTagWithHttpInfo(id, subid, body).getBody();
     }
 
@@ -183,7 +179,7 @@ public class TeamTagsApi {
      * @return ResponseEntity&lt;Tag&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Tag> patchTeamTagWithHttpInfo(Integer id, Integer subid, TagsSubidBody body) throws RestClientException {
+    public ResponseEntity<Tag> patchTeamTagWithHttpInfo(Integer id, Integer subid, TagsBody body) throws RestClientException {
         Object postBody = body;
         // verify the required parameter 'id' is set
         if (id == null) {
@@ -225,7 +221,7 @@ public class TeamTagsApi {
      * @param body Parameters for adding a tag in the team. (optional)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void postTeamTag(Integer id, IdTagsBody body) throws RestClientException {
+    public void postTeamTag(Integer id, TagsBody body) throws RestClientException {
         postTeamTagWithHttpInfo(id, body);
     }
 
@@ -238,7 +234,7 @@ public class TeamTagsApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> postTeamTagWithHttpInfo(Integer id, IdTagsBody body) throws RestClientException {
+    public ResponseEntity<Void> postTeamTagWithHttpInfo(Integer id, TagsBody body) throws RestClientException {
         Object postBody = body;
         // verify the required parameter 'id' is set
         if (id == null) {

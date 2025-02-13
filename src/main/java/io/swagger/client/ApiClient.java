@@ -1,6 +1,5 @@
 package io.swagger.client;
 
-import com.vaadin.flow.component.notification.Notification;
 import okhttp3.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -485,11 +484,11 @@ public class ApiClient {
      */
     public <T> ResponseEntity<T> invokeAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         if(HttpMethod.PATCH.equals(method)) { //Drive-by fix for PATCH requests
-            Notification.show("Invoking API: PATCH -> OKHTTP"); //DEBUG
+            //Notification.show("Invoking API: PATCH -> OKHTTP"); //DEBUG
             invokeAPIOKHTTPClient(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames, returnType);
         }
         if(HttpMethod.POST.equals(method)) { //Drive-by fix for POST requests
-            Notification.show("Invoking API: POST -> OKHTTP"); //DEBUG
+            //Notification.show("Invoking API: POST -> OKHTTP"); //DEBUG
             invokeAPIOKHTTPClient(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames, returnType);
         }
 
@@ -530,7 +529,7 @@ public class ApiClient {
     public <T> ResponseEntity<T> invokeAPIOKHTTPClient(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         try {
             // Log the URL
-            Notification.show("Invoking API with URL: " + path);
+            //Notification.show("Invoking API with URL: " + path);
 
             // Validate and build URL with query parameters
             HttpUrl url = HttpUrl.parse(getBasePath() + path);
@@ -546,7 +545,7 @@ public class ApiClient {
             url = urlBuilder.build();
 
             // Log the final URL
-            Notification.show("Final URL: " + url);
+            //Notification.show("Final URL: " + url);
 
             // Build request
             Request.Builder requestBuilder = new Request.Builder().url(url);
