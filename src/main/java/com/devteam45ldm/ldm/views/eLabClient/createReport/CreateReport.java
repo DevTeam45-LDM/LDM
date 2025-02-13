@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  * The CreateReport class represents a view for creating reports in the eLabClient.
  * It allows users to upload XML files, process them, and create experiments.
  */
-@PageTitle("Bericht erstellen")
+@PageTitle("Create Report")
 public class CreateReport extends Composite<VerticalLayout> implements CredentialsAware {
 
     private InputStream uploadedInputStream;
