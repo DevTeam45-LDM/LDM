@@ -41,6 +41,15 @@ import org.springframework.web.client.RestClientException;
 
 import java.io.*;
 import java.util.Arrays;
+import io.swagger.client.model.ExperimentsBody;
+import org.json.JSONObject;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestClientException;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static org.atmosphere.annotation.AnnotationUtil.logger;
@@ -55,7 +64,7 @@ import static org.atmosphere.annotation.AnnotationUtil.logger;
 public class CreateReport extends Composite<VerticalLayout> implements CredentialsAware {
 
     private InputStream uploadedInputStream;
-    private final TextField titleField = new TextField("Titel");
+    private final TextField titleField = new TextField("Title");
     private final ELabController apiInstance = new ELabController();
     private String apiKey;
     private String url;
@@ -67,7 +76,7 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
 
 
     private final VaadinCKEditor classicEditor;
-    private final Button createReportButton = new Button("Bericht erstellen", event -> {
+    private final Button createReportButton = new Button("Create experiment", event -> {
         if (uploadedInputStream != null) {
             createExperiment();
             // Call uploadFileToELabFTW after creating the experiment
@@ -311,25 +320,24 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
      */
     private void createExperiment() {
         String title = titleField.getValue();
-
+        ExperimentsBody experimentBody = new ExperimentsBody();
+        experimentBody.setTitle(titleField.getValue());
+        experimentBody.setBody(classicEditor.getValue());
+        final Integer[] id = new Integer[1];
         if (titleField.isEmpty()) {
-            Notification.show("Bitte geben Sie einen Titel ein.");
+            Notification.show("Please enter a title.");
             return;
         }
-        try { //TODO use ApiClient
-
-            if (experimentId == null) {
-                experimentId = apiInstance.getExperimentsClient(apiKey, url).createExperimentCURL(apiKey, url, title);
-            }
-            if (!classicEditor.getValue().isEmpty()) {
-                apiInstance.getExperimentsClient(apiKey, url).modifyExperimentCURL(apiKey, url, experimentId, title, classicEditor.getValue());
-            }
-
-        } catch (RestClientException e) {
-            Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
-            Notification.show(e.toString());
-            return;
+        try {
+            ResponseEntity<Void> response = apiInstance.getExperimentsClient(apiKey, url).postExperimentWithHttpInfo(experimentBody);
+            Objects.requireNonNull(response.getHeaders().get("Location")).forEach(location -> {
+                String[] parts = location.split("/");
+                id[0] = Integer.parseInt(parts[parts.length - 1]);
+                apiInstance.getExperimentsClient().patchExperiment(id[0], experimentBody);
+            });
+        } catch (Exception e) {
+            Notification.show("Error creating experiment: " + e.getMessage());
         }
-        Notification.show("Experiment " + "[ID: " + experimentId + "]" + " erfolgreich erstellt.");
+        Notification.show("Created experiment " + "[ID: " + id[0] + "]" + "  successfully.");
     }
 }
