@@ -1,7 +1,6 @@
 package io.swagger.client.api;
 
 import com.devteam45ldm.ldm.api.eLabClient.ELabClient;
-import com.vaadin.flow.component.notification.Notification;
 import io.swagger.client.ApiClient;
 
 import io.swagger.client.model.Experiment;
@@ -175,7 +174,7 @@ public class ExperimentsApi {
      * @return Experiment
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Experiment patchExperiment(Integer id, Experiment body) throws RestClientException {
+    public Experiment patchExperiment(Integer id, ExperimentsBody body) throws RestClientException {
         return patchExperimentWithHttpInfo(id, body).getBody();
     }
 
@@ -195,7 +194,7 @@ public class ExperimentsApi {
      * @return ResponseEntity&lt;Experiment&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Experiment> patchExperimentWithHttpInfo(Integer id, Experiment body) throws RestClientException {
+    public ResponseEntity<Experiment> patchExperimentWithHttpInfo(Integer id, ExperimentsBody body) throws RestClientException {
         Object postBody = body;
         // verify the required parameter 'id' is set
         if (id == null) {
@@ -222,7 +221,7 @@ public class ExperimentsApi {
         String[] authNames = new String[] { "token" };
 
         ParameterizedTypeReference<Experiment> returnType = new ParameterizedTypeReference<Experiment>() {};
-        return apiClient.invokeAPI(path, HttpMethod.PATCH, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPIOKHTTPClient(path, HttpMethod.PATCH, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * Create an experiment

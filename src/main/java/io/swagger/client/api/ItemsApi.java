@@ -4,10 +4,7 @@ import io.swagger.client.ApiClient;
 
 import io.swagger.client.model.Item;
 import io.swagger.client.model.ItemsBody;
-import io.swagger.client.model.ItemsIdBody;
-import io.swagger.client.model.ItemsIdBody1;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +17,6 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -166,7 +162,7 @@ public class ItemsApi {
      * @return Item
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Item patchItem(Integer id, ItemsIdBody1 body) throws RestClientException {
+    public Item patchItem(Integer id, ItemsBody body) throws RestClientException {
         return patchItemWithHttpInfo(id, body).getBody();
     }
 
@@ -179,7 +175,7 @@ public class ItemsApi {
      * @return ResponseEntity&lt;Item&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Item> patchItemWithHttpInfo(Integer id, ItemsIdBody1 body) throws RestClientException {
+    public ResponseEntity<Item> patchItemWithHttpInfo(Integer id, ItemsBody body) throws RestClientException {
         Object postBody = body;
         // verify the required parameter 'id' is set
         if (id == null) {
@@ -255,7 +251,7 @@ public class ItemsApi {
      * @param body Parameters for duplicating an item (optional)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void postItemById(Integer id, ItemsIdBody body) throws RestClientException {
+    public void postItemById(Integer id, ItemsBody body) throws RestClientException {
         postItemByIdWithHttpInfo(id, body);
     }
 
@@ -268,7 +264,7 @@ public class ItemsApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> postItemByIdWithHttpInfo(Integer id, ItemsIdBody body) throws RestClientException {
+    public ResponseEntity<Void> postItemByIdWithHttpInfo(Integer id, ItemsBody body) throws RestClientException {
         Object postBody = body;
         // verify the required parameter 'id' is set
         if (id == null) {

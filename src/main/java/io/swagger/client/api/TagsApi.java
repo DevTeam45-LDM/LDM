@@ -4,13 +4,12 @@ import io.swagger.client.ApiClient;
 
 import io.swagger.client.model.IdTagsBody2;
 import io.swagger.client.model.Tag;
-import io.swagger.client.model.TagsSubidBody1;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.swagger.client.model.TagsBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -19,7 +18,6 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -112,7 +110,7 @@ public class TagsApi {
      * @return Tag
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Tag patchTag(String entityType, Integer id, Integer subid, TagsSubidBody1 body) throws RestClientException {
+    public Tag patchTag(String entityType, Integer id, Integer subid, TagsBody body) throws RestClientException {
         return patchTagWithHttpInfo(entityType, id, subid, body).getBody();
     }
 
@@ -127,7 +125,7 @@ public class TagsApi {
      * @return ResponseEntity&lt;Tag&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Tag> patchTagWithHttpInfo(String entityType, Integer id, Integer subid, TagsSubidBody1 body) throws RestClientException {
+    public ResponseEntity<Tag> patchTagWithHttpInfo(String entityType, Integer id, Integer subid, TagsBody body) throws RestClientException {
         Object postBody = body;
         // verify the required parameter 'entityType' is set
         if (entityType == null) {

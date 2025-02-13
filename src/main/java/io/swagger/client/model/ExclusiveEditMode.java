@@ -12,6 +12,7 @@
 
 package io.swagger.client.model;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,69 +26,31 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 
 public class ExclusiveEditMode {
-  @JsonProperty("locked_by")
-  private Integer lockedBy = null;
 
-  @JsonProperty("fullname")
-  private String fullname = null;
+  @JsonProperty("modes")
+  private List<String> modes;
 
-  @JsonProperty("locked_at")
-  private String lockedAt = null;
+  @JsonCreator
+  public ExclusiveEditMode(List<String> modes) {
+    this.modes = modes;
+  }
 
-  public ExclusiveEditMode lockedBy(Integer lockedBy) {
-    this.lockedBy = lockedBy;
+  public ExclusiveEditMode() {
+  }
+
+  @JsonValue
+  public List<String> getModes() {
+    return modes;
+  }
+
+  public void setModes(List<String> modes) {
+    this.modes = modes;
+  }
+
+  public ExclusiveEditMode modes(List<String> modes) {
+    this.modes = modes;
     return this;
   }
-
-   /**
-   * Get lockedBy
-   * @return lockedBy
-  **/
-  @Schema(description = "")
-  public Integer getLockedBy() {
-    return lockedBy;
-  }
-
-  public void setLockedBy(Integer lockedBy) {
-    this.lockedBy = lockedBy;
-  }
-
-  public ExclusiveEditMode fullname(String fullname) {
-    this.fullname = fullname;
-    return this;
-  }
-
-   /**
-   * Get fullname
-   * @return fullname
-  **/
-  @Schema(description = "")
-  public String getFullname() {
-    return fullname;
-  }
-
-  public void setFullname(String fullname) {
-    this.fullname = fullname;
-  }
-
-  public ExclusiveEditMode lockedAt(String lockedAt) {
-    this.lockedAt = lockedAt;
-    return this;
-  }
-
-   /**
-   * Get lockedAt
-   * @return lockedAt
-  **/
-  @Schema(description = "")
-  public String getLockedAt() {
-    return lockedAt;
-  }
-
-  public void setLockedAt(String lockedAt) {
-    this.lockedAt = lockedAt;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -98,25 +61,20 @@ public class ExclusiveEditMode {
       return false;
     }
     ExclusiveEditMode exclusiveEditMode = (ExclusiveEditMode) o;
-    return Objects.equals(this.lockedBy, exclusiveEditMode.lockedBy) &&
-        Objects.equals(this.fullname, exclusiveEditMode.fullname) &&
-        Objects.equals(this.lockedAt, exclusiveEditMode.lockedAt);
+    return Objects.equals(this.modes, exclusiveEditMode.modes);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(lockedBy, fullname, lockedAt);
+    return Objects.hash(modes);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ExclusiveEditMode {\n");
-    
-    sb.append("    lockedBy: ").append(toIndentedString(lockedBy)).append("\n");
-    sb.append("    fullname: ").append(toIndentedString(fullname)).append("\n");
-    sb.append("    lockedAt: ").append(toIndentedString(lockedAt)).append("\n");
+    sb.append("{\n");
+    sb.append("    modes: ").append(toIndentedString(modes)).append("\n");
     sb.append("}");
     return sb.toString();
   }
