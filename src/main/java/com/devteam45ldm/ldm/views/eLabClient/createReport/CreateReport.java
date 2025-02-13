@@ -10,6 +10,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.progressbar.ProgressBar;
@@ -26,6 +27,7 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.json.JSONArray;
@@ -40,6 +42,8 @@ import org.springframework.web.client.RestClientException;
 import java.io.*;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+
+import static org.atmosphere.annotation.AnnotationUtil.logger;
 
 
 /**
@@ -225,13 +229,15 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
         }
 
 
+
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             String apiUrl = url + "/api/v2/experiments/" + experimentId + "/uploads";
             HttpPost postRequest = new HttpPost(apiUrl);
             postRequest.setHeader("Authorization", apiKey);
             postRequest.setHeader("Accept", "application/json"); // Ensure JSON response
 
-
+            //DEBUG
+            Notification.show("File size before upload: " + inputStream.available());
 
             // Create a multipart request body
             HttpEntity multipartEntity = MultipartEntityBuilder.create()
@@ -245,17 +251,29 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
                 int responseCode = response.getCode();
                 String responseBody = EntityUtils.toString(response.getEntity());
 
+                //DEBUG
                 Notification.show("Response Code: " + responseCode + " -  Response Body:" + responseBody);
                 Notification.show(Arrays.toString(response.getHeaders()));
 
+                // Debug Headers
+                StringBuilder headersInfo = new StringBuilder();
+                for (Header header : response.getHeaders()) {
+                    headersInfo.append(header.getName()).append(": ").append(header.getValue()).append("\n");
+                }
+                Notification.show("Response Code: " + responseCode + "\nHeaders: \n" + headersInfo);
+
+
+
                 if (responseCode == 201) {  // HTTP 201 Created
 
-                    //TODO: check responseBody: its empty!
-                        // Construct file URL
-                        String fileUrl = url + "/api/v2/experiments/" + experimentId + "/uploads/" + fileName;
-
-                        Notification.show("Datei erfolgreich hochgeladen: " + fileName);
+                    Header locationHeader = response.getFirstHeader("Location");
+                    if (locationHeader != null) {
+                        String fileUrl = locationHeader.getValue();
+                        Notification.show("Upload successful File: " + fileName);
                         UI.getCurrent().getPage().open(fileUrl, "_blank");
+                    } else {
+                        Notification.show("Upload successful, but no file URL returned.");
+                    }
 
                 } else {
                     Notification.show("Fehler beim Hochladen der Datei. Antwortcode: " + responseCode + " - " + responseBody);
