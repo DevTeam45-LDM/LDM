@@ -119,22 +119,34 @@ public class Tags extends Composite<VerticalLayout> implements CredentialsAware 
      *
      * @throws IOException if an I/O error occurs
      */
+    /**
+     * Tests the provided URL to check if the eLab is reachable.
+     *
+     * @throws IOException if an I/O error occurs
+     */
     private void testUrl() throws IOException {
+        String apiKey = apiKeyField.getValue();
         String url = urlField.getValue();
+
+        if ((apiKey == null || apiKey.isEmpty()) && (url == null || url.isEmpty())) {
+            Notification.show("Please enter a URL and an API key.");
+            return;
+        }
+        if (apiKey == null || apiKey.isEmpty()) {
+            Notification.show("Please enter an API key.");
+            return;
+        }
         if (url == null || url.isEmpty()) {
             Notification.show("Please enter a URL.");
             return;
         }
 
-        if (!url.endsWith("/api/v2/info")) {
-            url = url.endsWith("/") ? url + "api/v2/info" : url + "/api/v2/info";
-        }
-
-        HTTPController httpController = new HTTPController();
-        ResponseEntity<String> checkURL = httpController.checkURL(url);
-        if (checkURL.getStatusCode().is2xxSuccessful() || checkURL.getStatusCode().is3xxRedirection() || checkURL.getStatusCode().value() == 401) {
-            Notification.show("eLab is reachable.");
-            Notification.show("eLab is unreachable: " + checkURL);
+        try {
+            Info info = apiInstance.getInfoClient(apiKey, url).getInfo();
+            String version = (info != null && info.getElabftwVersion() != null && !info.getElabftwVersion().isEmpty()) ? info.getElabftwVersion() : "unbekannt";
+            Notification.show("Login successfully. eLab-version: " + version);
+        } catch (Exception e) {
+            Notification.show("Error during login: " + e.getMessage());
         }
     }
 
