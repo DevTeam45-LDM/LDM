@@ -122,8 +122,8 @@ public class CreateTemplate extends Composite<VerticalLayout> {
         TextField templateDescription = new TextField("Description");
 
         Button saveButton = new Button("Save", e -> {
-                // Add save logic here
-                dialog.close();
+            // Add save logic here
+            dialog.close();
         });
         Button cancelButton = new Button("Cancel", e -> dialog.close());
 
