@@ -103,6 +103,52 @@ class Xml2JsonTest {
         assertEquals(2, children.length());
         assertEquals("value1", children.getJSONObject(0).getString("value"));
         assertEquals("value2", children.getJSONObject(1).getString("value"));
+
+        String expected = """
+        {
+          "root": {
+            "child": [
+              "value1",
+              "value2"
+            ]
+          }
+        }
+        """;
+        assertEquals(expected, json.toString(2));
+
+    }
+
+    @Test
+    void parseXMLToJson_repeatedElementsWithAttributes_returnsJsonArray() throws Exception {
+        String xml = "<root><child attr=\"hi\">value1</child><child>value2</child></root>";
+        JSONObject json = Xml2Json.parse(xml);
+
+        if(debug) {
+            System.out.println(json.toString(2));
+        }
+
+        //TODO adapt the following commands to String expected = ...
+        //JSONObject root = json.getJSONObject("root");
+        //JSONArray children = root.getJSONArray("child");
+        //assertEquals(2, children.length());
+        //assertEquals("value1", children.getJSONObject(0).getString("value"));
+        //assertEquals("value2", children.getJSONObject(1).getString("value"));
+
+        String expected = """
+        {
+          "root": {
+            "child": [
+              {
+                "attr": "hi",
+                "__child": "value1"
+              },
+              "value2"
+            ]
+          }
+        }
+        """;
+        assertEquals(expected, json.toString(2));
+
     }
 
     @Test
