@@ -444,7 +444,7 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
 
         try {
             //apiInstance.getExperimentsClient(apiKeyField.getValue(), urlField.getValue()).modifyExperimentCURL(apiKeyField.getValue(), urlField.getValue(), id, selectedExperiment.getTitle(), selectedExperiment.getBody());
-            apiInstance.getExperimentsClient().patchExperiment(id, experimentBody);
+            apiInstance.getExperimentsClient(apiKeyField.getValue(), urlField.getValue()).patchExperiment(id, experimentBody);
             Notification.show("Experiment " + "[ID: " + id + "]" + " modified successfully.");
             resetEditComponents();
             readExperiments();
