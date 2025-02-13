@@ -65,40 +65,38 @@ public class Xml2Json {
     private static Object elementToJson(Element element) throws JSONException {
         JSONObject json = new JSONObject();
 
+        // Handle attributes
         NamedNodeMap attributes = element.getAttributes();
         boolean hasAttributes = attributes.getLength() > 0;
-
         for (int i = 0; i < attributes.getLength(); i++) {
             Attr attr = (Attr) attributes.item(i);
             json.put(attr.getName(), attr.getValue());
         }
 
+        // Handle child elements
         NodeList children = element.getChildNodes();
         boolean hasElementChildren = false;
 
-        //Create a map to track repeate elements
+        //Create a map to track repeated elements
         Map<String, List<Object>> repeatedElements =  new HashMap<>();
 
-        // Add elements to JSON, converting to arrays if needed
+        // Process elements
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
             if (child instanceof Element childElement) {
                 hasElementChildren = true;
                 String nodeName = childElement.getNodeName();
+                Object childJson = elementToJson(childElement);
 
-                // Check if child has attributes
-                boolean childHasAttributes = childElement.getAttributes().getLength() > 0;
-                Object childJson;
-                if (childHasAttributes) {
-                    childJson = elementToJson(childElement);
+                // If child has children or attributes, keep its structure
+                if (childElement.hasChildNodes() || childElement.hasAttributes()) {
+                    repeatedElements.computeIfAbsent(nodeName, k -> new ArrayList<>()).add(childJson);
                 } else {
-                    // If no attributes, use text content directly
+                    // For leaf elements with just text, use text directly
                     String textContent = childElement.getTextContent().trim();
-                    childJson = textContent.isEmpty() ? JSONObject.NULL : textContent;
+                    repeatedElements.computeIfAbsent(nodeName, k -> new ArrayList<>())
+                            .add(textContent.isEmpty() ? new JSONObject() : textContent);
                 }
-
-                // Track repeated elements
-                repeatedElements.computeIfAbsent(nodeName, k -> new ArrayList<>()).add(childJson);
             }
         }
 
@@ -124,7 +122,7 @@ public class Xml2Json {
         }
 
         if (!hasElementChildren && !hasAttributes) {
-            return textContent.isEmpty() ? JSONObject.NULL : textContent;
+            return textContent.isEmpty() ? new JSONObject() : textContent;
         } else if (!textContent.isEmpty()) {
             json.put("__" + element.getNodeName(), textContent);
         }

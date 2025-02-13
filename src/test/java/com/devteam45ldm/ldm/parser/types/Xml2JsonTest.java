@@ -157,8 +157,7 @@ class Xml2JsonTest {
 
         JSONObject root = json.getJSONObject("root");
         JSONObject parent = root.getJSONObject("parent");
-        JSONObject child = parent.getJSONObject("child");
-        assertEquals("value", child.getString("value"));
+        assertEquals("value", parent.getString("child"));
     }
 
     @Test
@@ -235,18 +234,17 @@ class Xml2JsonTest {
         JSONObject data = json.getJSONObject("data");
         JSONObject person = data.getJSONObject("person");
         assertEquals("1", person.getString("id"));
-        assertEquals("John", person.getJSONObject("name").getString("value"));
+        assertEquals("John", person.getString("name"));
 
-        JSONObject contacts = person.getJSONObject("contacts");
-        JSONArray emails = contacts.getJSONArray("email");
-        assertEquals(2, emails.length());
+        JSONArray contacts = person.getJSONArray("contacts");
+        assertEquals(2, contacts.length());
 
-        JSONObject workEmail = emails.getJSONObject(0);
+        JSONObject workEmail = contacts.getJSONObject(0);
         assertEquals("work", workEmail.getString("type"));
-        assertEquals("john@work.com", workEmail.getString("value"));
+        assertEquals("john@work.com", workEmail.toString());
 
-        JSONObject homeEmail = emails.getJSONObject(1);
+        JSONObject homeEmail = contacts.getJSONObject(1);
         assertEquals("home", homeEmail.getString("type"));
-        assertEquals("john@home.com", homeEmail.getString("value"));
+        assertEquals("john@home.com", homeEmail.toString());
     }
 }
