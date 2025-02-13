@@ -18,12 +18,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
- * ExperimentsTemplatesBody
+ * Represents a template for an experiment with several parameters.
  */
-
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
-
 public class ExperimentsTemplatesBody {
   @JsonProperty("title")
   private String title = "Untitled";

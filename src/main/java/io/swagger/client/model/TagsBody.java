@@ -5,6 +5,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Objects;
 
+/**
+ * Represents the body of a request to create or update a tag.
+ */
 public class TagsBody {
     @JsonProperty("tag")
     private String tag;

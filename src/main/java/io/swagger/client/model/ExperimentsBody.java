@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+/**
+ * Represents the body of a request to create or update an experiment.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ExperimentsBody {
 

@@ -15,12 +15,12 @@ package io.swagger.client.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
- * Tag
+ * Represents a tag with an ID and item count.
+ * Inherits from TagsBody.
  */
-
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
-
 public class Tag extends TagsBody {
   @JsonProperty("id")
   private Integer id;

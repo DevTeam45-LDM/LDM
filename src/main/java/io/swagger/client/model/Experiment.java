@@ -21,7 +21,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Experiment
+ * Represents an experiment with several parameters.
+ * Inherits from ExperimentsBody.
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2025-01-17T16:14:35.053224103Z[GMT]")
 @JsonIgnoreProperties(ignoreUnknown = true)
