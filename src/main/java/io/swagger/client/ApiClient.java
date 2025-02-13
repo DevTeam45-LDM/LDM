@@ -485,12 +485,12 @@ public class ApiClient {
     public <T> ResponseEntity<T> invokeAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         if(HttpMethod.PATCH.equals(method)) { //Drive-by fix for PATCH requests
             //Notification.show("Invoking API: PATCH -> OKHTTP"); //DEBUG
-            invokeAPIOKHTTPClient(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames, returnType);
+            return invokeAPIOKHTTPClient(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames, returnType);
         }
-        if(HttpMethod.POST.equals(method)) { //Drive-by fix for POST requests
-            //Notification.show("Invoking API: POST -> OKHTTP"); //DEBUG
-            invokeAPIOKHTTPClient(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames, returnType);
-        }
+        //if(HttpMethod.POST.equals(method)) { //Drive-by fix for POST requests
+        //    //Notification.show("Invoking API: POST -> OKHTTP"); //DEBUG
+        //    return invokeAPIOKHTTPClient(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames, returnType);
+        //}
 
         updateParamsForAuth(authNames, queryParams, headerParams);
 

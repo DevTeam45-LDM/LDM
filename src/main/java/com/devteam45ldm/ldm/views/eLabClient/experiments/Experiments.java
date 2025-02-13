@@ -414,11 +414,11 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
         experimentBody.setBody(classicEditor.getValue());
 
         try {
-            ResponseEntity<Void> response = apiInstance.getExperimentsClient().postExperimentWithHttpInfo(experimentBody);
+            ResponseEntity<Void> response = apiInstance.getExperimentsClient(apiKeyField.getValue(), urlField.getValue()).postExperimentWithHttpInfo(experimentBody);
             Objects.requireNonNull(response.getHeaders().get("Location")).forEach(location -> {
                 String[] parts = location.split("/");
                 int id = Integer.parseInt(parts[parts.length - 1]);
-                apiInstance.getExperimentsClient().patchExperiment(id, experimentBody);
+                apiInstance.getExperimentsClient(apiKeyField.getValue(), urlField.getValue()).patchExperiment(id, experimentBody);
                 Notification.show("Experiment " + "[ID: " + id + "]" + " created successfully.");
                 resetEditComponents();
                 readExperiments();
