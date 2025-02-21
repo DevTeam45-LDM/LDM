@@ -1,19 +1,17 @@
-//package com.devteam45ldm.ldm.views.home;
+//package com.devteam45ldm.ldm.views.report;
 //
-//import com.devteam45ldm.ldm.api.eLabClient.ELabClient;
 //import com.devteam45ldm.ldm.api.eLabClient.ELabController;
 //import com.devteam45ldm.ldm.parser.JsonToELabReportBody;
 //import com.devteam45ldm.ldm.parser.XMLToJsonParser;
+//import com.devteam45ldm.ldm.views.MainLayout;
+//import com.devteam45ldm.ldm.views.eLabClient.login.CredentialsAware;
 //import com.devteam45ldm.ldm.views.eLabClient.login.Login;
 //import com.devteam45ldm.ldm.views.eLabClient.login.LoginEvent;
-//import com.devteam45ldm.ldm.views.eLabClient.login.LoginEventListener;
+//import com.vaadin.flow.component.Composite;
 //import com.vaadin.flow.component.Html;
-//import com.vaadin.flow.component.Key;
 //import com.vaadin.flow.component.button.Button;
-//import com.vaadin.flow.component.menubar.MenuBar;
 //import com.vaadin.flow.component.notification.Notification;
-//import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-//import com.vaadin.flow.component.textfield.PasswordField;
+//import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 //import com.vaadin.flow.component.textfield.TextField;
 //import com.vaadin.flow.component.upload.Upload;
 //import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
@@ -23,25 +21,25 @@
 //import com.wontlost.ckeditor.Constants;
 //import com.wontlost.ckeditor.VaadinCKEditor;
 //import com.wontlost.ckeditor.VaadinCKEditorBuilder;
-//import io.swagger.client.api.InfoApi;
 //import org.json.JSONObject;
 //import org.springframework.web.client.RestClientException;
 //
 //import java.io.BufferedReader;
 //import java.io.InputStream;
 //import java.io.InputStreamReader;
-//import java.util.ArrayList;
-//import java.util.List;
 //import java.util.stream.Collectors;
 //
-//@PageTitle("Startseite diesmal getestet")
+//import com.vaadin.flow.component.AttachEvent;
+//import com.devteam45ldm.ldm.views.eLabClient.login.LoginEventListener;
+//
+///**
+// * The CreateReport class represents a view for creating reports in the eLabClient.
+// * It allows users to upload XML files, process them, and create experiments.
+// */
 //@Route("")
-//@Menu(order = 0, icon = "line-awesome/svg/globe-solid.svg")
-//public class HomeView extends HorizontalLayout implements LoginEventListener {
-//
-//    private TextField name;
-//    private Button sayHello;
-//
+//@PageTitle("Create Report")
+//@Menu(order = 0, icon = "line-awesome/svg/flask-solid.svg")
+//public class ReportView extends VerticalLayout implements CredentialsAware,LoginEventListener {
 //
 //    private InputStream uploadedInputStream;
 //    private final TextField titleField = new TextField("Titel");
@@ -65,26 +63,11 @@
 //    private boolean isInitialized = false;
 //    private final Login login = new Login();
 //
-//    //components for the login
-//    private final TextField urlField;
-//    private final PasswordField apiKeyField;
-//    private final MenuBar menuBar = new MenuBar();
-//    private final ELabClient<InfoApi> eLabClient = new ELabClient<>(InfoApi.class);
-//    private final List<LoginEventListener> listeners = new ArrayList<>();
-//
-//    public HomeView() {
-//        name = new TextField("Sag mir, wie Du heißt, und ich sag Dir, wie Du heißt");
-//        sayHello = new Button("Say GutenTag");
-//        sayHello.addClickListener(e -> {
-//            Notification.show("GutenTag " + name.getValue());
-//        });
-//        sayHello.addClickShortcut(Key.ENTER);
-//
-//        setMargin(true);
-//        setVerticalComponentAlignment(Alignment.END, name, sayHello);
-//
-//        add(name, sayHello);
-//        name.setVisible(true);
+//    /**
+//     * Constructor for CreateReport.
+//     * Initializes the UI components and sets up event listeners.
+//     */
+//    public ReportView() {
 //        // Create a memory buffer to store uploaded files
 //        buffer = new MemoryBuffer();
 //
@@ -100,7 +83,6 @@
 //            String mimeType = event.getMIMEType();
 //
 //            try {
-//                // Get the input stream of the uploaded file
 //                uploadedInputStream = buffer.getInputStream();
 //
 //                // Process the file here (e.g., save to disk, database, etc.)
@@ -140,30 +122,25 @@
 //            builder.height = "500px";
 //        }).createVaadinCKEditor();
 //
-//        // Add the upload component to the layout
 //        add(upload, titleField, createReportButton,classicEditor);
 //        setWidth("100%");
 //
 //        login.addLoginEventListener(this);
 //        add(login);
+//    }
 //
-//        urlField = new TextField("URL");
-//        HorizontalLayout firstRow = new HorizontalLayout(urlField);
-//        firstRow.setWidthFull();
-//        firstRow.setSpacing(true);
-//
-//        apiKeyField = new PasswordField("API Key");
-//
-//        HorizontalLayout secondRow = new HorizontalLayout(apiKeyField);
-//        secondRow.setSpacing(true);
-//        secondRow.setWidthFull();
-//        secondRow.getStyle().set("margin", "20px");
-//
-//        menuBar.setWidth("min-content");
-//
-//        setWidth("100%");
-//        getStyle().set("flex-grow", "1");
-//        add(firstRow, secondRow, menuBar);
+//    /**
+//     * Sets the credentials for the API.
+//     * @param apiKey the API key
+//     * @param url the URL of the API
+//     */
+//    @Override
+//    public void setCredentials(String apiKey, String url) {
+//        this.apiKey = apiKey;
+//        this.url = url;
+//        if(apiKey != null && !apiKey.isEmpty()) {
+//            this.buttonAllowed = true;
+//        }
 //    }
 //
 //    /**
@@ -188,11 +165,6 @@
 //        } else {
 //            Notification.show("Unsupported file type: " + mimeType);
 //        }
-//    }
-//
-//    public void onLogin(LoginEvent event) {
-//        url = event.getUrl();
-//        event.getApiKey();
 //    }
 //
 //    /**
@@ -235,4 +207,9 @@
 //                .set("textAlign", "center");
 //    }
 //
+//    @Override
+//    public void onLogin(LoginEvent event) {
+//        url = event.getUrl();
+//        apiKey = event.getApiKey();
+//    }
 //}

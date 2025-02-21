@@ -3,6 +3,7 @@ package com.devteam45ldm.ldm.views.eLabClient.createReport;
 import com.devteam45ldm.ldm.api.eLabClient.ELabController;
 import com.devteam45ldm.ldm.parser.JsonToELabReportBody;
 import com.devteam45ldm.ldm.parser.XMLToJsonParser;
+import com.devteam45ldm.ldm.views.MainLayout;
 import com.devteam45ldm.ldm.views.eLabClient.login.CredentialsAware;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Html;
@@ -13,6 +14,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 import com.wontlost.ckeditor.Constants;
 import com.wontlost.ckeditor.VaadinCKEditor;
 import com.wontlost.ckeditor.VaadinCKEditorBuilder;
@@ -24,10 +26,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
+import com.vaadin.flow.component.AttachEvent;
+
 /**
  * The CreateReport class represents a view for creating reports in the eLabClient.
  * It allows users to upload XML files, process them, and create experiments.
  */
+@Route(value = "create-report", layout = MainLayout.class)
 @PageTitle("Bericht erstellen")
 public class CreateReport extends Composite<VerticalLayout> implements CredentialsAware {
 
@@ -47,24 +52,24 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
         }
     });
 
+    //new components
+    private final Upload upload;
+    private final MemoryBuffer buffer;
+    private boolean isInitialized = false;
+
     /**
      * Constructor for CreateReport.
      * Initializes the UI components and sets up event listeners.
      */
     public CreateReport() {
         // Create a memory buffer to store uploaded files
-        MemoryBuffer buffer = new MemoryBuffer();
+        buffer = new MemoryBuffer();
 
         // Create an Upload component with the buffer
-        Upload upload = new Upload(buffer);
+        upload = new Upload(buffer);
 
-        // Customize the drag and drop area
-        upload.setDropLabel(new Html("<div>Drop files here</div>"));
-        upload.setWidth("100%");
-
-        // Set some additional configurations
-        upload.setMaxFiles(5);  // Limit to 5 files
-        upload.setMaxFileSize(10 * 1024 * 1024);  // 10MB max file size
+        // setup upload component
+        setupUpload();
 
         // Add event listeners for upload events
         upload.addSucceededListener(event -> {
@@ -175,5 +180,22 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
             return;
         }
         Notification.show("Experiment " + "[ID: " + id + "]" + " erfolgreich erstellt.");
+    }
+
+    private void setupUpload() {
+        upload.setDropLabel(new Html("<div>Drop files here</div>"));
+        upload.setWidth("100%");
+        upload.setMaxFiles(5);
+        upload.setMaxFileSize(10 * 1024 * 1024);
+
+        // Your existing upload configuration and listeners...
+
+        // Add the explicit drag and drop styling
+        upload.getElement().getStyle()
+                .set("borderStyle", "dashed")
+                .set("borderColor", "#a9a9a9")
+                .set("borderWidth", "2px")
+                .set("padding", "20px")
+                .set("textAlign", "center");
     }
 }
