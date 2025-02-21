@@ -22,6 +22,7 @@ import java.util.List;
  */
 @Layout
 @AnonymousAllowed
+
 public class MainLayout extends AppLayout {
 
     private H1 viewTitle;
