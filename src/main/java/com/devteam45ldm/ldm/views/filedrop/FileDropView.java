@@ -42,9 +42,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@PageTitle("File Upload")
+@PageTitle("Home")
 @Route("")
-@Menu(order = 0, icon = "line-awesome/svg/arrow-alt-circle-down.svg")
+@Menu(order = 0, icon = "line-awesome/svg/globe-solid.svg")
 public class FileDropView extends VerticalLayout implements CredentialsAware,LoginEventListener {
 
     private InputStream uploadedInputStream;

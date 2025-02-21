@@ -111,11 +111,11 @@ injectGlobalCss($cssFromFile_1.toString(), 'CSSImport end', document);
 
 const loadOnDemand = (key) => {
   const pending = [];
-  if (key === '9d0d2d25a9c60ed931e08a49d156058f94bf7c2a135bdb1d5f1b74cb201f2d04') {
-    pending.push(import('./chunks/chunk-b185b919a5e3e7cb6e6cfd22fa401d1437946ecb2c743358cc9c4ca819516d3c.js'));
-  }
   if (key === '0d82f7f160de0ed10f37f849cd090d619027da1d356c4adfa4d4f53359d91cfd') {
     pending.push(import('./chunks/chunk-6fb9c969c3229b188b8735e0dfc2dbf54a41336c89721f8eb0d9654c63d8612a.js'));
+  }
+  if (key === '9d0d2d25a9c60ed931e08a49d156058f94bf7c2a135bdb1d5f1b74cb201f2d04') {
+    pending.push(import('./chunks/chunk-b185b919a5e3e7cb6e6cfd22fa401d1437946ecb2c743358cc9c4ca819516d3c.js'));
   }
   if (key === '87b6d2669034128f75863a889035c0c5219a8495e1cb0efab65ac531266d6f9b') {
     pending.push(import('./chunks/chunk-56a12e9b157c3404e09da5813c2acc73d5ef5829b60b27cf4ead67cdfb1d2ac0.js'));
