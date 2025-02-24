@@ -1,18 +1,13 @@
 package io.swagger.client;
 
+import okhttp3.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.InvalidMediaTypeException;
+import org.springframework.http.*;
 import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.RequestEntity.BodyBuilder;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -38,7 +33,6 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -82,6 +76,9 @@ public class ApiClient {
     private Map<String, Authentication> authentications;
     
     private DateFormat dateFormat;
+
+    private OkHttpClient client = new OkHttpClient();
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     public ApiClient() {
         this.restTemplate = buildRestTemplate();
@@ -486,6 +483,15 @@ public class ApiClient {
      * @return ResponseEntity&lt;T&gt; The response of the chosen type
      */
     public <T> ResponseEntity<T> invokeAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
+        if(HttpMethod.PATCH.equals(method)) { //Drive-by fix for PATCH requests
+            //Notification.show("Invoking API: PATCH -> OKHTTP"); //DEBUG
+            return invokeAPIOKHTTPClient(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames, returnType);
+        }
+        //if(HttpMethod.POST.equals(method)) { //Drive-by fix for POST requests
+        //    //Notification.show("Invoking API: POST -> OKHTTP"); //DEBUG
+        //    return invokeAPIOKHTTPClient(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames, returnType);
+        //}
+
         updateParamsForAuth(authNames, queryParams, headerParams);
 
         final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(path);
@@ -506,21 +512,115 @@ public class ApiClient {
 
         RequestEntity<Object> requestEntity = requestBuilder.body(selectBody(body, formParams, contentType));
 
-        if(HttpMethod.PATCH.equals(method)) { //DEBUG
-            throw new RestClientException(requestBuilder.build().toString() + " !-! " + body + " !-! " + formParams + " !-! " + contentType);
-        } //until here, no exception thrown during patch request
+        //if(HttpMethod.PATCH.equals(method)) { //DEBUG
+        //    throw new RestClientException(requestBuilder.build().toString() + " !-! " + body + " !-! " + formParams + " !-! " + contentType);
+        //} //until here, no exception thrown during patch request
 
         ResponseEntity<T> responseEntity = restTemplate.exchange(requestEntity, returnType);
-
-        //if(HttpMethod.PATCH.equals(method)) { //DEBUG
-        //    throw new RestClientException(responseEntity.getStatusCode().toString() + " !-! " + responseEntity.toString() + " !-! " + requestBuilder.build().toString() + " !-! " + body + " !-! " + formParams + " !-! " + contentType);
-        //}
 
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
             return responseEntity;
         } else {
             // The error handler built into the RestTemplate should handle 400 and 500 series errors.
             throw new RestClientException("API returned " + responseEntity.getStatusCode() + " and it wasn't handled by the RestTemplate error handler");
+        }
+    }
+
+    /**
+     * Invoke API by sending HTTP request using OkHttpClient with the given options.
+     *
+     * @param <T> the return type to use
+     * @param path The sub-path of the HTTP URL
+     * @param method The request method (GET, POST, PUT, DELETE, PATCH)
+     * @param queryParams The query parameters to include in the URL
+     * @param body The request body object
+     * @param headerParams The header parameters to include in the request
+     * @param formParams The form parameters to include in the request
+     * @param accept The request's Accept header
+     * @param contentType The request's Content-Type header
+     * @param authNames The authentications to apply
+     * @param returnType The return type into which to deserialize the response
+     * @return ResponseEntity<T> The response of the chosen type
+     * @throws RestClientException if an error occurs while invoking the API
+     */
+    public <T> ResponseEntity<T> invokeAPIOKHTTPClient(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
+        try {
+            // Log the URL
+            //Notification.show("Invoking API with URL: " + path);
+
+            // Validate and build URL with query parameters
+            HttpUrl url = HttpUrl.parse(getBasePath() + path);
+            if (url == null) {
+                throw new RestClientException("Invalid URL: " + path);
+            }
+            HttpUrl.Builder urlBuilder = url.newBuilder();
+            for (Map.Entry<String, List<String>> entry : queryParams.entrySet()) {
+                for (String value : entry.getValue()) {
+                    urlBuilder.addQueryParameter(entry.getKey(), value);
+                }
+            }
+            url = urlBuilder.build();
+
+            // Log the final URL
+            //Notification.show("Final URL: " + url);
+
+            // Build request
+            Request.Builder requestBuilder = new Request.Builder().url(url);
+            for (Map.Entry<String, List<String>> entry : headerParams.entrySet()) {
+                for (String value : entry.getValue()) {
+                    requestBuilder.addHeader(entry.getKey(), value);
+                }
+            }
+
+            // authentication headers
+            Authentication auth = getAuthentication("token");
+            ApiKeyAuth apiKeyAuth = null;
+            if (auth instanceof ApiKeyAuth) {
+                apiKeyAuth = (ApiKeyAuth) auth;
+            } else {
+                throw new RestClientException("Authentication is not of type ApiKeyAuth");
+            }
+
+            // Set request method and body
+            RequestBody requestBody = null;
+            if (body != null) {
+                String jsonBody = objectMapper.writeValueAsString(body);
+                requestBody = RequestBody.create(jsonBody, null);
+                requestBuilder.addHeader("Content-Type", "application/json");
+                requestBuilder.addHeader("Authorization", apiKeyAuth.getApiKey());
+            }
+
+            if (HttpMethod.GET.equals(method)) {
+                requestBuilder.get();
+            } else if (HttpMethod.POST.equals(method)) {
+                requestBuilder.post(requestBody);
+            } else if (HttpMethod.PUT.equals(method)) {
+                requestBuilder.put(requestBody);
+            } else if (HttpMethod.DELETE.equals(method)) {
+                requestBuilder.delete(requestBody);
+            } else if (HttpMethod.PATCH.equals(method)) {
+                requestBuilder.patch(requestBody);
+            } else {
+                throw new RestClientException("Unsupported HTTP method: " + method);
+            }
+
+            // Execute request
+            Response response = client.newCall(requestBuilder.build()).execute();
+
+            // Handle response
+            if (response.isSuccessful()) {
+                String responseBodyString = response.body().string();
+                if (responseBodyString.isEmpty()) {
+                    return new ResponseEntity<>(HttpStatus.valueOf(response.code()));
+                } else {
+                    T responseBody = objectMapper.readValue(responseBodyString, objectMapper.constructType(returnType.getType()));
+                    return new ResponseEntity<>(responseBody, HttpStatus.valueOf(response.code()));
+                }
+            } else {
+                throw new RestClientException("API returned " + response.code() + ": " + response.message());
+            }
+        } catch (IOException e) {
+            throw new RestClientException("Error invoking API: " + e.getMessage(), e);
         }
     }
     

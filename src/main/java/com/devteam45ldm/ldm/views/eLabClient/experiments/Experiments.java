@@ -84,16 +84,16 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
         menuBar.setWidth("min-content");
 
         // Add menu items
-        menuBar.addItem("Verbindungstest", event -> {
+        menuBar.addItem("Connection Test", event -> {
             try {
                 testUrl();
             } catch (IOException e) {
                 logger.error("Error testing URL", e);
-                Notification.show("Fehler: " + e.getMessage());
+                Notification.show("Error: " + e.getMessage());
             }
         });
 
-        menuBar.addItem("Experimente lesen", event -> readExperiments());
+        menuBar.addItem("Read Experiments", event -> readExperiments());
         menuBar.getStyle().set("margin-bottom", "50px");
 
         experimentDetailsLayout = new VerticalLayout();
@@ -102,7 +102,7 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
         experimentDetailsLayout.setVisible(false);
 
         // Initialize ComboBox for experiments
-        experimentsComboBox = new ComboBox<>("Experimente");
+        experimentsComboBox = new ComboBox<>("Experiments");
         experimentsComboBox.setWidthFull();
         experimentsComboBox.getStyle().set("margin-bottom", "50px");
         experimentsComboBox.setAllowCustomValue(false);
@@ -121,7 +121,7 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
         editLayout.setWidthFull();
         editLayout.setSpacing(true);
 
-        experimentsMenuBar.addItem("Experiment erstellen", event -> loadCreator());
+        experimentsMenuBar.addItem("Create", event -> loadCreator());
         experimentsMenuBar.setVisible(false);
 
         classicEditor = new VaadinCKEditorBuilder().with(builder -> {
@@ -159,7 +159,7 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
     private void testUrl() throws IOException {
         String url = urlField.getValue();
         if (url == null || url.isEmpty()) {
-            Notification.show("Bitte URL eingeben.");
+            Notification.show("Please enter a URL.");
             return;
         }
 
@@ -170,10 +170,10 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
         HTTPController httpController = new HTTPController();
         ResponseEntity<String> checkURL = httpController.checkURL(url);
         if (checkURL.getStatusCode().is2xxSuccessful() || checkURL.getStatusCode().is3xxRedirection() || checkURL.getStatusCode().value() == 401) {
-            Notification.show("eLab ist erreichbar.");
+            Notification.show("eLab is reachable.");
             logger.info("API is reachable.");
         } else {
-            Notification.show("eLab ist nicht erreichbar: " + checkURL);
+            Notification.show("eLab is unreachable: " + checkURL);
             logger.warn("API is not reachable: {}", checkURL);
         }
     }
@@ -186,11 +186,11 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
         String apiKey = apiKeyField.getValue();
         String url = urlField.getValue();
         if (apiKey == null || apiKey.isEmpty()) {
-            Notification.show("Bitte API Schlüssel eingeben.");
+            Notification.show("Please enter an API key.");
             return;
         }
         if (url == null || url.isEmpty()) {
-            Notification.show("Bitte URL eingeben.");
+            Notification.show("Please enter a URL.");
             return;
         }
 
@@ -211,13 +211,13 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
                     .collect(Collectors.toList());
 
             experimentsComboBox.setItems(experimentTitles);
-            experimentsComboBox.setLabel("Experimente (" + experiments.size() + ")");
+            experimentsComboBox.setLabel("Experiments (" + experiments.size() + ")");
             logger.info("Experiments fetched successfully.");
-            Notification.show("Experimente erfolgreich geladen.");
+            Notification.show("Experiments fetched successfully.");
             experimentsMenuBar.setVisible(true);
         } catch (Exception e) {
             logger.error("Error fetching experiments", e);
-            Notification.show("Fehler: " + e.getMessage());
+            Notification.show("Error: " + e.getMessage());
         }
     }
 
@@ -388,23 +388,45 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
      * Creates a new experiment using the provided title.
      * Resets the edit components and refreshes the experiments list.
      */
-    private void createExperiment() {
+    private void createExperimentCURL() {
         String title = editField.getValue();
         Integer id;
-        try { //TODO use ApiClient
+        try {
             id = apiInstance.getExperimentsClient().createExperimentCURL(apiKeyField.getValue(), urlField.getValue(), title);
             if (!classicEditor.getValue().isEmpty()) {
                 apiInstance.getExperimentsClient().modifyExperimentCURL(apiKeyField.getValue(), urlField.getValue(), id, title, classicEditor.getValue());
             }
         } catch (RestClientException e) {
-            Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
+            Notification.show("Unknown error occurred while creating the experiment.");
             Notification.show(e.toString());
             return;
         }
-        Notification.show("Experiment " + "[ID: " + id + "]" + " erfolgreich erstellt.");
+        Notification.show("Experiment " + "[ID: " + id + "]" + " created successfully.");
         resetEditComponents();
         readExperiments();
         setExperimentById(id);
+    }
+
+    private void createExperiment() {
+        String title = editField.getValue();
+        ExperimentsBody experimentBody = new ExperimentsBody();
+        experimentBody.setTitle(title);
+        experimentBody.setBody(classicEditor.getValue());
+
+        try {
+            ResponseEntity<Void> response = apiInstance.getExperimentsClient(apiKeyField.getValue(), urlField.getValue()).postExperimentWithHttpInfo(experimentBody);
+            Objects.requireNonNull(response.getHeaders().get("Location")).forEach(location -> {
+                String[] parts = location.split("/");
+                int id = Integer.parseInt(parts[parts.length - 1]);
+                apiInstance.getExperimentsClient(apiKeyField.getValue(), urlField.getValue()).patchExperiment(id, experimentBody);
+                Notification.show("Experiment " + "[ID: " + id + "]" + " created successfully.");
+                resetEditComponents();
+                readExperiments();
+                setExperimentById(id);
+            });
+        } catch (Exception e) {
+            Notification.show("Error creating experiment: " + e.getMessage());
+        }
     }
 
 
@@ -415,18 +437,25 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
      */
     private void saveChanges() {
         Integer id = selectedExperiment.getId();
-        updateSelectedExperiment();
+        String title = editField.getValue();
+        ExperimentsBody experimentBody = new ExperimentsBody();
+        experimentBody.setTitle(title);
+        experimentBody.setBody(classicEditor.getValue());
 
-        try { //TODO use ApiClient
-            apiInstance.getExperimentsClient(apiKeyField.getValue(), urlField.getValue()).modifyExperimentCURL(apiKeyField.getValue(), urlField.getValue(), id, selectedExperiment.getTitle(), selectedExperiment.getBody());
-
+        try {
+            //apiInstance.getExperimentsClient(apiKeyField.getValue(), urlField.getValue()).modifyExperimentCURL(apiKeyField.getValue(), urlField.getValue(), id, selectedExperiment.getTitle(), selectedExperiment.getBody());
+            apiInstance.getExperimentsClient(apiKeyField.getValue(), urlField.getValue()).patchExperiment(id, experimentBody);
+            Notification.show("Experiment " + "[ID: " + id + "]" + " modified successfully.");
+            resetEditComponents();
+            readExperiments();
+            setExperimentById(id);
         } catch (RestClientException e) {
-            Notification.show("Undefinierter Fehler beim Speichern der Änderungen.");
+            Notification.show("Unknown error occurred while saving changes.");
             Notification.show(e.toString());
             return;
         }
         setModifyComponentsReadOnly(true);
-        Notification.show("Änderungen erfolgreich gespeichert.");
+        Notification.show("Changes saved successfully.");
         resetEditComponents();
         readExperiments();
         setExperimentById(id);
@@ -447,7 +476,7 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
      */
     private void deleteExperiment() {
         apiInstance.getExperimentsClient(apiKeyField.getValue(), urlField.getValue()).deleteExperiment(selectedExperiment.getId());
-        Notification.show("Experiment erfolgreich gelöscht.");
+        Notification.show("Experiment deleted successfully.");
         resetEditComponents();
         readExperiments();
         experimentsComboBox.clear();
@@ -460,8 +489,8 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
     private void loadCreator() {
         experimentsComboBox.clear();
         editMenuBar.removeAll();
-        editMenuBar.addItem("Erstellen", event -> createExperiment());
-        editMenuBar.addItem("Abbrechen", event -> cancelCreate());
+        editMenuBar.addItem("Create", event -> createExperiment());
+        editMenuBar.addItem("Cancel", event -> cancelCreate());
         editField.setVisible(true);
         editMenuBar.setVisible(true);
         experimentsMenuBar.setVisible(false);
@@ -478,15 +507,15 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
     private void loadModifier() {
         if (selectedExperiment != null) {
             editMenuBar.removeAll();
-            editMenuBar.addItem("Speichern", event -> saveChanges());
-            editMenuBar.addItem("Abbrechen", event -> cancelModify());
+            editMenuBar.addItem("Save", event -> saveChanges());
+            editMenuBar.addItem("Cancel", event -> cancelModify());
             setModifyComponentsReadOnly(false);
             editField.setVisible(false);
             editMenuBar.setVisible(true);
             experimentsMenuBar.setVisible(false);
             classicEditor.setVisible(true);
         } else {
-            Notification.show("Bitte wählen Sie ein Experiment aus.");
+            Notification.show("Please select an experiment.");
         }
     }
 
@@ -497,20 +526,20 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
     private void loadDeleter() {
         if (selectedExperiment != null) {
             editMenuBar.removeAll();
-            editMenuBar.addItem("Löschen", event -> deleteExperiment());
-            editMenuBar.addItem("Abbrechen", event -> cancelCreate());
+            editMenuBar.addItem("Delete", event -> deleteExperiment());
+            editMenuBar.addItem("Cancel", event -> cancelCreate());
             editMenuBar.setVisible(true);
             experimentsMenuBar.setVisible(false);
         } else {
-            Notification.show("Bitte wählen Sie ein Experiment aus.");
+            Notification.show("Please select an experiment.");
         }
     }
 
     private void showDetailsMenuBar(){
         experimentsMenuBar.removeAll();
-        experimentsMenuBar.addItem("Experiment erstellen", event -> loadCreator());
-        experimentsMenuBar.addItem("Experiment bearbeiten", event -> loadModifier());
-        experimentsMenuBar.addItem("Experiment löschen", event -> loadDeleter());
+        experimentsMenuBar.addItem("Create", event -> loadCreator());
+        experimentsMenuBar.addItem("Modify", event -> loadModifier());
+        experimentsMenuBar.addItem("Delete", event -> loadDeleter());
         classicEditor.setVisible(true);
     }
 
@@ -538,7 +567,7 @@ public class Experiments extends Composite<VerticalLayout> implements Credential
         editField.setVisible(false);
         editMenuBar.setVisible(false);
         experimentsMenuBar.removeAll();
-        experimentsMenuBar.addItem("Experiment erstellen", event -> loadCreator());
+        experimentsMenuBar.addItem("Create", event -> loadCreator());
         experimentsMenuBar.setVisible(true);
         experimentDetailsLayout.setVisible(true);
         classicEditor.setVisible(false);

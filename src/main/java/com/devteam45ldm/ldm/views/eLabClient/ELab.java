@@ -42,9 +42,9 @@ public class ELab extends Composite<VerticalLayout> implements LoginEventListene
     private void setTabSheetContent(TabSheet tabSheet) {
         tabSheet.add("Login", login);
         tabSheet.add("Tags", tags);
-        tabSheet.add("Experimentvorlagen", experimentTemplates);
-        tabSheet.add("Experimente", experiments);
-        tabSheet.add("Bericht erstellen", createReport);
+        tabSheet.add("Experiment Templates", experimentTemplates);
+        tabSheet.add("Experiments", experiments);
+        tabSheet.add("Create Report", createReport);
     }
 
     @Override

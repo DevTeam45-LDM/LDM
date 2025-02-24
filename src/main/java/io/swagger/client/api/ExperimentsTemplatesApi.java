@@ -4,7 +4,6 @@ import com.devteam45ldm.ldm.api.eLabClient.ELabClient;
 import io.swagger.client.ApiClient;
 import io.swagger.client.model.ExperimentTemplate;
 import io.swagger.client.model.ExperimentsTemplatesBody;
-import io.swagger.client.model.ExperimentsTemplatesIdBody;
 
 import java.io.File;
 import java.io.InputStream;
@@ -153,7 +152,7 @@ public class ExperimentsTemplatesApi {
      * @return ExperimentTemplate
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ExperimentTemplate patchExperimentTemplate(Integer id, ExperimentTemplate body) throws RestClientException {
+    public ExperimentTemplate patchExperimentTemplate(Integer id, ExperimentsTemplatesBody body) throws RestClientException {
         return patchExperimentTemplateWithHttpInfo(id, body).getBody();
     }
 
@@ -173,7 +172,7 @@ public class ExperimentsTemplatesApi {
      * @return ResponseEntity&lt;ExperimentTemplate&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<ExperimentTemplate> patchExperimentTemplateWithHttpInfo(Integer id, ExperimentTemplate body) throws RestClientException {
+    public ResponseEntity<ExperimentTemplate> patchExperimentTemplateWithHttpInfo(Integer id, ExperimentsTemplatesBody body) throws RestClientException {
         Object postBody = body;
         // verify the required parameter 'id' is set
         if (id == null) {
@@ -250,7 +249,7 @@ public class ExperimentsTemplatesApi {
      * @param body Parameters for duplicating an experiment template (optional)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void postExperimentTemplateById(Integer id, ExperimentsTemplatesIdBody body) throws RestClientException {
+    public void postExperimentTemplateById(Integer id, ExperimentsTemplatesBody body) throws RestClientException {
         postExperimentTemplateByIdWithHttpInfo(id, body);
     }
 
@@ -263,7 +262,7 @@ public class ExperimentsTemplatesApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> postExperimentTemplateByIdWithHttpInfo(Integer id, ExperimentsTemplatesIdBody body) throws RestClientException {
+    public ResponseEntity<Void> postExperimentTemplateByIdWithHttpInfo(Integer id, ExperimentsTemplatesBody body) throws RestClientException {
         Object postBody = body;
         // verify the required parameter 'id' is set
         if (id == null) {

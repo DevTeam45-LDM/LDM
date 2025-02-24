@@ -46,7 +46,7 @@ public class Login extends Composite<VerticalLayout> {
         firstRow.setSpacing(true);
 
         // Zweite Zeile: API-Key und Read Tags Button
-        apiKeyField = new PasswordField("API Schlüssel");
+        apiKeyField = new PasswordField("API Key");
 
         HorizontalLayout secondRow = new HorizontalLayout(apiKeyField);
         secondRow.setWidthFull();
@@ -56,7 +56,7 @@ public class Login extends Composite<VerticalLayout> {
         // Create the MenuBar
         menuBar.setWidth("min-content");
         // Add menu items
-        menuBar.addItem("Verbindungstest", event -> {
+        menuBar.addItem("Connection Test", event -> {
             try {
                 testUrl();
             } catch (IOException e) {
@@ -81,7 +81,7 @@ public class Login extends Composite<VerticalLayout> {
     private void testUrl() throws IOException {
         String url = urlField.getValue();
         if (url == null || url.isEmpty()) {
-            Notification.show("Bitte URL eingeben.");
+            Notification.show("Please enter a URL.");
             return;
         }
 
@@ -92,9 +92,9 @@ public class Login extends Composite<VerticalLayout> {
         HTTPController httpController = new HTTPController();
         ResponseEntity<String> checkURL = httpController.checkURL(url);
         if (checkURL.getStatusCode().is2xxSuccessful() || checkURL.getStatusCode().is3xxRedirection() || checkURL.getStatusCode().value() == 401) {
-            Notification.show("eLab ist erreichbar.");
+            Notification.show("eLab is reachable");
         } else {
-            Notification.show("eLab ist nicht erreichbar: " + checkURL);
+            Notification.show("eLab is unreachable: " + checkURL);
         }
     }
 
@@ -106,27 +106,27 @@ public class Login extends Composite<VerticalLayout> {
         String url = urlField.getValue();
 
         if ((apiKey == null || apiKey.isEmpty()) && (url == null || url.isEmpty())) {
-            Notification.show("Bitte einen API-Schlüssel und eine URL eingeben.");
+            Notification.show("Please enter a URL and an API key.");
             return;
         }
         if (apiKey == null || apiKey.isEmpty()) {
-            Notification.show("Bitte einen API-Schlüssel eingeben.");
+            Notification.show("Please enter an API key.");
             return;
         }
         if (url == null || url.isEmpty()) {
-            Notification.show("Bitte eine URL eingeben.");
+            Notification.show("Please enter a URL.");
             return;
         }
 
         try {
             Info info = eLabClient.getClient(apiKey, url).getInfo();
             String version = (info != null && info.getElabftwVersion() != null && !info.getElabftwVersion().isEmpty()) ? info.getElabftwVersion() : "unbekannt";
-            Notification.show("Anmeldung erfolgreich. eLab-Version: " + version);
+            Notification.show("Login successfully. eLab-version: " + version);
             menuBar.getItems().get(1).setEnabled(false);
             menuBar.getItems().get(2).setEnabled(true);
             fireLoginEvent();
         } catch (Exception e) {
-            Notification.show("Fehler bei der Anmeldung: " + e.getMessage());
+            Notification.show("Error during login: " + e.getMessage());
         }
     }
 
