@@ -159,7 +159,7 @@ class ImportMappingsTest {
      */
     @Test
     void equals_differentObject_returnsFalse() {
-        ImportMappings importMappings1 = new ImportMappings().dataDelimiter(",");
+        ImportMappings importMappings1 = new ImportMappings().dataDelimiter(";");
         ImportMappings importMappings2 = new ImportMappings();
         assertFalse(importMappings1.equals(importMappings2));
     }
@@ -205,16 +205,26 @@ class ImportMappingsTest {
         data.add("data");
         importMappings.setMetadata(metadata);
         importMappings.setData(data);
-        String expected = """
-                {
-                    metadata: [metadata]
-                    metadata_separator: null
-                    metadata_pattern: null
-                    data: [data]
-                    data_separator: null
-                    data_pattern: null
-                }""";
+        String expected = "{\n" +
+                "    metadata: " + toIndentedString(metadata) + "\n" +
+                "    metadata_delimiter: " + toIndentedString(importMappings.getMetadataDelimiter()) + "\n" +
+                "    metadata_pattern: " + toIndentedString(importMappings.getMetadataPattern()) + "\n" +
+                "    metadata_terminator: " + toIndentedString(importMappings.getMetadataTerminator()) + "\n" +
+                "    metadata_assignments: " + toIndentedString(importMappings.getMetadataAssignments()) + "\n" +
+                "    data: " + toIndentedString(data) + "\n" +
+                "    data_delimiter: " + toIndentedString(importMappings.getDataDelimiter()) + "\n" +
+                "    data_pattern: " + toIndentedString(importMappings.getDataPattern()) + "\n" +
+                "    data_terminator: " + toIndentedString(importMappings.getDataTerminator()) + "\n" +
+                "    data_assignments: " + toIndentedString(importMappings.getDataAssignments()) + "\n" +
+                "}";
         assertEquals(expected, importMappings.toString());
+    }
+
+    private String toIndentedString(Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
     }
 
     /**
