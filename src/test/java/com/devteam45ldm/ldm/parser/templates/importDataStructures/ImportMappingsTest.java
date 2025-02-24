@@ -39,7 +39,7 @@ class ImportMappingsTest {
      * Tests if getter and setter of metadataSeparator is working.
      */
     @Test
-    void metadataSeparator_getAndSet() {
+    void metadataDelimiter_getAndSet() {
         ImportMappings importMappings = new ImportMappings();
         importMappings.setMetadataDelimiter(",");
         assertEquals(",", importMappings.getMetadataDelimiter());
@@ -49,7 +49,7 @@ class ImportMappingsTest {
      * Tests if metadataSeparator() sets and returns the correct metadata separator.
      */
     @Test
-    void metadataSeparator_setsAndReturnsCorrectMetadataSeparator() {
+    void metadataSeparator_setsAndReturnsCorrectMetadataDelimiter() {
         ImportMappings importMappings = new ImportMappings();
         assertEquals(importMappings, importMappings.metadataSeparator(","));
         assertEquals(",", importMappings.getMetadataDelimiter());
@@ -107,7 +107,7 @@ class ImportMappingsTest {
      * Tests if getter and setter of dataSeparator is working.
      */
     @Test
-    void dataSeparator_getAndSet() {
+    void dataDelimiter_getAndSet() {
         ImportMappings importMappings = new ImportMappings();
         importMappings.setDataDelimiter(",");
         assertEquals(",", importMappings.getDataDelimiter());
@@ -117,9 +117,9 @@ class ImportMappingsTest {
      * Tests if dataSeparator() sets and returns the correct data separator.
      */
     @Test
-    void dataSeparator_setsAndReturnsCorrectDataSeparator() {
+    void dataSeparator_setsAndReturnsCorrectDataDelimiter() {
         ImportMappings importMappings = new ImportMappings();
-        assertEquals(importMappings, importMappings.dataSeparator(";"));
+        assertEquals(importMappings, importMappings.dataDelimiter(";"));
         assertEquals(";", importMappings.getDataDelimiter());
     }
 
@@ -159,7 +159,7 @@ class ImportMappingsTest {
      */
     @Test
     void equals_differentObject_returnsFalse() {
-        ImportMappings importMappings1 = new ImportMappings().dataSeparator(",");
+        ImportMappings importMappings1 = new ImportMappings().dataDelimiter(",");
         ImportMappings importMappings2 = new ImportMappings();
         assertFalse(importMappings1.equals(importMappings2));
     }

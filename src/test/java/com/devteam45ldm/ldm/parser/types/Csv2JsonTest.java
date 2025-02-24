@@ -49,7 +49,7 @@ class Csv2JsonTest {
 
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().dataSeparator(";"));
+                .mappings(new ImportMappings().dataDelimiter(";"));
 
         ImportedData result = Csv2Json.parse(csv, template);
 
@@ -76,7 +76,7 @@ class Csv2JsonTest {
         String csv = "";
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().dataSeparator(","));
+                .mappings(new ImportMappings().dataDelimiter(","));
         assertThrows(JSONException.class, () -> Csv2Json.parse(csv, template));
     }
 
@@ -85,7 +85,7 @@ class Csv2JsonTest {
         String csv = "name,age,city";
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().dataSeparator(","));
+                .mappings(new ImportMappings().dataDelimiter(","));
 
         ImportedData result = Csv2Json.parse(csv, template);
 
@@ -111,7 +111,7 @@ class Csv2JsonTest {
         String csv = "name,age,city\nJohn,30";
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().dataSeparator(","));
+                .mappings(new ImportMappings().dataDelimiter(","));
 
 
         ImportedData result = Csv2Json.parse(csv, template);

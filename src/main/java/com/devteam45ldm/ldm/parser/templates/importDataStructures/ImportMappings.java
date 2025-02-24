@@ -150,6 +150,64 @@ public class ImportMappings {
     }
 
     /**
+     * Gets the metadata terminator.
+     *
+     * @return the metadata terminator
+     */
+    public String getMetadataTerminator() {
+        return metadataTerminator;
+    }
+
+    /**
+     * Sets the metadata terminator.
+     *
+     * @param metadataTerminator the metadata terminator to set
+     */
+    public void setMetadataTerminator(String metadataTerminator) {
+        this.metadataTerminator = metadataTerminator;
+    }
+
+    /**
+     * Sets the metadata terminator and returns the current ImportMappings object.
+     *
+     * @param metadataTerminator the metadata terminator to set
+     * @return the current ImportMappings object
+     */
+    public ImportMappings metadataTerminator(String metadataTerminator) {
+        this.metadataTerminator = metadataTerminator;
+        return this;
+    }
+
+    /**
+     * Gets the metadata assignments.
+     *
+     * @return the metadata assignments
+     */
+    public String getMetadataAssignments() {
+        return metadataAssignments;
+    }
+
+    /**
+     * Sets the metadata assignments.
+     *
+     * @param metadataAssignments the metadata assignments to set
+     */
+    public void setMetadataAssignments(String metadataAssignments) {
+        this.metadataAssignments = metadataAssignments;
+    }
+
+    /**
+     * Sets the metadata assignments and returns the current ImportMappings object.
+     *
+     * @param metadataAssignments the metadata assignments to set
+     * @return the current ImportMappings object
+     */
+    public ImportMappings metadataAssignments(String metadataAssignments) {
+        this.metadataAssignments = metadataAssignments;
+        return this;
+    }
+
+    /**
      * Gets the metadata pattern.
      *
      * @return the metadata pattern
@@ -246,8 +304,66 @@ public class ImportMappings {
      * @param dataSeparator the data separator to set
      * @return the current ImportMappings object
      */
-    public ImportMappings dataSeparator(String dataSeparator) {
+    public ImportMappings dataDelimiter(String dataSeparator) {
         this.dataDelimiter = dataSeparator;
+        return this;
+    }
+
+    /**
+     * Gets the data terminator.
+     *
+     * @return the data terminator
+     */
+    public String getDataTerminator() {
+        return dataTerminator;
+    }
+
+    /**
+     * Sets the data terminator.
+     *
+     * @param dataTerminator the data terminator to set
+     */
+    public void setDataTerminator(String dataTerminator) {
+        this.dataTerminator = dataTerminator;
+    }
+
+    /**
+     * Sets the data terminator and returns the current ImportMappings object.
+     *
+     * @param dataTerminator the data terminator to set
+     * @return the current ImportMappings object
+     */
+    public ImportMappings dataTerminator(String dataTerminator) {
+        this.dataTerminator = dataTerminator;
+        return this;
+    }
+
+    /**
+     * Gets the data assignments.
+     *
+     * @return the data assignments
+     */
+    public String getDataAssignments() {
+        return dataAssignments;
+    }
+
+    /**
+     * Sets the data assignments.
+     *
+     * @param dataAssignments the data assignments to set
+     */
+    public void setDataAssignments(String dataAssignments) {
+        this.dataAssignments = dataAssignments;
+    }
+
+    /**
+     * Sets the data assignments and returns the current ImportMappings object.
+     *
+     * @param dataAssignments the data assignments to set
+     * @return the current ImportMappings object
+     */
+    public ImportMappings dataAssignments(String dataAssignments) {
+        this.dataAssignments = dataAssignments;
         return this;
     }
 
@@ -289,7 +405,16 @@ public class ImportMappings {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof ImportMappings importMappings)) return false;
-        return Objects.equals(getMetadata(), importMappings.getMetadata()) && Objects.equals(getMetadataDelimiter(), importMappings.getMetadataDelimiter()) && Objects.equals(getMetadataPattern(), importMappings.getMetadataPattern()) && Objects.equals(getData(), importMappings.getData()) && Objects.equals(getDataDelimiter(), importMappings.getDataDelimiter()) && Objects.equals(getDataPattern(), importMappings.getDataPattern());
+        return Objects.equals(getMetadata(), importMappings.getMetadata()) &&
+                Objects.equals(getMetadataDelimiter(), importMappings.getMetadataDelimiter()) &&
+                Objects.equals(getMetadataPattern(), importMappings.getMetadataPattern()) &&
+                Objects.equals(getMetadataTerminator(), importMappings.getMetadataTerminator()) &&
+                Objects.equals(getMetadataAssignments(), importMappings.getMetadataAssignments()) &&
+                Objects.equals(getData(), importMappings.getData()) &&
+                Objects.equals(getDataDelimiter(), importMappings.getDataDelimiter()) &&
+                Objects.equals(getDataPattern(), importMappings.getDataPattern()) &&
+                Objects.equals(getDataTerminator(), importMappings.getDataTerminator()) &&
+                Objects.equals(getDataAssignments(), importMappings.getDataAssignments());
     }
 
     /**
@@ -299,7 +424,7 @@ public class ImportMappings {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(metadata, metadataDelimiter, metadataPattern, data, dataDelimiter, dataPattern);
+        return Objects.hash(metadata, metadataDelimiter, metadataPattern, metadataTerminator, metadataAssignments, data, dataDelimiter, dataPattern, dataTerminator, dataAssignments);
     }
 
     /**
@@ -307,14 +432,19 @@ public class ImportMappings {
      *
      * @return the string representation
      */
+    @Override
     public String toString() {
         return "{\n" +
                 "    metadata: " + toIndentedString(metadata) + "\n" +
                 "    metadata_separator: " + toIndentedString(metadataDelimiter) + "\n" +
                 "    metadata_pattern: " + toIndentedString(metadataPattern) + "\n" +
+                "    metadata_terminator: " + toIndentedString(metadataTerminator) + "\n" +
+                "    metadata_assignments: " + toIndentedString(metadataAssignments) + "\n" +
                 "    data: " + toIndentedString(data) + "\n" +
                 "    data_separator: " + toIndentedString(dataDelimiter) + "\n" +
                 "    data_pattern: " + toIndentedString(dataPattern) + "\n" +
+                "    data_terminator: " + toIndentedString(dataTerminator) + "\n" +
+                "    data_assignments: " + toIndentedString(dataAssignments) + "\n" +
                 "}";
     }
 
