@@ -22,19 +22,22 @@ public class ImportMappings {
 
     /**
      * Delimiter for metadata e.g. a csv delimiter.
+     * Default is ",".
      */
     @JsonProperty("metadata_delimiter")
-    private String metadataDelimiter = null;
+    private String metadataDelimiter = ",";
 
     /**
      * Terminator for metadata e.g. a csv terminator like a newline.
+     * Default is "\n".
      */
     @JsonProperty("metadata_terminator")
-    private String metadataTerminator = null;
+    private String metadataTerminator = "\n";
 
     /**
      * Assignment operators e.g. in txt files.
      * Example: "key: value" -> ":" is the assignment operator.
+     * If set, the data will be treated as key-value pairs, optionally with a delimiter for multiple values within a line.
      */
     @JsonProperty("metadata_assignments")
     private String metadataAssignments = null;
@@ -53,19 +56,22 @@ public class ImportMappings {
 
     /**
      * Delimiter for data e.g. a csv delimiter.
+     * Default is ",".
      */
     @JsonProperty("data_delimiter")
-    private String dataDelimiter = null;
+    private String dataDelimiter = ",";
 
     /**
      * Terminator for data e.g. a csv terminator like a newline.
+     * Default is "\n".
      */
     @JsonProperty("data_terminator")
-    private String dataTerminator = null;
+    private String dataTerminator = "\n";
 
     /**
      * Assignment operators e.g. in txt files.
      * Example: "key: value" -> ":" is the assignment operator.
+     * If set, the data will be treated as key-value pairs, optionally with a delimiter for multiple values within a line.
      */
     @JsonProperty("data_Assignments")
     private String dataAssignments = null;

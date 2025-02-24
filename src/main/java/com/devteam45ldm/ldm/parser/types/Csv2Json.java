@@ -35,7 +35,7 @@ public class Csv2Json {
             delimiter = importTemplate.getMappings().getDataDelimiter();
         }
         else{
-            throw new JSONException("No separator found in mappings");
+            throw new JSONException("No delimiter found in mappings");
         }
 
 
