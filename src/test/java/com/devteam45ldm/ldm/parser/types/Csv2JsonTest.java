@@ -21,7 +21,7 @@ class Csv2JsonTest {
 
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().metadataSeparator(","));  // Changed from .data to .mappings
+                .mappings(new ImportMappings().metadataDelimiter(","));  // Changed from .data to .mappings
 
         ImportedData result = Csv2Json.parse(csv, template);
 

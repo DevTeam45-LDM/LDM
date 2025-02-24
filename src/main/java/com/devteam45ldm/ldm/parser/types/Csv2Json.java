@@ -27,12 +27,12 @@ public class Csv2Json {
         boolean data = false;
         String delimiter;
 
-        if (importTemplate.getMappings().getMetadataSeparator() != null && !importTemplate.getMappings().getMetadataSeparator().isEmpty()) {
-            delimiter = importTemplate.getMappings().getMetadataSeparator();
+        if (importTemplate.getMappings().getMetadataDelimiter() != null && !importTemplate.getMappings().getMetadataDelimiter().isEmpty()) {
+            delimiter = importTemplate.getMappings().getMetadataDelimiter();
         }
-        else if (importTemplate.getMappings().getDataSeparator() != null && !importTemplate.getMappings().getDataSeparator().isEmpty()) {
+        else if (importTemplate.getMappings().getDataDelimiter() != null && !importTemplate.getMappings().getDataDelimiter().isEmpty()) {
             data = true;
-            delimiter = importTemplate.getMappings().getDataSeparator();
+            delimiter = importTemplate.getMappings().getDataDelimiter();
         }
         else{
             throw new JSONException("No separator found in mappings");

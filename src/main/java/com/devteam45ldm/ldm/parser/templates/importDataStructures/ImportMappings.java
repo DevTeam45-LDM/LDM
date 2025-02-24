@@ -13,21 +13,66 @@ import java.util.regex.Pattern;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ImportMappings {
+
+    /**
+     * Path to metadata parts within the file.
+     */
     @JsonProperty("metadata")
     private ArrayList<String> metadata = null;
 
-    @JsonProperty("metadata_separator")
-    private String metadataSeparator = null;
+    /**
+     * Delimiter for metadata e.g. a csv delimiter.
+     */
+    @JsonProperty("metadata_delimiter")
+    private String metadataDelimiter = null;
 
+    /**
+     * Terminator for metadata e.g. a csv terminator like a newline.
+     */
+    @JsonProperty("metadata_terminator")
+    private String metadataTerminator = null;
+
+    /**
+     * Assignment operators e.g. in txt files.
+     * Example: "key: value" -> ":" is the assignment operator.
+     */
+    @JsonProperty("metadata_assignments")
+    private String metadataAssignments = null;
+
+    /**
+     * Regex pattern to find headlines and define metadata parts.
+     */
     @JsonProperty("metadata_pattern")
     private Pattern metadataPattern = null;
 
+    /**
+     * Path to data parts within the file.
+     */
     @JsonProperty("data")
     private ArrayList<String> data = null;
 
-    @JsonProperty("data_separator")
-    private String dataSeparator = null;
+    /**
+     * Delimiter for data e.g. a csv delimiter.
+     */
+    @JsonProperty("data_delimiter")
+    private String dataDelimiter = null;
 
+    /**
+     * Terminator for data e.g. a csv terminator like a newline.
+     */
+    @JsonProperty("data_terminator")
+    private String dataTerminator = null;
+
+    /**
+     * Assignment operators e.g. in txt files.
+     * Example: "key: value" -> ":" is the assignment operator.
+     */
+    @JsonProperty("data_Assignments")
+    private String dataAssignments = null;
+
+    /**
+     * Regex pattern to find headlines and define data parts.
+     */
     @JsonProperty("data_pattern")
     private Pattern dataPattern = null;
 
@@ -76,31 +121,31 @@ public class ImportMappings {
     }
 
     /**
-     * Gets the metadata separator.
+     * Gets the metadata delimiter.
      *
-     * @return the metadata separator
+     * @return the metadata delimiter
      */
-    public String getMetadataSeparator() {
-        return metadataSeparator;
+    public String getMetadataDelimiter() {
+        return metadataDelimiter;
     }
 
     /**
-     * Sets the metadata separator.
+     * Sets the metadata delimiter.
      *
-     * @param metadataSeparator the metadata separator to set
+     * @param metadataDelimiter the metadata delimiter to set
      */
-    public void setMetadataSeparator(String metadataSeparator) {
-        this.metadataSeparator = metadataSeparator;
+    public void setMetadataDelimiter(String metadataDelimiter) {
+        this.metadataDelimiter = metadataDelimiter;
     }
 
     /**
-     * Sets the metadata separator and returns the current ImportMappings object.
+     * Sets the metadata delimiter and returns the current ImportMappings object.
      *
-     * @param metadataSeparator the metadata separator to set
+     * @param metadataDelimiter the metadata delimiter to set
      * @return the current ImportMappings object
      */
-    public ImportMappings metadataSeparator(String metadataSeparator) {
-        this.metadataSeparator = metadataSeparator;
+    public ImportMappings metadataDelimiter(String metadataDelimiter) {
+        this.metadataDelimiter = metadataDelimiter;
         return this;
     }
 
@@ -182,17 +227,17 @@ public class ImportMappings {
      *
      * @return the data separator
      */
-    public String getDataSeparator() {
-        return dataSeparator;
+    public String getDataDelimiter() {
+        return dataDelimiter;
     }
 
     /**
      * Sets the data separator.
      *
-     * @param dataSeparator the data separator to set
+     * @param dataDelimiter the data separator to set
      */
-    public void setDataSeparator(String dataSeparator) {
-        this.dataSeparator = dataSeparator;
+    public void setDataDelimiter(String dataDelimiter) {
+        this.dataDelimiter = dataDelimiter;
     }
 
     /**
@@ -202,7 +247,7 @@ public class ImportMappings {
      * @return the current ImportMappings object
      */
     public ImportMappings dataSeparator(String dataSeparator) {
-        this.dataSeparator = dataSeparator;
+        this.dataDelimiter = dataSeparator;
         return this;
     }
 
@@ -244,7 +289,7 @@ public class ImportMappings {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof ImportMappings importMappings)) return false;
-        return Objects.equals(getMetadata(), importMappings.getMetadata()) && Objects.equals(getMetadataSeparator(), importMappings.getMetadataSeparator()) && Objects.equals(getMetadataPattern(), importMappings.getMetadataPattern()) && Objects.equals(getData(), importMappings.getData()) && Objects.equals(getDataSeparator(), importMappings.getDataSeparator()) && Objects.equals(getDataPattern(), importMappings.getDataPattern());
+        return Objects.equals(getMetadata(), importMappings.getMetadata()) && Objects.equals(getMetadataDelimiter(), importMappings.getMetadataDelimiter()) && Objects.equals(getMetadataPattern(), importMappings.getMetadataPattern()) && Objects.equals(getData(), importMappings.getData()) && Objects.equals(getDataDelimiter(), importMappings.getDataDelimiter()) && Objects.equals(getDataPattern(), importMappings.getDataPattern());
     }
 
     /**
@@ -254,7 +299,7 @@ public class ImportMappings {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(metadata, metadataSeparator, metadataPattern, data, dataSeparator, dataPattern);
+        return Objects.hash(metadata, metadataDelimiter, metadataPattern, data, dataDelimiter, dataPattern);
     }
 
     /**
@@ -265,10 +310,10 @@ public class ImportMappings {
     public String toString() {
         return "{\n" +
                 "    metadata: " + toIndentedString(metadata) + "\n" +
-                "    metadata_separator: " + toIndentedString(metadataSeparator) + "\n" +
+                "    metadata_separator: " + toIndentedString(metadataDelimiter) + "\n" +
                 "    metadata_pattern: " + toIndentedString(metadataPattern) + "\n" +
                 "    data: " + toIndentedString(data) + "\n" +
-                "    data_separator: " + toIndentedString(dataSeparator) + "\n" +
+                "    data_separator: " + toIndentedString(dataDelimiter) + "\n" +
                 "    data_pattern: " + toIndentedString(dataPattern) + "\n" +
                 "}";
     }

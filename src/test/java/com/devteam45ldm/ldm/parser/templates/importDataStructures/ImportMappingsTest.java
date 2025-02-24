@@ -41,8 +41,8 @@ class ImportMappingsTest {
     @Test
     void metadataSeparator_getAndSet() {
         ImportMappings importMappings = new ImportMappings();
-        importMappings.setMetadataSeparator(",");
-        assertEquals(",", importMappings.getMetadataSeparator());
+        importMappings.setMetadataDelimiter(",");
+        assertEquals(",", importMappings.getMetadataDelimiter());
     }
 
     /**
@@ -52,7 +52,7 @@ class ImportMappingsTest {
     void metadataSeparator_setsAndReturnsCorrectMetadataSeparator() {
         ImportMappings importMappings = new ImportMappings();
         assertEquals(importMappings, importMappings.metadataSeparator(","));
-        assertEquals(",", importMappings.getMetadataSeparator());
+        assertEquals(",", importMappings.getMetadataDelimiter());
     }
 
     /**
@@ -109,8 +109,8 @@ class ImportMappingsTest {
     @Test
     void dataSeparator_getAndSet() {
         ImportMappings importMappings = new ImportMappings();
-        importMappings.setDataSeparator(",");
-        assertEquals(",", importMappings.getDataSeparator());
+        importMappings.setDataDelimiter(",");
+        assertEquals(",", importMappings.getDataDelimiter());
     }
 
     /**
@@ -120,7 +120,7 @@ class ImportMappingsTest {
     void dataSeparator_setsAndReturnsCorrectDataSeparator() {
         ImportMappings importMappings = new ImportMappings();
         assertEquals(importMappings, importMappings.dataSeparator(";"));
-        assertEquals(";", importMappings.getDataSeparator());
+        assertEquals(";", importMappings.getDataDelimiter());
     }
 
     /**
