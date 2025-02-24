@@ -51,7 +51,7 @@ class ImportMappingsTest {
     @Test
     void metadataSeparator_setsAndReturnsCorrectMetadataDelimiter() {
         ImportMappings importMappings = new ImportMappings();
-        assertEquals(importMappings, importMappings.metadataSeparator(","));
+        assertEquals(importMappings, importMappings.metadataDelimiter(","));
         assertEquals(",", importMappings.getMetadataDelimiter());
     }
 

@@ -287,31 +287,31 @@ public class ImportMappings {
     }
 
     /**
-     * Gets the data separator.
+     * Gets the data delimiter.
      *
-     * @return the data separator
+     * @return the data delimiter
      */
     public String getDataDelimiter() {
         return dataDelimiter;
     }
 
     /**
-     * Sets the data separator.
+     * Sets the data delimiter.
      *
-     * @param dataDelimiter the data separator to set
+     * @param dataDelimiter the data delimiter to set
      */
     public void setDataDelimiter(String dataDelimiter) {
         this.dataDelimiter = dataDelimiter;
     }
 
     /**
-     * Sets the data separator and returns the current ImportMappings object.
+     * Sets the data delimiter and returns the current ImportMappings object.
      *
-     * @param dataSeparator the data separator to set
+     * @param dataDelimiter the data delimiter to set
      * @return the current ImportMappings object
      */
-    public ImportMappings dataDelimiter(String dataSeparator) {
-        this.dataDelimiter = dataSeparator;
+    public ImportMappings dataDelimiter(String dataDelimiter) {
+        this.dataDelimiter = dataDelimiter;
         return this;
     }
 
@@ -442,12 +442,12 @@ public class ImportMappings {
     public String toString() {
         return "{\n" +
                 "    metadata: " + toIndentedString(metadata) + "\n" +
-                "    metadata_separator: " + toIndentedString(metadataDelimiter) + "\n" +
+                "    metadata_delimiter: " + toIndentedString(metadataDelimiter) + "\n" +
                 "    metadata_pattern: " + toIndentedString(metadataPattern) + "\n" +
                 "    metadata_terminator: " + toIndentedString(metadataTerminator) + "\n" +
                 "    metadata_assignments: " + toIndentedString(metadataAssignments) + "\n" +
                 "    data: " + toIndentedString(data) + "\n" +
-                "    data_separator: " + toIndentedString(dataDelimiter) + "\n" +
+                "    data_delimiter: " + toIndentedString(dataDelimiter) + "\n" +
                 "    data_pattern: " + toIndentedString(dataPattern) + "\n" +
                 "    data_terminator: " + toIndentedString(dataTerminator) + "\n" +
                 "    data_assignments: " + toIndentedString(dataAssignments) + "\n" +
