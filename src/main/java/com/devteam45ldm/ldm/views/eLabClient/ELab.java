@@ -16,7 +16,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
 
 @PageTitle("eLab")
-@Route("eLab")
+@Route("")
 @Menu(order = 1, icon = "line-awesome/svg/flask-solid.svg")
 @UIScope
 public class ELab extends Composite<VerticalLayout> implements LoginEventListener {
