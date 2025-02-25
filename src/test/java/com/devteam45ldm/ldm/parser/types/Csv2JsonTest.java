@@ -49,7 +49,7 @@ class Csv2JsonTest {
 
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().dataDelimiter(";"));
+                .mappings(new ImportMappings().metadataDelimiter(";"));
 
         ImportedData result = Csv2Json.parse(csv, template);
 
@@ -57,7 +57,7 @@ class Csv2JsonTest {
             System.out.println(result.toString());
         }
 
-        JSONArray jsonArray = new JSONArray(result.getData());
+        JSONArray jsonArray = new JSONArray(result.getMetadata());
         assertEquals(2, jsonArray.length());
 
         JSONObject firstRow = jsonArray.getJSONObject(0);
@@ -93,17 +93,18 @@ class Csv2JsonTest {
             System.out.println(result.toString());
         }
 
-        JSONArray jsonArray = new JSONArray(result.getData());
+        JSONArray jsonArray = new JSONArray(result.getMetadata());
         assertEquals(0, jsonArray.length());
     }
 
     @Test
-    void parse_csvWithMissingSeparator_throwsException() throws Exception{
+    void parse_csvWithDefaultSeparator_throwsNoException() throws Exception{
         String csv = "name,age,city\nJohn,30,New York";
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
                 .mappings(new ImportMappings());
-        assertThrows(JSONException.class, () -> Csv2Json.parse(csv, template));
+        ImportedData expectedImportedData = new ImportedData().metadata("[{\"city\":\"New York\",\"name\":\"John\",\"age\":\"30\"}]");
+        assertEquals(expectedImportedData,Csv2Json.parse(csv, template));
     }
 
     @Test
@@ -111,14 +112,14 @@ class Csv2JsonTest {
         String csv = "name,age,city\nJohn,30";
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().dataDelimiter(","));
+                .mappings(new ImportMappings().metadataDelimiter(","));
 
 
         ImportedData result = Csv2Json.parse(csv, template);
         if (debug) {
             System.out.println(result.toString());
         }
-        JSONArray jsonArray = new JSONArray(result.getData());
+        JSONArray jsonArray = new JSONArray(result.getMetadata());
 
         JSONObject row = jsonArray.getJSONObject(0);
         assertEquals("John", row.getString("name"));

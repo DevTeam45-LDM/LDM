@@ -136,26 +136,36 @@ class ImportTemplateTest {
         ImportMappings importMappings = new ImportMappings();
         importTemplate.setMetadata(metadata);
         importTemplate.setMappings(importMappings);
-        String expected = """
-                {
-                    metadata: {
-                        version: null
-                        created_by: null
-                        created_at: null
-                        last_modified_by: null
-                        last_modified_at: null
-                        parser: null
-                    },
-                    mappings: {
-                        metadata: null
-                        metadata_separator: null
-                        metadata_pattern: null
-                        data: null
-                        data_separator: null
-                        data_pattern: null
-                    }
-                }""";
+        String expected = "{\n" +
+                "    metadata: {\n" +
+                "        version: null\n" +
+                "        created_by: null\n" +
+                "        created_at: null\n" +
+                "        last_modified_by: null\n" +
+                "        last_modified_at: null\n" +
+                "        parser: null\n" +
+                "    },\n" +
+                "    mappings: {\n" +
+                "        metadata: null\n" +
+                "        metadata_delimiter: ,\n" +
+                "        metadata_pattern: null\n" +
+                "        metadata_terminator: \n        \n" +
+                "        metadata_assignments: null\n" +
+                "        data: null\n" +
+                "        data_delimiter: ,\n" +
+                "        data_pattern: null\n" +
+                "        data_terminator: \n        \n" +
+                "        data_assignments: null\n" +
+                "    }\n" +
+                "}";
         assertEquals(expected, importTemplate.toString());
+    }
+
+    private String toIndentedString(Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
     }
 
     /**
