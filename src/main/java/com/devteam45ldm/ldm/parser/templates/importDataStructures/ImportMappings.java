@@ -21,18 +21,22 @@ public class ImportMappings {
     private ArrayList<String> metadata = null;
 
     /**
+     * String which every line starts with.
+     */
+    @JsonProperty("metadata_line_start")
+    private String metadataLineStarter = null;
+
+    /**
      * Delimiter for metadata e.g. a csv delimiter.
-     * Default is ",".
      */
     @JsonProperty("metadata_delimiter")
-    private String metadataDelimiter = ",";
+    private String metadataDelimiter = null;
 
     /**
      * Terminator for metadata e.g. a csv terminator like a newline.
-     * Default is "\n".
      */
     @JsonProperty("metadata_terminator")
-    private String metadataTerminator = "\n";
+    private String metadataTerminator = null;
 
     /**
      * Assignment operators e.g. in txt files.
@@ -55,18 +59,22 @@ public class ImportMappings {
     private ArrayList<String> data = null;
 
     /**
+     * String which every line starts with.
+     */
+    @JsonProperty("data_line_start")
+    private String dataLineStarter = null;
+
+    /**
      * Delimiter for data e.g. a csv delimiter.
-     * Default is ",".
      */
     @JsonProperty("data_delimiter")
-    private String dataDelimiter = ",";
+    private String dataDelimiter = null;
 
     /**
      * Terminator for data e.g. a csv terminator like a newline.
-     * Default is "\n".
      */
     @JsonProperty("data_terminator")
-    private String dataTerminator = "\n";
+    private String dataTerminator = null;
 
     /**
      * Assignment operators e.g. in txt files.
@@ -123,6 +131,35 @@ public class ImportMappings {
         ArrayList<String> metadataArray = new ArrayList<>();
         metadataArray.add(metadata);
         this.metadata = metadataArray;
+        return this;
+    }
+
+    /**
+     * Gets the metadata line starter.
+     *
+     * @return the metadata line starter
+     */
+    public String getMetadataLineStarter() {
+        return metadataLineStarter;
+    }
+
+    /**
+     * Sets the metadata line starter.
+     *
+     * @param metadataLineStarter the metadata line starter to set
+     */
+    public void setMetadataLineStarter(String metadataLineStarter) {
+        this.metadataLineStarter = metadataLineStarter;
+    }
+
+    /**
+     * Sets the metadata line starter and returns the current ImportMappings object.
+     *
+     * @param metadataLineStarter the metadata line starter to set
+     * @return the current ImportMappings object
+     */
+    public ImportMappings metadataLineStarter(String metadataLineStarter) {
+        this.metadataLineStarter = metadataLineStarter;
         return this;
     }
 
@@ -287,6 +324,35 @@ public class ImportMappings {
     }
 
     /**
+     * Gets the data line starter.
+     *
+     * @return the data line starter
+     */
+    public String getDataLineStarter() {
+        return dataLineStarter;
+    }
+
+    /**
+     * Sets the data line starter.
+     *
+     * @param dataLineStarter the data line starter to set
+     */
+    public void setDataLineStarter(String dataLineStarter) {
+        this.dataLineStarter = dataLineStarter;
+    }
+
+    /**
+     * Sets the data line starter and returns the current ImportMappings object.
+     *
+     * @param dataLineStarter the data line starter to set
+     * @return the current ImportMappings object
+     */
+    public ImportMappings dataLineStarter(String dataLineStarter) {
+        this.dataLineStarter = dataLineStarter;
+        return this;
+    }
+
+    /**
      * Gets the data delimiter.
      *
      * @return the data delimiter
@@ -420,7 +486,9 @@ public class ImportMappings {
                 Objects.equals(getDataDelimiter(), importMappings.getDataDelimiter()) &&
                 Objects.equals(getDataPattern(), importMappings.getDataPattern()) &&
                 Objects.equals(getDataTerminator(), importMappings.getDataTerminator()) &&
-                Objects.equals(getDataAssignments(), importMappings.getDataAssignments());
+                Objects.equals(getDataAssignments(), importMappings.getDataAssignments()) &&
+                Objects.equals(getDataLineStarter(), importMappings.getDataLineStarter()) &&
+                Objects.equals(getMetadataLineStarter(), importMappings.getMetadataLineStarter());
     }
 
     /**
@@ -430,7 +498,7 @@ public class ImportMappings {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(metadata, metadataDelimiter, metadataPattern, metadataTerminator, metadataAssignments, data, dataDelimiter, dataPattern, dataTerminator, dataAssignments);
+        return Objects.hash(metadata, metadataDelimiter, metadataPattern, metadataTerminator, metadataAssignments, data, dataDelimiter, dataPattern, dataTerminator, dataAssignments, metadataLineStarter, dataLineStarter);
     }
 
     /**
@@ -444,11 +512,13 @@ public class ImportMappings {
                 "    metadata: " + toIndentedString(metadata) + "\n" +
                 "    metadata_delimiter: " + toIndentedString(metadataDelimiter) + "\n" +
                 "    metadata_pattern: " + toIndentedString(metadataPattern) + "\n" +
+                "    metadata_line_starter: " + toIndentedString(metadataLineStarter) + "\n" +
                 "    metadata_terminator: " + toIndentedString(metadataTerminator) + "\n" +
                 "    metadata_assignments: " + toIndentedString(metadataAssignments) + "\n" +
                 "    data: " + toIndentedString(data) + "\n" +
                 "    data_delimiter: " + toIndentedString(dataDelimiter) + "\n" +
                 "    data_pattern: " + toIndentedString(dataPattern) + "\n" +
+                "    data_line_starter: " + toIndentedString(dataLineStarter) + "\n" +
                 "    data_terminator: " + toIndentedString(dataTerminator) + "\n" +
                 "    data_assignments: " + toIndentedString(dataAssignments) + "\n" +
                 "}";

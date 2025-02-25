@@ -209,11 +209,13 @@ class ImportMappingsTest {
                 "    metadata: " + toIndentedString(metadata) + "\n" +
                 "    metadata_delimiter: " + toIndentedString(importMappings.getMetadataDelimiter()) + "\n" +
                 "    metadata_pattern: " + toIndentedString(importMappings.getMetadataPattern()) + "\n" +
+                "    metadata_line_starter: " + toIndentedString(importMappings.getMetadataLineStarter()) + "\n" +
                 "    metadata_terminator: " + toIndentedString(importMappings.getMetadataTerminator()) + "\n" +
                 "    metadata_assignments: " + toIndentedString(importMappings.getMetadataAssignments()) + "\n" +
                 "    data: " + toIndentedString(data) + "\n" +
                 "    data_delimiter: " + toIndentedString(importMappings.getDataDelimiter()) + "\n" +
                 "    data_pattern: " + toIndentedString(importMappings.getDataPattern()) + "\n" +
+                "    data_line_starter: " + toIndentedString(importMappings.getDataLineStarter()) + "\n" +
                 "    data_terminator: " + toIndentedString(importMappings.getDataTerminator()) + "\n" +
                 "    data_assignments: " + toIndentedString(importMappings.getDataAssignments()) + "\n" +
                 "}";

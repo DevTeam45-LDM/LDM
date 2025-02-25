@@ -93,7 +93,7 @@ class Csv2JsonTest {
             System.out.println(result.toString());
         }
 
-        JSONArray jsonArray = new JSONArray(result.getMetadata());
+        JSONArray jsonArray = new JSONArray(result.getData());
         assertEquals(0, jsonArray.length());
     }
 
@@ -102,7 +102,7 @@ class Csv2JsonTest {
         String csv = "name,age,city\nJohn,30,New York";
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings());
+                .mappings(new ImportMappings().metadataDelimiter(","));
         ImportedData expectedImportedData = new ImportedData().metadata("[{\"city\":\"New York\",\"name\":\"John\",\"age\":\"30\"}]");
         assertEquals(expectedImportedData,Csv2Json.parse(csv, template));
     }
