@@ -509,17 +509,17 @@ public class ImportMappings {
     @Override
     public String toString() {
         return "{\n" +
-                "    metadata: " + toIndentedString(metadata) + "\n" +
-                "    metadata_delimiter: " + toIndentedString(metadataDelimiter) + "\n" +
-                "    metadata_pattern: " + toIndentedString(metadataPattern) + "\n" +
-                "    metadata_line_starter: " + toIndentedString(metadataLineStarter) + "\n" +
-                "    metadata_terminator: " + toIndentedString(metadataTerminator) + "\n" +
-                "    metadata_assignments: " + toIndentedString(metadataAssignments) + "\n" +
-                "    data: " + toIndentedString(data) + "\n" +
-                "    data_delimiter: " + toIndentedString(dataDelimiter) + "\n" +
-                "    data_pattern: " + toIndentedString(dataPattern) + "\n" +
-                "    data_line_starter: " + toIndentedString(dataLineStarter) + "\n" +
-                "    data_terminator: " + toIndentedString(dataTerminator) + "\n" +
+                "    metadata: " + toIndentedString(metadata) + ",\n" +
+                "    metadata_delimiter: " + toIndentedString(metadataDelimiter) + ",\n" +
+                "    metadata_pattern: " + toIndentedString(metadataPattern) + ",\n" +
+                "    metadata_line_starter: " + toIndentedString(metadataLineStarter) + ",\n" +
+                "    metadata_terminator: " + toIndentedString(metadataTerminator) + ",\n" +
+                "    metadata_assignments: " + toIndentedString(metadataAssignments) + ",\n" +
+                "    data: " + toIndentedString(data) + ",\n" +
+                "    data_delimiter: " + toIndentedString(dataDelimiter) + ",\n" +
+                "    data_pattern: " + toIndentedString(dataPattern) + ",\n" +
+                "    data_line_starter: " + toIndentedString(dataLineStarter) + ",\n" +
+                "    data_terminator: " + toIndentedString(dataTerminator) + ",\n" +
                 "    data_assignments: " + toIndentedString(dataAssignments) + "\n" +
                 "}";
     }

@@ -1,5 +1,6 @@
 package com.devteam45ldm.ldm.parser.templates.importDataStructures;
 
+import com.devteam45ldm.ldm.parser.ParserController;
 import com.devteam45ldm.ldm.parser.templates.Metadata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.json.JSONObject;
@@ -16,6 +17,12 @@ public class ImportTemplate {
 
     @JsonProperty("mappings")
     private ImportMappings importMappings = null;
+
+    @JsonProperty("metadata_parser_type")
+    private ParserController.ParserType metadataParserType = null;
+
+    @JsonProperty("data_parser_type")
+    private ParserController.ParserType dataParserType = null;
 
     /**
      * Gets the metadata.
@@ -76,6 +83,64 @@ public class ImportTemplate {
     }
 
     /**
+     * Gets the metadata parser type.
+     *
+     * @return the metadata parser type
+     */
+    public ParserController.ParserType getMetadataParserType() {
+        return metadataParserType;
+    }
+
+    /**
+     * Sets the metadata parser type.
+     *
+     * @param metadataParserType the metadata parser type to set
+     */
+    public void setMetadataParserType(ParserController.ParserType metadataParserType) {
+        this.metadataParserType = metadataParserType;
+    }
+
+    /**
+     * Sets the metadata parser type and returns the current ImportTemplate object.
+     *
+     * @param metadataParserType the metadata parser type to set
+     * @return the current ImportTemplate object
+     */
+    public ImportTemplate metadataParserType(ParserController.ParserType metadataParserType) {
+        this.metadataParserType = metadataParserType;
+        return this;
+    }
+
+    /**
+     * Gets the data parser type.
+     *
+     * @return the data parser type
+     */
+    public ParserController.ParserType getDataParserType() {
+        return dataParserType;
+    }
+
+    /**
+     * Sets the data parser type.
+     *
+     * @param dataParserType the data parser type to set
+     */
+    public void setDataParserType(ParserController.ParserType dataParserType) {
+        this.dataParserType = dataParserType;
+    }
+
+    /**
+     * Sets the data parser type and returns the current ImportTemplate object.
+     *
+     * @param dataParserType the data parser type to set
+     * @return the current ImportTemplate object
+     */
+    public ImportTemplate dataParserType(ParserController.ParserType dataParserType) {
+        this.dataParserType = dataParserType;
+        return this;
+    }
+
+    /**
      * Checks if this ImportTemplate object is equal to another object.
      *
      * @param o the object to compare
@@ -84,7 +149,10 @@ public class ImportTemplate {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof ImportTemplate that)) return false;
-        return Objects.equals(getMetadata(), that.getMetadata()) && Objects.equals(importMappings, that.importMappings);
+        return  Objects.equals(getMetadata(), that.getMetadata()) &&
+                Objects.equals(importMappings, that.importMappings) &&
+                Objects.equals(metadataParserType, that.metadataParserType) &&
+                Objects.equals(dataParserType, that.dataParserType);
     }
 
     /**
@@ -94,7 +162,7 @@ public class ImportTemplate {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(getMetadata(), importMappings);
+        return Objects.hash(getMetadata(), importMappings, metadataParserType, dataParserType);
     }
 
     /**
@@ -102,10 +170,13 @@ public class ImportTemplate {
      *
      * @return the string representation
      */
+    @Override
     public String toString() {
         return "{\n" +
                 "    metadata: " + toIndentedString(metadata) + ",\n" +
-                "    mappings: " + toIndentedString(importMappings) + "\n" +
+                "    mappings: " + toIndentedString(importMappings) + ",\n" +
+                "    metadata_parser_type: " + toIndentedString(metadataParserType) + ",\n" +
+                "    data_parser_type: " + toIndentedString(dataParserType) + "\n" +
                 "}";
     }
 

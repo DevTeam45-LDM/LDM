@@ -29,7 +29,7 @@ public class Metadata {
     @JsonProperty("datatype")
     private String datatype = null;
 
-    @JsonProperty("parser-type")
+    @JsonProperty("parser_type")
     private ParserController.ParserType parserType = null;
 
 
@@ -246,7 +246,13 @@ public class Metadata {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Metadata metadata)) return false;
-        return Objects.equals(getVersion(), metadata.getVersion()) && Objects.equals(getCreatedBy(), metadata.getCreatedBy()) && Objects.equals(getCreatedAt(), metadata.getCreatedAt()) && Objects.equals(getLastModifiedBy(), metadata.getLastModifiedBy()) && Objects.equals(getLastModifiedAt(), metadata.getLastModifiedAt()) && getDatatype() == metadata.getDatatype();
+        return  Objects.equals(getVersion(), metadata.getVersion()) &&
+                Objects.equals(getCreatedBy(), metadata.getCreatedBy()) &&
+                Objects.equals(getCreatedAt(), metadata.getCreatedAt()) &&
+                Objects.equals(getLastModifiedBy(), metadata.getLastModifiedBy()) &&
+                Objects.equals(getLastModifiedAt(), metadata.getLastModifiedAt()) &&
+                Objects.equals(getDatatype(), metadata.getDatatype())
+                && Objects.equals(getParserType(), metadata.getParserType());
     }
 
     /**
@@ -256,7 +262,7 @@ public class Metadata {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(version, createdBy, createdAt, lastModifiedBy, lastModifiedAt, datatype);
+        return Objects.hash(version, createdBy, createdAt, lastModifiedBy, lastModifiedAt, datatype, parserType);
     }
 
     /**
@@ -266,12 +272,12 @@ public class Metadata {
      */
     public String toString() {
         return "{\n" +
-                "    version: " + toIndentedString(version) + "\n" +
-                "    created_by: " + toIndentedString(createdBy) + "\n" +
-                "    created_at: " + toIndentedString(createdAt) + "\n" +
-                "    last_modified_by: " + toIndentedString(lastModifiedBy) + "\n" +
-                "    last_modified_at: " + toIndentedString(lastModifiedAt) + "\n" +
-                "    parser: " + toIndentedString(datatype) + "\n" +
+                "    version: " + toIndentedString(version) + ",\n" +
+                "    created_by: " + toIndentedString(createdBy) + ",\n" +
+                "    created_at: " + toIndentedString(createdAt) + ",\n" +
+                "    last_modified_by: " + toIndentedString(lastModifiedBy) + ",\n" +
+                "    last_modified_at: " + toIndentedString(lastModifiedAt) + ",\n" +
+                "    parser_type: " + toIndentedString(datatype) + "\n" +
                 "}";
     }
 

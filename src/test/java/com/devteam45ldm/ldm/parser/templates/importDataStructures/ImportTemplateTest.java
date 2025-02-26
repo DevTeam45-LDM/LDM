@@ -138,27 +138,29 @@ class ImportTemplateTest {
         importTemplate.setMappings(importMappings);
         String expected = "{\n" +
                 "    metadata: {\n" +
-                "        version: null\n" +
-                "        created_by: null\n" +
-                "        created_at: null\n" +
-                "        last_modified_by: null\n" +
-                "        last_modified_at: null\n" +
-                "        parser: null\n" +
+                "        version: null,\n" +
+                "        created_by: null,\n" +
+                "        created_at: null,\n" +
+                "        last_modified_by: null,\n" +
+                "        last_modified_at: null,\n" +
+                "        parser_type: null\n" +
                 "    },\n" +
                 "    mappings: {\n" +
-                "        metadata: null\n" +
-                "        metadata_delimiter: null\n" +
-                "        metadata_pattern: null\n" +
-                "        metadata_line_starter: null\n" +
-                "        metadata_terminator: null\n" +
-                "        metadata_assignments: null\n" +
-                "        data: null\n" +
-                "        data_delimiter: null\n" +
-                "        data_pattern: null\n" +
-                "        data_line_starter: null\n" +
-                "        data_terminator: null\n" +
+                "        metadata: null,\n" +
+                "        metadata_delimiter: null,\n" +
+                "        metadata_pattern: null,\n" +
+                "        metadata_line_starter: null,\n" +
+                "        metadata_terminator: null,\n" +
+                "        metadata_assignments: null,\n" +
+                "        data: null,\n" +
+                "        data_delimiter: null,\n" +
+                "        data_pattern: null,\n" +
+                "        data_line_starter: null,\n" +
+                "        data_terminator: null,\n" +
                 "        data_assignments: null\n" +
-                "    }\n" +
+                "    },\n" +
+                "    metadata_parser_type: null,\n" +
+                "    data_parser_type: null\n" +
                 "}";
         assertEquals(expected, importTemplate.toString());
     }
@@ -189,7 +191,7 @@ class ImportTemplateTest {
      */
     @Test
     void fromJsonString_createsImportTemplateObject() throws Exception {
-        String json = "{ \"metadata\": { \"version\": null, \"created_by\": null, \"created_at\": null, \"last_modified_by\": null, \"last_modified_at\": null, \"parser\": null }, \"mappings\": { \"metadata\": null, \"metadata_separator\": null, \"metadata_pattern\": null, \"data\": null, \"data_separator\": null, \"data_pattern\": null } }";
+        String json = "{ \"metadata\": { \"version\": null, \"created_by\": null, \"created_at\": null, \"last_modified_by\": null, \"last_modified_at\": null, \"parser\": null }, \"mappings\": { \"metadata\": null, \"metadata_separator\": null, \"metadata_pattern\": null, \"data\": null, \"data_separator\": null, \"data_pattern\": null }, \"metadata_parser_type\": null, \"data_parser_type\": null }";
         ObjectMapper objectMapper = new ObjectMapper();
         ImportTemplate importTemplate = objectMapper.readValue(json, ImportTemplate.class);
 
