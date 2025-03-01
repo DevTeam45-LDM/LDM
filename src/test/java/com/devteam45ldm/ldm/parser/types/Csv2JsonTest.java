@@ -28,7 +28,7 @@ class Csv2JsonTest {
         String result = Csv2Json.parse(csv, importParserMappings);
 
         if (debug) {
-            System.out.println(result.toString());
+            System.out.println(result);
         }
 
         JSONArray jsonArray = new JSONArray(result);
@@ -58,7 +58,7 @@ class Csv2JsonTest {
         String result = Csv2Json.parse(csv, importParserMappings);
 
         if (debug) {
-            System.out.println(result.toString());
+            System.out.println(result);
         }
 
         JSONArray jsonArray = new JSONArray(result);
@@ -99,7 +99,7 @@ class Csv2JsonTest {
         String result = Csv2Json.parse(csv, importParserMappings);
 
         if (debug) {
-            System.out.println(result.toString());
+            System.out.println(result);
         }
 
         JSONArray jsonArray = new JSONArray(result);
@@ -112,7 +112,7 @@ class Csv2JsonTest {
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
                 .mappings(new ImportMappings().metadataDelimiter(",").metadataHasHeadline(true));
-        ImportedData expectedImportedData = new ImportedData().metadata("[{\"city\":\"New York\",\"name\":\"John\",\"age\":\"30\"}]");
+        ImportedData expectedImportedData = new ImportedData().metadata("[{\"name\":\"John\",\"age\":\"30\",\"city\":\"New York\"}]");
 
         ImportParserMappings importParserMappings = template.getMappings().getMetadataMappings();
 
@@ -128,7 +128,7 @@ class Csv2JsonTest {
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
                 .mappings(new ImportMappings().metadataDelimiter(",").metadataHasHeadline(false));
-        ImportedData expectedImportedData = new ImportedData().metadata("[{\"column3\":\"New York\",\"column1\":\"John\",\"column2\":\"30\"}]");
+        ImportedData expectedImportedData = new ImportedData().metadata("[{\"column1\":\"John\",\"column2\":\"30\",\"column3\":\"New York\"}]");
 
         ImportParserMappings importParserMappings = template.getMappings().getMetadataMappings();
 
@@ -149,7 +149,7 @@ class Csv2JsonTest {
 
         String result = Csv2Json.parse(csv, importParserMappings);
         if (debug) {
-            System.out.println(result.toString());
+            System.out.println(result);
         }
         JSONArray jsonArray = new JSONArray(result);
 
