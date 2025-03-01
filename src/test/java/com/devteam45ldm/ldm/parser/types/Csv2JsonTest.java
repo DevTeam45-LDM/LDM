@@ -116,7 +116,10 @@ class Csv2JsonTest {
 
         ImportParserMappings importParserMappings = template.getMappings().getMetadataMappings();
 
-        assertEquals(expectedImportedData,Csv2Json.parse(csv, importParserMappings));
+        ImportedData importedData = new ImportedData();
+        importedData.metadata(Csv2Json.parse(csv, importParserMappings));
+
+        assertEquals(expectedImportedData,importedData);
     }
 
     @Test
@@ -125,11 +128,14 @@ class Csv2JsonTest {
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
                 .mappings(new ImportMappings().metadataDelimiter(",").metadataHasHeadline(false));
-        ImportedData expectedImportedData = new ImportedData().metadata("[{\"city\":\"New York\",\"name\":\"John\",\"age\":\"30\"}]");
+        ImportedData expectedImportedData = new ImportedData().metadata("[{\"column3\":\"New York\",\"column1\":\"John\",\"column2\":\"30\"}]");
 
         ImportParserMappings importParserMappings = template.getMappings().getMetadataMappings();
 
-        assertEquals(expectedImportedData,Csv2Json.parse(csv, importParserMappings));
+        ImportedData importedData = new ImportedData();
+        importedData.metadata(Csv2Json.parse(csv, importParserMappings));
+
+        assertEquals(expectedImportedData,importedData);
     }
 
     @Test

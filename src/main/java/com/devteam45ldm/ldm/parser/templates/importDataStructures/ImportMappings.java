@@ -549,7 +549,8 @@ public class ImportMappings {
                 getDataLineStarter(),
                 getDataDelimiter(),
                 getDataTerminator(),
-                getDataAssignments()
+                getDataAssignments(),
+                getDataPattern()
         );
     }
 
@@ -560,7 +561,8 @@ public class ImportMappings {
                 getMetadataLineStarter(),
                 getMetadataDelimiter(),
                 getMetadataTerminator(),
-                getMetadataAssignments()
+                getMetadataAssignments(),
+                getMetadataPattern()
         );
     }
 

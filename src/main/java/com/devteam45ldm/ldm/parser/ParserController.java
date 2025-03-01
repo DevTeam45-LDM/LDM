@@ -26,12 +26,12 @@ public abstract class ParserController {
 
     public static ImportedData importParser(String data, ImportTemplate importTemplate) throws SAXException, ParserConfigurationException, IOException, JSONException {
         switch (importTemplate.getMetadata().getParserType()) {
-            case ParserType.JSON:
+            case ParserType.JSON: //TODO: Implement JSON2JSON like CSV2JSON
                 return Json2Json.parse(data, importTemplate);
-            case ParserType.XML: //TODO: Implement XML2JSON
+            case ParserType.XML: //TODO: Implement XML2JSON like CSV2JSON
                 JSONObject xml2Json = Xml2Json.parse(data);
                 return Json2Json.parse(xml2Json.toString(), importTemplate);
-            case ParserType.CSV: //TODO: Implement CSV2JSON
+            case ParserType.CSV:
                 ImportedData importedData = new ImportedData();
                 //Parse data
                 ImportParserMappings importParserMappings = importTemplate.getMappings().getDataMappings();

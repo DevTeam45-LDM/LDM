@@ -21,14 +21,15 @@ public class ImportParserMappings {
                                 @JsonProperty("lineStarter") String lineStarter,
                                 @JsonProperty("delimiter") String delimiter,
                                 @JsonProperty("terminator") String terminator,
-                                @JsonProperty("assignments") String assignments) {
+                                @JsonProperty("assignments") String assignments,
+                                @JsonProperty("pattern") Pattern pattern) {
         this.path = path;
         this.hasHeadline = hasHeadline;
         this.lineStarter = lineStarter;
         this.delimiter = delimiter;
         this.terminator = terminator;
         this.assignments = assignments;
-        this.pattern = Pattern.compile(assignments);
+        this.pattern = pattern;
     }
 
 
