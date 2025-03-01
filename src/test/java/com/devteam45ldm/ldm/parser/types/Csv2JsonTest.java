@@ -2,6 +2,7 @@ package com.devteam45ldm.ldm.parser.types;
 
 import com.devteam45ldm.ldm.parser.templates.Metadata;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportMappings;
+import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportParserMappings;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportedData;
 import org.json.JSONArray;
@@ -22,14 +23,15 @@ class Csv2JsonTest {
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
                 .mappings(new ImportMappings().metadataDelimiter(",").metadataHasHeadline(true));  // Changed from .data to .mappings
+        ImportParserMappings importParserMappings = template.getMappings().getMetadataMappings();
 
-        ImportedData result = Csv2Json.parse(csv, template);
+        String result = Csv2Json.parse(csv, importParserMappings);
 
         if (debug) {
             System.out.println(result.toString());
         }
 
-        JSONArray jsonArray = new JSONArray(result.getMetadata());
+        JSONArray jsonArray = new JSONArray(result);
         assertEquals(2, jsonArray.length());
 
         JSONObject firstRow = jsonArray.getJSONObject(0);
@@ -51,13 +53,15 @@ class Csv2JsonTest {
                 .metadata(new Metadata())
                 .mappings(new ImportMappings().metadataDelimiter(";").metadataHasHeadline(true));
 
-        ImportedData result = Csv2Json.parse(csv, template);
+        ImportParserMappings importParserMappings = template.getMappings().getMetadataMappings();
+
+        String result = Csv2Json.parse(csv, importParserMappings);
 
         if (debug) {
             System.out.println(result.toString());
         }
 
-        JSONArray jsonArray = new JSONArray(result.getMetadata());
+        JSONArray jsonArray = new JSONArray(result);
         assertEquals(2, jsonArray.length());
 
         JSONObject firstRow = jsonArray.getJSONObject(0);
@@ -77,7 +81,10 @@ class Csv2JsonTest {
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
                 .mappings(new ImportMappings().dataDelimiter(","));
-        assertThrows(JSONException.class, () -> Csv2Json.parse(csv, template));
+
+        ImportParserMappings importParserMappings = template.getMappings().getDataMappings();
+
+        assertThrows(JSONException.class, () -> Csv2Json.parse(csv, importParserMappings));
     }
 
     @Test
@@ -87,13 +94,15 @@ class Csv2JsonTest {
                 .metadata(new Metadata())
                 .mappings(new ImportMappings().dataDelimiter(",").dataHasHeadline(true));
 
-        ImportedData result = Csv2Json.parse(csv, template);
+        ImportParserMappings importParserMappings = template.getMappings().getDataMappings();
+
+        String result = Csv2Json.parse(csv, importParserMappings);
 
         if (debug) {
             System.out.println(result.toString());
         }
 
-        JSONArray jsonArray = new JSONArray(result.getData());
+        JSONArray jsonArray = new JSONArray(result);
         assertEquals(0, jsonArray.length());
     }
 
@@ -104,7 +113,10 @@ class Csv2JsonTest {
                 .metadata(new Metadata())
                 .mappings(new ImportMappings().metadataDelimiter(",").metadataHasHeadline(true));
         ImportedData expectedImportedData = new ImportedData().metadata("[{\"city\":\"New York\",\"name\":\"John\",\"age\":\"30\"}]");
-        assertEquals(expectedImportedData,Csv2Json.parse(csv, template));
+
+        ImportParserMappings importParserMappings = template.getMappings().getMetadataMappings();
+
+        assertEquals(expectedImportedData,Csv2Json.parse(csv, importParserMappings));
     }
 
     @Test
@@ -114,7 +126,10 @@ class Csv2JsonTest {
                 .metadata(new Metadata())
                 .mappings(new ImportMappings().metadataDelimiter(",").metadataHasHeadline(false));
         ImportedData expectedImportedData = new ImportedData().metadata("[{\"city\":\"New York\",\"name\":\"John\",\"age\":\"30\"}]");
-        assertEquals(expectedImportedData,Csv2Json.parse(csv, template));
+
+        ImportParserMappings importParserMappings = template.getMappings().getMetadataMappings();
+
+        assertEquals(expectedImportedData,Csv2Json.parse(csv, importParserMappings));
     }
 
     @Test
@@ -124,12 +139,13 @@ class Csv2JsonTest {
                 .metadata(new Metadata())
                 .mappings(new ImportMappings().metadataDelimiter(",").metadataHasHeadline(true));
 
+        ImportParserMappings importParserMappings = template.getMappings().getMetadataMappings();
 
-        ImportedData result = Csv2Json.parse(csv, template);
+        String result = Csv2Json.parse(csv, importParserMappings);
         if (debug) {
             System.out.println(result.toString());
         }
-        JSONArray jsonArray = new JSONArray(result.getMetadata());
+        JSONArray jsonArray = new JSONArray(result);
 
         JSONObject row = jsonArray.getJSONObject(0);
         assertEquals("John", row.getString("name"));

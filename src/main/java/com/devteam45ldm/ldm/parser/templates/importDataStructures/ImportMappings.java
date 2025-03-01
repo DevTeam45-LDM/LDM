@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -538,6 +540,28 @@ public class ImportMappings {
     public ImportMappings dataPattern(Pattern dataPattern) {
         this.dataPattern = dataPattern;
         return this;
+    }
+
+    public ImportParserMappings getDataMappings() {
+        return new ImportParserMappings(
+                new ArrayList<>(List.of("data")),
+                getDataHasHeadline(),
+                getDataLineStarter(),
+                getDataDelimiter(),
+                getDataTerminator(),
+                getDataAssignments()
+        );
+    }
+
+    public ImportParserMappings getMetadataMappings() {
+        return new ImportParserMappings(
+                new ArrayList<>(List.of("metadata")),
+                getMetadataHasHeadline(),
+                getMetadataLineStarter(),
+                getMetadataDelimiter(),
+                getMetadataTerminator(),
+                getMetadataAssignments()
+        );
     }
 
     /**

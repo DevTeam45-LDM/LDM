@@ -1,6 +1,6 @@
 package com.devteam45ldm.ldm.parser.types;
 
-import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate;
+import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportParserMappings;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportedData;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,16 +23,11 @@ public class Csv2Json {
      * @throws JSONException if there is an error creating the JSON structure
      * @throws IOException if there is an error reading the CSV string
      */
-    public static ImportedData parse(String csv, ImportTemplate importTemplate) throws JSONException {
-        boolean data = false;
+    public static String parse(String csv, ImportParserMappings importParserMappings) throws JSONException {
         String delimiter;
 
-        if (importTemplate.getMappings().getMetadataDelimiter() != null && !importTemplate.getMappings().getMetadataDelimiter().isEmpty()) {
-            delimiter = importTemplate.getMappings().getMetadataDelimiter();
-        }
-        else if (importTemplate.getMappings().getDataDelimiter() != null && !importTemplate.getMappings().getDataDelimiter().isEmpty()) {
-            data = true;
-            delimiter = importTemplate.getMappings().getDataDelimiter();
+        if (importParserMappings.getDelimiter() != null && !importParserMappings.getDelimiter().isEmpty()) {
+            delimiter = importParserMappings.getDelimiter();
         }
         else{
             throw new JSONException("No delimiter found in mappings");
@@ -81,12 +76,8 @@ public class Csv2Json {
             }
 
             // Convert array to object directly
-            if(data){
-                return new ImportedData().data(jsonArray.toString());
-            }
-            else{
-                return new ImportedData().metadata(jsonArray.toString());
-            }
+            return jsonArray.toString();
+
         } catch (Exception e) {
             throw new JSONException("Error parsing CSV: " + e.getMessage());
         }
