@@ -21,6 +21,13 @@ public class ImportMappings {
     private ArrayList<String> metadata = null;
 
     /**
+     * Is there a line to be treated as a headline?
+     * Lines with only spaces and \n are ignored.
+     */
+    @JsonProperty("metadata_has_headline")
+    private Boolean metadataHasHeadline = null;
+
+    /**
      * String which every line starts with.
      */
     @JsonProperty("metadata_line_start")
@@ -57,6 +64,13 @@ public class ImportMappings {
      */
     @JsonProperty("data")
     private ArrayList<String> data = null;
+
+    /**
+     * Is there a line to be treated as a headline?
+     * Lines with only spaces and \n are ignored.
+     */
+    @JsonProperty("data_has_headline")
+    private Boolean dataHasHeadline = null;
 
     /**
      * String which every line starts with.
@@ -131,6 +145,35 @@ public class ImportMappings {
         ArrayList<String> metadataArray = new ArrayList<>();
         metadataArray.add(metadata);
         this.metadata = metadataArray;
+        return this;
+    }
+
+    /**
+     * Gets the metadata has headline.
+     *
+     * @return the metadata has headline
+     */
+    public Boolean getMetadataHasHeadline() {
+        return metadataHasHeadline;
+    }
+
+    /**
+     * Sets the metadata has headline.
+     *
+     * @param metadataHasHeadline the metadata has headline to set
+     */
+    public void setMetadataHasHeadline(Boolean metadataHasHeadline) {
+        this.metadataHasHeadline = metadataHasHeadline;
+    }
+
+    /**
+     * Sets the metadata has headline and returns the current ImportMappings object.
+     *
+     * @param metadataHasHeadline the metadata has headline to set
+     * @return the current ImportMappings object
+     */
+    public ImportMappings metadataHasHeadline(Boolean metadataHasHeadline) {
+        this.metadataHasHeadline = metadataHasHeadline;
         return this;
     }
 
@@ -324,6 +367,35 @@ public class ImportMappings {
     }
 
     /**
+     * Gets the data has headline.
+     *
+     * @return the data has headline
+     */
+    public Boolean getDataHasHeadline() {
+        return dataHasHeadline;
+    }
+
+    /**
+     * Sets the data has headline.
+     *
+     * @param dataHasHeadline the data has headline to set
+     */
+    public void setDataHasHeadline(Boolean dataHasHeadline) {
+        this.dataHasHeadline = dataHasHeadline;
+    }
+
+    /**
+     * Sets the data has headline and returns the current ImportMappings object.
+     *
+     * @param dataHasHeadline the data has headline to set
+     * @return the current ImportMappings object
+     */
+    public ImportMappings dataHasHeadline(Boolean dataHasHeadline) {
+        this.dataHasHeadline = dataHasHeadline;
+        return this;
+    }
+
+    /**
      * Gets the data line starter.
      *
      * @return the data line starter
@@ -478,11 +550,13 @@ public class ImportMappings {
     public boolean equals(Object o) {
         if (!(o instanceof ImportMappings importMappings)) return false;
         return Objects.equals(getMetadata(), importMappings.getMetadata()) &&
+                Objects.equals(getMetadataHasHeadline(), importMappings.getMetadataHasHeadline()) &&
                 Objects.equals(getMetadataDelimiter(), importMappings.getMetadataDelimiter()) &&
                 Objects.equals(getMetadataPattern(), importMappings.getMetadataPattern()) &&
                 Objects.equals(getMetadataTerminator(), importMappings.getMetadataTerminator()) &&
                 Objects.equals(getMetadataAssignments(), importMappings.getMetadataAssignments()) &&
                 Objects.equals(getData(), importMappings.getData()) &&
+                Objects.equals((getDataHasHeadline()), importMappings.getDataHasHeadline()) &&
                 Objects.equals(getDataDelimiter(), importMappings.getDataDelimiter()) &&
                 Objects.equals(getDataPattern(), importMappings.getDataPattern()) &&
                 Objects.equals(getDataTerminator(), importMappings.getDataTerminator()) &&
@@ -498,7 +572,7 @@ public class ImportMappings {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(metadata, metadataDelimiter, metadataPattern, metadataTerminator, metadataAssignments, data, dataDelimiter, dataPattern, dataTerminator, dataAssignments, metadataLineStarter, dataLineStarter);
+        return Objects.hash(metadata, metadataHasHeadline, metadataDelimiter, metadataPattern, metadataTerminator, metadataAssignments, data, dataHasHeadline, dataDelimiter, dataPattern, dataTerminator, dataAssignments, metadataLineStarter, dataLineStarter);
     }
 
     /**
@@ -510,12 +584,14 @@ public class ImportMappings {
     public String toString() {
         return "{\n" +
                 "    metadata: " + toIndentedString(metadata) + ",\n" +
+                "    metadata_has_headline: " + toIndentedString(metadataHasHeadline) + ",\n" +
                 "    metadata_delimiter: " + toIndentedString(metadataDelimiter) + ",\n" +
                 "    metadata_pattern: " + toIndentedString(metadataPattern) + ",\n" +
                 "    metadata_line_starter: " + toIndentedString(metadataLineStarter) + ",\n" +
                 "    metadata_terminator: " + toIndentedString(metadataTerminator) + ",\n" +
                 "    metadata_assignments: " + toIndentedString(metadataAssignments) + ",\n" +
                 "    data: " + toIndentedString(data) + ",\n" +
+                "    data_has_headline: " + toIndentedString(dataHasHeadline) + ",\n" +
                 "    data_delimiter: " + toIndentedString(dataDelimiter) + ",\n" +
                 "    data_pattern: " + toIndentedString(dataPattern) + ",\n" +
                 "    data_line_starter: " + toIndentedString(dataLineStarter) + ",\n" +

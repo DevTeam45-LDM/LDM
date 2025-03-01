@@ -147,12 +147,14 @@ class ImportTemplateTest {
                 "    },\n" +
                 "    mappings: {\n" +
                 "        metadata: null,\n" +
+                "        metadata_has_headline: null,\n" +
                 "        metadata_delimiter: null,\n" +
                 "        metadata_pattern: null,\n" +
                 "        metadata_line_starter: null,\n" +
                 "        metadata_terminator: null,\n" +
                 "        metadata_assignments: null,\n" +
                 "        data: null,\n" +
+                "        data_has_headline: null,\n" +
                 "        data_delimiter: null,\n" +
                 "        data_pattern: null,\n" +
                 "        data_line_starter: null,\n" +
