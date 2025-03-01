@@ -1,8 +1,6 @@
 package com.devteam45ldm.ldm.parser.types;
 
-import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportedData;
-import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportMappings;
-import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate;
+import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportParserMappings;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,24 +14,37 @@ import java.util.Iterator;
 public class Json2Json {
 
     /**
-     * Converts the given JSON string into an ImportedData object based on the ImportTemplate.
+     * Parses JSON data according to the specified ImportParserMappings.
+     * This method is similar to Csv2Json.parse().
      *
-     * @param json the JSON string to be converted
+     * @param json the JSON string to be parsed
+     * @param importParserMappings the mapping information containing paths to extract
      * @return the resulting ImportedData object
      * @throws JSONException if there is an error parsing the JSON
      */
-    public static ImportedData parse(String json, ImportTemplate importTemplate) throws JSONException {
+    public static String parse(String json, ImportParserMappings importParserMappings) throws JSONException {
         JSONObject jsonObject = new JSONObject(json);
-        ImportMappings mappings = importTemplate.getMappings();
+        ArrayList<String> paths = importParserMappings.getPath();
 
-        JSONObject metadata = extractNestedJson(jsonObject, mappings.getMetadata());
-        JSONObject data = extractNestedJson(jsonObject, mappings.getData());
+        // Create a default path if none exists
+        if (paths == null) {
+            // If no path is provided, loo for the first property in the JSON
+            String firstKey;
 
-        ImportedData importedData = new ImportedData();
-        importedData.setMetadata(metadata.toString());
-        importedData.setData(data.toString());
+            // Get the first key from the JSON object
+            if (jsonObject.length() > 0) {
+                firstKey = jsonObject.keys().next().toString();
+                paths = new ArrayList<>();
+                paths.add(firstKey);
+            } else {
+                throw new JSONException("Path is null and JSON is empty");
+            }
+        } else if (paths.isEmpty()) {
+            throw new JSONException("No paths found in mappings (empty list)");
+        }
 
-        return importedData;
+        JSONObject result = extractNestedJson(jsonObject, importParserMappings.getPath());
+        return result.toString();
     }
 
     /**
@@ -89,23 +100,10 @@ public class Json2Json {
         JSONObject result = new JSONObject();
 
         if (index == keys.length - 1) {
-            // deepest level reached -> keep only primitiv values
-            if (value instanceof JSONObject subObject) {
-                JSONObject filteredSubObject = new JSONObject();
-
-                for (Iterator it = subObject.keys(); it.hasNext();) {
-                    String subKey = (String) it.next();
-                    Object subValue = subObject.get(subKey);
-                    if (!(subValue instanceof JSONObject)) {
-                        filteredSubObject.put(subKey, subValue);
-                    }
-                }
-                result.put(key, filteredSubObject);
-            } else {
-                result.put(key, value);
-            }
+            // Deepest level reached - keep the value as is
+            result.put(key, value);
         } else {
-            // Rekursion fortsetzen
+            // Continue recursion
             if (value instanceof JSONObject) {
                 JSONObject extractedSubObject = extractByPathRecursive((JSONObject) value, keys, index + 1);
                 if (extractedSubObject.length() > 0) {
