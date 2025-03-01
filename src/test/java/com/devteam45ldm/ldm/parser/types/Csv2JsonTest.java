@@ -21,7 +21,7 @@ class Csv2JsonTest {
 
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().metadataDelimiter(","));  // Changed from .data to .mappings
+                .mappings(new ImportMappings().metadataDelimiter(",").metadataHasHeadline(true));  // Changed from .data to .mappings
 
         ImportedData result = Csv2Json.parse(csv, template);
 
@@ -49,7 +49,7 @@ class Csv2JsonTest {
 
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().metadataDelimiter(";"));
+                .mappings(new ImportMappings().metadataDelimiter(";").metadataHasHeadline(true));
 
         ImportedData result = Csv2Json.parse(csv, template);
 
@@ -85,7 +85,7 @@ class Csv2JsonTest {
         String csv = "name,age,city";
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().dataDelimiter(","));
+                .mappings(new ImportMappings().dataDelimiter(",").dataHasHeadline(true));
 
         ImportedData result = Csv2Json.parse(csv, template);
 
@@ -102,7 +102,17 @@ class Csv2JsonTest {
         String csv = "name,age,city\nJohn,30,New York";
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().metadataDelimiter(","));
+                .mappings(new ImportMappings().metadataDelimiter(",").metadataHasHeadline(true));
+        ImportedData expectedImportedData = new ImportedData().metadata("[{\"city\":\"New York\",\"name\":\"John\",\"age\":\"30\"}]");
+        assertEquals(expectedImportedData,Csv2Json.parse(csv, template));
+    }
+
+    @Test
+    void parse_csvWithDefaultSeparatorAndNoHeadline_throwsNoException() throws Exception{
+        String csv = "John,30,New York";
+        ImportTemplate template = new ImportTemplate()
+                .metadata(new Metadata())
+                .mappings(new ImportMappings().metadataDelimiter(",").metadataHasHeadline(false));
         ImportedData expectedImportedData = new ImportedData().metadata("[{\"city\":\"New York\",\"name\":\"John\",\"age\":\"30\"}]");
         assertEquals(expectedImportedData,Csv2Json.parse(csv, template));
     }
@@ -112,7 +122,7 @@ class Csv2JsonTest {
         String csv = "name,age,city\nJohn,30";
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().metadataDelimiter(","));
+                .mappings(new ImportMappings().metadataDelimiter(",").metadataHasHeadline(true));
 
 
         ImportedData result = Csv2Json.parse(csv, template);
