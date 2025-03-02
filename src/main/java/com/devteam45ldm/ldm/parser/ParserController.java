@@ -37,9 +37,13 @@ public abstract class ParserController {
                 importedData.metadata(Json2Json.parse(data, importJSONParserMappings));
                 return importedData;
             case ParserType.XML: //TODO: Implement XML2JSON like CSV2JSON
-                JSONObject xml2Json = Xml2Json.parse(data);
-                //return Json2Json.parse(xml2Json.toString(), importTemplate);
-                return null;
+                // Parse data
+                ImportParserMappings importXMLParserMappings = importTemplate.getMappings().getDataMappings();
+                importedData.data(Xml2Json.parse(data, importXMLParserMappings));
+                // Parse metadata
+                importXMLParserMappings = importTemplate.getMappings().getMetadataMappings();
+                importedData.metadata(Xml2Json.parse(data, importXMLParserMappings));
+                return importedData;
             case ParserType.CSV:
                 //Parse data
                 ImportParserMappings importCSVParserMappings = importTemplate.getMappings().getDataMappings();

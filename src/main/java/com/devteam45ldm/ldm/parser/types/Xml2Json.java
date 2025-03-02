@@ -1,5 +1,6 @@
 package com.devteam45ldm.ldm.parser.types;
 
+import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportParserMappings;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,13 +13,45 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 
 //TODO: Implement this class analogous to Json2Json class
 public class Xml2Json {
+
+    public static String parse(String xml, ImportParserMappings importParserMappings) throws ParserConfigurationException, IOException, JSONException, SAXException {
+        // First convert the XML string to a JSONObject
+        JSONObject xmlAsJson = parseXmlToJson(xml);
+
+        // Extract paths from the JSONObject and merge them
+        ArrayList<String> paths = importParserMappings.getPath();
+
+        // Create a default path if none exists
+        if (paths == null) {
+            // If no path is provided, look for the first property in the JSON
+            String firstKey;
+
+            // Get the first key from the JSON object
+            if (xmlAsJson.length() > 0) {
+                firstKey = xmlAsJson.keys().next().toString();
+                paths = new ArrayList<>();
+                paths.add(firstKey);
+            } else {
+                throw new JSONException("Path is null and JSON is empty");
+            }
+        } else if (paths.isEmpty()) {
+            throw new JSONException("No paths found in mappings (empty list)");
+        }
+
+        // Extract and combine data from all paths
+        JSONObject result = new JSONObject();
+        for (String path : paths) {
+            JSONObject pathData = getPathValue(xmlAsJson, path);
+            combineJsonObjects(result, pathData);
+        }
+
+        return result.toString();
+    }
 
     /**
      * Parses XML string into a JSON object, preserving the hierarchical structure.
@@ -36,7 +69,7 @@ public class Xml2Json {
      * @throws SAXException if there is an error parsing the XML structure
      * @throws JSONException if there is an error creating the JSON structure
      */
-    public static JSONObject parse(String xml) throws ParserConfigurationException, IOException, SAXException, JSONException {
+    public static JSONObject parseXmlToJson(String xml) throws ParserConfigurationException, IOException, SAXException, JSONException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.parse(new InputSource(new StringReader(xml)));
@@ -128,5 +161,86 @@ public class Xml2Json {
         }
 
         return json;
+    }
+
+    /**
+     * Extracts a value from a JSON object using a dot-notation path.
+     *
+     * @param json the JSON object to extract from
+     * @param path the dot-notation path (e.g., "root.child.value")
+     * @return a JSON object containing the extracted value
+     * @throws JSONException if there is an error working with JSON
+     */
+    private static JSONObject getPathValue(JSONObject json, String path) throws JSONException {
+        String[] parts = path.split("\\.");
+
+        // Start with empty result that will build the structure
+        JSONObject result = new JSONObject();
+
+        // Current position in result tree where we're adding
+        JSONObject current = result;
+
+        // Current position in source JSON we're reading from
+        JSONObject source = json;
+
+        for (int i = 0; i < parts.length; i++) {
+            String part = parts[i];
+
+            // Check if path exists in source
+            if (!source.has(part)) {
+                return new JSONObject(); // Path not found
+            }
+
+            if (i == parts.length - 1) {
+                // Last part of path - add value directly
+                current.put(part, source.get(part));
+            } else {
+                // Intermediate path - create nested object and advance pointers
+                Object value = source.get(part);
+                if (!(value instanceof JSONObject)) {
+                    return new JSONObject(); // Expected object but found something else
+                }
+
+                JSONObject newObject = new JSONObject();
+                current.put(part, newObject);
+
+                // Advance pointers
+                current = newObject;
+                source = (JSONObject) value;
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Combines two JSON objects, merging nested structures.
+     *
+     * @param target the target object to merge into
+     * @param source the source object with values to add
+     * @throws JSONException if there is an error working with JSON
+     */
+    private static void combineJsonObjects(JSONObject target, JSONObject source) throws JSONException {
+        for (Iterator<String> it = source.keys(); it.hasNext(); ) {
+            String key = it.next();
+
+            // If key doesn't exist in target, just add it
+            if (!target.has(key)) {
+                target.put(key, source.get(key));
+                continue;
+            }
+
+            // If key exists in both, we need to merge
+            Object sourceValue = source.get(key);
+            Object targetValue = target.get(key);
+
+            // If both are JSON objects, merge recursively
+            if (sourceValue instanceof JSONObject && targetValue instanceof JSONObject) {
+                combineJsonObjects((JSONObject) targetValue, (JSONObject) sourceValue);
+            } else {
+                // For non-objects, source overwrites target
+                target.put(key, sourceValue);
+            }
+        }
     }
 }
