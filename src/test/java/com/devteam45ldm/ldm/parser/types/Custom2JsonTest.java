@@ -23,8 +23,8 @@ public class Custom2JsonTest {
         ImportParserMappings metadataMappings = new ImportParserMappings()
                                                     .hasHeadline(false).delimiter(",")
                                                     .pattern(Pattern.compile("[Header]"))
-                                                    .skipLinesAfterHeader(2)
-                                                    .totalColumns(3);
+                                                    .skipLinesAfterHeader(2) //TODO: Implement this
+                                                    .totalColumns(3); //TODO: Implement this
 
         ImportParserMappings dataMappings = new ImportParserMappings()
                                                 .hasHeadline(true).delimiter(",")
