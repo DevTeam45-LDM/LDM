@@ -24,7 +24,7 @@ public class Json2Json {
      */
     public static String parse(String json, ImportParserMappings importParserMappings) throws JSONException {
         JSONObject jsonObject = new JSONObject(json);
-        ArrayList<String> paths = importParserMappings.getPath();
+        ArrayList<String> paths = importParserMappings.getPaths();
 
         // Create a default path if none exists
         if (paths == null) {
@@ -43,7 +43,7 @@ public class Json2Json {
             throw new JSONException("No paths found in mappings (empty list)");
         }
 
-        JSONObject result = extractNestedJson(jsonObject, importParserMappings.getPath());
+        JSONObject result = extractNestedJson(jsonObject, importParserMappings.getPaths());
         return result.toString();
     }
 

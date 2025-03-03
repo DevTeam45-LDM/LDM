@@ -24,7 +24,7 @@ public class Xml2Json {
         JSONObject xmlAsJson = parseXmlToJson(xml);
 
         // Extract paths from the JSONObject and merge them
-        ArrayList<String> paths = importParserMappings.getPath();
+        ArrayList<String> paths = importParserMappings.getPaths();
 
         // Create a default path if none exists
         if (paths == null) {

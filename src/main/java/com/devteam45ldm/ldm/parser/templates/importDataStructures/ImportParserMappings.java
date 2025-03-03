@@ -14,8 +14,8 @@ public class ImportParserMappings {
     /**
      * Path to specific parts within the file.
      */
-    @JsonProperty("path")
-    private ArrayList<String> path = null;
+    @JsonProperty("paths")
+    private ArrayList<String> paths = null;
 
     /**
      * Is there a line to be treated as a headline?
@@ -57,21 +57,33 @@ public class ImportParserMappings {
     private Pattern pattern = null;
 
     /**
+     * Amount of lines to skip after the headline (pattern).
+     */
+    @JsonProperty("skip_lines_after_pattern")
+    private Integer skipLinesAfterHeader = null;
+
+    /**
+     * Total amount of columns in the data.
+     */
+    @JsonProperty("total_columns")
+    private Integer totalColumns = null;
+
+    /**
      * Gets the path.
      *
      * @return the path
      */
-    public ArrayList<String> getPath() {
-        return path;
+    public ArrayList<String> getPaths() {
+        return paths;
     }
 
     /**
      * Sets the path.
      *
-     * @param path the path to set
+     * @param paths the path to set
      */
-    public void setPath(ArrayList<String> path) {
-        this.path = path;
+    public void setPaths(ArrayList<String> paths) {
+        this.paths = paths;
     }
 
     /**
@@ -81,7 +93,7 @@ public class ImportParserMappings {
      * @return the current ImportParserMappings object
      */
     public ImportParserMappings path(ArrayList<String> path) {
-        this.path = path;
+        this.paths = path;
         return this;
     }
 
@@ -259,7 +271,63 @@ public class ImportParserMappings {
         return this;
     }
 
-    // Override equals, hashCode, and toString methods
+    /**
+     * Gets the skip lines after header.
+     *
+     * @return the skip lines after header
+     */
+    public Integer getSkipLinesAfterHeader() {
+        return skipLinesAfterHeader;
+    }
+
+    /**
+     * Sets the skip lines after header.
+     *
+     * @param skipLinesAfterHeader the skip lines after header to set
+     */
+    public void setSkipLinesAfterHeader(Integer skipLinesAfterHeader) {
+        this.skipLinesAfterHeader = skipLinesAfterHeader;
+    }
+
+    /**
+     * Sets the skip lines after header and returns the current ImportParserMappings object.
+     *
+     * @param skipLinesAfterHeader the skip lines after header to set
+     * @return the current ImportParserMappings object
+     */
+    public ImportParserMappings skipLinesAfterHeader(Integer skipLinesAfterHeader) {
+        this.skipLinesAfterHeader = skipLinesAfterHeader;
+        return this;
+    }
+
+    /**
+     * Gets the total columns.
+     *
+     * @return the total columns
+     */
+    public Integer getTotalColumns() {
+        return totalColumns;
+    }
+
+    /**
+     * Sets the total columns.
+     *
+     * @param totalColumns the total columns to set
+     */
+    public void setTotalColumns(Integer totalColumns) {
+        this.totalColumns = totalColumns;
+    }
+
+    /**
+     * Sets the total columns and returns the current ImportParserMappings object.
+     *
+     * @param totalColumns the total columns to set
+     * @return the current ImportParserMappings object
+     */
+    public ImportParserMappings totalColumns(Integer totalColumns) {
+        this.totalColumns = totalColumns;
+        return this;
+    }
 
     /**
      * Checks if this ImportParserMappings object is equal to another object.
@@ -270,13 +338,15 @@ public class ImportParserMappings {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof ImportParserMappings that)) return false;
-        return Objects.equals(path, that.path) &&
+        return Objects.equals(paths, that.paths) &&
                 Objects.equals(hasHeadline, that.hasHeadline) &&
                 Objects.equals(lineStarter, that.lineStarter) &&
                 Objects.equals(delimiter, that.delimiter) &&
                 Objects.equals(terminator, that.terminator) &&
                 Objects.equals(assignments, that.assignments) &&
-                Objects.equals(pattern, that.pattern);
+                Objects.equals(pattern, that.pattern) &&
+                Objects.equals(skipLinesAfterHeader, that.skipLinesAfterHeader) &&
+                Objects.equals(totalColumns, that.totalColumns);
     }
 
     /**
@@ -286,7 +356,7 @@ public class ImportParserMappings {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(path, hasHeadline, lineStarter, delimiter, terminator, assignments, pattern);
+        return Objects.hash(paths, hasHeadline, lineStarter, delimiter, terminator, assignments, pattern, skipLinesAfterHeader, totalColumns);
     }
 
     /**
@@ -297,13 +367,15 @@ public class ImportParserMappings {
     @Override
     public String toString() {
         return "{\n" +
-                "    path: " + toIndentedString(path) + ",\n" +
+                "    paths: " + toIndentedString(paths) + ",\n" +
                 "    has_headline: " + toIndentedString(hasHeadline) + ",\n" +
                 "    line_starter: " + toIndentedString(lineStarter) + ",\n" +
                 "    delimiter: " + toIndentedString(delimiter) + ",\n" +
                 "    terminator: " + toIndentedString(terminator) + ",\n" +
                 "    assignments: " + toIndentedString(assignments) + ",\n" +
-                "    pattern: " + toIndentedString(pattern) + "\n" +
+                "    pattern: " + toIndentedString(pattern) + ",\n" +
+                "    skip_lines_after_pattern: " + toIndentedString(skipLinesAfterHeader) + ",\n" +
+                "    total_columns: " + toIndentedString(totalColumns) + "\n" +
                 "}";
     }
 

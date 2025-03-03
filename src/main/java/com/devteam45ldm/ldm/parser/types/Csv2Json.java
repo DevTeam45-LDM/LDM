@@ -68,10 +68,22 @@ public class Csv2Json {
             } else {
                 // Generate column names and add first line as data
                 String[] firstRow = firstline.split(delimiter, -1);
-                headers = new String[firstRow.length];
-                for (int i = 0; i < firstRow.length; i++) {
+                int amountOfColumns;
+                if(importParserMappings.getTotalColumns() != null){
+                    amountOfColumns = importParserMappings.getTotalColumns();
+                }
+                else {
+                    amountOfColumns = firstRow.length;
+                }
+                headers = new String[amountOfColumns];
+                for (int i = 0; i < amountOfColumns; i++) {
                     headers[i] = "column" + (i + 1);
-                    firstRow[i] = firstRow[i].trim();
+                    try {
+                        firstRow[i] = firstRow[i].trim();
+                    } catch (Exception e) {
+                        continue;
+                    }
+
                 }
                 rows.add(firstRow);
 

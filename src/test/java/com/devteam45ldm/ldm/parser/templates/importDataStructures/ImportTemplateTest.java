@@ -180,22 +180,26 @@ class ImportTemplateTest {
                 "    },\n" +
                 "    mappings: {\n" +
                 "        metadata: {\n" +
-                "            path: null,\n" +
+                "            paths: null,\n" +
                 "            has_headline: null,\n" +
                 "            line_starter: null,\n" +
                 "            delimiter: null,\n" +
                 "            terminator: null,\n" +
                 "            assignments: null,\n" +
-                "            pattern: null\n" +
+                "            pattern: null,\n" +
+                "            skip_lines_after_pattern: null,\n" +
+                "            total_columns: null\n"+
                 "        },\n" +
                 "        data: {\n" +
-                "            path: null,\n" +
+                "            paths: null,\n" +
                 "            has_headline: null,\n" +
                 "            line_starter: null,\n" +
                 "            delimiter: null,\n" +
                 "            terminator: null,\n" +
                 "            assignments: null,\n" +
-                "            pattern: null\n" +
+                "            pattern: null,\n" +
+                "            skip_lines_after_pattern: null,\n" +
+                "            total_columns: null\n" +
                 "        }\n" +
                 "    },\n" +
                 "    metadata_parser_type: null,\n" +

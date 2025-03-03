@@ -31,12 +31,12 @@ class Json2JsonTest {
 
         // Get the parser mappings
         ImportParserMappings parserMappings = mappings.getMetadata();
-        System.out.println("Path in ImportParserMappings.getPath(): " + parserMappings.getPath());
+        System.out.println("Path in ImportParserMappings.getPath(): " + parserMappings.getPaths());
 
         // Verify path is not empty
-        assertNotNull(parserMappings.getPath(), "Path should not be null");
-        assertFalse(parserMappings.getPath().isEmpty(), "Path should not be empty");
-        assertEquals("kopfdaten", parserMappings.getPath().getFirst(), "Path should contain 'kopfdaten'");
+        assertNotNull(parserMappings.getPaths(), "Path should not be null");
+        assertFalse(parserMappings.getPaths().isEmpty(), "Path should not be empty");
+        assertEquals("kopfdaten", parserMappings.getPaths().getFirst(), "Path should contain 'kopfdaten'");
     }
 
     /**
