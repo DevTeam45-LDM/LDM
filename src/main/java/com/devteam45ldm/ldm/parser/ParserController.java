@@ -5,6 +5,7 @@ import com.devteam45ldm.ldm.parser.templates.exportDataStructures.ExportedData;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportParserMappings;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportedData;
 import com.devteam45ldm.ldm.parser.types.Csv2Json;
+import com.devteam45ldm.ldm.parser.types.Custom2Json;
 import com.devteam45ldm.ldm.parser.types.Json2Json;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate;
 import com.devteam45ldm.ldm.parser.types.Xml2Json;
@@ -53,7 +54,7 @@ public abstract class ParserController {
                 importedData.metadata(Csv2Json.parse(data, importCSVParserMappings));
                 return importedData;
             default:
-                return null; //TODO: Use custom parser;
+                return Custom2Json.parser(data, importTemplate);
         }
     }
 
