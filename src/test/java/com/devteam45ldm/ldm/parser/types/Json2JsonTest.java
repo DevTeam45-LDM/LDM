@@ -22,15 +22,15 @@ class Json2JsonTest {
         // Create path and mapping
         ArrayList<String> metadataPath = new ArrayList<>();
         metadataPath.add("kopfdaten");
-
-        ImportMappings mappings = new ImportMappings().metadata(metadataPath);
+        ImportParserMappings importParserMappings = new ImportParserMappings().path(metadataPath);
+        ImportMappings mappings = new ImportMappings().metadata(importParserMappings);
 
         // Debug output
         System.out.println("Original path: " + metadataPath);
         System.out.println("Path in ImportMappings.getMetadata(): " + mappings.getMetadata());
 
         // Get the parser mappings
-        ImportParserMappings parserMappings = mappings.getMetadataMappings();
+        ImportParserMappings parserMappings = mappings.getMetadata();
         System.out.println("Path in ImportParserMappings.getPath(): " + parserMappings.getPath());
 
         // Verify path is not empty
@@ -50,14 +50,14 @@ class Json2JsonTest {
 
         ArrayList<String> metadataPath = new ArrayList<>();
         metadataPath.add("kopfdaten");
-
+        ImportParserMappings importParserMappings = new ImportParserMappings().path(metadataPath);
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().metadata(metadataPath));
+                .mappings(new ImportMappings().metadata(importParserMappings));
 
-        ImportParserMappings importParserMappings = template.getMappings().getMetadataMappings();
+        ImportParserMappings importParserMappings2 = template.getMappings().getMetadata();
 
-        String result = Json2Json.parse(json, importParserMappings);
+        String result = Json2Json.parse(json, importParserMappings2);
 
         if (debug) {
             System.out.println(result);
@@ -78,14 +78,14 @@ class Json2JsonTest {
 
         ArrayList<String> dataPath = new ArrayList<>();
         dataPath.add("messwerte");
-
+        ImportParserMappings importParserMappings = new ImportParserMappings().path(dataPath);
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().data(dataPath));
+                .mappings(new ImportMappings().data(importParserMappings));
 
-        ImportParserMappings importParserMappings = template.getMappings().getDataMappings();
+        ImportParserMappings importParserMappings2 = template.getMappings().getData();
 
-        String result = Json2Json.parse(json, importParserMappings);
+        String result = Json2Json.parse(json, importParserMappings2);
 
         if (debug) {
             System.out.println(result);
@@ -106,14 +106,14 @@ class Json2JsonTest {
 
         ArrayList<String> metadataPath = new ArrayList<>();
         metadataPath.add("kopfdaten.details");
-
+        ImportParserMappings importParserMappings = new ImportParserMappings().path(metadataPath);
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().metadata(metadataPath));
+                .mappings(new ImportMappings().metadata(importParserMappings));
 
-        ImportParserMappings importParserMappings = template.getMappings().getMetadataMappings();
+        ImportParserMappings importParserMappings2 = template.getMappings().getMetadata();
 
-        String result = Json2Json.parse(json, importParserMappings);
+        String result = Json2Json.parse(json, importParserMappings2);
 
         if (debug) {
             System.out.println(result);
@@ -134,14 +134,14 @@ class Json2JsonTest {
 
         ArrayList<String> metadataPath = new ArrayList<>();
         metadataPath.add("kopfdaten.details.spezifikationen");
-
+        ImportParserMappings importParserMappings = new ImportParserMappings().path(metadataPath);
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().metadata(metadataPath));
+                .mappings(new ImportMappings().metadata(importParserMappings));
 
-        ImportParserMappings importParserMappings = template.getMappings().getMetadataMappings();
+        ImportParserMappings importParserMappings2 = template.getMappings().getMetadata();
 
-        String result = Json2Json.parse(json, importParserMappings);
+        String result = Json2Json.parse(json, importParserMappings2);
 
         if (debug) {
             System.out.println(result);
@@ -162,14 +162,14 @@ class Json2JsonTest {
 
         ArrayList<String> dataPath = new ArrayList<>();
         dataPath.add("kopfdaten.details.spezifikationen");
-
+        ImportParserMappings importParserMappings = new ImportParserMappings().path(dataPath);
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().data(dataPath));
+                .mappings(new ImportMappings().data(importParserMappings));
 
-        ImportParserMappings importParserMappings = template.getMappings().getDataMappings();
+        ImportParserMappings importParserMappings2 = template.getMappings().getData();
 
-        String result = Json2Json.parse(json, importParserMappings);
+        String result = Json2Json.parse(json, importParserMappings2);
 
         if (debug) {
             System.out.println(result);
@@ -191,14 +191,14 @@ class Json2JsonTest {
         ArrayList<String> metadataPath = new ArrayList<>();
         metadataPath.add("kopfdaten.details");
         metadataPath.add("kopfdaten.details.spezifikationen");
-
+        ImportParserMappings importParserMappings = new ImportParserMappings().path(metadataPath);
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().metadata(metadataPath));
+                .mappings(new ImportMappings().metadata(importParserMappings));
 
-        ImportParserMappings importParserMappings = template.getMappings().getMetadataMappings();
+        ImportParserMappings importParserMappings2 = template.getMappings().getMetadata();
 
-        String result = Json2Json.parse(json, importParserMappings);
+        String result = Json2Json.parse(json, importParserMappings2);
 
         if (debug) {
             System.out.println(result);
@@ -219,14 +219,14 @@ class Json2JsonTest {
 
         ArrayList<String> dataPath = new ArrayList<>();
         dataPath.add("nonexistent.path");
-
+        ImportParserMappings importParserMappings = new ImportParserMappings().path(dataPath);
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().data(dataPath));
+                .mappings(new ImportMappings().data(importParserMappings));
 
-        ImportParserMappings importParserMappings = template.getMappings().getDataMappings();
+        ImportParserMappings importParserMappings2 = template.getMappings().getData();
 
-        String result = Json2Json.parse(json, importParserMappings);
+        String result = Json2Json.parse(json, importParserMappings2);
 
         if (debug) {
             System.out.println(result);
@@ -244,14 +244,14 @@ class Json2JsonTest {
         String json = "{ \"kopfdaten\": { \"maschine\": \"test\" } }";
 
         ArrayList<String> emptyPaths = new ArrayList<>();
-
+        ImportParserMappings importParserMappings = new ImportParserMappings().path(emptyPaths);
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().data(emptyPaths));
+                .mappings(new ImportMappings().data(importParserMappings));
 
-        ImportParserMappings importParserMappings = template.getMappings().getDataMappings();
+        ImportParserMappings importParserMappings2 = template.getMappings().getData();
 
-        assertThrows(JSONException.class, () -> Json2Json.parse(json, importParserMappings));
+        assertThrows(JSONException.class, () -> Json2Json.parse(json, importParserMappings2));
     }
 
     /**
@@ -263,14 +263,14 @@ class Json2JsonTest {
 
         ArrayList<String> dataPath = new ArrayList<>();
         dataPath.add("kopfdaten");
-
+        ImportParserMappings importParserMappings = new ImportParserMappings().path(dataPath);
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().data(dataPath));
+                .mappings(new ImportMappings().data(importParserMappings));
 
-        ImportParserMappings importParserMappings = template.getMappings().getDataMappings();
+        ImportParserMappings importParserMappings2 = template.getMappings().getData();
 
-        assertThrows(JSONException.class, () -> Json2Json.parse(invalidJson, importParserMappings));
+        assertThrows(JSONException.class, () -> Json2Json.parse(invalidJson, importParserMappings2));
     }
 
     /**
@@ -286,18 +286,19 @@ class Json2JsonTest {
         metadataPath.add("kopfdaten");
         ArrayList<String> dataPath = new ArrayList<>();
         dataPath.add("messwerte");
-
+        ImportParserMappings metadataMappings = new ImportParserMappings().path(metadataPath);
+        ImportParserMappings dataMappings = new ImportParserMappings().path(dataPath);
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().metadata(metadataPath).data(dataPath));
+                .mappings(new ImportMappings().metadata(metadataMappings).data(dataMappings));
 
-        ImportParserMappings metadataMappings = template.getMappings().getMetadataMappings();
-        ImportParserMappings dataMappings = template.getMappings().getDataMappings();
+        ImportParserMappings metadataMappings2 = template.getMappings().getMetadata();
+        ImportParserMappings dataMappings2 = template.getMappings().getData();
 
         // Create ImportedData by combining results from parse calls
         ImportedData importedData = new ImportedData()
-                .metadata(Json2Json.parse(json, metadataMappings))
-                .data(Json2Json.parse(json, dataMappings));
+                .metadata(Json2Json.parse(json, metadataMappings2))
+                .data(Json2Json.parse(json, dataMappings2));
 
         JSONObject expectedMetadata = new JSONObject("{\"kopfdaten\":{\"maschine\":\"test\",\"hersteller\":\"vw\"}}");
         JSONObject expectedData = new JSONObject("{\"messwerte\":{\"wert1\":\"1test\",\"wert2\":2,\"wert3\":\"3test\",\"wert4\":4,\"wert5\":5,\"wert6\":\"6test\"}}");

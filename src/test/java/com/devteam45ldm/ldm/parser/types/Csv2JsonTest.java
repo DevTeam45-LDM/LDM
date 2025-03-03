@@ -19,13 +19,13 @@ class Csv2JsonTest {
     @Test
     void parse_validCsvWithMetadataSeparator_returnsCorrectJson() throws Exception {
         String csv = "name,age,city\nJohn,30,New York\nJane,25,Los Angeles";
-
+        ImportParserMappings importParserMappings = new ImportParserMappings().delimiter(",").hasHeadline(true);
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().metadataDelimiter(",").metadataHasHeadline(true));  // Changed from .data to .mappings
-        ImportParserMappings importParserMappings = template.getMappings().getMetadataMappings();
+                .mappings(new ImportMappings().metadata(importParserMappings));  // Changed from .data to .mappings
+        ImportParserMappings importParserMappings2 = template.getMappings().getMetadata();
 
-        String result = Csv2Json.parse(csv, importParserMappings);
+        String result = Csv2Json.parse(csv, importParserMappings2);
 
         if (debug) {
             System.out.println(result);
@@ -48,14 +48,14 @@ class Csv2JsonTest {
     @Test
     void parse_validCsvWithDataSeparator_returnsCorrectJson() throws Exception {
         String csv = "name;age;city\nJohn;30;New York\nJane;25;Los Angeles";
-
+        ImportParserMappings importParserMappings = new ImportParserMappings().delimiter(";").hasHeadline(true);
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().metadataDelimiter(";").metadataHasHeadline(true));
+                .mappings(new ImportMappings().metadata(importParserMappings));
 
-        ImportParserMappings importParserMappings = template.getMappings().getMetadataMappings();
+        ImportParserMappings importParserMappings2 = template.getMappings().getMetadata();
 
-        String result = Csv2Json.parse(csv, importParserMappings);
+        String result = Csv2Json.parse(csv, importParserMappings2);
 
         if (debug) {
             System.out.println(result);
@@ -78,25 +78,27 @@ class Csv2JsonTest {
     @Test
     void parse_emptyCSV_throwsException() throws Exception {
         String csv = "";
+        ImportParserMappings importParserMappings = new ImportParserMappings().delimiter(",");
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().dataDelimiter(","));
+                .mappings(new ImportMappings().data(importParserMappings));
 
-        ImportParserMappings importParserMappings = template.getMappings().getDataMappings();
+        ImportParserMappings importParserMappings2 = template.getMappings().getData();
 
-        assertThrows(JSONException.class, () -> Csv2Json.parse(csv, importParserMappings));
+        assertThrows(JSONException.class, () -> Csv2Json.parse(csv, importParserMappings2));
     }
 
     @Test
     void parse_csvWithOnlyHeaders_returnsEmptyArray() throws Exception {
         String csv = "name,age,city";
+        ImportParserMappings importParserMappings = new ImportParserMappings().delimiter(",").hasHeadline(true);
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().dataDelimiter(",").dataHasHeadline(true));
+                .mappings(new ImportMappings().data(importParserMappings));
 
-        ImportParserMappings importParserMappings = template.getMappings().getDataMappings();
+        ImportParserMappings importParserMappings2 = template.getMappings().getData();
 
-        String result = Csv2Json.parse(csv, importParserMappings);
+        String result = Csv2Json.parse(csv, importParserMappings2);
 
         if (debug) {
             System.out.println(result);
@@ -109,12 +111,13 @@ class Csv2JsonTest {
     @Test
     void parse_csvWithDefaultSeparator_throwsNoException() throws Exception{
         String csv = "name,age,city\nJohn,30,New York";
+        ImportParserMappings importParserMappings = new ImportParserMappings().delimiter(",").hasHeadline(true);
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().metadataDelimiter(",").metadataHasHeadline(true));
+                .mappings(new ImportMappings().metadata(importParserMappings));
         ImportedData expectedImportedData = new ImportedData().metadata("[{\"name\":\"John\",\"age\":\"30\",\"city\":\"New York\"}]");
 
-        ImportParserMappings importParserMappings = template.getMappings().getMetadataMappings();
+        ImportParserMappings importParserMappings2 = template.getMappings().getMetadata();
 
         ImportedData importedData = new ImportedData();
         importedData.metadata(Csv2Json.parse(csv, importParserMappings));
@@ -125,15 +128,16 @@ class Csv2JsonTest {
     @Test
     void parse_csvWithDefaultSeparatorAndNoHeadline_throwsNoException() throws Exception{
         String csv = "John,30,New York";
+        ImportParserMappings importParserMappings = new ImportParserMappings().delimiter(",").hasHeadline(false);
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().metadataDelimiter(",").metadataHasHeadline(false));
+                .mappings(new ImportMappings().metadata(importParserMappings));
         ImportedData expectedImportedData = new ImportedData().metadata("[{\"column1\":\"John\",\"column2\":\"30\",\"column3\":\"New York\"}]");
 
-        ImportParserMappings importParserMappings = template.getMappings().getMetadataMappings();
+        ImportParserMappings importParserMappings2 = template.getMappings().getMetadata();
 
         ImportedData importedData = new ImportedData();
-        importedData.metadata(Csv2Json.parse(csv, importParserMappings));
+        importedData.metadata(Csv2Json.parse(csv, importParserMappings2));
 
         assertEquals(expectedImportedData,importedData);
     }
@@ -141,13 +145,14 @@ class Csv2JsonTest {
     @Test
     void parse_csvWithFewerValuesThanHeaders_handlesGracefully() throws Exception {
         String csv = "name,age,city\nJohn,30";
+        ImportParserMappings importParserMappings = new ImportParserMappings().delimiter(",").hasHeadline(true);
         ImportTemplate template = new ImportTemplate()
                 .metadata(new Metadata())
-                .mappings(new ImportMappings().metadataDelimiter(",").metadataHasHeadline(true));
+                .mappings(new ImportMappings().metadata(importParserMappings));
 
-        ImportParserMappings importParserMappings = template.getMappings().getMetadataMappings();
+        ImportParserMappings importParserMappings2 = template.getMappings().getMetadata();
 
-        String result = Csv2Json.parse(csv, importParserMappings);
+        String result = Csv2Json.parse(csv, importParserMappings2);
         if (debug) {
             System.out.println(result);
         }

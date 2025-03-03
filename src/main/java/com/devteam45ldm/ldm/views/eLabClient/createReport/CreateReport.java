@@ -295,16 +295,16 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
 
                 InputStream fileInputStream = new ByteArrayInputStream(fileBytes);
 
-                // Read XML content
-                String xmlContent = new BufferedReader(new InputStreamReader(fileInputStream))
-                        .lines()
-                        .collect(Collectors.joining("\n"));
-                JSONObject json = Xml2Json.parse(xmlContent);
-                jsonObject = json;
-                Notification.show("XML file processed successfully.");
-
-                String editorContent = Json2ELab.convertJsonToHtml(json) + "<br>";
-                classicEditor.setValue(editorContent);
+//                // Read XML content
+//                String xmlContent = new BufferedReader(new InputStreamReader(fileInputStream))
+//                        .lines()
+//                        .collect(Collectors.joining("\n"));
+//                JSONObject json = Xml2Json.parse(xmlContent);
+//                jsonObject = json;
+//                Notification.show("XML file processed successfully.");
+//
+//                String editorContent = Json2ELab.convertJsonToHtml(json) + "<br>";
+//                classicEditor.setValue(editorContent);
 
 
             } catch (Exception e) {

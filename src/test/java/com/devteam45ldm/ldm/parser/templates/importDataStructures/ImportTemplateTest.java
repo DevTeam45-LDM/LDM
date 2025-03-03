@@ -147,19 +147,56 @@ class ImportTemplateTest {
                 "    },\n" +
                 "    mappings: {\n" +
                 "        metadata: null,\n" +
-                "        metadata_has_headline: null,\n" +
-                "        metadata_delimiter: null,\n" +
-                "        metadata_pattern: null,\n" +
-                "        metadata_line_starter: null,\n" +
-                "        metadata_terminator: null,\n" +
-                "        metadata_assignments: null,\n" +
-                "        data: null,\n" +
-                "        data_has_headline: null,\n" +
-                "        data_delimiter: null,\n" +
-                "        data_pattern: null,\n" +
-                "        data_line_starter: null,\n" +
-                "        data_terminator: null,\n" +
-                "        data_assignments: null\n" +
+                "        data: null\n" +
+                "    },\n" +
+                "    metadata_parser_type: null,\n" +
+                "    data_parser_type: null\n" +
+                "}";
+        assertEquals(expected, importTemplate.toString());
+    }
+
+    /**
+     * Tests if toString method returns the correct string representation of the object.
+     */
+    @Test
+    void toString_returnsCorrectStringRepresentationWithParserMappings() {
+        ImportTemplate importTemplate = new ImportTemplate();
+        Metadata metadata = new Metadata();
+        ImportMappings importMappings = new ImportMappings();
+        ImportParserMappings metadataMappings = new ImportParserMappings();
+        ImportParserMappings dataMappings = new ImportParserMappings();
+        importMappings.setMetadata(metadataMappings);
+        importMappings.setData(dataMappings);
+        importTemplate.setMetadata(metadata);
+        importTemplate.setMappings(importMappings);
+        String expected = "{\n" +
+                "    metadata: {\n" +
+                "        version: null,\n" +
+                "        created_by: null,\n" +
+                "        created_at: null,\n" +
+                "        last_modified_by: null,\n" +
+                "        last_modified_at: null,\n" +
+                "        parser_type: null\n" +
+                "    },\n" +
+                "    mappings: {\n" +
+                "        metadata: {\n" +
+                "            path: null,\n" +
+                "            has_headline: null,\n" +
+                "            line_starter: null,\n" +
+                "            delimiter: null,\n" +
+                "            terminator: null,\n" +
+                "            assignments: null,\n" +
+                "            pattern: null\n" +
+                "        },\n" +
+                "        data: {\n" +
+                "            path: null,\n" +
+                "            has_headline: null,\n" +
+                "            line_starter: null,\n" +
+                "            delimiter: null,\n" +
+                "            terminator: null,\n" +
+                "            assignments: null,\n" +
+                "            pattern: null\n" +
+                "        }\n" +
                 "    },\n" +
                 "    metadata_parser_type: null,\n" +
                 "    data_parser_type: null\n" +

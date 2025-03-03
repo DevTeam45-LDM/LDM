@@ -263,9 +263,7 @@ class Xml2JsonTest {
         paths.add("root.metadata");
 
         // Create mock ImportParserMappings
-        ImportParserMappings mappings = new ImportParserMappings(
-                paths, null, null, null, null, null, null
-        );
+        ImportParserMappings mappings = new ImportParserMappings().path(paths);
 
         // Test the parse method with path mappings
         String result = Xml2Json.parse(xml, mappings);
@@ -308,9 +306,7 @@ class Xml2JsonTest {
         paths.add("root.section2");
 
         // Create mock ImportParserMappings
-        ImportParserMappings mappings = new ImportParserMappings(
-                paths, null, null, null, null, null, null
-        );
+        ImportParserMappings mappings = new ImportParserMappings().path(paths);
 
         // Test the parse method with multiple paths
         String result = Xml2Json.parse(xml, mappings);

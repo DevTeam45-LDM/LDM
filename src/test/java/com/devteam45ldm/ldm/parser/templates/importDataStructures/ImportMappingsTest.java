@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,11 +16,11 @@ class ImportMappingsTest {
     @Test
     void metadata_getAndSet() {
         ImportMappings importMappings = new ImportMappings();
-        ArrayList<String> metadata = new ArrayList<>();
-        metadata.add("metadata");
+        ImportParserMappings metadata = new ImportParserMappings();
+        metadata.setPath(new ArrayList<>(List.of("metadata")));
         importMappings.setMetadata(metadata);
-        assertEquals("metadata", importMappings.getMetadata().getFirst());
-        assertEquals("[metadata]", importMappings.getMetadata().toString());
+        assertEquals("metadata", importMappings.getMetadata().getPath().get(0));
+        assertEquals("[metadata]", importMappings.getMetadata().getPath().toString());
     }
 
     /**
@@ -28,31 +29,36 @@ class ImportMappingsTest {
     @Test
     void metadata_setsAndReturnsCorrectMetadata() {
         ImportMappings importMappings = new ImportMappings();
-        ArrayList<String> metadata = new ArrayList<>();
-        metadata.add("metadata1");
-        metadata.add("metadata2");
+        ImportParserMappings metadata = new ImportParserMappings();
+        metadata.setPath(new ArrayList<>(List.of("metadata1", "metadata2")));
+        importMappings.setMetadata(metadata);
         assertEquals(importMappings, importMappings.metadata(metadata));
-        assertEquals("[metadata1, metadata2]", importMappings.getMetadata().toString());
+        assertEquals("[metadata1, metadata2]", importMappings.getMetadata().getPath().toString());
     }
 
     /**
-     * Tests if getter and setter of metadataSeparator is working.
+     * Tests if getter and setter of metadataDelimiter is working.
      */
     @Test
     void metadataDelimiter_getAndSet() {
         ImportMappings importMappings = new ImportMappings();
-        importMappings.setMetadataDelimiter(",");
-        assertEquals(",", importMappings.getMetadataDelimiter());
+        ImportParserMappings metadata = new ImportParserMappings();
+        metadata.setDelimiter(",");
+        importMappings.setMetadata(metadata);
+        assertEquals(",", importMappings.getMetadata().getDelimiter());
     }
 
     /**
-     * Tests if metadataSeparator() sets and returns the correct metadata separator.
+     * Tests if metadataDelimiter() sets and returns the correct metadata delimiter.
      */
     @Test
-    void metadataSeparator_setsAndReturnsCorrectMetadataDelimiter() {
+    void metadataDelimiter_setsAndReturnsCorrectMetadataDelimiter() {
         ImportMappings importMappings = new ImportMappings();
-        assertEquals(importMappings, importMappings.metadataDelimiter(","));
-        assertEquals(",", importMappings.getMetadataDelimiter());
+        ImportParserMappings metadata = new ImportParserMappings();
+        metadata.setDelimiter(",");
+        importMappings.setMetadata(metadata);
+        assertEquals(importMappings, importMappings.metadata(metadata));
+        assertEquals(",", importMappings.getMetadata().getDelimiter());
     }
 
     /**
@@ -61,9 +67,11 @@ class ImportMappingsTest {
     @Test
     void metadataPattern_getAndSet() {
         ImportMappings importMappings = new ImportMappings();
+        ImportParserMappings metadata = new ImportParserMappings();
         Pattern pattern = Pattern.compile(".*");
-        importMappings.setMetadataPattern(pattern);
-        assertEquals(pattern, importMappings.getMetadataPattern());
+        metadata.setPattern(pattern);
+        importMappings.setMetadata(metadata);
+        assertEquals(pattern, importMappings.getMetadata().getPattern());
     }
 
     /**
@@ -72,9 +80,12 @@ class ImportMappingsTest {
     @Test
     void metadataPattern_setsAndReturnsCorrectMetadataPattern() {
         ImportMappings importMappings = new ImportMappings();
+        ImportParserMappings metadata = new ImportParserMappings();
         Pattern pattern = Pattern.compile(".*");
-        assertEquals(importMappings, importMappings.metadataPattern(pattern));
-        assertEquals(pattern, importMappings.getMetadataPattern());
+        metadata.setPattern(pattern);
+        importMappings.setMetadata(metadata);
+        assertEquals(importMappings, importMappings.metadata(metadata));
+        assertEquals(pattern, importMappings.getMetadata().getPattern());
     }
 
     /**
@@ -83,11 +94,11 @@ class ImportMappingsTest {
     @Test
     void data_getAndSet() {
         ImportMappings importMappings = new ImportMappings();
-        ArrayList<String> data = new ArrayList<>();
-        data.add("new_data");
+        ImportParserMappings data = new ImportParserMappings();
+        data.setPath(new ArrayList<>(List.of("new_data")));
         importMappings.setData(data);
-        assertEquals("new_data", importMappings.getData().getFirst());
-        assertEquals("[new_data]", importMappings.getData().toString());
+        assertEquals("new_data", importMappings.getData().getPath().get(0));
+        assertEquals("[new_data]", importMappings.getData().getPath().toString());
     }
 
     /**
@@ -96,31 +107,36 @@ class ImportMappingsTest {
     @Test
     void data_setsAndReturnsCorrectData() {
         ImportMappings importMappings = new ImportMappings();
-        ArrayList<String> data = new ArrayList<>();
-        data.add("data");
-        data.add("data2");
+        ImportParserMappings data = new ImportParserMappings();
+        data.setPath(new ArrayList<>(List.of("data", "data2")));
+        importMappings.setData(data);
         assertEquals(importMappings, importMappings.data(data));
-        assertEquals("[data, data2]", importMappings.getData().toString());
+        assertEquals("[data, data2]", importMappings.getData().getPath().toString());
     }
 
     /**
-     * Tests if getter and setter of dataSeparator is working.
+     * Tests if getter and setter of dataDelimiter is working.
      */
     @Test
     void dataDelimiter_getAndSet() {
         ImportMappings importMappings = new ImportMappings();
-        importMappings.setDataDelimiter(",");
-        assertEquals(",", importMappings.getDataDelimiter());
+        ImportParserMappings data = new ImportParserMappings();
+        data.setDelimiter(",");
+        importMappings.setData(data);
+        assertEquals(",", importMappings.getData().getDelimiter());
     }
 
     /**
-     * Tests if dataSeparator() sets and returns the correct data separator.
+     * Tests if dataDelimiter() sets and returns the correct data delimiter.
      */
     @Test
-    void dataSeparator_setsAndReturnsCorrectDataDelimiter() {
+    void dataDelimiter_setsAndReturnsCorrectDataDelimiter() {
         ImportMappings importMappings = new ImportMappings();
-        assertEquals(importMappings, importMappings.dataDelimiter(";"));
-        assertEquals(";", importMappings.getDataDelimiter());
+        ImportParserMappings data = new ImportParserMappings();
+        data.setDelimiter(";");
+        importMappings.setData(data);
+        assertEquals(importMappings, importMappings.data(data));
+        assertEquals(";", importMappings.getData().getDelimiter());
     }
 
     /**
@@ -129,9 +145,11 @@ class ImportMappingsTest {
     @Test
     void dataPattern_getAndSet() {
         ImportMappings importMappings = new ImportMappings();
+        ImportParserMappings data = new ImportParserMappings();
         Pattern pattern = Pattern.compile(".*");
-        importMappings.setDataPattern(pattern);
-        assertEquals(pattern, importMappings.getDataPattern());
+        data.setPattern(pattern);
+        importMappings.setData(data);
+        assertEquals(pattern, importMappings.getData().getPattern());
     }
 
     /**
@@ -140,9 +158,12 @@ class ImportMappingsTest {
     @Test
     void dataPattern_setsAndReturnsCorrectDataPattern() {
         ImportMappings importMappings = new ImportMappings();
+        ImportParserMappings data = new ImportParserMappings();
         Pattern pattern = Pattern.compile(".*");
-        assertEquals(importMappings, importMappings.dataPattern(pattern));
-        assertEquals(pattern, importMappings.getDataPattern());
+        data.setPattern(pattern);
+        importMappings.setData(data);
+        assertEquals(importMappings, importMappings.data(data));
+        assertEquals(pattern, importMappings.getData().getPattern());
     }
 
     /**
@@ -159,7 +180,10 @@ class ImportMappingsTest {
      */
     @Test
     void equals_differentObject_returnsFalse() {
-        ImportMappings importMappings1 = new ImportMappings().dataDelimiter(";");
+        ImportMappings importMappings1 = new ImportMappings();
+        ImportParserMappings data = new ImportParserMappings();
+        data.setDelimiter(";");
+        importMappings1.setData(data);
         ImportMappings importMappings2 = new ImportMappings();
         assertFalse(importMappings1.equals(importMappings2));
     }
@@ -170,10 +194,10 @@ class ImportMappingsTest {
     @Test
     void equals_sameValues_returnsTrue() {
         ImportMappings importMappings1 = new ImportMappings();
-        ArrayList<String> metadata = new ArrayList<>();
-        metadata.add("metadata");
-        ArrayList<String> data = new ArrayList<>();
-        data.add("data");
+        ImportParserMappings metadata = new ImportParserMappings();
+        metadata.setPath(new ArrayList<>(List.of("metadata")));
+        ImportParserMappings data = new ImportParserMappings();
+        data.setPath(new ArrayList<>(List.of("data")));
         importMappings1.setMetadata(metadata);
         importMappings1.setData(data);
 
@@ -199,27 +223,15 @@ class ImportMappingsTest {
     @Test
     void toString_returnsCorrectStringRepresentation() {
         ImportMappings importMappings = new ImportMappings();
-        ArrayList<String> metadata = new ArrayList<>();
-        metadata.add("metadata");
-        ArrayList<String> data = new ArrayList<>();
-        data.add("data");
+        ImportParserMappings metadata = new ImportParserMappings();
+        metadata.setPath(new ArrayList<>(List.of("metadata")));
+        ImportParserMappings data = new ImportParserMappings();
+        data.setPath(new ArrayList<>(List.of("data")));
         importMappings.setMetadata(metadata);
         importMappings.setData(data);
         String expected = "{\n" +
                 "    metadata: " + toIndentedString(metadata) + ",\n" +
-                "    metadata_has_headline: " + toIndentedString(importMappings.getMetadataHasHeadline()) + ",\n" +
-                "    metadata_delimiter: " + toIndentedString(importMappings.getMetadataDelimiter()) + ",\n" +
-                "    metadata_pattern: " + toIndentedString(importMappings.getMetadataPattern()) + ",\n" +
-                "    metadata_line_starter: " + toIndentedString(importMappings.getMetadataLineStarter()) + ",\n" +
-                "    metadata_terminator: " + toIndentedString(importMappings.getMetadataTerminator()) + ",\n" +
-                "    metadata_assignments: " + toIndentedString(importMappings.getMetadataAssignments()) + ",\n" +
-                "    data: " + toIndentedString(data) + ",\n" +
-                "    data_has_headline: " + toIndentedString(importMappings.getDataHasHeadline()) + ",\n" +
-                "    data_delimiter: " + toIndentedString(importMappings.getDataDelimiter()) + ",\n" +
-                "    data_pattern: " + toIndentedString(importMappings.getDataPattern()) + ",\n" +
-                "    data_line_starter: " + toIndentedString(importMappings.getDataLineStarter()) + ",\n" +
-                "    data_terminator: " + toIndentedString(importMappings.getDataTerminator()) + ",\n" +
-                "    data_assignments: " + toIndentedString(importMappings.getDataAssignments()) + "\n" +
+                "    data: " + toIndentedString(data) + "\n" +
                 "}";
         assertEquals(expected, importMappings.toString());
     }
@@ -236,15 +248,15 @@ class ImportMappingsTest {
      */
     @Test
     void fromJsonString_createsImportMappingsObject() throws Exception {
-        String json = "{ \"metadata\": [\"metadata_value\"], \"data\": [\"data_value\"] }";
+        String json = "{ \"metadata\": { \"path\": [\"metadata_value\"] }, \"data\": { \"path\": [\"data_value\"] } }";
         ObjectMapper objectMapper = new ObjectMapper();
         ImportMappings importMappings;
         importMappings = objectMapper.readValue(json, ImportMappings.class);
 
-        assertEquals("[metadata_value]", importMappings.getMetadata().toString());
-        assertEquals("[data_value]", importMappings.getData().toString());
-        assertEquals("metadata_value", importMappings.getMetadata().getFirst());
-        assertEquals("data_value", importMappings.getData().getFirst());
+        assertEquals("[metadata_value]", importMappings.getMetadata().getPath().toString());
+        assertEquals("[data_value]", importMappings.getData().getPath().toString());
+        assertEquals("metadata_value", importMappings.getMetadata().getPath().get(0));
+        assertEquals("data_value", importMappings.getData().getPath().get(0));
     }
 
     /**
@@ -252,13 +264,13 @@ class ImportMappingsTest {
      */
     @Test
     void fromJsonString_missingFields_createsImportMappingsObjectWithNulls() throws Exception {
-        String json = "{ \"metadata\": [\"metadata_value\"] }";
+        String json = "{ \"metadata\": { \"path\": [\"metadata_value\"] } }";
         ObjectMapper objectMapper = new ObjectMapper();
         ImportMappings importMappings;
         importMappings = objectMapper.readValue(json, ImportMappings.class);
 
-        assertEquals("metadata_value", importMappings.getMetadata().getFirst());
-        assertEquals("[metadata_value]", importMappings.getMetadata().toString());
+        assertEquals("metadata_value", importMappings.getMetadata().getPath().get(0));
+        assertEquals("[metadata_value]", importMappings.getMetadata().getPath().toString());
         assertNull(importMappings.getData());
     }
 
@@ -267,7 +279,7 @@ class ImportMappingsTest {
      */
     @Test
     void fromJsonString_invalidJson_throwsException() {
-        String json = "{ \"metadata\": [\"metadata_value\"], ";
+        String json = "{ \"metadata\": { \"path\": [\"metadata_value\"] }, ";
         ObjectMapper objectMapper = new ObjectMapper();
         assertThrows(Exception.class, () -> objectMapper.readValue(json, ImportMappings.class));
     }
