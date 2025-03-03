@@ -10,7 +10,7 @@ public class Custom2Json {
         this.importTemplate = importTemplate;
     }
 
-    public String convert(String custom) {
+    public String parser(String custom, ImportTemplate importTemplate) {
         // Implement custom format to JSON conversion logic
         return importTemplate.toJson();
     }
