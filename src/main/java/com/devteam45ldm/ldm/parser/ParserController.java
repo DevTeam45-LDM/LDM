@@ -30,26 +30,26 @@ public abstract class ParserController {
         switch (importTemplate.getMetadata().getParserType()) {
             case ParserType.JSON: //TODO: Implement JSON2JSON like CSV2JSON
                 // Parse data
-                ImportParserMappings importJSONParserMappings = importTemplate.getMappings().getDataMappings();
+                ImportParserMappings importJSONParserMappings = importTemplate.getMappings().getData();
                 importedData.data(Json2Json.parse(data, importJSONParserMappings));
                 // Parse metadata
-                importJSONParserMappings = importTemplate.getMappings().getMetadataMappings();
+                importJSONParserMappings = importTemplate.getMappings().getMetadata();
                 importedData.metadata(Json2Json.parse(data, importJSONParserMappings));
                 return importedData;
             case ParserType.XML: //TODO: Implement XML2JSON like CSV2JSON
                 // Parse data
-                ImportParserMappings importXMLParserMappings = importTemplate.getMappings().getDataMappings();
+                ImportParserMappings importXMLParserMappings = importTemplate.getMappings().getData();
                 importedData.data(Xml2Json.parse(data, importXMLParserMappings));
                 // Parse metadata
-                importXMLParserMappings = importTemplate.getMappings().getMetadataMappings();
+                importXMLParserMappings = importTemplate.getMappings().getMetadata();
                 importedData.metadata(Xml2Json.parse(data, importXMLParserMappings));
                 return importedData;
             case ParserType.CSV:
                 //Parse data
-                ImportParserMappings importCSVParserMappings = importTemplate.getMappings().getDataMappings();
+                ImportParserMappings importCSVParserMappings = importTemplate.getMappings().getData();
                 importedData.data(Csv2Json.parse(data, importCSVParserMappings));
                 //Parse metadata
-                importCSVParserMappings = importTemplate.getMappings().getMetadataMappings();
+                importCSVParserMappings = importTemplate.getMappings().getMetadata();
                 importedData.metadata(Csv2Json.parse(data, importCSVParserMappings));
                 return importedData;
             default:
