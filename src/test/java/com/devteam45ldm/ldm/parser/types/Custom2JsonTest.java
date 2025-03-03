@@ -24,7 +24,7 @@ public class Custom2JsonTest {
                                                     .hasHeadline(false).delimiter(",")
                                                     .pattern(Pattern.compile("[Header]"))
                                                     .skipLinesAfterHeader(2) //TODO: Implement this
-                                                    .totalColumns(3); //TODO: Implement this
+                                                    .totalColumns(3); //TODO: Implement this: zu wenige Spalten: mit null auffüllen, wenn zu viele, in letzte Spalte ein Array von Werten mit den restlichen Spalten schreiben
 
         ImportParserMappings dataMappings = new ImportParserMappings()
                                                 .hasHeadline(true).delimiter(",")
