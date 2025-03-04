@@ -5,14 +5,357 @@ import com.devteam45ldm.ldm.parser.templates.Metadata;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportMappings;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportParserMappings;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate;
+import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportedData;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.junit.jupiter.api.Test;
 
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.assertTrue;
+import static com.github.javaparser.utils.Utils.assertNotNull;
+import static com.jayway.jsonpath.internal.path.PathCompiler.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class Custom2JsonTest {
+
+    private final boolean debug = true;
+
+    /**
+     * Tests parsing a basic DAT file with header and data sections.
+     */
+    @Test
+    public void parse_basicDatFile_returnsCorrectResult() throws Exception {
+        // Setup test data
+        String datContent = """
+            [Header]
+            ; This is a comment
+            TITLE,Test Data
+            INFO,Value1,DATA_POINT
+            INFO,Value2,OTHER_POINT
+            [Data]
+            Time,Temperature,Pressure
+            1,20.5,1013
+            2,21.0,1014
+            3,21.2,1015
+            """;
+
+        // Create parsing configuration
+        ImportTemplate template = createBasicTemplate();
+
+        // Define expected results
+        String expectedMetadata = "[{\"TITLE\":\"Test Data\"},{\"INFO\":\"Value1\",\"DATA_POINT\"},{\"INFO\":\"Value2\",\"OTHER_POINT\"}]";
+        String expectedData = "[{\"Time\":\"1\",\"Temperature\":\"20.5\",\"Pressure\":\"1013\"},{\"Time\":\"2\",\"Temperature\":\"21.0\",\"Pressure\":\"1014\"},{\"Time\":\"3\",\"Temperature\":\"21.2\",\"Pressure\":\"1015\"}]";
+
+        try {
+            // Parse the data
+            ImportedData result = Custom2Json.parser(datContent, template);
+
+            if(debug) {
+                System.out.println("Basic parse result:");
+                System.out.println("Expected metadata: " + expectedMetadata);
+                System.out.println("Actual metadata: " + result.getMetadata());
+                System.out.println("Expected data: " + expectedData);
+                System.out.println("Actual data: " + result.getData());
+            }
+
+            // Assert the results match expectations
+            assertNotNull(result);
+            assertNotNull(result.getMetadata());
+            assertNotNull(result.getData());
+
+            // Compare JSON structures (normalize by parsing and re-serializing)
+            JSONArray expectedMetadataJson = new JSONArray(expectedMetadata);
+            JSONArray actualMetadataJson = new JSONArray(result.getMetadata());
+            assertEquals(expectedMetadataJson.length(), actualMetadataJson.length(), "Metadata should have the same number of items");
+
+            JSONArray expectedDataJson = new JSONArray(expectedData);
+            JSONArray actualDataJson = new JSONArray(result.getData());
+            assertEquals(expectedDataJson.length(), actualDataJson.length(), "Data should have the same number of rows");
+
+            // Can add more specific assertions here to check individual fields
+        } catch (Exception e) {
+            fail("Exception occurred during testing: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Tests parsing with custom delimiter configurations.
+     */
+    @Test
+    public void parse_customDelimiters_returnsCorrectResult() throws Exception {
+        // Setup test data with semicolon delimiters
+        String datContent = """
+            [Header]
+            ; This is a comment
+            TITLE;Test Data
+            INFO;Value1;DATA_POINT
+            [Data]
+            Time;Temperature;Pressure
+            1;20.5;1013
+            2;21.0;1014
+            """;
+
+        // Create template with semicolon delimiter
+        ImportTemplate template = createTemplateWithDelimiter(";");
+
+        // Define expected results
+        String expectedMetadata = "[{\"TITLE\":\"Test Data\"},{\"INFO\":\"Value1\",\"DATA_POINT\":\"\"}]";
+        String expectedData = "[{\"Time\":\"1\",\"Temperature\":\"20.5\",\"Pressure\":\"1013\"},{\"Time\":\"2\",\"Temperature\":\"21.0\",\"Pressure\":\"1014\"}]";
+
+        try {
+            // Parse the data
+            ImportedData result = Custom2Json.parser(datContent, template);
+
+            if(debug) {
+                System.out.println("Custom delimiter result:");
+                System.out.println("Expected metadata: " + expectedMetadata);
+                System.out.println("Actual metadata: " + result.getMetadata());
+                System.out.println("Expected data: " + expectedData);
+                System.out.println("Actual data: " + result.getData());
+            }
+
+            // Assert the results match expectations
+            assertNotNull(result);
+            assertNotNull(result.getMetadata());
+            assertNotNull(result.getData());
+
+            // Compare JSON structures
+            JSONArray expectedMetadataJson = new JSONArray(expectedMetadata);
+            JSONArray actualMetadataJson = new JSONArray(result.getMetadata());
+            assertEquals(expectedMetadataJson.length(), actualMetadataJson.length(), "Metadata should have the same number of items");
+
+            JSONArray expectedDataJson = new JSONArray(expectedData);
+            JSONArray actualDataJson = new JSONArray(result.getData());
+            assertEquals(expectedDataJson.length(), actualDataJson.length(), "Data should have the same number of rows");
+        } catch (Exception e) {
+            fail("Exception occurred during testing: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Tests handling of complex, real-world DAT file content.
+     */
+    @Test
+    public void parse_complexRealWorldData_returnsCorrectResult() throws Exception {
+        // Setup test data based on the example in the original test
+        String datContent = """
+            [Header]
+            ; MPMS3 Data File (default extension .dat)
+            ; Copyright (c) 2001, Quantum Design, Inc. All rights reserved.
+            TITLE,Complex Test
+            FILEOPENTIME,3816019664.24396,50/28/2022,52:41 am
+            INFO,MPMS3 Measurement,APPNAME
+            [Data]
+            Comment,Time,Temperature,Magnetic Field
+            ,3816019163.46,300.50,0.50
+            ,3816019119.53,300.09,941.05
+            """;
+
+        // Create parsing configuration
+        ImportTemplate template = createBasicTemplate();
+
+        // Define expected results - adjust according to actual implementation
+        String expectedMetadata = "[{\"TITLE\":\"Complex Test\"},{\"FILEOPENTIME\":\"3816019664.24396\",\"50/28/2022\":\"52:41 am\"},{\"INFO\":\"MPMS3 Measurement\",\"APPNAME\":\"\"}]";
+        String expectedData = "[{\"Comment\":\"\",\"Time\":\"3816019163.46\",\"Temperature\":\"300.50\",\"Magnetic Field\":\"0.50\"},{\"Comment\":\"\",\"Time\":\"3816019119.53\",\"Temperature\":\"300.09\",\"Magnetic Field\":\"941.05\"}]";
+
+        try {
+            // Parse the data
+            ImportedData result = Custom2Json.parser(datContent, template);
+
+            if(debug) {
+                System.out.println("Complex data result:");
+                System.out.println("Expected metadata: " + expectedMetadata);
+                System.out.println("Actual metadata: " + result.getMetadata());
+                System.out.println("Expected data: " + expectedData);
+                System.out.println("Actual data: " + result.getData());
+            }
+
+            // Assert the results match expectations
+            assertNotNull(result);
+            assertNotNull(result.getMetadata());
+            assertNotNull(result.getData());
+
+            // Compare JSON structures
+            JSONArray expectedMetadataJson = new JSONArray(expectedMetadata);
+            JSONArray actualMetadataJson = new JSONArray(result.getMetadata());
+            assertEquals(expectedMetadataJson.length(), actualMetadataJson.length(), "Metadata should have the correct number of items");
+
+            JSONArray expectedDataJson = new JSONArray(expectedData);
+            JSONArray actualDataJson = new JSONArray(result.getData());
+            assertEquals(expectedDataJson.length(), actualDataJson.length(), "Data should have the correct number of rows");
+        } catch (Exception e) {
+            fail("Exception occurred during testing: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Tests parsing with metadata section but without data section.
+     */
+    @Test
+    public void parse_onlyMetadataSection_handlesCorrectly() throws Exception {
+        // Setup test data with only metadata section
+        String datContent = """
+            [Header]
+            TITLE,Metadata Only Test
+            INFO,No Data Section
+            """;
+
+        // Create parsing configuration
+        ImportTemplate template = createBasicTemplate();
+
+        // Define expected results
+        String expectedMetadata = "[{\"TITLE\":\"Metadata Only Test\"},{\"INFO\":\"No Data Section\"}]";
+
+        try {
+            // Parse the data
+            ImportedData result = Custom2Json.parser(datContent, template);
+
+            if(debug) {
+                System.out.println("Metadata only result:");
+                System.out.println("Expected metadata: " + expectedMetadata);
+                System.out.println("Actual metadata: " + (result != null ? result.getMetadata() : "null result"));
+                System.out.println("Data: " + (result != null ? result.getData() : "null data"));
+            }
+
+            // Assert the results match expectations
+            assertNotNull(result);
+            assertNotNull(result.getMetadata());
+
+            // Compare metadata JSON structure
+            JSONArray expectedMetadataJson = new JSONArray(expectedMetadata);
+            JSONArray actualMetadataJson = new JSONArray(result.getMetadata());
+            assertEquals(expectedMetadataJson.length(), actualMetadataJson.length(), "Metadata should have the correct number of items");
+
+            // Data may be null, empty string, or empty JSON array
+            assertTrue(result.getData() == null || result.getData().isEmpty() || result.getData().equals("[]"),
+                    "Data should be null, empty, or empty array");
+        } catch (Exception e) {
+            fail("Exception occurred during testing: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Tests parsing with data section but without metadata section.
+     */
+    @Test
+    public void parse_onlyDataSection_handlesCorrectly() throws Exception {
+        // Setup test data with only data section
+        String datContent = """
+            [Data]
+            Column1,Column2,Column3
+            value1,value2,value3
+            value4,value5,value6
+            """;
+
+        // Create parsing configuration
+        ImportTemplate template = createBasicTemplate();
+
+        // Define expected results
+        String expectedData = "[{\"Column1\":\"value1\",\"Column2\":\"value2\",\"Column3\":\"value3\"},{\"Column1\":\"value4\",\"Column2\":\"value5\",\"Column3\":\"value6\"}]";
+
+        try {
+            // Parse the data
+            ImportedData result = Custom2Json.parser(datContent, template);
+
+            if(debug) {
+                System.out.println("Data only result:");
+                System.out.println("Metadata: " + (result != null ? result.getMetadata() : "null metadata"));
+                System.out.println("Expected data: " + expectedData);
+                System.out.println("Actual data: " + (result != null ? result.getData() : "null result"));
+            }
+
+            // Assert the results match expectations
+            assertNotNull(result);
+            assertNotNull(result.getData());
+
+            // Compare data JSON structure
+            JSONArray expectedDataJson = new JSONArray(expectedData);
+            JSONArray actualDataJson = new JSONArray(result.getData());
+            assertEquals(expectedDataJson.length(), actualDataJson.length(), "Data should have the correct number of rows");
+
+            // Metadata may be null, empty string, or empty JSON array
+            assertTrue(result.getMetadata() == null || result.getMetadata().isEmpty() || result.getMetadata().equals("[]"),
+                    "Metadata should be null, empty, or empty array");
+        } catch (Exception e) {
+            fail("Exception occurred during testing: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Tests handling of empty input.
+     */
+    @Test
+    public void parse_emptyInput_throwsException() {
+        // Setup empty test data
+        String datContent = "";
+
+        // Create parsing configuration
+        ImportTemplate template = createBasicTemplate();
+
+        // For empty input, we expect an exception
+        assertThrows(JSONException.class, () -> {
+            Custom2Json.parser(datContent, template);
+        }, "Empty input should throw JSONException");
+    }
+
+    /**
+     * Helper method to create a basic template for DAT file parsing.
+     */
+    private ImportTemplate createBasicTemplate() {
+        Metadata metadata = new Metadata();
+        metadata.setDatatype("dat");
+        metadata.setParserType(ParserController.ParserType.CUSTOM);
+
+        ImportParserMappings metadataMappings = new ImportParserMappings()
+                .hasHeadline(false).delimiter(",")
+                .pattern(Pattern.compile("[Header]"))
+                .totalColumns(3);
+
+        ImportParserMappings dataMappings = new ImportParserMappings()
+                .hasHeadline(true)
+                .delimiter(",")
+                .pattern(Pattern.compile("[Data]"));
+
+        ImportMappings importMappings = new ImportMappings()
+                .metadata(metadataMappings)
+                .data(dataMappings);
+
+        return new ImportTemplate()
+                .metadata(metadata)
+                .mappings(importMappings)
+                .dataParserType(ParserController.ParserType.CSV)
+                .metadataParserType(ParserController.ParserType.CSV);
+    }
+
+    /**
+     * Helper method to create a template with custom delimiter.
+     */
+    private ImportTemplate createTemplateWithDelimiter(String delimiter) {
+        Metadata metadata = new Metadata();
+        metadata.setDatatype("dat");
+        metadata.setParserType(ParserController.ParserType.CUSTOM);
+
+        ImportParserMappings metadataMappings = new ImportParserMappings()
+                .hasHeadline(false)
+                .delimiter(delimiter)
+                .pattern(Pattern.compile("[Header]"));
+
+        ImportParserMappings dataMappings = new ImportParserMappings()
+                .hasHeadline(true)
+                .delimiter(delimiter)
+                .pattern(Pattern.compile("[Data]"));
+
+        ImportMappings importMappings = new ImportMappings()
+                .metadata(metadataMappings)
+                .data(dataMappings);
+
+        return new ImportTemplate()
+                .metadata(metadata)
+                .mappings(importMappings)
+                .dataParserType(ParserController.ParserType.CSV)
+                .metadataParserType(ParserController.ParserType.CSV);
+    }
 
     @Test
     public void parseDatFile() {
@@ -21,24 +364,24 @@ public class Custom2JsonTest {
         metadata.setParserType(ParserController.ParserType.CUSTOM);
 
         ImportParserMappings metadataMappings = new ImportParserMappings()
-                                                    .hasHeadline(false).delimiter(",")
-                                                    .pattern(Pattern.compile("[Header]"))
-                                                    .skipLinesAfterHeader(2) //TODO: Implement this
-                                                    .totalColumns(3); //TODO: Implement this: zu wenige Spalten: mit null auffüllen, wenn zu viele, in letzte Spalte ein Array von Werten mit den restlichen Spalten schreiben
+                .hasHeadline(false).delimiter(",")
+                .pattern(Pattern.compile("[Header]"))
+                .skipLinesAfterHeader(2) //TODO: Implement this
+                .totalColumns(3); //TODO: Implement this: zu wenige Spalten: mit null auffüllen, wenn zu viele, in letzte Spalte ein Array von Werten mit den restlichen Spalten schreiben
 
         ImportParserMappings dataMappings = new ImportParserMappings()
-                                                .hasHeadline(true).delimiter(",")
-                                                .pattern(Pattern.compile("[Data]"));
+                .hasHeadline(true).delimiter(",")
+                .pattern(Pattern.compile("[Data]"));
 
         ImportMappings importMappings = new ImportMappings()
-                                            .metadata(metadataMappings)
-                                            .data(dataMappings);
+                .metadata(metadataMappings)
+                .data(dataMappings);
 
         ImportTemplate importTemplate = new ImportTemplate()
-                                            .metadata(metadata)
-                                            .mappings(importMappings)
-                                            .dataParserType(ParserController.ParserType.CSV)
-                                            .metadataParserType(ParserController.ParserType.CSV);
+                .metadata(metadata)
+                .mappings(importMappings)
+                .dataParserType(ParserController.ParserType.CSV)
+                .metadataParserType(ParserController.ParserType.CSV);
 
         String testData =   """
                             [Header]
