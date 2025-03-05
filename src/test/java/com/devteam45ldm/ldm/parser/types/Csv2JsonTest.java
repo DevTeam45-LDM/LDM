@@ -46,6 +46,45 @@ class Csv2JsonTest {
     }
 
     @Test
+    void parse_validCsvWithMetadataSeparatorAndTotalColumns_returnsCorrectJson() throws Exception {
+        String csv = "name,age,city\nJohn,30,New York\nJane,25,Los Angeles\nJane,25,Los Angeles,Test,Test2,Test3,Test4\nJane,25,Los Angeles,Test5,Test2\ntest";
+        ImportParserMappings importParserMappings = new ImportParserMappings().delimiter(",").hasHeadline(true).totalColumns(3);
+        ImportTemplate template = new ImportTemplate()
+                .metadata(new Metadata())
+                .mappings(new ImportMappings().metadata(importParserMappings));  // Changed from .data to .mappings
+        ImportParserMappings importParserMappings2 = template.getMappings().getMetadata();
+
+        String result = Csv2Json.parse(csv, importParserMappings2);
+
+        if (debug) {
+            System.out.println(result);
+        }
+
+        JSONArray jsonArray = new JSONArray(result);
+        assertEquals(4, jsonArray.length());
+
+        JSONObject firstRow = jsonArray.getJSONObject(0);
+        assertEquals("John", firstRow.getString("name"));
+        assertEquals("30", firstRow.getString("age"));
+        assertEquals("New York", firstRow.getString("city"));
+
+        JSONObject secondRow = jsonArray.getJSONObject(1);
+        assertEquals("Jane", secondRow.getString("name"));
+        assertEquals("25", secondRow.getString("age"));
+        assertEquals("Los Angeles", secondRow.getString("city"));
+
+        JSONObject thirdRow = jsonArray.getJSONObject(2);
+        assertEquals("Jane", secondRow.getString("name"));
+        assertEquals("25", secondRow.getString("age"));
+        assertEquals("[Los Angeles,Test,Test2,Test3,Test4]", thirdRow.getString("city"));
+
+        JSONObject fourthRow = jsonArray.getJSONObject(3);
+        assertEquals("Jane", secondRow.getString("name"));
+        assertEquals("25", secondRow.getString("age"));
+        assertEquals("[Los Angeles,Test5,Test2]", fourthRow.getString("city"));
+    }
+
+    @Test
     void parse_validCsvWithDataSeparator_returnsCorrectJson() throws Exception {
         String csv = "name;age;city\nJohn;30;New York\nJane;25;Los Angeles";
         ImportParserMappings importParserMappings = new ImportParserMappings().delimiter(";").hasHeadline(true);
