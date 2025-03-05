@@ -6,16 +6,15 @@ import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportMappings
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportParserMappings;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportedData;
-import org.json.JSONArray;
+
 import org.json.JSONException;
 import org.junit.jupiter.api.Test;
+import org.xml.sax.SAXException;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 import java.util.regex.Pattern;
 
-import static com.github.javaparser.utils.Utils.assertNotNull;
-import static com.jayway.jsonpath.internal.path.PathCompiler.fail;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -146,20 +145,20 @@ public class Custom2JsonTest {
                             """;
 
     @Test
-    public void parseDatFileWithPatterns() {
+    public void parseDatFileWithPatterns() throws JSONException, ParserConfigurationException, IOException, SAXException {
         Metadata metadata = new Metadata();
         metadata.setDatatype("dat");
         metadata.setParserType(ParserController.ParserType.CUSTOM);
 
         ImportParserMappings metadataMappings = new ImportParserMappings()
                 .hasHeadline(false).delimiter(",")
-                .sectionPattern(Pattern.compile("\\[Header\\](.*?)(?=\\[Data\\])"))
+                .sectionString("[Header]")
                 .skipLines(2)
                 .totalColumns(3);
 
         ImportParserMappings dataMappings = new ImportParserMappings()
                 .hasHeadline(true).delimiter(",")
-                .sectionPattern(Pattern.compile("\\[Data\\](.*?)"));
+                .sectionString("[Data]");
 
         ImportMappings importMappings = new ImportMappings()
                 .metadata(metadataMappings)
@@ -176,7 +175,7 @@ public class Custom2JsonTest {
         expected.setMetadata(expectedMetadata);
         expected.setData(expectedData);
 
-        ImportedData result = Custom2Json.parse(testString, importTemplate);
+        ImportedData result = ParserController.importParser(testString, importTemplate);
         if (debug) {
             System.out.println(result);
         }
