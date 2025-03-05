@@ -27,7 +27,7 @@ public class ImportParserMappings {
     /**
      * String which every line starts with.
      */
-    @JsonProperty("line_start")
+    @JsonProperty("line_starter")
     private String lineStarter = null;
 
     /**
@@ -390,17 +390,19 @@ public class ImportParserMappings {
      */
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof ImportParserMappings that)) return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ImportParserMappings that = (ImportParserMappings) o;
         return Objects.equals(paths, that.paths) &&
                 Objects.equals(hasHeadline, that.hasHeadline) &&
                 Objects.equals(lineStarter, that.lineStarter) &&
                 Objects.equals(delimiter, that.delimiter) &&
+                Objects.equals(totalColumns, that.totalColumns) &&
                 Objects.equals(terminator, that.terminator) &&
                 Objects.equals(assignments, that.assignments) &&
                 Objects.equals(sectionPattern, that.sectionPattern) &&
                 Objects.equals(sectionString, that.sectionString) &&
-                Objects.equals(skipLines, that.skipLines) &&
-                Objects.equals(totalColumns, that.totalColumns);
+                Objects.equals(skipLines, that.skipLines);
     }
 
     /**
@@ -425,12 +427,12 @@ public class ImportParserMappings {
                 "    has_headline: " + toIndentedString(hasHeadline) + ",\n" +
                 "    line_starter: " + toIndentedString(lineStarter) + ",\n" +
                 "    delimiter: " + toIndentedString(delimiter) + ",\n" +
-                "    total_columns: " + toIndentedString(totalColumns) + "\n" +
+                "    total_columns: " + toIndentedString(totalColumns) + ",\n" +
                 "    terminator: " + toIndentedString(terminator) + ",\n" +
                 "    assignments: " + toIndentedString(assignments) + ",\n" +
                 "    section_pattern: " + toIndentedString(sectionPattern) + ",\n" +
                 "    section_string: " + toIndentedString(sectionString) + ",\n" +
-                "    skip_lines: " + toIndentedString(skipLines) + ",\n" +
+                "    skip_lines: " + toIndentedString(skipLines) + "\n" +
                 "}";
     }
 

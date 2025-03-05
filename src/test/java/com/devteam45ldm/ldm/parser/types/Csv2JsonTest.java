@@ -161,6 +161,6 @@ class Csv2JsonTest {
         JSONObject row = jsonArray.getJSONObject(0);
         assertEquals("John", row.getString("name"));
         assertEquals("30", row.getString("age"));
-        assertFalse(row.has("city"));
+        assertNull(row.getString("city"));
     }
 }

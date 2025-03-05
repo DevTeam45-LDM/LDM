@@ -108,7 +108,7 @@ public class ImportTemplate {
     public String toString() {
         return "{\n" +
                 "    metadata: " + toIndentedString(metadata) + ",\n" +
-                "    mappings: " + toIndentedString(importMappings) + ",\n" +
+                "    mappings: " + toIndentedString(importMappings) + "\n" +
                 "}";
     }
 

@@ -231,7 +231,9 @@ class ImportMappingsTest {
         importMappings.setData(data);
         String expected = "{\n" +
                 "    metadata: " + toIndentedString(metadata) + ",\n" +
-                "    data: " + toIndentedString(data) + "\n" +
+                "    data: " + toIndentedString(data) + ",\n" +
+                "    metadata_parser_type: " + "null" + ",\n" +
+                "    data_parser_type: " + "null" + "\n" +
                 "}";
         assertEquals(expected, importMappings.toString());
     }

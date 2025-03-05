@@ -147,10 +147,10 @@ class ImportTemplateTest {
                 "    },\n" +
                 "    mappings: {\n" +
                 "        metadata: null,\n" +
-                "        data: null\n" +
-                "    },\n" +
-                "    metadata_parser_type: null,\n" +
-                "    data_parser_type: null\n" +
+                "        data: null,\n" +
+                "        metadata_parser_type: null,\n" +
+                "        data_parser_type: null\n" +
+                "    }\n" +
                 "}";
         assertEquals(expected, importTemplate.toString());
     }
@@ -184,26 +184,28 @@ class ImportTemplateTest {
                 "            has_headline: null,\n" +
                 "            line_starter: null,\n" +
                 "            delimiter: null,\n" +
+                "            total_columns: null,\n"+
                 "            terminator: null,\n" +
                 "            assignments: null,\n" +
-                "            pattern: null,\n" +
-                "            skip_lines_after_pattern: null,\n" +
-                "            total_columns: null\n"+
+                "            section_pattern: null,\n" +
+                "            section_string: null,\n" +
+                "            skip_lines: null\n" +
                 "        },\n" +
                 "        data: {\n" +
                 "            paths: null,\n" +
                 "            has_headline: null,\n" +
                 "            line_starter: null,\n" +
                 "            delimiter: null,\n" +
+                "            total_columns: null,\n"+
                 "            terminator: null,\n" +
                 "            assignments: null,\n" +
-                "            pattern: null,\n" +
-                "            skip_lines_after_pattern: null,\n" +
-                "            total_columns: null\n" +
-                "        }\n" +
-                "    },\n" +
-                "    metadata_parser_type: null,\n" +
-                "    data_parser_type: null\n" +
+                "            section_pattern: null,\n" +
+                "            section_string: null,\n" +
+                "            skip_lines: null\n" +
+                "        },\n" +
+                "        metadata_parser_type: null,\n" +
+                "        data_parser_type: null\n" +
+                "    }\n" +
                 "}";
         assertEquals(expected, importTemplate.toString());
     }
@@ -234,7 +236,7 @@ class ImportTemplateTest {
      */
     @Test
     void fromJsonString_createsImportTemplateObject() throws Exception {
-        String json = "{ \"metadata\": { \"version\": null, \"created_by\": null, \"created_at\": null, \"last_modified_by\": null, \"last_modified_at\": null, \"parser\": null }, \"mappings\": { \"metadata\": null, \"metadata_separator\": null, \"metadata_pattern\": null, \"data\": null, \"data_separator\": null, \"data_pattern\": null }, \"metadata_parser_type\": null, \"data_parser_type\": null }";
+        String json = "{\"metadata\":{\"version\":null,\"created_by\":null,\"created_at\":null,\"last_modified_by\":null,\"last_modified_at\":null,\"parser_type\":null},\"mappings\":{\"metadata\":{\"paths\":null,\"has_headline\":null,\"line_starter\":null,\"delimiter\":null,\"total_columns\":null,\"terminator\":null,\"assignments\":null,\"section_pattern\":null,\"section_string\":null,\"skip_lines\":null},\"data\":{\"paths\":null,\"has_headline\":null,\"line_starter\":null,\"delimiter\":null,\"total_columns\":null,\"terminator\":null,\"assignments\":null,\"section_pattern\":null,\"section_string\":null,\"skip_lines\":null},\"metadata_parser_type\":null,\"data_parser_type\":null}}";
         ObjectMapper objectMapper = new ObjectMapper();
         ImportTemplate importTemplate = objectMapper.readValue(json, ImportTemplate.class);
 

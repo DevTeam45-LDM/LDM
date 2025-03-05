@@ -166,7 +166,9 @@ public class ImportMappings {
      */
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof ImportMappings that)) return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ImportMappings that = (ImportMappings) o;
         return Objects.equals(metadata, that.metadata) &&
                 Objects.equals(data, that.data) &&
                 Objects.equals(metadataParserType, that.metadataParserType) &&
@@ -192,7 +194,7 @@ public class ImportMappings {
     public String toString() {
         return "{\n" +
                 "    metadata: " + toIndentedString(metadata) + ",\n" +
-                "    data: " + toIndentedString(data) + "\n" +
+                "    data: " + toIndentedString(data) + ",\n" +
                 "    metadata_parser_type: " + toIndentedString(metadataParserType) + ",\n" +
                 "    data_parser_type: " + toIndentedString(dataParserType) + "\n" +
                 "}";
