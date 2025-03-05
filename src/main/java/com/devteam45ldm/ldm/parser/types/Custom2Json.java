@@ -58,8 +58,8 @@ public class Custom2Json {
             throw new IllegalArgumentException("Parser mappings are not set correctly");
         }
 
-        metadataSection = skipLines(metadataSection, importTemplate.getMappings().getMetadata().getSkipLines());
-        dataSection = skipLines(dataSection, importTemplate.getMappings().getData().getSkipLines());
+        metadataSection = CommonMethods.skipLines(metadataSection, importTemplate.getMappings().getMetadata().getSkipLines());
+        dataSection = CommonMethods.skipLines(dataSection, importTemplate.getMappings().getData().getSkipLines());
 
         importedData.setMetadata(getParsedData(metadataSection, importTemplate.getMappings().getMetadataParserType(), importTemplate.getMappings().getMetadata()));
         importedData.setData(getParsedData(dataSection, importTemplate.getMappings().getDataParserType(), importTemplate.getMappings().getData()));
@@ -134,17 +134,5 @@ public class Custom2Json {
             case CSV -> Csv2Json.parse(dataSection, importParserMappings);
             default -> throw new IllegalArgumentException("Parser type not supported");
         };
-    }
-
-    private static String skipLines(String data, Integer skipLines) {
-        // Remove all empty lines
-        data = CommonMethods.skipEmptyLines(data);
-        //Skip Lines if needed
-        if(skipLines != null){
-            for(int i = 0; i < skipLines; i++) {
-                data = data.substring(data.indexOf("\n") + 1);
-            }
-        }
-        return data;
     }
 }
