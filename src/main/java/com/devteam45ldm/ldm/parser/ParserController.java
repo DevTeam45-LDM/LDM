@@ -10,7 +10,6 @@ import com.devteam45ldm.ldm.parser.types.Json2Json;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate;
 import com.devteam45ldm.ldm.parser.types.Xml2Json;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -29,7 +28,7 @@ public abstract class ParserController {
         ImportedData importedData = new ImportedData();
 
         switch (importTemplate.getMetadata().getParserType()) {
-            case ParserType.JSON: //TODO: Implement JSON2JSON like CSV2JSON
+            case ParserType.JSON:
                 // Parse data
                 ImportParserMappings importJSONParserMappings = importTemplate.getMappings().getData();
                 importedData.data(Json2Json.parse(data, importJSONParserMappings));
@@ -37,7 +36,7 @@ public abstract class ParserController {
                 importJSONParserMappings = importTemplate.getMappings().getMetadata();
                 importedData.metadata(Json2Json.parse(data, importJSONParserMappings));
                 return importedData;
-            case ParserType.XML: //TODO: Implement XML2JSON like CSV2JSON
+            case ParserType.XML:
                 // Parse data
                 ImportParserMappings importXMLParserMappings = importTemplate.getMappings().getData();
                 importedData.data(Xml2Json.parse(data, importXMLParserMappings));
@@ -54,7 +53,7 @@ public abstract class ParserController {
                 importedData.metadata(Csv2Json.parse(data, importCSVParserMappings));
                 return importedData;
             default:
-                return Custom2Json.parser(data, importTemplate);
+                return Custom2Json.parse(data, importTemplate);
         }
     }
 

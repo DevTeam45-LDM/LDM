@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class Csv2JsonTest {
 
-    private final boolean debug = true;
+    private final boolean debug = false;
 
     @Test
     void parse_validCsvWithMetadataSeparator_returnsCorrectJson() throws Exception {

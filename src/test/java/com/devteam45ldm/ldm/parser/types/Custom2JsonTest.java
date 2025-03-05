@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import static com.github.javaparser.utils.Utils.assertNotNull;
@@ -49,7 +50,7 @@ public class Custom2JsonTest {
 
         try {
             // Parse the data
-            ImportedData result = Custom2Json.parser(datContent, template);
+            ImportedData result = Custom2Json.parse(datContent, template);
 
             if(debug) {
                 System.out.println("Basic parse result:");
@@ -105,7 +106,7 @@ public class Custom2JsonTest {
 
         try {
             // Parse the data
-            ImportedData result = Custom2Json.parser(datContent, template);
+            ImportedData result = Custom2Json.parse(datContent, template);
 
             if(debug) {
                 System.out.println("Custom delimiter result:");
@@ -161,7 +162,7 @@ public class Custom2JsonTest {
 
         try {
             // Parse the data
-            ImportedData result = Custom2Json.parser(datContent, template);
+            ImportedData result = Custom2Json.parse(datContent, template);
 
             if(debug) {
                 System.out.println("Complex data result:");
@@ -209,7 +210,7 @@ public class Custom2JsonTest {
 
         try {
             // Parse the data
-            ImportedData result = Custom2Json.parser(datContent, template);
+            ImportedData result = Custom2Json.parse(datContent, template);
 
             if(debug) {
                 System.out.println("Metadata only result:");
@@ -256,7 +257,7 @@ public class Custom2JsonTest {
 
         try {
             // Parse the data
-            ImportedData result = Custom2Json.parser(datContent, template);
+            ImportedData result = Custom2Json.parse(datContent, template);
 
             if(debug) {
                 System.out.println("Data only result:");
@@ -295,7 +296,7 @@ public class Custom2JsonTest {
 
         // For empty input, we expect an exception
         assertThrows(JSONException.class, () -> {
-            Custom2Json.parser(datContent, template);
+            Custom2Json.parse(datContent, template);
         }, "Empty input should throw JSONException");
     }
 
@@ -443,6 +444,10 @@ public class Custom2JsonTest {
                             ,3816080052.92594,300.535191190521,51896.826515815,0.183510839568584,0.000202865400522652,5,2,58.5054232635498,2.91654555256842,32.360000315933,564.921508513404,44.3231222816406,5000,0.000962515230106144,,,,,,,,,,,,,,,,,,,,,300.525385469121,300.538254555328,51896.826515815,51896.826515815,52.4855801906208,8.85995045156541,8.2850959855919,35,2,5,5,2,0.291906494540625,35.1951900085449,2,2,2,300.538254555328,5,300.535191190521,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
                             ,3816080080.45545,300.593809509211,59595.9540625,0.181958618034689,0.000254885002449925,5,2,58.5054232635498,2.91699545355315,32.360000315933,566.04055038589,44.662369430323,5000,0.00554546886054459,,,,,,,,,,,,,,,,,,,,,300.592245483398,300.595313535556,59595.9540625,59595.9540625,52.6001699540635,8.85351106556309,8.21606395906138,35,2,5,5,2,0.29866943359315,35.3030359253861,2,2,2,300.592245483398,5,300.593809509211,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
                             """;
+        Map<String, String> result = Custom2Json.splitFile(testData, metadataMappings.getPattern(), dataMappings.getPattern());
+        if (debug) {
+            System.out.println(result);
+        }
         assertTrue(true);
     }
 }
