@@ -61,7 +61,7 @@ class Csv2JsonTest {
         }
 
         JSONArray jsonArray = new JSONArray(result);
-        assertEquals(4, jsonArray.length());
+        assertEquals(5, jsonArray.length());
 
         JSONObject firstRow = jsonArray.getJSONObject(0);
         assertEquals("John", firstRow.getString("name"));
@@ -74,14 +74,19 @@ class Csv2JsonTest {
         assertEquals("Los Angeles", secondRow.getString("city"));
 
         JSONObject thirdRow = jsonArray.getJSONObject(2);
-        assertEquals("Jane", secondRow.getString("name"));
-        assertEquals("25", secondRow.getString("age"));
-        assertEquals("[Los Angeles,Test,Test2,Test3,Test4]", thirdRow.getString("city"));
+        assertEquals("Jane", thirdRow.getString("name"));
+        assertEquals("25", thirdRow.getString("age"));
+        assertEquals("[\"Los Angeles\",\"Test\",\"Test2\",\"Test3\",\"Test4\"]", thirdRow.getString("city"));
 
         JSONObject fourthRow = jsonArray.getJSONObject(3);
-        assertEquals("Jane", secondRow.getString("name"));
-        assertEquals("25", secondRow.getString("age"));
-        assertEquals("[Los Angeles,Test5,Test2]", fourthRow.getString("city"));
+        assertEquals("Jane", fourthRow.getString("name"));
+        assertEquals("25", fourthRow.getString("age"));
+        assertEquals("[\"Los Angeles\",\"Test5\",\"Test2\"]", fourthRow.getString("city"));
+
+        JSONObject fifthRow = jsonArray.getJSONObject(4);
+        assertEquals("test", fifthRow.getString("name"));
+        assertEquals("null", fifthRow.getString("age"));
+        assertEquals("null", fifthRow.getString("city"));
     }
 
     @Test
@@ -200,6 +205,6 @@ class Csv2JsonTest {
         JSONObject row = jsonArray.getJSONObject(0);
         assertEquals("John", row.getString("name"));
         assertEquals("30", row.getString("age"));
-        assertNull(row.getString("city"));
+        assertEquals("null", row.getString("city"));
     }
 }
