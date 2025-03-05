@@ -240,11 +240,18 @@ class ImportTemplateTest {
         ObjectMapper objectMapper = new ObjectMapper();
         ImportTemplate importTemplate = objectMapper.readValue(json, ImportTemplate.class);
 
-        Metadata expectedMetadata = new Metadata();
-        ImportMappings expectedMappings = new ImportMappings();
+        ImportTemplate expectedImportTemplate = new ImportTemplate();
+        Metadata metadata = new Metadata();
+        ImportMappings importMappings = new ImportMappings();
+        ImportParserMappings metadataMappings = new ImportParserMappings();
+        ImportParserMappings dataMappings = new ImportParserMappings();
+        importMappings.setMetadata(metadataMappings);
+        importMappings.setData(dataMappings);
+        expectedImportTemplate.setMetadata(metadata);
+        expectedImportTemplate.setMappings(importMappings);
 
-        assertEquals(expectedMetadata, importTemplate.getMetadata());
-        assertTrue(expectedMappings.equals(importTemplate.getMappings()));
+        assertEquals(expectedImportTemplate, importTemplate);
+        assertTrue(expectedImportTemplate.equals(importTemplate));
     }
 
     /**
