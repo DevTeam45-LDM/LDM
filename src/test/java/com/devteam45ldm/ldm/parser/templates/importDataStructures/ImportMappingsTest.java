@@ -69,9 +69,9 @@ class ImportMappingsTest {
         ImportMappings importMappings = new ImportMappings();
         ImportParserMappings metadata = new ImportParserMappings();
         Pattern pattern = Pattern.compile(".*");
-        metadata.setPattern(pattern);
+        metadata.setSectionPattern(pattern);
         importMappings.setMetadata(metadata);
-        assertEquals(pattern, importMappings.getMetadata().getPattern());
+        assertEquals(pattern, importMappings.getMetadata().getSectionPattern());
     }
 
     /**
@@ -82,10 +82,10 @@ class ImportMappingsTest {
         ImportMappings importMappings = new ImportMappings();
         ImportParserMappings metadata = new ImportParserMappings();
         Pattern pattern = Pattern.compile(".*");
-        metadata.setPattern(pattern);
+        metadata.setSectionPattern(pattern);
         importMappings.setMetadata(metadata);
         assertEquals(importMappings, importMappings.metadata(metadata));
-        assertEquals(pattern, importMappings.getMetadata().getPattern());
+        assertEquals(pattern, importMappings.getMetadata().getSectionPattern());
     }
 
     /**
@@ -147,9 +147,9 @@ class ImportMappingsTest {
         ImportMappings importMappings = new ImportMappings();
         ImportParserMappings data = new ImportParserMappings();
         Pattern pattern = Pattern.compile(".*");
-        data.setPattern(pattern);
+        data.setSectionPattern(pattern);
         importMappings.setData(data);
-        assertEquals(pattern, importMappings.getData().getPattern());
+        assertEquals(pattern, importMappings.getData().getSectionPattern());
     }
 
     /**
@@ -160,10 +160,10 @@ class ImportMappingsTest {
         ImportMappings importMappings = new ImportMappings();
         ImportParserMappings data = new ImportParserMappings();
         Pattern pattern = Pattern.compile(".*");
-        data.setPattern(pattern);
+        data.setSectionPattern(pattern);
         importMappings.setData(data);
         assertEquals(importMappings, importMappings.data(data));
-        assertEquals(pattern, importMappings.getData().getPattern());
+        assertEquals(pattern, importMappings.getData().getSectionPattern());
     }
 
     /**

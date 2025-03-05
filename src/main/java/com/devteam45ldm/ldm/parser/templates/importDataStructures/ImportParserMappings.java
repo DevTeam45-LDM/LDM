@@ -43,6 +43,12 @@ public class ImportParserMappings {
     private String terminator = null;
 
     /**
+     * Total amount of columns in the data.
+     */
+    @JsonProperty("total_columns")
+    private Integer totalColumns = null;
+
+    /**
      * Assignment operators e.g. in txt files.
      * Example: "key: value" -> ":" is the assignment operator.
      * If set, the data will be treated as key-value pairs, optionally with a delimiter for multiple values within a line.
@@ -51,22 +57,22 @@ public class ImportParserMappings {
     private String assignments = null;
 
     /**
-     * Regex pattern to find headlines and define data parts.
+     * Regex pattern to determine metadata and data sections.
      */
-    @JsonProperty("pattern")
-    private Pattern pattern = null;
+    @JsonProperty("section_pattern")
+    private Pattern sectionPattern = null;
+
+    /**
+     * String which introduces a new section.
+     */
+    @JsonProperty("section_string")
+    private String sectionString = null;
 
     /**
      * Amount of lines to skip after the headline (pattern).
      */
-    @JsonProperty("skip_lines_after_pattern")
-    private Integer skipLinesAfterHeader = null;
-
-    /**
-     * Total amount of columns in the data.
-     */
-    @JsonProperty("total_columns")
-    private Integer totalColumns = null;
+    @JsonProperty("skip_lines")
+    private Integer skipLines = null;
 
     /**
      * Gets the path.
@@ -214,6 +220,35 @@ public class ImportParserMappings {
     }
 
     /**
+     * Gets the total columns.
+     *
+     * @return the total columns
+     */
+    public Integer getTotalColumns() {
+        return totalColumns;
+    }
+
+    /**
+     * Sets the total columns.
+     *
+     * @param totalColumns the total columns to set
+     */
+    public void setTotalColumns(Integer totalColumns) {
+        this.totalColumns = totalColumns;
+    }
+
+    /**
+     * Sets the total columns and returns the current ImportParserMappings object.
+     *
+     * @param totalColumns the total columns to set
+     * @return the current ImportParserMappings object
+     */
+    public ImportParserMappings totalColumns(Integer totalColumns) {
+        this.totalColumns = totalColumns;
+        return this;
+    }
+
+    /**
      * Gets the assignments.
      *
      * @return the assignments
@@ -247,27 +282,74 @@ public class ImportParserMappings {
      *
      * @return the pattern
      */
-    public Pattern getPattern() {
-        return pattern;
+    public Pattern getSectionPattern() {
+        return sectionPattern;
+    }
+
+    /**
+     * Checks if the pattern is empty.
+     *
+     * @return boolean
+     */
+    public Boolean isSectionPatternEmpty() {
+        return sectionPattern == null || sectionPattern.toString().isEmpty();
     }
 
     /**
      * Sets the pattern.
      *
-     * @param pattern the pattern to set
+     * @param sectionPattern the pattern to set
      */
-    public void setPattern(Pattern pattern) {
-        this.pattern = pattern;
+    public void setSectionPattern(Pattern sectionPattern) {
+        this.sectionPattern = sectionPattern;
+    }
+
+    /**
+     * Sets the section Pattern and returns the current ImportParserMappings object.
+     *
+     * @param sectionPattern the pattern to set
+     * @return the current ImportParserMappings object
+     */
+    public ImportParserMappings sectionPattern(Pattern sectionPattern) {
+        this.sectionPattern = sectionPattern;
+        return this;
+    }
+
+    /**
+     * Gets the section string.
+     *
+     * @return the section string
+     */
+    public String getSectionString() {
+        return sectionString;
+    }
+
+    /**
+     * Checks if the pattern is empty.
+     *
+     * @return boolean
+     */
+    public Boolean isSectionStringEmpty() {
+        return sectionString == null || sectionString.isEmpty();
+    }
+
+    /**
+     * Sets the section string.
+     *
+     * @param sectionString the pattern to set
+     */
+    public void setSectionString(String sectionString) {
+        this.sectionString = sectionString;
     }
 
     /**
      * Sets the pattern and returns the current ImportParserMappings object.
      *
-     * @param pattern the pattern to set
+     * @param sectionString the pattern to set
      * @return the current ImportParserMappings object
      */
-    public ImportParserMappings pattern(Pattern pattern) {
-        this.pattern = pattern;
+    public ImportParserMappings sectionString(String sectionString) {
+        this.sectionString = sectionString;
         return this;
     }
 
@@ -276,56 +358,27 @@ public class ImportParserMappings {
      *
      * @return the skip lines after header
      */
-    public Integer getSkipLinesAfterHeader() {
-        return skipLinesAfterHeader;
+    public Integer getSkipLines() {
+        return skipLines;
     }
 
     /**
      * Sets the skip lines after header.
      *
-     * @param skipLinesAfterHeader the skip lines after header to set
+     * @param skipLines the skip lines after header to set
      */
-    public void setSkipLinesAfterHeader(Integer skipLinesAfterHeader) {
-        this.skipLinesAfterHeader = skipLinesAfterHeader;
+    public void setSkipLines(Integer skipLines) {
+        this.skipLines = skipLines;
     }
 
     /**
      * Sets the skip lines after header and returns the current ImportParserMappings object.
      *
-     * @param skipLinesAfterHeader the skip lines after header to set
+     * @param skipLines the skip lines after header to set
      * @return the current ImportParserMappings object
      */
-    public ImportParserMappings skipLinesAfterHeader(Integer skipLinesAfterHeader) {
-        this.skipLinesAfterHeader = skipLinesAfterHeader;
-        return this;
-    }
-
-    /**
-     * Gets the total columns.
-     *
-     * @return the total columns
-     */
-    public Integer getTotalColumns() {
-        return totalColumns;
-    }
-
-    /**
-     * Sets the total columns.
-     *
-     * @param totalColumns the total columns to set
-     */
-    public void setTotalColumns(Integer totalColumns) {
-        this.totalColumns = totalColumns;
-    }
-
-    /**
-     * Sets the total columns and returns the current ImportParserMappings object.
-     *
-     * @param totalColumns the total columns to set
-     * @return the current ImportParserMappings object
-     */
-    public ImportParserMappings totalColumns(Integer totalColumns) {
-        this.totalColumns = totalColumns;
+    public ImportParserMappings skipLines(Integer skipLines) {
+        this.skipLines = skipLines;
         return this;
     }
 
@@ -344,8 +397,9 @@ public class ImportParserMappings {
                 Objects.equals(delimiter, that.delimiter) &&
                 Objects.equals(terminator, that.terminator) &&
                 Objects.equals(assignments, that.assignments) &&
-                Objects.equals(pattern, that.pattern) &&
-                Objects.equals(skipLinesAfterHeader, that.skipLinesAfterHeader) &&
+                Objects.equals(sectionPattern, that.sectionPattern) &&
+                Objects.equals(sectionString, that.sectionString) &&
+                Objects.equals(skipLines, that.skipLines) &&
                 Objects.equals(totalColumns, that.totalColumns);
     }
 
@@ -356,7 +410,7 @@ public class ImportParserMappings {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(paths, hasHeadline, lineStarter, delimiter, terminator, assignments, pattern, skipLinesAfterHeader, totalColumns);
+        return Objects.hash(paths, hasHeadline, lineStarter, delimiter, terminator, totalColumns, assignments, sectionPattern, sectionString, skipLines);
     }
 
     /**
@@ -371,11 +425,12 @@ public class ImportParserMappings {
                 "    has_headline: " + toIndentedString(hasHeadline) + ",\n" +
                 "    line_starter: " + toIndentedString(lineStarter) + ",\n" +
                 "    delimiter: " + toIndentedString(delimiter) + ",\n" +
+                "    total_columns: " + toIndentedString(totalColumns) + "\n" +
                 "    terminator: " + toIndentedString(terminator) + ",\n" +
                 "    assignments: " + toIndentedString(assignments) + ",\n" +
-                "    pattern: " + toIndentedString(pattern) + ",\n" +
-                "    skip_lines_after_pattern: " + toIndentedString(skipLinesAfterHeader) + ",\n" +
-                "    total_columns: " + toIndentedString(totalColumns) + "\n" +
+                "    section_pattern: " + toIndentedString(sectionPattern) + ",\n" +
+                "    section_string: " + toIndentedString(sectionString) + ",\n" +
+                "    skip_lines: " + toIndentedString(skipLines) + ",\n" +
                 "}";
     }
 
