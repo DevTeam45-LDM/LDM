@@ -137,6 +137,7 @@ public class Custom2Json {
             case JSON -> Json2Json.parse(dataSection, importParserMappings);
             case XML -> Xml2Json.parse(dataSection, importParserMappings);
             case CSV -> Csv2Json.parse(dataSection, importParserMappings);
+            case TEXT -> Text2Json.parse(dataSection, importParserMappings);
             default -> throw new IllegalArgumentException("Parser type not supported");
         };
     }
