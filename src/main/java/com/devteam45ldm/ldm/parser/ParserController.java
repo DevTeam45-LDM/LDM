@@ -21,6 +21,7 @@ public abstract class ParserController {
         JSON,
         XML,
         CSV,
+        TEXT,
         CUSTOM
     }
 
