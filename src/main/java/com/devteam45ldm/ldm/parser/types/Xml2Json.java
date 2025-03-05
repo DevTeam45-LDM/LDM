@@ -16,7 +16,10 @@ import java.io.StringReader;
 import java.util.*;
 
 
-//TODO: Implement this class analogous to Json2Json class
+/**
+ * The Xml2Json class is responsible for converting an XML string
+ * into a JSON object based on the provided ImportParserMappings.
+ */
 public class Xml2Json {
 
     public static String parse(String xml, ImportParserMappings importParserMappings) throws ParserConfigurationException, IOException, JSONException, SAXException {
@@ -147,12 +150,13 @@ public class Xml2Json {
         }
 
         // Handle text content
-        String textContent = "";
+        StringBuilder textContentBuilder = new StringBuilder();
         for (Node node = element.getFirstChild(); node != null; node = node.getNextSibling()) {
             if (node.getNodeType() == Node.TEXT_NODE) {
-                textContent += node.getTextContent().trim();
+                textContentBuilder.append(node.getTextContent().trim());
             }
         }
+        String textContent = textContentBuilder.toString();
 
         if (!hasElementChildren && !hasAttributes) {
             return textContent.isEmpty() ? new JSONObject() : textContent;

@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Class to convert custom data to JSON format
+ */
 public class Custom2Json {
 
     /**
