@@ -64,6 +64,8 @@ public class Custom2Json {
         importedData.setMetadata(getParsedData(metadataSection, importTemplate.getMappings().getMetadataParserType(), importTemplate.getMappings().getMetadata()));
         importedData.setData(getParsedData(dataSection, importTemplate.getMappings().getDataParserType(), importTemplate.getMappings().getData()));
 
+        System.out.println(importedData.getData());
+
         return importedData;
     }
 
