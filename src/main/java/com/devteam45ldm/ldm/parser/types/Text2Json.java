@@ -6,7 +6,18 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class is used to parse text data into a JSON object.
+ */
 public class Text2Json {
+    /**
+     * This method parses text data into a JSON object.
+     *
+     * @param text The text data to be parsed.
+     * @param importParserMappings The mappings to be used for parsing.
+     *                             (lineStarter, delimiter, terminator, assignments)
+     * @return The JSON object.
+     */
     public static String parse(String text, ImportParserMappings importParserMappings) {
         String lineStarter = importParserMappings.getLineStarter();
         String delimiter = importParserMappings.getDelimiter();

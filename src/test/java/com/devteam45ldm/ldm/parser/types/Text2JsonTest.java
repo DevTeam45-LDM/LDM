@@ -7,7 +7,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class Text2JsonTest {
 
 
-
+    /**
+     * Test the parse method with a valid text
+     */
     @Test
     void parse_withValidText_returnsText() {
         String text =   """
