@@ -1,6 +1,7 @@
 package com.devteam45ldm.ldm.views.createtemplate;
 
 import com.devteam45ldm.ldm.views.createtemplate.custom.Custom;
+import com.devteam45ldm.ldm.views.createtemplate.insertpath.InsertPath;
 import com.devteam45ldm.ldm.views.createtemplate.jsonxml.JsonXml;
 import com.devteam45ldm.ldm.views.createtemplate.textcsv.TextCsv;
 import com.devteam45ldm.ldm.views.eLabClient.createReport.CreateReport;
@@ -26,6 +27,15 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 import java.util.ArrayList;
 import java.util.List;
+import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
+import com.vaadin.flow.component.Composite;
 
 /**
  * The CreateTemplate view allows users to create a new template.
@@ -39,6 +49,7 @@ public class CreateTemplate extends Composite<VerticalLayout> {
     private final JsonXml JsonAndXmlView = new JsonXml();
     private final TextCsv TextAndCsvView = new TextCsv();
     private final Custom CustomView = new Custom();
+    private InsertPath insertPathComponent;
 
     /**
      * Constructs a new CreateTemplate view.
@@ -51,6 +62,13 @@ public class CreateTemplate extends Composite<VerticalLayout> {
         tabSheet.setWidth("100%");
         setTabSheetContent(tabSheet);
         getContent().add(tabSheet);
+
+
+        VerticalLayout contentLayout = getContent();
+        contentLayout.setPadding(true);
+        contentLayout.setSpacing(true);
+
+
     }
 
     private void setTabSheetContent(TabSheet tabSheet) {
