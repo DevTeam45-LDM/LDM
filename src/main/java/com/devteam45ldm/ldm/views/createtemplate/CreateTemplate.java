@@ -44,8 +44,6 @@ public class CreateTemplate extends Composite<VerticalLayout> {
     private final JsonXml JsonAndXmlView = new JsonXml();
     private final TextCsv TextAndCsvView = new TextCsv();
     private final Custom CustomView = new Custom();
-    private final ParserTemplate parserTemplateView = new ParserTemplate();
-
 
     /**
      * Constructs a new CreateTemplate view.
@@ -57,11 +55,7 @@ public class CreateTemplate extends Composite<VerticalLayout> {
         getContent().getStyle().set("flex-grow", "1");
         tabSheet.setWidth("100%");
         setTabSheetContent(tabSheet);
-
-        Span label = new Span("Parser");
-        HorizontalLayout firstRow = new HorizontalLayout(label, parserTemplateView);
-
-        getContent().add(tabSheet, firstRow);
+        getContent().add(tabSheet);
     }
 
     private void setTabSheetContent(TabSheet tabSheet) {
