@@ -34,7 +34,6 @@ import java.util.List;
 @PageTitle("Create Template")
 @Route("create-template")
 @Menu(order = 2, icon = "line-awesome/svg/pencil-ruler-solid.svg")
-@UIScope
 public class CreateTemplate extends Composite<VerticalLayout> {
 
     private final JsonXml JsonAndXmlView = new JsonXml();

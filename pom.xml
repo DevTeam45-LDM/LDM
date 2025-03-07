@@ -245,7 +245,11 @@
                     <execution>
                         <goals>
                             <goal>prepare-frontend</goal>
+                            <goal>build-frontend</goal>
                         </goals>
+                        <configuration>
+                            <optimizeBundle>false</optimizeBundle>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
