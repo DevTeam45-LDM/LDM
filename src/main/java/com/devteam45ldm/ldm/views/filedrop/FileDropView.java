@@ -10,8 +10,8 @@ import com.vaadin.flow.router.Route;
 import java.io.InputStream;
 
 @PageTitle("File Upload")
-@Route("file-upload")
-@Menu(order = 3, icon = "line-awesome/svg/arrow-alt-circle-down.svg")
+@Route("")
+@Menu(order = 0, icon = "line-awesome/svg/arrow-alt-circle-down.svg")
 public class FileDropView extends VerticalLayout {
 
     public FileDropView() {
