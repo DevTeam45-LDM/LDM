@@ -1,5 +1,6 @@
 package com.devteam45ldm.ldm.views.createtemplate;
 
+import com.devteam45ldm.ldm.views.createtemplate.parserTemplate.ParserTemplate;
 import com.devteam45ldm.ldm.views.createtemplate.custom.Custom;
 import com.devteam45ldm.ldm.views.createtemplate.jsonxml.JsonXml;
 import com.devteam45ldm.ldm.views.createtemplate.textcsv.TextCsv;
@@ -11,6 +12,7 @@ import com.devteam45ldm.ldm.views.eLabClient.tags.Tags;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.tabs.TabSheet;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
@@ -24,6 +26,8 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
+
+import javax.swing.text.html.parser.Parser;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,11 +38,14 @@ import java.util.List;
 @PageTitle("Create Template")
 @Route("create-template")
 @Menu(order = 2, icon = "line-awesome/svg/pencil-ruler-solid.svg")
+@UIScope
 public class CreateTemplate extends Composite<VerticalLayout> {
 
     private final JsonXml JsonAndXmlView = new JsonXml();
     private final TextCsv TextAndCsvView = new TextCsv();
     private final Custom CustomView = new Custom();
+    private final ParserTemplate parserTemplateView = new ParserTemplate();
+
 
     /**
      * Constructs a new CreateTemplate view.
@@ -50,7 +57,11 @@ public class CreateTemplate extends Composite<VerticalLayout> {
         getContent().getStyle().set("flex-grow", "1");
         tabSheet.setWidth("100%");
         setTabSheetContent(tabSheet);
-        getContent().add(tabSheet);
+
+        Span label = new Span("Parser");
+        HorizontalLayout firstRow = new HorizontalLayout(label, parserTemplateView);
+
+        getContent().add(tabSheet, firstRow);
     }
 
     private void setTabSheetContent(TabSheet tabSheet) {
@@ -58,9 +69,6 @@ public class CreateTemplate extends Composite<VerticalLayout> {
         tabSheet.add("Text/CSV", TextAndCsvView);
         tabSheet.add("Custom", CustomView);
     }
-
-
-
 
 
 }
