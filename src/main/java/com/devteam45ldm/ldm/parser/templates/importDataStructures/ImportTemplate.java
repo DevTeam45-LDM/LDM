@@ -2,6 +2,7 @@ package com.devteam45ldm.ldm.parser.templates.importDataStructures;
 
 import com.devteam45ldm.ldm.parser.ParserController;
 import com.devteam45ldm.ldm.parser.templates.Metadata;
+import com.devteam45ldm.ldm.parser.templates.Template;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.json.JSONObject;
 
@@ -10,31 +11,10 @@ import java.util.Objects;
 /**
  * Represents the first parsing level instructions and is a user defined semantic model of the import data.
  */
-public class ImportTemplate {
-
-    @JsonProperty("metadata")
-    private Metadata metadata = null;
+public class ImportTemplate extends Template {
 
     @JsonProperty("mappings")
     private ImportMappings importMappings = null;
-
-    /**
-     * Gets the metadata.
-     *
-     * @return the metadata
-     */
-    public Metadata getMetadata() {
-        return metadata;
-    }
-
-    /**
-     * Sets the metadata.
-     *
-     * @param metadata the metadata to set
-     */
-    public void setMetadata(Metadata metadata) {
-        this.metadata = metadata;
-    }
 
     /**
      * Sets the metadata and returns the current ImportTemplate object.
@@ -43,7 +23,7 @@ public class ImportTemplate {
      * @return the current ImportTemplate object
      */
     public ImportTemplate metadata(Metadata metadata) {
-        this.metadata = metadata;
+        super.setMetadata(metadata);
         return this;
     }
 
@@ -107,7 +87,7 @@ public class ImportTemplate {
     @Override
     public String toString() {
         return "{\n" +
-                "    metadata: " + toIndentedString(metadata) + ",\n" +
+                "    metadata: " + toIndentedString(super.getMetadata()) + ",\n" +
                 "    mappings: " + toIndentedString(importMappings) + "\n" +
                 "}";
     }

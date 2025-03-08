@@ -11,6 +11,9 @@ import java.util.Objects;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Metadata {
+
+    @JsonProperty("id")
+    private int id;
     @JsonProperty("version")
     private Integer version = null;
 
@@ -32,6 +35,34 @@ public class Metadata {
     @JsonProperty("parser_type")
     private ParserController.ParserType parserType = null;
 
+    /**
+     * Gets the ID of the metadata.
+     *
+     * @return the ID of the metadata
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Sets the ID of the metadata.
+     *
+     * @param id the ID to set
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * Sets the ID of the metadata and returns the updated Metadata object.
+     *
+     * @param id the ID to set
+     * @return the updated Metadata object
+     */
+    public Metadata id(int id) {
+        this.id = id;
+        return this;
+    }
 
     /**
      * Gets the version of the metadata.
@@ -237,47 +268,35 @@ public class Metadata {
     }
 
 
-    /**
-     * Checks if this metadata is equal to another object.
-     *
-     * @param o the object to compare with
-     * @return true if the objects are equal, false otherwise
-     */
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Metadata metadata)) return false;
-        return  Objects.equals(getVersion(), metadata.getVersion()) &&
+        return id == metadata.id &&
+                Objects.equals(getVersion(), metadata.getVersion()) &&
                 Objects.equals(getCreatedBy(), metadata.getCreatedBy()) &&
                 Objects.equals(getCreatedAt(), metadata.getCreatedAt()) &&
                 Objects.equals(getLastModifiedBy(), metadata.getLastModifiedBy()) &&
                 Objects.equals(getLastModifiedAt(), metadata.getLastModifiedAt()) &&
-                Objects.equals(getDatatype(), metadata.getDatatype())
-                && Objects.equals(getParserType(), metadata.getParserType());
+                Objects.equals(getDatatype(), metadata.getDatatype()) &&
+                Objects.equals(getParserType(), metadata.getParserType());
     }
 
-    /**
-     * Returns the hash code of this metadata.
-     *
-     * @return the hash code of this metadata
-     */
     @Override
     public int hashCode() {
-        return Objects.hash(version, createdBy, createdAt, lastModifiedBy, lastModifiedAt, datatype, parserType);
+        return Objects.hash(id, version, createdBy, createdAt, lastModifiedBy, lastModifiedAt, datatype, parserType);
     }
 
-    /**
-     * Returns the string representation of this metadata.
-     *
-     * @return the string representation of this metadata
-     */
+    @Override
     public String toString() {
         return "{\n" +
+                "    id: " + toIndentedString(id) + ",\n" +
                 "    version: " + toIndentedString(version) + ",\n" +
                 "    created_by: " + toIndentedString(createdBy) + ",\n" +
                 "    created_at: " + toIndentedString(createdAt) + ",\n" +
                 "    last_modified_by: " + toIndentedString(lastModifiedBy) + ",\n" +
                 "    last_modified_at: " + toIndentedString(lastModifiedAt) + ",\n" +
-                "    parser_type: " + toIndentedString(datatype) + "\n" +
+                "    datatype: " + toIndentedString(datatype) + ",\n" +
+                "    parser_type: " + toIndentedString(parserType) + "\n" +
                 "}";
     }
 

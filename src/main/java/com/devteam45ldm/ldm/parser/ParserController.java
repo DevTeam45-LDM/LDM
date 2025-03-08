@@ -22,7 +22,9 @@ public abstract class ParserController {
         XML,
         CSV,
         TEXT,
-        CUSTOM
+        CUSTOM,
+        _CSV,
+        _ELAB
     }
 
     public static ImportedData importParser(String data, ImportTemplate importTemplate) throws SAXException, ParserConfigurationException, IOException, JSONException {

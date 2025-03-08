@@ -1,5 +1,7 @@
 package com.devteam45ldm.ldm.parser.templates.persistency;
 
+import com.devteam45ldm.ldm.parser.ParserController;
+import com.devteam45ldm.ldm.parser.templates.Template;
 import com.mongodb.client.MongoDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -32,7 +34,7 @@ public abstract class TemplateController {
         }
     }
 
-    public abstract void createTemplate();
-    public abstract void modifyTemplate();
-    public abstract void deleteTemplate();
+    public abstract void createTemplate(Template template);
+    public abstract void modifyTemplate(int id, Template template);
+    public abstract void deleteTemplate(int id);
 }

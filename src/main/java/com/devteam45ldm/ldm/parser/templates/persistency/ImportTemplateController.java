@@ -1,16 +1,22 @@
 package com.devteam45ldm.ldm.parser.templates.persistency;
 
+import com.devteam45ldm.ldm.parser.ParserController;
+import com.devteam45ldm.ldm.parser.templates.Template;
+import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate;
+
 public class ImportTemplateController extends TemplateController{
 
-    public void createTemplate() {
-        //TODO: Implement this method: Create and save a new import template in MongoDB
+    public void createTemplate(Template template) {
+        //TODO: Implement this method: Create and save a new import template in MongoDB (verison 1)
+        //Last_modified_by and created_by should be set to the user who created the template
+        //last_modified_at and created_at should be set to the current date and time
     }
 
-    public void modifyTemplate() {
+    public void modifyTemplate(int id, Template template) {
         //TODO: Implement this method: Modify an existing import template in MongoDB and save it as a new version of it (increment version number)
     }
 
-    public void deleteTemplate() {
+    public void deleteTemplate(int id) {
         //TODO: Implement this method: Delete an existing import template in MongoDB (only one version or hole template)
     }
 }
