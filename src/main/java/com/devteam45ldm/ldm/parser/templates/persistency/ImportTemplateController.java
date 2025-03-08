@@ -12,8 +12,21 @@ public class ImportTemplateController extends TemplateController{
         //last_modified_at and created_at should be set to the current date and time
     }
 
+    public Template readTemplate(int id) {
+        //TODO: Implement this method: Read an existing import template from MongoDB (latest version)
+        return null;
+    }
+
+    public Template readTemplate(int id, int version) {
+        //TODO: Implement this method: Read an existing import template from MongoDB (specific version)
+        return null;
+    }
+
     public void modifyTemplate(int id, Template template) {
         //TODO: Implement this method: Modify an existing import template in MongoDB and save it as a new version of it (increment version number)
+        //metadata.id should be the same as the id parameter
+        //created_by and created_at should not be changed
+        //last_modified_by and last_modified_at should be set to the user who modified the template and the current date and time
     }
 
     public void deleteTemplate(int id) {

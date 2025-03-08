@@ -62,7 +62,42 @@ public abstract class TemplateController {
         return template != null && template.getMetadata() != null ? template.getMetadata().getId() + 1 : 1;
     }
 
+    /**
+     * Creates a new template.
+     *
+     * @param template the template to create
+     */
     public abstract void createTemplate(Template template);
+
+    /**
+     * Reads a template with a specific version.
+     *
+     * @param id the ID of the template to read
+     * @param version the version of the template to read
+     * @return the template
+     */
+    public abstract Template readTemplate(int id, int version);
+
+    /**
+     * Reads a template with the latest version.
+     *
+     * @param id the ID of the template to read
+     * @return the template
+     */
+    public abstract Template readTemplate(int id);
+
+    /**
+     * Modifies a template.
+     *
+     * @param id the ID of the template to modify
+     * @param template the template to modify
+     */
     public abstract void modifyTemplate(int id, Template template);
+
+    /**
+     * Deletes a template.
+     *
+     * @param id the ID of the template to delete
+     */
     public abstract void deleteTemplate(int id);
 }
