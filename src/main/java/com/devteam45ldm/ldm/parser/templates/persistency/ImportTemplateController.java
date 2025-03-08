@@ -24,7 +24,7 @@ public class ImportTemplateController extends TemplateController{
 
     public void modifyTemplate(int id, Template template) {
         //TODO: Implement this method: Modify an existing import template in MongoDB and save it as a new version of it (increment version number)
-        //metadata.id should be the same as the id parameter
+        //metadata.id should be the same as the id parameter (do not change it)
         //created_by and created_at should not be changed
         //last_modified_by and last_modified_at should be set to the user who modified the template and the current date and time
     }
