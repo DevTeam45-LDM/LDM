@@ -1,8 +1,9 @@
 package com.devteam45ldm.ldm.parser.templates.persistency;
 
-import com.devteam45ldm.ldm.parser.ParserController;
 import com.devteam45ldm.ldm.parser.templates.Template;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -37,13 +38,13 @@ public abstract class TemplateController {
             database.createCollection(exportCollection);
         }
     }
-    
-    public String getImportCollection() {
-        return importCollection;
+
+    public MongoCollection<Document> getImportCollection() {
+        return database.getCollection(importCollection);
     }
-    
-    public String getExportCollection() {
-        return exportCollection;
+
+    public MongoCollection<Document> getExportCollection() {
+        return database.getCollection(exportCollection);
     }
 
     /**
