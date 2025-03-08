@@ -17,6 +17,8 @@ public abstract class TemplateController {
 
     @Autowired
     private MongoTemplate mongoTemplate;
+    private final String importCollection = "importTemplates";
+    private final String exportCollection = "exportTemplates";
     private final MongoDatabase database;
 
     public TemplateController() {
@@ -28,12 +30,20 @@ public abstract class TemplateController {
         Set<String> collections = new HashSet<>();
         database.listCollectionNames().iterator().forEachRemaining(collections::add);
 
-        if (!collections.contains("importTemplates")) {
-            database.createCollection("importTemplates");
+        if (!collections.contains(importCollection)) {
+            database.createCollection(importCollection);
         }
-        if (!collections.contains("exportTemplates")) {
-            database.createCollection("exportTemplates");
+        if (!collections.contains(exportCollection)) {
+            database.createCollection(exportCollection);
         }
+    }
+    
+    public String getImportCollection() {
+        return importCollection;
+    }
+    
+    public String getExportCollection() {
+        return exportCollection;
     }
 
     /**
@@ -45,7 +55,7 @@ public abstract class TemplateController {
         Query query = new Query();
         query.with(Sort.by(Sort.Order.desc("metadata.id")));
         query.limit(1);
-        Template template = mongoTemplate.findOne(query, Template.class, "importTemplates");
+        Template template = mongoTemplate.findOne(query, Template.class, importCollection);
         return template != null && template.getMetadata() != null ? template.getMetadata().getId() + 1 : 1;
     }
 
@@ -58,7 +68,7 @@ public abstract class TemplateController {
         Query query = new Query();
         query.with(Sort.by(Sort.Order.desc("metadata.id")));
         query.limit(1);
-        Template template = mongoTemplate.findOne(query, Template.class, "exportTemplates");
+        Template template = mongoTemplate.findOne(query, Template.class, exportCollection);
         return template != null && template.getMetadata() != null ? template.getMetadata().getId() + 1 : 1;
     }
 
