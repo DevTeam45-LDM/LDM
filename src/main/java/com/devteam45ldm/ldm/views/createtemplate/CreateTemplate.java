@@ -40,7 +40,6 @@ import java.util.stream.Collectors;
 @Menu(order = 2, icon = "line-awesome/svg/pencil-ruler-solid.svg")
 @UIScope
 public class CreateTemplate extends Composite<VerticalLayout> {
-
     private final JsonXml JsonAndXmlView;
     private final TextCsv TextAndCsvView;
     private final Custom CustomView;
@@ -116,6 +115,11 @@ private void updateUIForSelection(ParserType selectedValue) {
     JsonAndXmlView.setVisible(false);
     TextAndCsvView.setVisible(false);
     CustomView.setVisible(false);
+
+
+        JsonAndXmlView.getInsertPathComponent().clearAllFields();
+        TextAndCsvView.clearAllFields();
+        CustomView.clearAllFields();
 
     switch (selectedValue) {
         case JSON:

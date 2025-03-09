@@ -55,17 +55,27 @@ public class TextCsv extends Composite<VerticalLayout> {
                 createAlignedRowLayout("Terminator", terminatorMetadata, terminatorData)
         );
 
-        verticalLayout.getStyle().set("border", "2px solid black");
-        verticalLayout.getStyle().set("padding", "20px");
-        verticalLayout.getStyle().set("border-radius", "10px");
-        verticalLayout.getStyle().set("width", "fit-content");
-        verticalLayout.getStyle().set("display", "inline-block");
+//        verticalLayout.getStyle().set("border", "2px solid black");
+//        verticalLayout.getStyle().set("padding", "20px");
+//        verticalLayout.getStyle().set("border-radius", "10px");
+//        verticalLayout.getStyle().set("width", "fit-content");
+//        verticalLayout.getStyle().set("display", "inline-block");
 
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
         getContent().add(verticalLayout);
     }
-
+    public void clearAllFields() {
+        fileExtension.clear();
+        skipLineMetadata.clear();
+        skipLineData.clear();
+        lineBeginMetadata.clear();
+        lineBeginData.clear();
+        assignmentsMetadata.clear();
+        assignmentsData.clear();
+        delimiterMetadata.clear();
+        delimiterData.clear();
+    }
     private HorizontalLayout createAlignedRowLayout(String label, TextField metadataField, TextField dataField) {
         HorizontalLayout layout = new HorizontalLayout();
         layout.setWidthFull();

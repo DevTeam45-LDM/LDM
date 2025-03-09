@@ -48,9 +48,9 @@ public class InsertPath extends VerticalLayout {
                 dataPaths));
 
         // Apply styling to the main component
-        getStyle()
-                .set("border", "1px solid #B0C4DE")
-                .set("border-radius", "8px");
+//        getStyle()
+//                .set("border", "1px solid #B0C4DE")
+//                .set("border-radius", "8px");
     }
 
     // Interface for setting components
@@ -58,6 +58,10 @@ public class InsertPath extends VerticalLayout {
     private interface TextFieldSetter { void set(TextField textField); }
     private interface DisplaySetter { void set(Div display); }
 
+    public void clearAllFields() {
+        pathToMetadataField.clear();
+        pathToDataField.clear();
+    }
     private VerticalLayout createPathSection(String labelText, CheckboxSetter checkboxSetter,
                                              TextFieldSetter textFieldSetter,
                                              DisplaySetter displaySetter,
