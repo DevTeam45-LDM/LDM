@@ -48,9 +48,9 @@ public class InsertPath extends VerticalLayout {
                 dataPaths));
 
         // Apply styling to the main component
-        getStyle()
-                .set("border", "1px solid #B0C4DE")
-                .set("border-radius", "8px");
+//        getStyle()
+//                .set("border", "1px solid #B0C4DE")
+//                .set("border-radius", "8px");
     }
 
     // Interface for setting components

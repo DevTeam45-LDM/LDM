@@ -52,11 +52,11 @@ public class Custom extends Composite<VerticalLayout> {
                 createAlignedRowLayout("Data Parser", dataParserDropdown)
         );
 
-        verticalLayout.getStyle().set("border", "2px solid black");
-        verticalLayout.getStyle().set("padding", "20px");
-        verticalLayout.getStyle().set("border-radius", "10px");
-        verticalLayout.getStyle().set("width", "fit-content");
-        verticalLayout.getStyle().set("display", "inline-block");
+//        verticalLayout.getStyle().set("border", "2px solid black");
+//        verticalLayout.getStyle().set("padding", "20px");
+//        verticalLayout.getStyle().set("border-radius", "10px");
+//        verticalLayout.getStyle().set("width", "fit-content");
+//        verticalLayout.getStyle().set("display", "inline-block");
 
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
