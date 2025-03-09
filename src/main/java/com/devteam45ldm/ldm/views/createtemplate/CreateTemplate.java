@@ -117,7 +117,8 @@ private void updateUIForSelection(ParserType selectedValue) {
     CustomView.setVisible(false);
 
 
-        JsonAndXmlView.getInsertPathComponent().clearAllFields();
+        JsonAndXmlView.getInsertPathToMetadata().clearAllFields();
+        JsonAndXmlView.getInsertPathToData().clearAllFields();
         TextAndCsvView.clearAllFields();
         CustomView.clearAllFields();
 
