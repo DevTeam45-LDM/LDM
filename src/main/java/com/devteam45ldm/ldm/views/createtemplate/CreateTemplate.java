@@ -111,33 +111,34 @@ public class CreateTemplate extends Composite<VerticalLayout> {
 //    }
 
 
-    private void updateUIForSelection(ParserType selectedValue) {
-        JsonAndXmlView.setVisible(false);
-        TextAndCsvView.setVisible(false);
-        CustomView.setVisible(false);
+private void updateUIForSelection(ParserType selectedValue) {
+    JsonAndXmlView.setVisible(false);
+    TextAndCsvView.setVisible(false);
+    CustomView.setVisible(false);
+
 
         JsonAndXmlView.getInsertPathComponent().clearAllFields();
         TextAndCsvView.clearAllFields();
         CustomView.clearAllFields();
 
-        switch (selectedValue) {
-            case JSON:
-            case XML:
-                JsonAndXmlView.setVisible(true);
-                break;
+    switch (selectedValue) {
+        case JSON:
+        case XML:
+            JsonAndXmlView.setVisible(true);
+            break;
 
-            case CSV:
-            case TEXT:
-                TextAndCsvView.setVisible(true);
-                break;
+        case CSV:
+        case TEXT:
+            TextAndCsvView.setVisible(true);
+            break;
 
-            case CUSTOM:
-                CustomView.setVisible(true);
-                break;
+        case CUSTOM:
+            CustomView.setVisible(true);
+            break;
 
-            default:
-                break;
-        }
+        default:
+            break;
     }
+}
 
 }
