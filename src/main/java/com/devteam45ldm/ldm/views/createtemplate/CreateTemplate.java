@@ -1,9 +1,10 @@
 package com.devteam45ldm.ldm.views.createtemplate;
 
+import com.devteam45ldm.ldm.views.createtemplate.csv.Csv;
 import com.devteam45ldm.ldm.views.createtemplate.custom.Custom;
 import com.devteam45ldm.ldm.views.createtemplate.insertpath.InsertPath;
 import com.devteam45ldm.ldm.views.createtemplate.jsonxml.JsonXml;
-import com.devteam45ldm.ldm.views.createtemplate.textcsv.TextCsv;
+import com.devteam45ldm.ldm.views.createtemplate.text.Text;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
@@ -41,7 +42,8 @@ import java.util.stream.Collectors;
 @UIScope
 public class CreateTemplate extends Composite<VerticalLayout> {
     private final JsonXml JsonAndXmlView;
-    private final TextCsv TextAndCsvView;
+    private final Text TextView;
+    private final Csv CsvView;
     private final Custom CustomView;
     private final Select<ParserType> parserDropdown;
 
@@ -65,11 +67,13 @@ public class CreateTemplate extends Composite<VerticalLayout> {
 //        tabSheet.setWidth("100%");
 //        setTabSheetContent(tabSheet);
         JsonAndXmlView = new JsonXml();
-        TextAndCsvView = new TextCsv();
+        TextView = new Text();
+        CsvView = new Csv();
         CustomView = new Custom();
 
         JsonAndXmlView.setVisible(false);
-        TextAndCsvView.setVisible(false);
+        TextView.setVisible(false);
+        CsvView.setVisible(false);
         CustomView.setVisible(false);
 
         parserDropdown = new Select<>();
@@ -95,7 +99,7 @@ public class CreateTemplate extends Composite<VerticalLayout> {
 
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
-        getContent().add(headerLayout, JsonAndXmlView, TextAndCsvView, CustomView);
+        getContent().add(headerLayout, JsonAndXmlView, TextView, CsvView, CustomView);
 
 
     }
@@ -111,35 +115,37 @@ public class CreateTemplate extends Composite<VerticalLayout> {
 //    }
 
 
-private void updateUIForSelection(ParserType selectedValue) {
-    JsonAndXmlView.setVisible(false);
-    TextAndCsvView.setVisible(false);
-    CustomView.setVisible(false);
+    private void updateUIForSelection(ParserType selectedValue) {
+        JsonAndXmlView.setVisible(false);
+        TextView.setVisible(false);
+        CsvView.setVisible(false);
+        CustomView.setVisible(false);
 
 
         JsonAndXmlView.getInsertPathToMetadata().clearAllFields();
         JsonAndXmlView.getInsertPathToData().clearAllFields();
-        TextAndCsvView.clearAllFields();
+        TextView.clearAllFields();
+        CsvView.clearAllFields();
         CustomView.clearAllFields();
 
-    switch (selectedValue) {
-        case JSON:
-        case XML:
-            JsonAndXmlView.setVisible(true);
-            break;
+        switch (selectedValue) {
+            case JSON:
+            case XML:
+                JsonAndXmlView.setVisible(true);
+                break;
+            case CSV:
+                CsvView.setVisible(true);
+                break;
+            case TEXT:
+                TextView.setVisible(true);
+                break;
+            case CUSTOM:
+                CustomView.setVisible(true);
+                break;
+            default:
+                break;
+        }
 
-        case CSV:
-        case TEXT:
-            TextAndCsvView.setVisible(true);
-            break;
-
-        case CUSTOM:
-            CustomView.setVisible(true);
-            break;
-
-        default:
-            break;
     }
-}
 
 }

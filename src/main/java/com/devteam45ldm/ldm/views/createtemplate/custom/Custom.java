@@ -41,8 +41,6 @@ public class Custom extends Composite<VerticalLayout> {
         fileExtensionLayout.setWidthFull();
         fileExtensionLayout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
 
-//        settingItems(metadataParserDropdown);
-//        settingItems(dataParserDropdown);
         setDropdownItems(metadataParserDropdown);
         setDropdownItems(dataParserDropdown);
 
@@ -52,12 +50,6 @@ public class Custom extends Composite<VerticalLayout> {
                 createAlignedRowLayout("Data Parser", dataParserDropdown)
         );
 
-//        verticalLayout.getStyle().set("border", "2px solid black");
-//        verticalLayout.getStyle().set("padding", "20px");
-//        verticalLayout.getStyle().set("border-radius", "10px");
-//        verticalLayout.getStyle().set("width", "fit-content");
-//        verticalLayout.getStyle().set("display", "inline-block");
-
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
         getContent().add(verticalLayout);
@@ -66,13 +58,7 @@ public class Custom extends Composite<VerticalLayout> {
     public void clearAllFields() {
         fileExtension.clear();
     }
-//    private void settingItems(Select<ParserType> dropdown) {
-//        dropdown.setItems(
-//                Arrays.stream(ParserType.values())
-//                        .filter(type -> !type.name().startsWith("_"))
-//                        .collect(Collectors.toList())
-//        );
-//    }
+
 
     private HorizontalLayout createAlignedRowLayout(String label, Select<ParserType> dropdown) {
         HorizontalLayout layout = new HorizontalLayout();
