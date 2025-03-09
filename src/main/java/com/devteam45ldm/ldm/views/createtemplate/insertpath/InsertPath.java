@@ -58,6 +58,10 @@ public class InsertPath extends VerticalLayout {
     private interface TextFieldSetter { void set(TextField textField); }
     private interface DisplaySetter { void set(Div display); }
 
+    public void clearAllFields() {
+        pathToMetadataField.clear();
+        pathToDataField.clear();
+    }
     private VerticalLayout createPathSection(String labelText, CheckboxSetter checkboxSetter,
                                              TextFieldSetter textFieldSetter,
                                              DisplaySetter displaySetter,

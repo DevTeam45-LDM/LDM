@@ -65,7 +65,17 @@ public class TextCsv extends Composite<VerticalLayout> {
         getContent().getStyle().set("flex-grow", "1");
         getContent().add(verticalLayout);
     }
-
+    public void clearAllFields() {
+        fileExtension.clear();
+        skipLineMetadata.clear();
+        skipLineData.clear();
+        lineBeginMetadata.clear();
+        lineBeginData.clear();
+        assignmentsMetadata.clear();
+        assignmentsData.clear();
+        delimiterMetadata.clear();
+        delimiterData.clear();
+    }
     private HorizontalLayout createAlignedRowLayout(String label, TextField metadataField, TextField dataField) {
         HorizontalLayout layout = new HorizontalLayout();
         layout.setWidthFull();

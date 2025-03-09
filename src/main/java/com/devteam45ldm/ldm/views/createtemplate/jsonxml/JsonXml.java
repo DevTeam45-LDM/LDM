@@ -19,4 +19,8 @@ public class JsonXml extends Composite<VerticalLayout> {
         contentLayout.add(insertPathComponent);
 
     }
+
+    public InsertPath getInsertPathComponent() {
+        return insertPathComponent;
+    }
 }
