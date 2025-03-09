@@ -207,14 +207,14 @@ public class InsertPath extends VerticalLayout {
                     .set("margin-left", "8px")
                     .set("flex-shrink", "0");
 
-            // Add delete functionality
+            // delete button
             deleteButton.addClickListener(event -> {
                 pathsList.remove(path);
                 updatePathsDisplay(pathsList, pathsDisplay, associatedField);
                 associatedField.focus();
             });
 
-            // Click on the tag also removes it
+            // delete tags
             pathLabel.getElement().addEventListener("click", event -> {
                 pathsList.remove(path);
                 updatePathsDisplay(pathsList, pathsDisplay, associatedField);
@@ -227,7 +227,6 @@ public class InsertPath extends VerticalLayout {
             tagLayout.getElement().executeJs("this.onmouseover = function() {" + hoverStyle + "};");
             tagLayout.getElement().executeJs("this.onmouseout = function() {" + leaveStyle + "};");
 
-            // Add components to tag layout
             tagLayout.add(pathLabel, deleteButton);
             tagsContainer.add(tagLayout);
         }

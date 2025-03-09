@@ -17,6 +17,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.html.Div;
@@ -102,7 +103,7 @@ public class CreateTemplate extends Composite<VerticalLayout> {
 
 
 //        getContent().add(tabSheet,headerLayout);
-    }
+
 
 //    private void setTabSheetContent(TabSheet tabSheet) {
 //        tabSheet.add("Json/XML", JsonAndXmlView);
@@ -111,29 +112,29 @@ public class CreateTemplate extends Composite<VerticalLayout> {
 //    }
 
 
-    private void updateUIForSelection(ParserType selectedValue) {
-        JsonAndXmlView.setVisible(false);
-        TextAndCsvView.setVisible(false);
-        CustomView.setVisible(false);
+private void updateUIForSelection(ParserType selectedValue) {
+    JsonAndXmlView.setVisible(false);
+    TextAndCsvView.setVisible(false);
+    CustomView.setVisible(false);
 
-        switch (selectedValue) {
-            case JSON:
-            case XML:
-                JsonAndXmlView.setVisible(true);
-                break;
+    switch (selectedValue) {
+        case JSON:
+        case XML:
+            JsonAndXmlView.setVisible(true);
+            break;
 
-            case CSV:
-            case TEXT:
-                TextAndCsvView.setVisible(true);
-                break;
+        case CSV:
+        case TEXT:
+            TextAndCsvView.setVisible(true);
+            break;
 
-            case CUSTOM:
-                CustomView.setVisible(true);
-                break;
+        case CUSTOM:
+            CustomView.setVisible(true);
+            break;
 
-            default:
-                break;
-        }
+        default:
+            break;
     }
+}
 
 }
