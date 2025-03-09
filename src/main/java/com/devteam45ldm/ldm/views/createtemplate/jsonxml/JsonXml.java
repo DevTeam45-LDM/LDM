@@ -13,7 +13,7 @@ public class JsonXml extends Composite<VerticalLayout> {
 
         VerticalLayout contentLayout = getContent();
         contentLayout.setPadding(true);
-        contentLayout.setSpacing(true);
+        contentLayout.setSpacing(false);
 
         insertPathComponent = new InsertPath();
         contentLayout.add(insertPathComponent);

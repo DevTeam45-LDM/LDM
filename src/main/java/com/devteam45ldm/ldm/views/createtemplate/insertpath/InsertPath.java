@@ -6,11 +6,7 @@ import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.component.Composite;
 
 public class InsertPath extends HorizontalLayout {
 
@@ -35,8 +31,8 @@ public class InsertPath extends HorizontalLayout {
         rightColumn.setSpacing(true);
         rightColumn.setWidth("50%");
 
-        // Add this line to push the checkboxes to the right side
-        rightColumn.setAlignItems(FlexComponent.Alignment.END);
+        // REMOVE THIS LINE - it's causing the alignment issue
+        // rightColumn.setAlignItems(FlexComponent.Alignment.END);
 
         // Create text fields with labels
         pathToMetadataField = getLabeledTextfield(leftColumn, "Path to Metadata");
@@ -45,6 +41,10 @@ public class InsertPath extends HorizontalLayout {
         // Create checkboxes with labels
         includeSubPathsMetadata = getLabeledCheckbox(rightColumn, "Include Sub Paths");
         includeSubPathsData = getLabeledCheckbox(rightColumn, "Include Sub Paths");
+
+        // Set explicit horizontal alignment for checkboxes and their layouts to START
+        rightColumn.setHorizontalComponentAlignment(FlexComponent.Alignment.START, includeSubPathsMetadata);
+        rightColumn.setHorizontalComponentAlignment(FlexComponent.Alignment.START, includeSubPathsData);
 
         // Add both columns to this layout
         add(leftColumn, rightColumn);
@@ -57,9 +57,9 @@ public class InsertPath extends HorizontalLayout {
     }
 
     private TextField getLabeledTextfield(VerticalLayout v, String labelName) {
-
         HorizontalLayout layout = new HorizontalLayout();
         layout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+        layout.setWidthFull(); // Make layout take full width of the column
 
         // Create label
         Div label = new Div();
@@ -67,10 +67,9 @@ public class InsertPath extends HorizontalLayout {
         label.getStyle().set("min-width", "150px");
 
         TextField t1 = new TextField();
-        t1.setWidthFull();
+        t1.setWidth("50%");
 
         layout.add(label, t1);
-
         v.add(layout);
 
         return t1;
@@ -80,6 +79,11 @@ public class InsertPath extends HorizontalLayout {
         // Create horizontal layout for the label and checkbox
         HorizontalLayout layout = new HorizontalLayout();
         layout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+        layout.setSpacing(true);
+        layout.setWidthFull(); // Make it take full width
+
+        // This is crucial - align items to the start (left)
+        layout.setJustifyContentMode(FlexComponent.JustifyContentMode.START);
 
         // Create label
         Div label = new Div();
@@ -94,18 +98,9 @@ public class InsertPath extends HorizontalLayout {
 
         v.add(layout);
 
+        // Apply START alignment to this specific layout
+        v.setHorizontalComponentAlignment(FlexComponent.Alignment.START, layout);
+
         return checkbox;
-    }
-
-    private void applyStyles(VerticalLayout leftColumn, VerticalLayout rightColumn, HorizontalLayout mainLayout) {
-        // Apply styles to columns for better alignment
-        leftColumn.setWidth("50%");
-        rightColumn.setWidth("50%");
-
-        // Add a border to the main layout to match the screenshot
-        mainLayout.getStyle()
-                .set("border", "1px solid #B0C4DE")
-                .set("border-radius", "8px")
-                .set("padding", "20px");
     }
 }
