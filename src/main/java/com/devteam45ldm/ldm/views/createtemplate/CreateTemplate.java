@@ -2,6 +2,7 @@ package com.devteam45ldm.ldm.views.createtemplate;
 
 import com.devteam45ldm.ldm.views.createtemplate.csv.Csv;
 import com.devteam45ldm.ldm.views.createtemplate.custom.Custom;
+import com.devteam45ldm.ldm.views.createtemplate.insertpath.InsertPath;
 import com.devteam45ldm.ldm.views.createtemplate.jsonxml.JsonXml;
 import com.devteam45ldm.ldm.views.createtemplate.text.Text;
 import com.vaadin.flow.component.Composite;
@@ -14,9 +15,22 @@ import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
-
+import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
+import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
+import com.vaadin.flow.component.Composite;
 import java.util.stream.Collectors;
+
 
 /**
  * The CreateTemplate view allows users to create a new template.
@@ -42,6 +56,7 @@ public class CreateTemplate extends Composite<VerticalLayout> {
         _CSV,
         _ELAB;
     }
+
 
     /**
      * Constructs a new CreateTemplate view.
@@ -86,8 +101,12 @@ public class CreateTemplate extends Composite<VerticalLayout> {
         getContent().getStyle().set("flex-grow", "1");
         getContent().add(headerLayout, JsonAndXmlView, TextView, CsvView, CustomView);
 
-//        getContent().add(tabSheet,headerLayout);
+
     }
+
+
+//        getContent().add(tabSheet,headerLayout);
+
 
 //    private void setTabSheetContent(TabSheet tabSheet) {
 //        tabSheet.add("Json/XML", JsonAndXmlView);
@@ -102,7 +121,9 @@ public class CreateTemplate extends Composite<VerticalLayout> {
         CsvView.setVisible(false);
         CustomView.setVisible(false);
 
-        JsonAndXmlView.getInsertPathComponent().clearAllFields();
+
+        JsonAndXmlView.getInsertPathToMetadata().clearAllFields();
+        JsonAndXmlView.getInsertPathToData().clearAllFields();
         TextView.clearAllFields();
         CsvView.clearAllFields();
         CustomView.clearAllFields();
@@ -124,6 +145,7 @@ public class CreateTemplate extends Composite<VerticalLayout> {
             default:
                 break;
         }
+
     }
 
 }

@@ -59,6 +59,7 @@ public class Custom extends Composite<VerticalLayout> {
         fileExtension.clear();
     }
 
+
     private HorizontalLayout createAlignedRowLayout(String label, Select<ParserType> dropdown) {
         HorizontalLayout layout = new HorizontalLayout();
         layout.setWidthFull();
@@ -82,3 +83,4 @@ public class Custom extends Composite<VerticalLayout> {
         dropdown.setItems(filteredItems);
     }
 }
+

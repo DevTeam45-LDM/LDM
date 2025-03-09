@@ -7,7 +7,8 @@ import com.vaadin.flow.component.tabs.TabSheet;
 
 public class JsonXml extends Composite<VerticalLayout> {
 
-    private InsertPath insertPathComponent;
+    private InsertPath insertPathToMetadata;
+    private InsertPath insertPathToData;
 
     public JsonXml() {
 
@@ -15,12 +16,16 @@ public class JsonXml extends Composite<VerticalLayout> {
         contentLayout.setPadding(true);
         contentLayout.setSpacing(false);
 
-        insertPathComponent = new InsertPath();
-        contentLayout.add(insertPathComponent);
+        insertPathToMetadata = new InsertPath("Path to Metadata");
+        insertPathToData = new InsertPath("Path to Data");
+        contentLayout.add(insertPathToMetadata, insertPathToData);
 
     }
 
-    public InsertPath getInsertPathComponent() {
-        return insertPathComponent;
+    public InsertPath getInsertPathToMetadata() {
+        return insertPathToMetadata;
+    }
+    public InsertPath getInsertPathToData() {
+        return insertPathToData;
     }
 }
