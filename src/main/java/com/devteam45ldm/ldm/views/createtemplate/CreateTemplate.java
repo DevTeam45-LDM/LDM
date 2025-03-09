@@ -4,18 +4,9 @@ import com.devteam45ldm.ldm.views.createtemplate.custom.Custom;
 import com.devteam45ldm.ldm.views.createtemplate.insertpath.InsertPath;
 import com.devteam45ldm.ldm.views.createtemplate.jsonxml.JsonXml;
 import com.devteam45ldm.ldm.views.createtemplate.textcsv.TextCsv;
-import com.devteam45ldm.ldm.views.eLabClient.createReport.CreateReport;
-import com.devteam45ldm.ldm.views.eLabClient.experiments.ExperimentTemplates;
-import com.devteam45ldm.ldm.views.eLabClient.experiments.Experiments;
-import com.devteam45ldm.ldm.views.eLabClient.login.Login;
-import com.devteam45ldm.ldm.views.eLabClient.tags.Tags;
 import com.vaadin.flow.component.Composite;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.tabs.TabSheet;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
-import com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
@@ -36,6 +27,8 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.component.Composite;
+import java.util.stream.Collectors;
+
 
 /**
  * The CreateTemplate view allows users to create a new template.
@@ -44,41 +37,103 @@ import com.vaadin.flow.component.Composite;
 @PageTitle("Create Template")
 @Route("create-template")
 @Menu(order = 2, icon = "line-awesome/svg/pencil-ruler-solid.svg")
+@UIScope
 public class CreateTemplate extends Composite<VerticalLayout> {
 
-    private final JsonXml JsonAndXmlView = new JsonXml();
-    private final TextCsv TextAndCsvView = new TextCsv();
-    private final Custom CustomView = new Custom();
-    private InsertPath insertPathComponent;
+    private final JsonXml JsonAndXmlView;
+    private final TextCsv TextAndCsvView;
+    private final Custom CustomView;
+    private final Select<ParserType> parserDropdown;
+
+    public enum ParserType {
+        JSON,
+        XML,
+        CSV,
+        TEXT,
+        CUSTOM,
+        _CSV,
+        _ELAB;
+    }
+
 
     /**
      * Constructs a new CreateTemplate view.
      * Initializes the layout, select component, and button.
      */
     public CreateTemplate() {
-        TabSheet tabSheet = new TabSheet();
+//        TabSheet tabSheet = new TabSheet();
+//        tabSheet.setWidth("100%");
+//        setTabSheetContent(tabSheet);
+        JsonAndXmlView = new JsonXml();
+        TextAndCsvView = new TextCsv();
+        CustomView = new Custom();
+
+        JsonAndXmlView.setVisible(false);
+        TextAndCsvView.setVisible(false);
+        CustomView.setVisible(false);
+
+        parserDropdown = new Select<>();
+        parserDropdown.setItems(
+                Arrays.stream(ParserType.values())
+                        .filter(type -> !type.name().startsWith("_"))
+                        .collect(Collectors.toList())
+        );
+
+        HorizontalLayout headerLayout = new HorizontalLayout(new Span("Parser"), parserDropdown);
+//        headerLayout.setWidthFull();
+//        headerLayout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.END);
+//        headerLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.START);
+
+        parserDropdown.addValueChangeListener(event -> {
+            try {
+                ParserType selectedValue = event.getValue();
+                updateUIForSelection(selectedValue);
+            } catch (Exception e) {
+                Notification.show("Error: " + e.getMessage());
+            }
+        });
+
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
-        tabSheet.setWidth("100%");
-        setTabSheetContent(tabSheet);
-        getContent().add(tabSheet);
-
-
-        VerticalLayout contentLayout = getContent();
-        contentLayout.setPadding(true);
-        contentLayout.setSpacing(true);
+        getContent().add(headerLayout, JsonAndXmlView, TextAndCsvView, CustomView);
 
 
     }
 
-    private void setTabSheetContent(TabSheet tabSheet) {
-        tabSheet.add("Json/XML", JsonAndXmlView);
-        tabSheet.add("Text/CSV", TextAndCsvView);
-        tabSheet.add("Custom", CustomView);
+
+//        getContent().add(tabSheet,headerLayout);
     }
 
+//    private void setTabSheetContent(TabSheet tabSheet) {
+//        tabSheet.add("Json/XML", JsonAndXmlView);
+//        tabSheet.add("Text/CSV", TextAndCsvView);
+//        tabSheet.add("Custom", CustomView);
+//    }
 
 
+    private void updateUIForSelection(ParserType selectedValue) {
+        JsonAndXmlView.setVisible(false);
+        TextAndCsvView.setVisible(false);
+        CustomView.setVisible(false);
 
+        switch (selectedValue) {
+            case JSON:
+            case XML:
+                JsonAndXmlView.setVisible(true);
+                break;
+
+            case CSV:
+            case TEXT:
+                TextAndCsvView.setVisible(true);
+                break;
+
+            case CUSTOM:
+                CustomView.setVisible(true);
+                break;
+
+            default:
+                break;
+        }
+    }
 
 }
