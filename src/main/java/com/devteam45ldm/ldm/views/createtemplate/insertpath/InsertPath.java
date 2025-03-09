@@ -48,9 +48,9 @@ public class InsertPath extends VerticalLayout {
                 dataPaths));
 
         // Apply styling to the main component
-        getStyle()
-                .set("border", "1px solid #B0C4DE")
-                .set("border-radius", "8px");
+//        getStyle()
+//                .set("border", "1px solid #B0C4DE")
+//                .set("border-radius", "8px");
     }
 
     // Interface for setting components
@@ -58,6 +58,10 @@ public class InsertPath extends VerticalLayout {
     private interface TextFieldSetter { void set(TextField textField); }
     private interface DisplaySetter { void set(Div display); }
 
+    public void clearAllFields() {
+        pathToMetadataField.clear();
+        pathToDataField.clear();
+    }
     private VerticalLayout createPathSection(String labelText, CheckboxSetter checkboxSetter,
                                              TextFieldSetter textFieldSetter,
                                              DisplaySetter displaySetter,
@@ -207,14 +211,14 @@ public class InsertPath extends VerticalLayout {
                     .set("margin-left", "8px")
                     .set("flex-shrink", "0");
 
-            // Add delete functionality
+            // delete button
             deleteButton.addClickListener(event -> {
                 pathsList.remove(path);
                 updatePathsDisplay(pathsList, pathsDisplay, associatedField);
                 associatedField.focus();
             });
 
-            // Click on the tag also removes it
+            // delete tags
             pathLabel.getElement().addEventListener("click", event -> {
                 pathsList.remove(path);
                 updatePathsDisplay(pathsList, pathsDisplay, associatedField);
@@ -227,7 +231,6 @@ public class InsertPath extends VerticalLayout {
             tagLayout.getElement().executeJs("this.onmouseover = function() {" + hoverStyle + "};");
             tagLayout.getElement().executeJs("this.onmouseout = function() {" + leaveStyle + "};");
 
-            // Add components to tag layout
             tagLayout.add(pathLabel, deleteButton);
             tagsContainer.add(tagLayout);
         }

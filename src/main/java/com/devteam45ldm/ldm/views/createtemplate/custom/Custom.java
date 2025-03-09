@@ -1,5 +1,6 @@
 package com.devteam45ldm.ldm.views.createtemplate.custom;
 
+import com.devteam45ldm.ldm.views.createtemplate.CreateTemplate;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -14,13 +15,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@PageTitle("Text CSV")
-@Route("text-csv")
+@PageTitle("Custom")
+@Route("custom")
 public class Custom extends Composite<VerticalLayout> {
 
-    private final TextField fileExtension;
-    private final Select<ParserType> metadataParserDropdown;
-    private final Select<ParserType> dataParserDropdown;
+    private final TextField fileExtension = new TextField();
+    private final Select<ParserType> metadataParserDropdown = new Select<>();
+    private final Select<ParserType> dataParserDropdown = new Select<>();
 
     public enum ParserType {
         JSON,
@@ -33,42 +34,46 @@ public class Custom extends Composite<VerticalLayout> {
     }
 
     public Custom() {
-        fileExtension = new TextField();
-        metadataParserDropdown = new Select<>();
-        dataParserDropdown = new Select<>();
+        fileExtension.getStyle().set("width", "250px");
+        fileExtension.getStyle().set("margin-left", "50px");
 
+        HorizontalLayout fileExtensionLayout = new HorizontalLayout(new Span("File Extension"), fileExtension);
+        fileExtensionLayout.setWidthFull();
+        fileExtensionLayout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+
+//        settingItems(metadataParserDropdown);
+//        settingItems(dataParserDropdown);
         setDropdownItems(metadataParserDropdown);
         setDropdownItems(dataParserDropdown);
 
-        HorizontalLayout fileExtensionLayout = createAlignedRowLayout("File Extension", fileExtension);
-        HorizontalLayout metadataParserLayout = createAlignedRowLayout("Metadata Parser", metadataParserDropdown);
-        HorizontalLayout dataParserLayout = createAlignedRowLayout("Data Parser", dataParserDropdown);
-
         VerticalLayout verticalLayout = new VerticalLayout(
                 fileExtensionLayout,
-                metadataParserLayout,
-                dataParserLayout
+                createAlignedRowLayout("Metadata Parser", metadataParserDropdown),
+                createAlignedRowLayout("Data Parser", dataParserDropdown)
         );
 
-        verticalLayout.getStyle().set("border", "2px solid black");
-        verticalLayout.getStyle().set("padding", "20px");
-        verticalLayout.getStyle().set("border-radius", "10px");
-        verticalLayout.getStyle().set("width", "fit-content");
-        verticalLayout.getStyle().set("display", "inline-block");
+//        verticalLayout.getStyle().set("border", "2px solid black");
+//        verticalLayout.getStyle().set("padding", "20px");
+//        verticalLayout.getStyle().set("border-radius", "10px");
+//        verticalLayout.getStyle().set("width", "fit-content");
+//        verticalLayout.getStyle().set("display", "inline-block");
 
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
         getContent().add(verticalLayout);
-    }
 
-    private void setDropdownItems(Select<ParserType> dropdown) {
-        List<ParserType> filteredItems = Arrays.stream(ParserType.values())
-                .filter(type -> type != ParserType.CUSTOM)
-                .collect(Collectors.toList());
-        dropdown.setItems(filteredItems);
     }
-
-    private HorizontalLayout createAlignedRowLayout(String label, com.vaadin.flow.component.Component component) {
+    public void clearAllFields() {
+        fileExtension.clear();
+    }
+//    private void settingItems(Select<ParserType> dropdown) {
+//        dropdown.setItems(
+//                Arrays.stream(ParserType.values())
+//                        .filter(type -> !type.name().startsWith("_"))
+//                        .collect(Collectors.toList())
+//        );
+//    }
+    private HorizontalLayout createAlignedRowLayout(String label, Select<ParserType> dropdown) {
         HorizontalLayout layout = new HorizontalLayout();
         layout.setWidthFull();
         layout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
@@ -76,8 +81,18 @@ public class Custom extends Composite<VerticalLayout> {
 
         Span labelSpan = new Span(label);
         labelSpan.getStyle().set("width", "150px");
-        layout.add(labelSpan, component);
 
+        dropdown.setWidth("250px");
+
+        layout.add(labelSpan, dropdown);
         return layout;
+    }
+
+    private void setDropdownItems(Select<ParserType> dropdown) {
+        List<ParserType> filteredItems = Arrays.stream(ParserType.values())
+                .filter(type -> type != ParserType.CUSTOM)
+                .filter(type -> !type.name().startsWith("_"))
+                .collect(Collectors.toList());
+        dropdown.setItems(filteredItems);
     }
 }
