@@ -1,17 +1,14 @@
 package com.devteam45ldm.ldm.views.createtemplate.textcsv;
 
-import com.devteam45ldm.ldm.views.createtemplate.parserTemplate.ParserTemplate;
 import com.vaadin.flow.component.Composite;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.select.Select;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -19,46 +16,19 @@ import com.vaadin.flow.router.Route;
 @Route("text-csv")
 public class TextCsv extends Composite<VerticalLayout> {
 
-    private final TextField fileExtension;
-    private final TextField skipLineMetadata;
-    private final TextField skipLineData;
-    private final TextField lineBeginMetadata;
-    private final TextField lineBeginData;
-    private final TextField assignmentsMetadata;
-    private final TextField assignmentsData;
-    private final TextField delimiterMetadata;
-    private final TextField delimiterData;
-    private final TextField terminatorMetadata;
-    private final TextField terminatorData;
-    private final Select<ParserType> parserDropdown;
-
-    public enum ParserType {
-        JSON,
-        XML,
-        CSV,
-        TEXT,
-        CUSTOM,
-        _CSV,
-        _ELAB;
-    }
+    private final TextField fileExtension = new TextField();
+    private final TextField skipLineMetadata = new TextField();
+    private final TextField skipLineData = new TextField();
+    private final TextField lineBeginMetadata = new TextField();
+    private final TextField lineBeginData = new TextField();
+    private final TextField assignmentsMetadata = new TextField();
+    private final TextField assignmentsData = new TextField();
+    private final TextField delimiterMetadata = new TextField();
+    private final TextField delimiterData = new TextField();
+    private final TextField terminatorMetadata = new TextField();
+    private final TextField terminatorData = new TextField();
 
     public TextCsv() {
-        fileExtension = new TextField();
-        skipLineMetadata = new TextField();
-        skipLineData = new TextField();
-        lineBeginMetadata = new TextField();
-        lineBeginData = new TextField();
-        assignmentsMetadata = new TextField();
-        assignmentsData = new TextField();
-        delimiterMetadata = new TextField();
-        delimiterData = new TextField();
-        terminatorMetadata = new TextField();
-        terminatorData = new TextField();
-
-        parserDropdown = new Select<>();
-        parserDropdown.setItems(ParserType.values());
-
-        HorizontalLayout headerLayout = new HorizontalLayout(new Span("Parser"), parserDropdown);
         HorizontalLayout fileExtensionLayout = new HorizontalLayout(new Span("File Extension"), fileExtension);
         fileExtensionLayout.setWidthFull();
         fileExtensionLayout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
@@ -76,7 +46,6 @@ public class TextCsv extends Composite<VerticalLayout> {
         metadataDataHeader.add(metadataLabel, dataLabel);
 
         VerticalLayout verticalLayout = new VerticalLayout(
-                headerLayout,
                 fileExtensionLayout,
                 metadataDataHeader,
                 createAlignedRowLayout("Skip Line", skipLineMetadata, skipLineData),
@@ -85,6 +54,12 @@ public class TextCsv extends Composite<VerticalLayout> {
                 createAlignedRowLayout("Delimiter", delimiterMetadata, delimiterData),
                 createAlignedRowLayout("Terminator", terminatorMetadata, terminatorData)
         );
+
+        verticalLayout.getStyle().set("border", "2px solid black");
+        verticalLayout.getStyle().set("padding", "20px");
+        verticalLayout.getStyle().set("border-radius", "10px");
+        verticalLayout.getStyle().set("width", "fit-content");
+        verticalLayout.getStyle().set("display", "inline-block");
 
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
