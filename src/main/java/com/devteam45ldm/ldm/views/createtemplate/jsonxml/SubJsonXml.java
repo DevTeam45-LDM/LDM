@@ -20,8 +20,7 @@ public class SubJsonXml extends Composite<VerticalLayout> {
 
     }
 
-    public InsertPath getInsertPath() {
-        return insertPath;
+    public void clearAllFields() {
+        insertPath.clearAllFields();
     }
-
 }

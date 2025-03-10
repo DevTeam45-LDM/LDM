@@ -44,12 +44,21 @@ public class InsertPath extends VerticalLayout {
     }
 
     // Interface for setting components
-    private interface CheckboxSetter { void set(Checkbox checkbox); }
-    private interface TextFieldSetter { void set(TextField textField); }
-    private interface DisplaySetter { void set(Div display); }
+    private interface CheckboxSetter {
+        void set(Checkbox checkbox);
+    }
+
+    private interface TextFieldSetter {
+        void set(TextField textField);
+    }
+
+    private interface DisplaySetter {
+        void set(Div display);
+    }
 
     public void clearAllFields() {
         pathToMetadataField.clear();
+        metadataPaths.clear();
     }
 
     private VerticalLayout createPathSection(String labelText, CheckboxSetter checkboxSetter,

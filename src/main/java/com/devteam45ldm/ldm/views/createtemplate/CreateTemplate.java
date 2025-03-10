@@ -99,8 +99,7 @@ public class CreateTemplate extends Composite<VerticalLayout> {
         CsvView.setVisible(false);
         CustomView.setVisible(false);
 
-        JsonAndXmlView.getInsertPathToMetadata().clearAllFields();
-        JsonAndXmlView.getInsertPathToData().clearAllFields();
+        JsonAndXmlView.clearAllFields();
         TextView.clearAllFields();
         CsvView.clearAllFields();
         CustomView.clearAllFields();

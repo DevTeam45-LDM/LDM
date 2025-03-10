@@ -79,7 +79,6 @@ public class Custom extends Composite<VerticalLayout> {
         });
 
 
-
         VerticalLayout verticalLayout = new VerticalLayout(
                 fileExtensionLayout,
                 createAlignedRowLayout("Metadata Parser", metadataParserDropdown),
@@ -103,8 +102,8 @@ public class Custom extends Composite<VerticalLayout> {
 //            return;
 //        }
 
-
         boolean isMetadata = "Metadata".equals(type);
+        subFieldsClear(type);
 
         switch (selectedValue) {
             case JSON:
@@ -120,7 +119,7 @@ public class Custom extends Composite<VerticalLayout> {
                 }
                 break;
             case CSV:
-                if(isMetadata) {
+                if (isMetadata) {
                     subCsvMetadata.setVisible(true);
                     subJsonXmlMetadata.setVisible(false);
                     subTextMetadata.setVisible(false);
@@ -142,13 +141,6 @@ public class Custom extends Composite<VerticalLayout> {
                 }
                 break;
             default:
-                subJsonXmlMetadata.setVisible(false);
-                subJsonXmlData.setVisible(false);
-                subTextMetadata.setVisible(false);
-                subTextData.setVisible(false);
-                subCsvMetadata.setVisible(false);
-                subCsvData.setVisible(false);
-                subFieldsClear();
                 break;
         }
     }
@@ -157,19 +149,25 @@ public class Custom extends Composite<VerticalLayout> {
         fileExtension.clear();
         subTextMetadata.clearAllFields();
         subTextData.clearAllFields();
-        subJsonXmlMetadata.getInsertPath().clearAllFields();
-        subJsonXmlData.getInsertPath().clearAllFields();
+        subJsonXmlMetadata.clearAllFields();
+        subJsonXmlData.clearAllFields();
         subCsvMetadata.clearAllFields();
         subCsvData.clearAllFields();
     }
 
-    public void subFieldsClear() {
-        subTextMetadata.clearAllFields();
-        subTextData.clearAllFields();
-        subJsonXmlMetadata.getInsertPath().clearAllFields();
-        subJsonXmlData.getInsertPath().clearAllFields();
-        subCsvMetadata.clearAllFields();
-        subCsvData.clearAllFields();
+    public void subFieldsClear(String type) {
+        switch (type) {
+            case "Metadata":
+                subTextMetadata.clearAllFields();
+                subJsonXmlMetadata.clearAllFields();
+                subCsvMetadata.clearAllFields();
+                break;
+            case "data":
+                subTextData.clearAllFields();
+                subJsonXmlData.clearAllFields();
+                subCsvData.clearAllFields();
+                break;
+        }
     }
 
 //    public void dropdownClear() {

@@ -22,11 +22,8 @@ public class JsonXml extends Composite<VerticalLayout> {
 
     }
 
-    public InsertPath getInsertPathToMetadata() {
-        return insertPathToMetadata;
-    }
-
-    public InsertPath getInsertPathToData() {
-        return insertPathToData;
+    public void clearAllFields() {
+        insertPathToMetadata.clearAllFields();
+        insertPathToData.clearAllFields();
     }
 }
