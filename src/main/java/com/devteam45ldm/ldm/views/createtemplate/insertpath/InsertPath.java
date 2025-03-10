@@ -59,6 +59,7 @@ public class InsertPath extends VerticalLayout {
     public void clearAllFields() {
         pathToMetadataField.clear();
         metadataPaths.clear();
+        metadataPathsDisplay.removeAll();
     }
 
     private VerticalLayout createPathSection(String labelText, CheckboxSetter checkboxSetter,
