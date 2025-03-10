@@ -58,10 +58,6 @@ public class Text extends Composite<VerticalLayout> {
                 createAlignedRowLayout("Skip Lines", "Amount of lines to skip after the headline (pattern).", skipLineMetadata, skipLineData)
         );
 
-        VerticalLayout subVerticalLayout = new VerticalLayout(
-
-        );
-
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
         getContent().add(verticalLayout);

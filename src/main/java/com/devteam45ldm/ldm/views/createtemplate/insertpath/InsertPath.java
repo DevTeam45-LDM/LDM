@@ -18,34 +18,24 @@ import com.vaadin.flow.component.textfield.TextField;
 public class InsertPath extends VerticalLayout {
 
     private TextField pathToMetadataField;
-    private TextField pathToDataField;
     private Checkbox includeSubPathsMetadata;
-    private Checkbox includeSubPathsData;
 
     // Lists to store the entered paths
     private List<String> metadataPaths = new ArrayList<>();
-    private List<String> dataPaths = new ArrayList<>();
 
     // Divs to display the entered paths
     private Div metadataPathsDisplay;
-    private Div dataPathsDisplay;
 
-    public InsertPath() {
+    public InsertPath(String labelName) {
         setWidthFull();
         setPadding(true);
         setSpacing(true);
 
-        // Create metadata section
-        add(createPathSection("Path to Metadata", (checkbox) -> includeSubPathsMetadata = checkbox,
+        // Create metadata section only
+        add(createPathSection(labelName, (checkbox) -> includeSubPathsMetadata = checkbox,
                 (textField) -> pathToMetadataField = textField,
                 (display) -> metadataPathsDisplay = display,
                 metadataPaths));
-
-        // Create data section
-        add(createPathSection("Path to Data", (checkbox) -> includeSubPathsData = checkbox,
-                (textField) -> pathToDataField = textField,
-                (display) -> dataPathsDisplay = display,
-                dataPaths));
 
         // Apply styling to the main component
 //        getStyle()
@@ -60,8 +50,8 @@ public class InsertPath extends VerticalLayout {
 
     public void clearAllFields() {
         pathToMetadataField.clear();
-        pathToDataField.clear();
     }
+
     private VerticalLayout createPathSection(String labelText, CheckboxSetter checkboxSetter,
                                              TextFieldSetter textFieldSetter,
                                              DisplaySetter displaySetter,
@@ -243,15 +233,7 @@ public class InsertPath extends VerticalLayout {
         return new ArrayList<>(metadataPaths);
     }
 
-    public List<String> getDataPaths() {
-        return new ArrayList<>(dataPaths);
-    }
-
     public boolean isIncludeSubPathsMetadata() {
         return includeSubPathsMetadata.getValue();
-    }
-
-    public boolean isIncludeSubPathsData() {
-        return includeSubPathsData.getValue();
     }
 }

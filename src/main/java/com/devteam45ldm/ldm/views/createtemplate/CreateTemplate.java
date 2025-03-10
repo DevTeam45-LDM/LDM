@@ -62,16 +62,9 @@ public class CreateTemplate extends Composite<VerticalLayout> {
         CustomView.setVisible(false);
 
         parserDropdown = new Select<>();
-        parserDropdown.setItems(
-                Arrays.stream(ParserType.values())
-                        .filter(type -> !type.name().startsWith("_"))
-                        .collect(Collectors.toList())
-        );
+        setParserDropdownItems(parserDropdown);
 
         HorizontalLayout headerLayout = new HorizontalLayout(new Span("Parser"), parserDropdown);
-//        headerLayout.setWidthFull();
-//        headerLayout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.END);
-//        headerLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.START);
 
         parserDropdown.addValueChangeListener(event -> {
             try {
@@ -85,8 +78,6 @@ public class CreateTemplate extends Composite<VerticalLayout> {
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
         getContent().add(headerLayout, JsonAndXmlView, TextView, CsvView, CustomView);
-
-//        getContent().add(tabSheet,headerLayout);
     }
 
 //    private void setTabSheetContent(TabSheet tabSheet) {
@@ -95,17 +86,25 @@ public class CreateTemplate extends Composite<VerticalLayout> {
 //        tabSheet.add("Custom", CustomView);
 //    }
 
-
+    private void setParserDropdownItems(Select<ParserType> parserDropdown) {
+        parserDropdown.setItems(
+                Arrays.stream(ParserType.values())
+                        .filter(type -> !type.name().startsWith("_"))
+                        .collect(Collectors.toList())
+        );
+    }
     private void updateUIForSelection(ParserType selectedValue) {
         JsonAndXmlView.setVisible(false);
         TextView.setVisible(false);
         CsvView.setVisible(false);
         CustomView.setVisible(false);
 
-        JsonAndXmlView.getInsertPathComponent().clearAllFields();
+        JsonAndXmlView.getInsertPathToMetadata().clearAllFields();
+        JsonAndXmlView.getInsertPathToData().clearAllFields();
         TextView.clearAllFields();
         CsvView.clearAllFields();
         CustomView.clearAllFields();
+        CustomView.allVisibleFalse();
 
         switch (selectedValue) {
             case JSON:

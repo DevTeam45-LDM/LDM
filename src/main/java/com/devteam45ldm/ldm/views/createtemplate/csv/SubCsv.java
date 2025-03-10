@@ -1,4 +1,4 @@
-package com.devteam45ldm.ldm.views.createtemplate.text;
+package com.devteam45ldm.ldm.views.createtemplate.csv;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -12,22 +12,20 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@PageTitle("SubText")
-@Route("subtext")
-public class SubText extends Composite<VerticalLayout> {
+@PageTitle("SUBCSV")
+@Route("subcsv")
+public class SubCsv extends Composite<VerticalLayout> {
 
     private final TextField skipLineMetadata = new TextField();
     private final TextField skipLineData = new TextField();
-    private final TextField lineBeginMetadata = new TextField();
-    private final TextField lineBeginData = new TextField();
-    private final TextField assignmentsMetadata = new TextField();
-    private final TextField assignmentsData = new TextField();
+    private final TextField totalColumnsMetadata = new TextField();
+    private final TextField totalColumnsData = new TextField();
+    private final TextField hasHeadlineMetadata = new TextField();
+    private final TextField hasHeadlineData = new TextField();
     private final TextField delimiterMetadata = new TextField();
     private final TextField delimiterData = new TextField();
-    private final TextField terminatorMetadata = new TextField();
-    private final TextField terminatorData = new TextField();
 
-    public SubText(String string) {
+    public SubCsv(String string) {
 
         HorizontalLayout metadataDataHeader = new HorizontalLayout();
         metadataDataHeader.setWidthFull();
@@ -41,35 +39,28 @@ public class SubText extends Composite<VerticalLayout> {
 
         VerticalLayout verticalLayout = new VerticalLayout(
                 metadataDataHeader,
-                createAlignedRowLayout("Line Starter", "String which every line starts with.", lineBeginMetadata),
-                createAlignedRowLayout("Terminator", "Terminator for data e.g. a csv terminator like a newline.", terminatorMetadata),
-                createAlignedRowLayout("Assignments",
-                        "Assignment operators e.g. in txt files.\n" +
-                                "Example: \"key: value\" -> \":\" is the assignment operator.\n" +
-                                "If set, the data will be treated as key-value pairs, optionally with a delimiter for multiple values within a line.", assignmentsMetadata),
-                createAlignedRowLayout("Delimiter", "Delimiter for data e.g. a csv delimiter.", delimiterMetadata),
-                createAlignedRowLayout("Skip Lines", "Amount of lines to skip after the headline (pattern).", skipLineMetadata)
+                createAlignedRowLayout("Has Headline", "Is there a line to be treated as a headline?\n" +
+                        "Lines with only spaces and \\n are ignored.",hasHeadlineMetadata),
+                createAlignedRowLayout("Total Columns", "Total amount of columns in the data.",totalColumnsMetadata),
+                createAlignedRowLayout("Delimiter", "Delimiter for data e.g. a csv delimiter.",delimiterMetadata),
+                createAlignedRowLayout("Skip Lines", "Amount of lines to skip after the headline (pattern).",skipLineMetadata)
         );
 
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
         getContent().add(verticalLayout);
     }
-
     public void clearAllFields() {
         skipLineMetadata.clear();
         skipLineData.clear();
-        lineBeginMetadata.clear();
-        lineBeginData.clear();
-        assignmentsMetadata.clear();
-        assignmentsData.clear();
+        totalColumnsMetadata.clear();
+        totalColumnsData.clear();
+        hasHeadlineMetadata.clear();
+        hasHeadlineData.clear();
         delimiterMetadata.clear();
         delimiterData.clear();
-        terminatorMetadata.clear();
-        terminatorData.clear();
     }
-
-    private HorizontalLayout createAlignedRowLayout(String label, String infoLabel, TextField metadataField) {
+    private HorizontalLayout createAlignedRowLayout(String label, String infoLabel,TextField metadataField) {
         HorizontalLayout layout = new HorizontalLayout();
         layout.setWidthFull();
         layout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
