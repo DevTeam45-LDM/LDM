@@ -25,5 +25,6 @@ public class JsonXml extends Composite<VerticalLayout> {
     public void clearAllFields() {
         insertPathToMetadata.clearAllFields();
         insertPathToData.clearAllFields();
+
     }
 }
