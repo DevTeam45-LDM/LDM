@@ -12,11 +12,10 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@PageTitle("Text")
-@Route("text")
-public class Text extends Composite<VerticalLayout> {
+@PageTitle("SubText")
+@Route("subtext")
+public class SubText extends Composite<VerticalLayout> {
 
-    private final TextField fileExtension = new TextField();
     private final TextField skipLineMetadata = new TextField();
     private final TextField skipLineData = new TextField();
     private final TextField lineBeginMetadata = new TextField();
@@ -28,34 +27,28 @@ public class Text extends Composite<VerticalLayout> {
     private final TextField terminatorMetadata = new TextField();
     private final TextField terminatorData = new TextField();
 
-    public Text() {
-        HorizontalLayout fileExtensionLayout = new HorizontalLayout(new Span("File Extension"), fileExtension);
-        fileExtensionLayout.setWidthFull();
-        fileExtensionLayout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+    public SubText(String string) {
 
         HorizontalLayout metadataDataHeader = new HorizontalLayout();
         metadataDataHeader.setWidthFull();
         metadataDataHeader.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         metadataDataHeader.getStyle().set("font-weight", "bold");
 
-        Span metadataLabel = new Span("Metadata");
-        Span dataLabel = new Span("Data");
-        metadataLabel.getStyle().set("margin-left", "250px");
+        Span dataLabel = new Span(string);
         dataLabel.getStyle().set("margin-left", "200px");
 
-        metadataDataHeader.add(metadataLabel, dataLabel);
+        metadataDataHeader.add(dataLabel);
 
         VerticalLayout verticalLayout = new VerticalLayout(
-                fileExtensionLayout,
                 metadataDataHeader,
-                createAlignedRowLayout("Line Starter", "String which every line starts with.", lineBeginMetadata, lineBeginData),
-                createAlignedRowLayout("Terminator", "Terminator for data e.g. a csv terminator like a newline.", terminatorMetadata, terminatorData),
+                createAlignedRowLayout("Line Starter", "String which every line starts with.", lineBeginMetadata),
+                createAlignedRowLayout("Terminator", "Terminator for data e.g. a csv terminator like a newline.", terminatorMetadata),
                 createAlignedRowLayout("Assignments",
                         "Assignment operators e.g. in txt files.\n" +
                                 "Example: \"key: value\" -> \":\" is the assignment operator.\n" +
-                                "If set, the data will be treated as key-value pairs, optionally with a delimiter for multiple values within a line.", assignmentsMetadata, assignmentsData),
-                createAlignedRowLayout("Delimiter", "Delimiter for data e.g. a csv delimiter.", delimiterMetadata, delimiterData),
-                createAlignedRowLayout("Skip Lines", "Amount of lines to skip after the headline (pattern).", skipLineMetadata, skipLineData)
+                                "If set, the data will be treated as key-value pairs, optionally with a delimiter for multiple values within a line.", assignmentsMetadata),
+                createAlignedRowLayout("Delimiter", "Delimiter for data e.g. a csv delimiter.", delimiterMetadata),
+                createAlignedRowLayout("Skip Lines", "Amount of lines to skip after the headline (pattern).", skipLineMetadata)
         );
 
         VerticalLayout subVerticalLayout = new VerticalLayout(
@@ -68,7 +61,6 @@ public class Text extends Composite<VerticalLayout> {
     }
 
     public void clearAllFields() {
-        fileExtension.clear();
         skipLineMetadata.clear();
         skipLineData.clear();
         lineBeginMetadata.clear();
@@ -81,7 +73,7 @@ public class Text extends Composite<VerticalLayout> {
         terminatorData.clear();
     }
 
-    private HorizontalLayout createAlignedRowLayout(String label, String infoLabel, TextField metadataField, TextField dataField) {
+    private HorizontalLayout createAlignedRowLayout(String label, String infoLabel, TextField metadataField) {
         HorizontalLayout layout = new HorizontalLayout();
         layout.setWidthFull();
         layout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
@@ -94,9 +86,8 @@ public class Text extends Composite<VerticalLayout> {
         infoIcon.getStyle().set("margin-right", "10px");
 
         metadataField.setWidth("250px");
-        dataField.setWidth("250px");
 
-        layout.add(labelSpan, infoIcon, metadataField, dataField);
+        layout.add(labelSpan, infoIcon, metadataField);
         return layout;
     }
 

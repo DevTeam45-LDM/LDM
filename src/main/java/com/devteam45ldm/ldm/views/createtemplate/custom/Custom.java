@@ -1,8 +1,9 @@
 package com.devteam45ldm.ldm.views.createtemplate.custom;
 
-import com.devteam45ldm.ldm.views.createtemplate.CreateTemplate;
+import com.devteam45ldm.ldm.views.createtemplate.text.SubText;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -22,6 +23,8 @@ public class Custom extends Composite<VerticalLayout> {
     private final TextField fileExtension = new TextField();
     private final Select<ParserType> metadataParserDropdown = new Select<>();
     private final Select<ParserType> dataParserDropdown = new Select<>();
+    private final SubText subTextMetadata = new SubText("Metadata");
+    private final SubText subTextData = new SubText("Data");
 
     public enum ParserType {
         JSON,
@@ -44,19 +47,54 @@ public class Custom extends Composite<VerticalLayout> {
         setDropdownItems(metadataParserDropdown);
         setDropdownItems(dataParserDropdown);
 
+        metadataParserDropdown.addValueChangeListener(event -> {
+            try {
+                updateVisibility(event.getValue(), "Metadata");
+            } catch (Exception e) {
+                Notification.show("Error: " + e.getMessage());
+            }
+        });
+        dataParserDropdown.addValueChangeListener(event -> {
+            try {
+                updateVisibility(event.getValue(), "data");
+            } catch (Exception e) {
+                Notification.show("Error: " + e.getMessage());
+            }
+        });
+
+        subTextMetadata.setVisible(false);
+        subTextData.setVisible(false);
+
         VerticalLayout verticalLayout = new VerticalLayout(
                 fileExtensionLayout,
                 createAlignedRowLayout("Metadata Parser", metadataParserDropdown),
-                createAlignedRowLayout("Data Parser", dataParserDropdown)
+                subTextMetadata,
+                createAlignedRowLayout("Data Parser", dataParserDropdown),
+                subTextData
         );
 
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
         getContent().add(verticalLayout);
-
     }
+
+    private void updateVisibility(ParserType selectedValue, String type) {
+
+        if (selectedValue == ParserType.CSV || selectedValue == ParserType.TEXT) {
+            if (type.equals("Metadata")) {
+                subTextMetadata.setVisible(true);
+            } else {
+                subTextData.setVisible(true);
+            }
+        }
+    }
+
     public void clearAllFields() {
         fileExtension.clear();
+        metadataParserDropdown.clear();
+        dataParserDropdown.clear();
+//        subTextMetadata.setVisible(false);
+//        subTextData.setVisible(false);
     }
 
     private HorizontalLayout createAlignedRowLayout(String label, Select<ParserType> dropdown) {
