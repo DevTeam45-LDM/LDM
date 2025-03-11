@@ -9,10 +9,18 @@ import com.vaadin.flow.router.Route;
 
 import java.io.InputStream;
 
+/**
+ * The `ParserTemplate` class represents a UI component for uploading files.
+ * It provides an upload area with drag-and-drop functionality and handles file processing.
+ */
 @PageTitle("File Upload")
 @Route("file-upload")
 public class ParserTemplate extends VerticalLayout {
 
+    /**
+     * Constructs a new `ParserTemplate` instance.
+     * Initializes the layout and upload component.
+     */
     public ParserTemplate() {
         // Create a memory buffer to store uploaded files
         MemoryBuffer buffer = new MemoryBuffer();
@@ -63,6 +71,14 @@ public class ParserTemplate extends VerticalLayout {
         add(upload);
     }
 
+    /**
+     * Processes the uploaded file.
+     *
+     * @param fileName the name of the uploaded file
+     * @param inputStream the input stream of the uploaded file
+     * @param mimeType the MIME type of the uploaded file
+     * @param contentLength the size of the uploaded file in bytes
+     */
     private void processUploadedFile(String fileName, InputStream inputStream,
                                      String mimeType, long contentLength) {
         // Implement your file processing logic here

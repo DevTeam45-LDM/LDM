@@ -12,6 +12,10 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+/**
+ * The `SubText` class represents a UI component for creating a sub-text template.
+ * It provides a form with fields for metadata and data configuration.
+ */
 @PageTitle("SubText")
 @Route("subtext")
 public class SubText extends Composite<VerticalLayout> {
@@ -27,8 +31,13 @@ public class SubText extends Composite<VerticalLayout> {
     private final TextField terminatorMetadata = new TextField();
     private final TextField terminatorData = new TextField();
 
+    /**
+     * Constructs a new `SubText` instance.
+     * Initializes the layout and form fields.
+     *
+     * @param string the label for the data section
+     */
     public SubText(String string) {
-
         HorizontalLayout metadataDataHeader = new HorizontalLayout();
         metadataDataHeader.setWidthFull();
         metadataDataHeader.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
@@ -56,6 +65,9 @@ public class SubText extends Composite<VerticalLayout> {
         getContent().add(verticalLayout);
     }
 
+    /**
+     * Clears all the fields in the form.
+     */
     public void clearAllFields() {
         skipLineMetadata.clear();
         skipLineData.clear();
@@ -69,6 +81,14 @@ public class SubText extends Composite<VerticalLayout> {
         terminatorData.clear();
     }
 
+    /**
+     * Creates a horizontal layout with aligned components for a form row.
+     *
+     * @param label the label for the row
+     * @param infoLabel the information label for the row
+     * @param metadataField the text field for metadata input
+     * @return the created horizontal layout
+     */
     private HorizontalLayout createAlignedRowLayout(String label, String infoLabel, TextField metadataField) {
         HorizontalLayout layout = new HorizontalLayout();
         layout.setWidthFull();
@@ -87,6 +107,12 @@ public class SubText extends Composite<VerticalLayout> {
         return layout;
     }
 
+    /**
+     * Creates an information icon with a dialog displaying the provided label.
+     *
+     * @param label the label to display in the dialog
+     * @return the created information icon
+     */
     private Icon createInfoIcon(String label) {
         Icon infoIcon = new Icon(VaadinIcon.INFO_CIRCLE_O);
         infoIcon.getElement().setAttribute("style", "cursor: pointer; color: #007bff;");

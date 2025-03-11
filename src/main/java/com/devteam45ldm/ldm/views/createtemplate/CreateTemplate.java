@@ -48,9 +48,6 @@ public class CreateTemplate extends Composite<VerticalLayout> {
      * Initializes the layout, select component, and button.
      */
     public CreateTemplate() {
-//        TabSheet tabSheet = new TabSheet();
-//        tabSheet.setWidth("100%");
-//        setTabSheetContent(tabSheet);
         JsonAndXmlView = new JsonXml();
         TextView = new Text();
         CsvView = new Csv();
@@ -80,12 +77,11 @@ public class CreateTemplate extends Composite<VerticalLayout> {
         getContent().add(headerLayout, JsonAndXmlView, TextView, CsvView, CustomView);
     }
 
-//    private void setTabSheetContent(TabSheet tabSheet) {
-//        tabSheet.add("Json/XML", JsonAndXmlView);
-//        tabSheet.add("Text/CSV", TextAndCsvView);
-//        tabSheet.add("Custom", CustomView);
-//    }
-
+    /**
+     * Sets the items for the parser dropdown.
+     *
+     * @param parserDropdown the select component for parser types
+     */
     private void setParserDropdownItems(Select<ParserType> parserDropdown) {
         parserDropdown.setItems(
                 Arrays.stream(ParserType.values())
@@ -93,6 +89,12 @@ public class CreateTemplate extends Composite<VerticalLayout> {
                         .collect(Collectors.toList())
         );
     }
+
+    /**
+     * Updates the UI based on the selected parser type.
+     *
+     * @param selectedValue the selected parser type
+     */
     private void updateUIForSelection(ParserType selectedValue) {
         JsonAndXmlView.setVisible(false);
         TextView.setVisible(false);
@@ -123,5 +125,4 @@ public class CreateTemplate extends Composite<VerticalLayout> {
                 break;
         }
     }
-
 }
