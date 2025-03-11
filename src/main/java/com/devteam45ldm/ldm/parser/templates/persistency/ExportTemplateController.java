@@ -1,7 +1,8 @@
 package com.devteam45ldm.ldm.parser.templates.persistency;
 
-import com.devteam45ldm.ldm.parser.ParserController;
 import com.devteam45ldm.ldm.parser.templates.Template;
+
+import java.util.List;
 
 //TODO: Implement this class analogous to ImportTemplateController
 public class ExportTemplateController extends TemplateController {
@@ -14,6 +15,10 @@ public class ExportTemplateController extends TemplateController {
         //last_modified_at and created_at should be set to the current date and time
     }
 
+    public List<Template> readAllTemplates() {
+        //TODO: Implement this method: Get all import templates from MongoDB (latest versions)
+        return null;
+    }
     public Template readTemplate(int id) {
         //TODO: Implement this method: Read an existing import template from MongoDB (latest version)
         return null;

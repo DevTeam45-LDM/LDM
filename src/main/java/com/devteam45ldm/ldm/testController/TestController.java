@@ -1,4 +1,4 @@
-package com.devteam45ldm.ldm.controller;
+package com.devteam45ldm.ldm.testController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;

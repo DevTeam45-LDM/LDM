@@ -1,8 +1,7 @@
-package com.devteam45ldm.ldm.controller;
+package com.devteam45ldm.ldm.testController;
 
 import okhttp3.*;
 import okhttp3.logging.HttpLoggingInterceptor;
-import org.jetbrains.annotations.NotNull;
 import org.riversun.okhttp3.OkHttp3CookieHelper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.net.ssl.*;
 import java.io.IOException;
 import java.security.SecureRandom;
-import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.stream.Collectors;
 

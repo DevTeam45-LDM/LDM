@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -25,6 +26,10 @@ public abstract class TemplateController {
     public TemplateController() {
         this.database = mongoTemplate.getDb();
         checkAndCreateCollections();
+    }
+
+    public MongoTemplate getMongoTemplate() {
+        return mongoTemplate;
     }
 
     private void checkAndCreateCollections() {
@@ -79,6 +84,13 @@ public abstract class TemplateController {
      * @param template the template to create
      */
     public abstract void createTemplate(Template template);
+
+    /**
+     * Reads all latest templates from the database.
+     *
+     * @return the list of latest templates
+     */
+    public abstract List<Template> readAllTemplates();
 
     /**
      * Reads a template with a specific version.

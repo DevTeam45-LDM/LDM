@@ -13,11 +13,8 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.spring.annotation.UIScope;
 
-import com.devteam45ldm.ldm.controller.HTTPController;
-
 import io.swagger.client.api.*;
 import io.swagger.client.model.*;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 
 import java.io.IOException;
