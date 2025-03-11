@@ -1,7 +1,10 @@
 package com.devteam45ldm.ldm.views.createtemplate;
 
+
 import com.devteam45ldm.ldm.views.createtemplate.csv.Csv;
 import com.devteam45ldm.ldm.views.createtemplate.custom.Custom;
+import com.devteam45ldm.ldm.views.createtemplate.exporttemplatetab.ExportTemplateTab;
+import com.devteam45ldm.ldm.views.createtemplate.importtemplatetab.ImportTemplateTab;
 import com.devteam45ldm.ldm.views.createtemplate.jsonxml.JsonXml;
 import com.devteam45ldm.ldm.views.createtemplate.text.Text;
 import com.vaadin.flow.component.Composite;
@@ -10,11 +13,12 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
+import com.vaadin.flow.component.tabs.TabSheet;
 import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
-import com.devteam45ldm.ldm.parser.ParserController;
+
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -33,6 +37,10 @@ public class CreateTemplate extends Composite<VerticalLayout> {
     private final Custom CustomView;
     private final Select<ParserType> parserDropdown;
 
+
+    private final ImportTemplateTab importTemplate = new ImportTemplateTab();
+    private final ExportTemplateTab exportTemplate = new ExportTemplateTab();
+
     public enum ParserType {
         JSON,
         XML,
@@ -48,12 +56,12 @@ public class CreateTemplate extends Composite<VerticalLayout> {
      * Initializes the layout, select component, and button.
      */
     public CreateTemplate() {
-//        TabSheet tabSheet = new TabSheet();
-//        tabSheet.setWidth("100%");
-//        setTabSheetContent(tabSheet);
 //        ParserController.importParser();
 
 
+        TabSheet tabSheet = new TabSheet();
+        tabSheet.setWidth("100%");
+        setTabSheetContent(tabSheet);
 
         JsonAndXmlView = new JsonXml();
         TextView = new Text();
@@ -81,14 +89,13 @@ public class CreateTemplate extends Composite<VerticalLayout> {
 
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
-        getContent().add(headerLayout, JsonAndXmlView, TextView, CsvView, CustomView);
+        getContent().add(tabSheet,headerLayout, JsonAndXmlView, TextView, CsvView, CustomView);
     }
 
-//    private void setTabSheetContent(TabSheet tabSheet) {
-//        tabSheet.add("Json/XML", JsonAndXmlView);
-//        tabSheet.add("Text/CSV", TextAndCsvView);
-//        tabSheet.add("Custom", CustomView);
-//    }
+    private void setTabSheetContent(TabSheet tabSheet) {
+        tabSheet.add("Import Template", importTemplate);
+        tabSheet.add("Export Template", exportTemplate);
+    }
 
     private void setParserDropdownItems(Select<ParserType> parserDropdown) {
         parserDropdown.setItems(
