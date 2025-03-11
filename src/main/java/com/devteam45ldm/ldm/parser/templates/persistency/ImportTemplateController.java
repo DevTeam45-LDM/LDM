@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 import static com.devteam45ldm.ldm.CommonMethods.getCurrentTimestamp;
@@ -22,7 +23,9 @@ import static com.devteam45ldm.ldm.CommonMethods.getCurrentUser;
 
 
 @Service
-public class ImportTemplateController extends TemplateController{
+public class ImportTemplateController extends TemplateController<ImportTemplate> {
+    public ImportTemplateController() throws IOException {
+    }
 
     //use getImportCollection() to get the collection where the template should be
 
@@ -33,7 +36,7 @@ public class ImportTemplateController extends TemplateController{
      * @throws IllegalArgumentException if the template is null or if the template's metadata datatype is null
      */
     @Override
-    public void createTemplate(Template template) {
+    public void createTemplate(ImportTemplate template) {
         //TODO: Implement this method: Create and save a new import template in MongoDB (version 1)
         //Last_modified_by and created_by should be set to the user who created the template
         //last_modified_at and created_at should be set to the current date and time
@@ -72,14 +75,14 @@ public class ImportTemplateController extends TemplateController{
      * @return the list of latest templates
      */
     @Override
-    public List<Template> readAllTemplates() {
+    public List<ImportTemplate> readAllTemplates() {
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.sort(Sort.by(Sort.Order.desc("metadata.version"))),
                 Aggregation.group("metadata.id").first(Aggregation.ROOT).as("latestTemplate"),
                 Aggregation.replaceRoot("latestTemplate")
         );
 
-        AggregationResults<Template> results = getMongoTemplate().aggregate(aggregation, getImportCollection().getNamespace().getCollectionName(), Template.class);
+        AggregationResults<ImportTemplate> results = getMongoTemplate().aggregate(aggregation, getImportCollection().getNamespace().getCollectionName(), ImportTemplate.class);
         return results.getMappedResults();
     }
 
@@ -90,7 +93,7 @@ public class ImportTemplateController extends TemplateController{
      * @return the template with the latest version, or null if not found
      */
     @Override
-    public Template readTemplate(int id) {
+    public ImportTemplate readTemplate(int id) {
         //TODO: Implement this method: Read an existing import template from MongoDB (latest version)
         MongoCollection<Document> collection = getImportCollection();
 
@@ -113,7 +116,7 @@ public class ImportTemplateController extends TemplateController{
      * @return the template with the specified version, or null if not found
      */
     @Override
-    public Template readTemplate(int id, int version) {
+    public ImportTemplate readTemplate(int id, int version) {
         //TODO: Implement this method: Read an existing import template from MongoDB (specific version)
         MongoCollection<Document> collection = getImportCollection();
 
@@ -139,7 +142,7 @@ public class ImportTemplateController extends TemplateController{
      * @throws IllegalArgumentException if the template is null or if the template with the specified ID is not found
      */
     @Override
-    public void modifyTemplate(int id, Template template) {
+    public void modifyTemplate(int id, ImportTemplate template) {
         //TODO: Implement this method: Modify an existing import template in MongoDB and save it as a new version of it (increment version number)
         //metadata.id should be the same as the id parameter (do not change it)
         //created_by and created_at should not be changed
@@ -249,7 +252,7 @@ public class ImportTemplateController extends TemplateController{
      * @param document the document to convert
      * @return the template
      */
-    private Template convertDocumentToTemplate(Document document) {
+    private ImportTemplate convertDocumentToTemplate(Document document) {
         ImportTemplate template = new ImportTemplate();
 
         // Convert metadata with careful attention to all fields
