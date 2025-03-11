@@ -166,15 +166,17 @@ class MetadataTest {
         metadata.setLastModifiedBy("editor");
         metadata.setLastModifiedAt("2023-12-01");
         metadata.setDatatype("csv");
-        String expected = """
-                {
-                    version: 1
-                    created_by: user
-                    created_at: 2023-10-01
-                    last_modified_by: editor
-                    last_modified_at: 2023-12-01
-                    parser: csv
-                }""";
+        String expected =   """
+                            {
+                                id: 0,
+                                version: 1,
+                                created_by: user,
+                                created_at: 2023-10-01,
+                                last_modified_by: editor,
+                                last_modified_at: 2023-12-01,
+                                datatype: csv,
+                                parser_type: null
+                            }""";
         assertEquals(expected, metadata.toString());
     }
 

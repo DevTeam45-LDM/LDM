@@ -138,11 +138,13 @@ class ImportTemplateTest {
         importTemplate.setMappings(importMappings);
         String expected = "{\n" +
                 "    metadata: {\n" +
+                "        id: 0,\n" +
                 "        version: null,\n" +
                 "        created_by: null,\n" +
                 "        created_at: null,\n" +
                 "        last_modified_by: null,\n" +
                 "        last_modified_at: null,\n" +
+                "        datatype: null,\n" +
                 "        parser_type: null\n" +
                 "    },\n" +
                 "    mappings: {\n" +
@@ -171,11 +173,13 @@ class ImportTemplateTest {
         importTemplate.setMappings(importMappings);
         String expected = "{\n" +
                 "    metadata: {\n" +
+                "        id: 0,\n" +
                 "        version: null,\n" +
                 "        created_by: null,\n" +
                 "        created_at: null,\n" +
                 "        last_modified_by: null,\n" +
                 "        last_modified_at: null,\n" +
+                "        datatype: null,\n" +
                 "        parser_type: null\n" +
                 "    },\n" +
                 "    mappings: {\n" +
