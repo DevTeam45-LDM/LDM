@@ -18,6 +18,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The `Custom` class represents a UI component for creating a custom template.
+ * It provides a form with various fields for metadata and data configuration.
+ */
 @PageTitle("Custom")
 @Route("custom")
 public class Custom extends Composite<VerticalLayout> {
@@ -32,6 +36,9 @@ public class Custom extends Composite<VerticalLayout> {
     private final SubCsv subCsvMetadata = new SubCsv("Metadata");
     private final SubCsv subCsvData = new SubCsv("Data");
 
+    /**
+     * Enum representing the types of parsers available.
+     */
     public enum ParserType {
         JSON,
         XML,
@@ -42,6 +49,10 @@ public class Custom extends Composite<VerticalLayout> {
         _ELAB;
     }
 
+    /**
+     * Constructs a new `Custom` instance.
+     * Initializes the layout and form fields.
+     */
     public Custom() {
         fileExtension.getStyle().set("width", "250px");
         fileExtension.getStyle().set("margin-left", "50px");
@@ -78,7 +89,6 @@ public class Custom extends Composite<VerticalLayout> {
             }
         });
 
-
         VerticalLayout verticalLayout = new VerticalLayout(
                 fileExtensionLayout,
                 createAlignedRowLayout("Metadata Parser", metadataParserDropdown),
@@ -96,12 +106,13 @@ public class Custom extends Composite<VerticalLayout> {
         getContent().add(verticalLayout);
     }
 
+    /**
+     * Updates the visibility of sub-components based on the selected parser type.
+     *
+     * @param selectedValue the selected parser type
+     * @param type the type of parser (Metadata or data)
+     */
     private void updateVisibility(ParserType selectedValue, String type) {
-//        if(selectedValue == null){
-//            Notification.show("No Parser Selected");
-//            return;
-//        }
-
         boolean isMetadata = "Metadata".equals(type);
         subFieldsClear(type);
 
@@ -145,6 +156,9 @@ public class Custom extends Composite<VerticalLayout> {
         }
     }
 
+    /**
+     * Clears all the fields in the form.
+     */
     public void clearAllFields() {
         fileExtension.clear();
         subTextMetadata.clearAllFields();
@@ -155,6 +169,11 @@ public class Custom extends Composite<VerticalLayout> {
         subCsvData.clearAllFields();
     }
 
+    /**
+     * Clears the fields of the sub-components based on the type.
+     *
+     * @param type the type of parser (Metadata or data)
+     */
     public void subFieldsClear(String type) {
         switch (type) {
             case "Metadata":
@@ -170,11 +189,9 @@ public class Custom extends Composite<VerticalLayout> {
         }
     }
 
-    public void dropdownClear() {
-        metadataParserDropdown.clear();
-        dataParserDropdown.clear();
-    }
-
+    /**
+     * Sets all sub-components to be invisible.
+     */
     public void allVisibleFalse() {
         subJsonXmlMetadata.setVisible(false);
         subJsonXmlData.setVisible(false);
@@ -184,6 +201,13 @@ public class Custom extends Composite<VerticalLayout> {
         subCsvData.setVisible(false);
     }
 
+    /**
+     * Creates a horizontal layout with aligned components for a row in the form.
+     *
+     * @param label the label for the row
+     * @param dropdown the dropdown for parser selection
+     * @return the created horizontal layout
+     */
     private HorizontalLayout createAlignedRowLayout(String label, Select<ParserType> dropdown) {
         HorizontalLayout layout = new HorizontalLayout();
         layout.setWidthFull();
@@ -199,6 +223,11 @@ public class Custom extends Composite<VerticalLayout> {
         return layout;
     }
 
+    /**
+     * Sets the items for the dropdown, filtering out certain parser types.
+     *
+     * @param dropdown the dropdown to set items for
+     */
     private void setDropdownItems(Select<ParserType> dropdown) {
         List<ParserType> filteredItems = Arrays.stream(ParserType.values())
                 .filter(type -> type != ParserType.CUSTOM)

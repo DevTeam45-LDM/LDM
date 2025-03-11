@@ -15,6 +15,10 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
+/**
+ * The `InsertPath` class represents a UI component for inserting paths.
+ * It provides a form with fields for metadata paths and options to include sub-paths.
+ */
 public class InsertPath extends VerticalLayout {
 
     private TextField pathToMetadataField;
@@ -26,6 +30,12 @@ public class InsertPath extends VerticalLayout {
     // Divs to display the entered paths
     private Div metadataPathsDisplay;
 
+    /**
+     * Constructs a new `InsertPath` instance.
+     * Initializes the layout and form fields.
+     *
+     * @param labelName the label for the metadata section
+     */
     public InsertPath(String labelName) {
         setWidthFull();
         setPadding(true);
@@ -36,11 +46,6 @@ public class InsertPath extends VerticalLayout {
                 (textField) -> pathToMetadataField = textField,
                 (display) -> metadataPathsDisplay = display,
                 metadataPaths));
-
-        // Apply styling to the main component
-//        getStyle()
-//                .set("border", "1px solid #B0C4DE")
-//                .set("border-radius", "8px");
     }
 
     // Interface for setting components
@@ -56,6 +61,9 @@ public class InsertPath extends VerticalLayout {
         void set(Div display);
     }
 
+    /**
+     * Clears all the fields in the form.
+     */
     public void clearAllFields() {
         pathToMetadataField.clear();
         metadataPaths.clear();
