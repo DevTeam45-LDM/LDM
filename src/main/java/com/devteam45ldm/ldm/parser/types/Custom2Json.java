@@ -1,5 +1,6 @@
 package com.devteam45ldm.ldm.parser.types;
 
+import com.devteam45ldm.ldm.parser.CommonMethods;
 import com.devteam45ldm.ldm.parser.ParserController;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportParserMappings;
 import com.devteam45ldm.ldm.parser.templates.importDataStructures.ImportTemplate;

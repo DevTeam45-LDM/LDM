@@ -10,17 +10,22 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
 import org.bson.Document;
 import org.bson.conversions.Bson;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.io.IOException;
+import java.util.List;
+
+import static com.devteam45ldm.ldm.CommonMethods.getCurrentTimestamp;
+import static com.devteam45ldm.ldm.CommonMethods.getCurrentUser;
+
 
 @Service
-public class ImportTemplateController extends TemplateController{
-
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+public class ImportTemplateController extends TemplateController<ImportTemplate> {
+    public ImportTemplateController() throws IOException {
+    }
 
     //use getImportCollection() to get the collection where the template should be
 
@@ -31,8 +36,8 @@ public class ImportTemplateController extends TemplateController{
      * @throws IllegalArgumentException if the template is null or if the template's metadata datatype is null
      */
     @Override
-    public void createTemplate(Template template) {
-        //TODO: Implement this method: Create and save a new import template in MongoDB (verison 1)
+    public void createTemplate(ImportTemplate template) {
+        //TODO: Implement this method: Create and save a new import template in MongoDB (version 1)
         //Last_modified_by and created_by should be set to the user who created the template
         //last_modified_at and created_at should be set to the current date and time
 
@@ -51,17 +56,34 @@ public class ImportTemplateController extends TemplateController{
         String currentTimestamp = getCurrentTimestamp();
 
         // Set metadata field
-        metadata.setId(getNextImportTemplateId());
-        metadata.setVersion(1);
-        metadata.setCreatedBy(currentUser);
-        metadata.setCreatedAt(currentTimestamp);
-        metadata.setLastModifiedBy(currentUser);
-        metadata.setLastModifiedAt(currentTimestamp);
+        metadata.id(getNextImportTemplateId())
+                .version(1)
+                .createdBy(currentUser)
+                .createdAt(currentTimestamp)
+                .lastModifiedBy(currentUser)
+                .lastModifiedAt(currentTimestamp);
 
         // Save to MongoDB
         MongoCollection<Document> collection = getImportCollection();
         Document document = convertTemplateToDocument(template);
         collection.insertOne(document);
+    }
+
+    /**
+     * Reads all latest templates from the database.
+     *
+     * @return the list of latest templates
+     */
+    @Override
+    public List<ImportTemplate> readAllTemplates() {
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.sort(Sort.by(Sort.Order.desc("metadata.version"))),
+                Aggregation.group("metadata.id").first(Aggregation.ROOT).as("latestTemplate"),
+                Aggregation.replaceRoot("latestTemplate")
+        );
+
+        AggregationResults<ImportTemplate> results = getMongoTemplate().aggregate(aggregation, getImportCollection().getNamespace().getCollectionName(), ImportTemplate.class);
+        return results.getMappedResults();
     }
 
     /**
@@ -71,7 +93,7 @@ public class ImportTemplateController extends TemplateController{
      * @return the template with the latest version, or null if not found
      */
     @Override
-    public Template readTemplate(int id) {
+    public ImportTemplate readTemplate(int id) {
         //TODO: Implement this method: Read an existing import template from MongoDB (latest version)
         MongoCollection<Document> collection = getImportCollection();
 
@@ -94,7 +116,7 @@ public class ImportTemplateController extends TemplateController{
      * @return the template with the specified version, or null if not found
      */
     @Override
-    public Template readTemplate(int id, int version) {
+    public ImportTemplate readTemplate(int id, int version) {
         //TODO: Implement this method: Read an existing import template from MongoDB (specific version)
         MongoCollection<Document> collection = getImportCollection();
 
@@ -120,7 +142,7 @@ public class ImportTemplateController extends TemplateController{
      * @throws IllegalArgumentException if the template is null or if the template with the specified ID is not found
      */
     @Override
-    public void modifyTemplate(int id, Template template) {
+    public void modifyTemplate(int id, ImportTemplate template) {
         //TODO: Implement this method: Modify an existing import template in MongoDB and save it as a new version of it (increment version number)
         //metadata.id should be the same as the id parameter (do not change it)
         //created_by and created_at should not be changed
@@ -135,13 +157,13 @@ public class ImportTemplateController extends TemplateController{
             throw new IllegalArgumentException("Template with ID " + id + " not found");
         }
 
-        metadata.setCreatedBy(existingTemplate.getMetadata().getCreatedBy());
-        metadata.setCreatedAt(existingTemplate.getMetadata().getCreatedAt());
+        metadata.createdBy(existingTemplate.getMetadata().getCreatedBy())
+                .createdAt(existingTemplate.getMetadata().getCreatedAt());
 
         int newVersion = existingTemplate.getMetadata().getVersion() + 1;
-        metadata.setVersion(newVersion);
-        metadata.setLastModifiedBy(getCurrentUser());
-        metadata.setLastModifiedAt(getCurrentTimestamp());
+        metadata.version(newVersion)
+                .lastModifiedBy(getCurrentUser())
+                .lastModifiedAt(getCurrentTimestamp());
 
         MongoCollection<Document> collection = getImportCollection();
         Document document = convertTemplateToDocument(template);
@@ -160,28 +182,6 @@ public class ImportTemplateController extends TemplateController{
 
         Bson filter = Filters.eq("metadata.id", id);
         collection.deleteMany(filter);
-    }
-
-    /**
-     * Gets the current user from Spring Security context
-     *
-     * @return the current authenticated user's name, or "anonymous" if not authenticated
-     */
-    private String getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            return authentication.getName();
-        }
-        return "anonymous";
-    }
-
-    /**
-     * Gets the current timestamp in the required format
-     *
-     * @return the current timestamp
-     */
-    private String getCurrentTimestam {
-        return LocalDateTime.now().format(DATE_FORMATTER);
     }
 
     /**
@@ -252,20 +252,20 @@ public class ImportTemplateController extends TemplateController{
      * @param document the document to convert
      * @return the template
      */
-    private Template convertDocumentToTemplate(Document document) {
+    private ImportTemplate convertDocumentToTemplate(Document document) {
         ImportTemplate template = new ImportTemplate();
 
         // Convert metadata with careful attention to all fields
         Document metadataDoc = (Document) document.get("metadata");
         if (metadataDoc != null) {
-            Metadata metadata = new Metadata();
-            metadata.setId(metadataDoc.getInteger("id", 0));
-            metadata.setVersion(metadataDoc.getInteger("version", 1));
-            metadata.setCreatedBy(metadataDoc.getString("created_by"));
-            metadata.setCreatedAt(metadataDoc.getString("created_at"));
-            metadata.setLastModifiedBy(metadataDoc.getString("last_modified_by"));
-            metadata.setLastModifiedAt(metadataDoc.getString("last_modified_at"));
-            metadata.setDatatype(metadataDoc.getString("datatype"));
+            Metadata metadata = new Metadata()
+                    .id(metadataDoc.getInteger("id"))
+                    .version(metadataDoc.getInteger("version"))
+                    .createdBy(metadataDoc.getString("created_by"))
+                    .createdAt(metadataDoc.getString("created_at"))
+                    .lastModifiedBy(metadataDoc.getString("last_modified_by"))
+                    .lastModifiedAt(metadataDoc.getString("last_modified_at"))
+                    .datatype(metadataDoc.getString("datatype"));
 
             // Convert parser type if present
             String parserTypeStr = metadataDoc.getString("parser_type");

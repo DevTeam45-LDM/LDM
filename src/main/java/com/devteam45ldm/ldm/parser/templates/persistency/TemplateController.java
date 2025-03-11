@@ -10,11 +10,13 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
-public abstract class TemplateController {
+public abstract class TemplateController<T> {
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -22,14 +24,24 @@ public abstract class TemplateController {
     private final String exportCollection = "exportTemplates";
     private final MongoDatabase database;
 
-    public TemplateController() {
+    public TemplateController() throws IOException {
         this.database = mongoTemplate.getDb();
         checkAndCreateCollections();
     }
 
-    private void checkAndCreateCollections() {
+    public MongoTemplate getMongoTemplate() {
+        return mongoTemplate;
+    }
+
+    private void checkAndCreateCollections() throws IOException {
         Set<String> collections = new HashSet<>();
-        database.listCollectionNames().iterator().forEachRemaining(collections::add);
+        try {
+            database.listCollectionNames().iterator().forEachRemaining(collections::add);
+        }
+        catch (Exception e) {
+            throw new IOException("Error listing collections", e);
+        }
+
 
         if (!collections.contains(importCollection)) {
             database.createCollection(importCollection);
@@ -78,7 +90,14 @@ public abstract class TemplateController {
      *
      * @param template the template to create
      */
-    public abstract void createTemplate(Template template);
+    public abstract void createTemplate(T template);
+
+    /**
+     * Reads all latest templates from the database.
+     *
+     * @return the list of latest templates
+     */
+    public abstract List<T> readAllTemplates();
 
     /**
      * Reads a template with a specific version.
@@ -87,7 +106,7 @@ public abstract class TemplateController {
      * @param version the version of the template to read
      * @return the template
      */
-    public abstract Template readTemplate(int id, int version);
+    public abstract T readTemplate(int id, int version);
 
     /**
      * Reads a template with the latest version.
@@ -95,7 +114,7 @@ public abstract class TemplateController {
      * @param id the ID of the template to read
      * @return the template
      */
-    public abstract Template readTemplate(int id);
+    public abstract T readTemplate(int id);
 
     /**
      * Modifies a template.
@@ -103,7 +122,7 @@ public abstract class TemplateController {
      * @param id the ID of the template to modify
      * @param template the template to modify
      */
-    public abstract void modifyTemplate(int id, Template template);
+    public abstract void modifyTemplate(int id, T template);
 
     /**
      * Deletes a template.

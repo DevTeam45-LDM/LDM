@@ -1,9 +1,17 @@
-package com.devteam45ldm.ldm.parser.types;
+package com.devteam45ldm.ldm.parser;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
- * Contains common methods used by the parser classes.
+ * Contains common methods used within the parser package.
  */
 public abstract class CommonMethods {
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     /**
      * Removes empty lines from a string.
      * @param data the string to remove empty lines from
