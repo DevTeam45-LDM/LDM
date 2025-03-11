@@ -14,7 +14,7 @@ import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
-
+import com.devteam45ldm.ldm.parser.ParserController;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -51,6 +51,10 @@ public class CreateTemplate extends Composite<VerticalLayout> {
 //        TabSheet tabSheet = new TabSheet();
 //        tabSheet.setWidth("100%");
 //        setTabSheetContent(tabSheet);
+//        ParserController.importParser();
+
+
+
         JsonAndXmlView = new JsonXml();
         TextView = new Text();
         CsvView = new Csv();
