@@ -170,10 +170,10 @@ public class Custom extends Composite<VerticalLayout> {
         }
     }
 
-//    public void dropdownClear() {
-//        metadataParserDropdown.clear();
-//        dataParserDropdown.clear();
-//    }
+    public void dropdownClear() {
+        metadataParserDropdown.clear();
+        dataParserDropdown.clear();
+    }
 
     public void allVisibleFalse() {
         subJsonXmlMetadata.setVisible(false);
