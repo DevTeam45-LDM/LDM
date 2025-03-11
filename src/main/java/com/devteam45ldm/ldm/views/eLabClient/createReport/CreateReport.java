@@ -1,8 +1,8 @@
 package com.devteam45ldm.ldm.views.eLabClient.createReport;
 
 import com.devteam45ldm.ldm.api.eLabClient.ELabController;
-import com.devteam45ldm.ldm.parser.JsonToELabReportBody;
-import com.devteam45ldm.ldm.parser.XMLToJsonParser;
+import com.devteam45ldm.ldm.parser.types.Json2ELab;
+import com.devteam45ldm.ldm.parser.types.Xml2Json;
 import com.devteam45ldm.ldm.views.eLabClient.login.CredentialsAware;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Html;
@@ -295,16 +295,16 @@ public class CreateReport extends Composite<VerticalLayout> implements Credentia
 
                 InputStream fileInputStream = new ByteArrayInputStream(fileBytes);
 
-                // Read XML content
-                String xmlContent = new BufferedReader(new InputStreamReader(fileInputStream))
-                        .lines()
-                        .collect(Collectors.joining("\n"));
-                JSONObject json = XMLToJsonParser.parseXMLToJson(xmlContent);
-                jsonObject = json;
-                Notification.show("XML file processed successfully.");
-
-                String editorContent = JsonToELabReportBody.convertJsonToHtml(json) + "<br>";
-                classicEditor.setValue(editorContent);
+//                // Read XML content
+//                String xmlContent = new BufferedReader(new InputStreamReader(fileInputStream))
+//                        .lines()
+//                        .collect(Collectors.joining("\n"));
+//                JSONObject json = Xml2Json.parse(xmlContent);
+//                jsonObject = json;
+//                Notification.show("XML file processed successfully.");
+//
+//                String editorContent = Json2ELab.convertJsonToHtml(json) + "<br>";
+//                classicEditor.setValue(editorContent);
 
 
             } catch (Exception e) {

@@ -21,6 +21,13 @@ public class ExperimentsBody {
   @JsonProperty("metadata")
   private String metadata;
 
+  /**
+   * The experiments template ID for the experiment.
+   * Default value: 0 -> use the default team template.
+   */
+  @JsonProperty("template")
+  private Integer template = 0;
+
   public ExperimentsBody title(String title) {
     this.title = title;
     return this;
@@ -63,6 +70,20 @@ public class ExperimentsBody {
     this.metadata = metadata;
   }
 
+  public ExperimentsBody template(Integer template) {
+    this.template = template;
+    return this;
+  }
+
+  @Schema(description = "Template ID for the experiment.")
+  public Integer getTemplate() {
+    return template;
+  }
+
+  public void setTemplate(Integer template) {
+    this.template = template;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -74,12 +95,13 @@ public class ExperimentsBody {
     ExperimentsBody experimentsBody = (ExperimentsBody) o;
     return Objects.equals(this.title, experimentsBody.title) &&
             Objects.equals(this.body, experimentsBody.body) &&
-            Objects.equals(this.metadata, experimentsBody.metadata);
+            Objects.equals(this.metadata, experimentsBody.metadata) &&
+            Objects.equals(this.template, experimentsBody.template);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(title, body, metadata);
+    return Objects.hash(title, body, metadata, template);
   }
 
   @Override
@@ -95,6 +117,7 @@ public class ExperimentsBody {
     //if(this.metadata != null && !metadata.isEmpty()){
       sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
     //}
+    sb.append("    template: ").append(toIndentedString(template)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -1,4 +1,4 @@
-package com.devteam45ldm.ldm.parser;
+package com.devteam45ldm.ldm.parser.types;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -6,7 +6,8 @@ import org.json.JSONObject;
 
 import java.util.Iterator;
 
-public class JsonToELabReportBody {
+//TODO: Implement this class from the beginning using ExportTemplate and Experiments class from Swagger or ExportedData class from exportDataStructures package
+public class Json2ELab {
 
     /**
      * Converts a JSON object to an HTML string representation.

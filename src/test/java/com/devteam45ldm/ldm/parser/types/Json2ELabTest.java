@@ -1,4 +1,4 @@
-package com.devteam45ldm.ldm.parser;
+package com.devteam45ldm.ldm.parser.types;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -6,7 +6,7 @@ import org.json.JSONException;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class JsonToELabReportBodyTest {
+class Json2ELabTest {
 
     private final Boolean debug = false;
 
@@ -36,7 +36,7 @@ class JsonToELabReportBodyTest {
             System.out.println(json.toString(2));
         }
 
-        String html = JsonToELabReportBody.convertJsonToHtml(json);
+        String html = Json2ELab.convertJsonToHtml(json);
 
         if(debug){
             System.out.println(html);
@@ -67,7 +67,7 @@ class JsonToELabReportBodyTest {
             System.out.println(json.toString(2));
         }
 
-        String html = JsonToELabReportBody.convertJsonToHtml(json);
+        String html = Json2ELab.convertJsonToHtml(json);
 
         if(debug){
             System.out.println(html);
@@ -90,7 +90,7 @@ class JsonToELabReportBodyTest {
             System.out.println(json.toString(2));
         }
 
-        assertThrows(JSONException.class, () -> JsonToELabReportBody.convertJsonToHtml(json));
+        assertThrows(JSONException.class, () -> Json2ELab.convertJsonToHtml(json));
     }
 
     /**
@@ -108,7 +108,7 @@ class JsonToELabReportBodyTest {
             System.out.println(json.toString(2));
         }
 
-        assertThrows(JSONException.class, () -> JsonToELabReportBody.convertJsonToHtml(json));
+        assertThrows(JSONException.class, () -> Json2ELab.convertJsonToHtml(json));
     }
 
     /**
@@ -130,7 +130,7 @@ class JsonToELabReportBodyTest {
             System.out.println(json.toString(2));
         }
 
-        String html = JsonToELabReportBody.convertJsonToHtml(json);
+        String html = Json2ELab.convertJsonToHtml(json);
 
         if(debug){
             System.out.println(html);
@@ -157,7 +157,7 @@ class JsonToELabReportBodyTest {
             System.out.println(json.toString(2));
         }
 
-        assertThrows(JSONException.class, () -> JsonToELabReportBody.convertJsonToHtml(json));
+        assertThrows(JSONException.class, () -> Json2ELab.convertJsonToHtml(json));
     }
 
     /**
@@ -179,7 +179,7 @@ class JsonToELabReportBodyTest {
             System.out.println(json.toString(2));
         }
 
-        String html = JsonToELabReportBody.convertJsonToHtml(json);
+        String html = Json2ELab.convertJsonToHtml(json);
 
         if(debug){
             System.out.println(html);
@@ -208,7 +208,7 @@ class JsonToELabReportBodyTest {
             System.out.println(json.toString(2));
         }
 
-        String html = JsonToELabReportBody.convertJsonToHtml(json);
+        String html = Json2ELab.convertJsonToHtml(json);
 
         if(debug){
             System.out.println(html);
