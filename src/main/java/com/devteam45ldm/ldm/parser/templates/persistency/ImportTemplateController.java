@@ -17,8 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.devteam45ldm.ldm.parser.CommonMethods.getCurrentTimestamp;
-import static com.devteam45ldm.ldm.parser.CommonMethods.getCurrentUser;
+import static com.devteam45ldm.ldm.CommonMethods.getCurrentTimestamp;
+import static com.devteam45ldm.ldm.CommonMethods.getCurrentUser;
 
 
 @Service

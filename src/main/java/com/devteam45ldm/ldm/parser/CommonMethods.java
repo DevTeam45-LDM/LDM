@@ -38,26 +38,4 @@ public abstract class CommonMethods {
         }
         return data;
     }
-
-    /**
-     * Gets the current user from Spring Security context
-     *
-     * @return the current authenticated user's name, or "anonymous" if not authenticated
-     */
-    public static String getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            return authentication.getName();
-        }
-        return "anonymous";
-    }
-
-    /**
-     * Gets the current timestamp in the required format
-     *
-     * @return the current timestamp
-     */
-    public static String getCurrentTimestamp() {
-        return LocalDateTime.now().format(DATE_FORMATTER);
-    }
 }
